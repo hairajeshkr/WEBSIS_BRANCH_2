@@ -358,7 +358,7 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',770,450);";
             ImgEducation.Attributes.Add("onClick", _strLnk);
 
-<<<<<<< HEAD
+ 
 
             _strUrl = "StudentSibling.aspx?CNTRID=" + HdnAutoId.Value + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
             _strTitle = "SIBLING DETAILS : - " + _strHdr;
@@ -375,8 +375,7 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',770,450);";
             ImgHobby.Attributes.Add("onClick", _strLnk);
             
-=======
->>>>>>> c7ab00d4dfec66d782820b629b85a0b75e59a33a
+ 
             TabContainer1.ActiveTabIndex = 2;
         }
         catch (Exception ex)

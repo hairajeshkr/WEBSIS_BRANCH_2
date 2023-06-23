@@ -83,7 +83,9 @@ public partial class CtrlGridList : System.Web.UI.UserControl
         LanguageList,
         ClassList,
         DivisionList,
-        InstituteList
+        InstituteList,
+        StudentList
+
     }
     [DisplayName("Choose Model")]
     public MenuType AccountType
@@ -376,6 +378,10 @@ public partial class CtrlGridList : System.Web.UI.UserControl
         else if (Type.ToString().Equals("DivisionList"))
         {
             HdnFlag.Value = "DIVN";
+        }
+        else if (Type.ToString().Equals("StudentList"))
+        {
+            HdnFlag.Value = "STDNT";
         }
         if (!IsPostBack)//
         {

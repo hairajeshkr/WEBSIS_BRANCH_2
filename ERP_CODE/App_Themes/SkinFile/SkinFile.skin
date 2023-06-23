@@ -1,0 +1,525 @@
+
+<%-- Label Controls --%>
+<asp:Label runat="server" SkinID="LblTabHdr" style="text-align: left;"></asp:Label>
+<asp:Label runat="server" Font-Names="Arial" Font-Size="9pt" ForeColor="black" Font-Bold="false"></asp:Label>
+<asp:Label runat="server" Font-Names="Arial" Font-Size="11pt" Font-Bold="true" ForeColor="maroon" SkinID="LblIdentify"></asp:Label>
+<asp:Label runat="server" Font-Names="Arial" Font-Size="11pt" Font-Bold="true" ForeColor="white" SkinID="LblIdentifywhite"></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="10pt" ForeColor="maroon" SkinID="LblPrevious"></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="10pt" ForeColor="black" SkinID="LblBold"></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="10pt" ForeColor="black" SkinID="LblBoldCenter" style="text-align: center"></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="12pt" ForeColor="maroon" SkinID="LblIdentifyCenter" style="text-align: center"></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="12pt" ForeColor="maroon" SkinID="LblIdentifyLeft" style="text-align: Left"></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="12pt" ForeColor="maroon" SkinID="LblIdentifyRight" style="text-align: Right"></asp:Label>
+
+<asp:Label runat="server" CssClass="tokentext" SkinId="LblToken" Width="100px"></asp:Label>
+<asp:Label runat="server" CssClass="tokentext" SkinId="LblTokenWidth" ></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="8pt" ForeColor="maroon" SkinID="LblGrdIdentify"></asp:Label>
+<asp:Label runat="server" CssClass="textbox_field_style" Font-Names="Arial" Font-Size="12pt" Font-Bold="true" ForeColor="#C00000" SkinId="LblBatch"></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="10pt" ForeColor="maroon" SkinID="LblCmpId" Text="1"></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="10pt" ForeColor="darkgreen" SkinID="LblDarGreen"></asp:Label>
+<asp:Label runat="server" Font-Bold="True" Font-Size="15pt" ForeColor="maroon" SkinID="LblCustCode"></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="12pt" ForeColor="Fuchsia" SkinID="LblFuchsiaBold"></asp:Label>
+<asp:Label runat="server" Font-Bold="true" Font-Names="Arial" Font-Size="10pt" ForeColor="Fuchsia" SkinID="LblWrk"></asp:Label>
+<asp:Label runat="server" SkinID="LblIHeaderText" class="HeaderText"></asp:Label>
+
+<%--CssClass="LabelColour"--%>
+
+<asp:Label runat="server" Font-Names="Arial" Font-Size="10pt"  SkinId="LblGrdMaster"></asp:Label>
+<asp:Label runat="server" Font-Names="Arial" Font-Size="9pt" ForeColor="white" Font-Bold="true"  SkinId="LblGrdHdr"></asp:Label>
+<asp:Label runat="server" Font-Bold="false" Font-Names="Arial" Font-Size="Small" ForeColor="Red" SkinID="LblReadOnly" ></asp:Label>
+<asp:Label runat="server" Font-Bold="true " Font-Names="Arial" Font-Size="Small" ForeColor="Red" SkinID="LblRedBold" ></asp:Label>
+
+<asp:Label runat="server" BackColor="Info" BorderColor="Black" BorderStyle="Solid" BorderWidth="1px" 
+                        Font-Bold="True" Font-Size="Medium" Width="150px" SkinID="LblTotalValue"
+                        style="text-align: right; color: #800000; font-size: medium"></asp:Label>
+<%-- LinkButton Controls --%>
+<asp:LinkButton runat="server" ForeColor="SlateGray" Font-Names="Arial" Font-Size="15pt" Font-Bold="True" SkinId=LnkBtnGrd15></asp:LinkButton>
+<asp:LinkButton runat="server" ForeColor="SlateGray" Font-Names="Arial" Font-Size="10pt" Font-Bold="True" SkinId=LnkBtnGrdMain></asp:LinkButton>
+<asp:LinkButton runat="server" ForeColor="Peru" Font-Names="Arial" Font-Size="10pt" Font-Bold="True" SkinId=LnkBtnGrd></asp:LinkButton>
+<asp:LinkButton runat="server" ForeColor="SlateGray" Font-Names="Arial" Font-Size="10pt" Font-Bold="True" SkinId=LnkBtnGrdMain15></asp:LinkButton>
+<%-- Button Controls --%>
+
+<asp:Button runat="server" Height="28px" SkinID="BtnCommand" Style="background-image: url(images/nebk.gif)" 
+    Width="70px" Font-Bold="True" Font-Names="Arial" Font-Size="11pt" ForeColor="White" 
+    BorderColor="Gainsboro" BorderStyle="Double" BorderWidth="1px" ></asp:Button>
+
+<asp:Button runat="server" Height="25px" SkinID="BtnFile" Style="background-image: url(../images/nebk.gif);cursor: hand" 
+    Width="100px" Font-Bold="True" Font-Names="Arial" Font-Size="11pt" ForeColor="White" 
+    BorderColor="Gainsboro" BorderStyle="Double" BorderWidth="1px" Text="File Upload"></asp:Button>
+        
+<asp:Button runat="server" Height="28px" Style="background-image: url(images/nebk.gif)" 
+    Width="35px" Font-Bold="True" Font-Names="Arial" Font-Size="11pt" ForeColor="White" 
+    BorderColor="Gainsboro" BorderStyle="Double" BorderWidth="1px" Text="+" SkinId="BtnAdd"></asp:Button>
+
+<asp:Button runat="server"  Height="35px" SkinID="BtnCommandSave" class="btn-save" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+<asp:Button runat="server"  Height="35px" SkinID="BtnCommandClear" class="btn-clear" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+<asp:Button runat="server"  Height="35px" SkinID="BtnCommandDelete" class="btn-delete" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+<asp:Button runat="server"  Height="35px" SkinID="BtnCommandPrint" class="btn-print" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+<asp:Button runat="server"  Height="35px" SkinID="BtnCommandFind" class="btn-find" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+<asp:Button runat="server"  Height="35px" SkinID="BtnCommandFindNew" class="btn-find form-buttons" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+
+<asp:Button runat="server"  Height="35px" SkinID="BtnCommandSub" class="btn btn-primary btn-md" BorderWidth="1px" BorderColor="Gainsboro"></asp:Button>
+<asp:Button runat="server" SkinID="BtnSimple" class="btn btn-primary btn-md"  BorderWidth="1px" BorderColor="Gainsboro"></asp:Button>    
+<asp:Button runat="server" Height="30px" SkinID="BtnAddSub" class="btn btn-warning btn-sm"  BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+<asp:Button runat="server" Height="35px" SkinID="BtnAddSubNew" class="btn btn-success btn-sm"></asp:Button>
+<asp:Button runat="server"  Height="30px" SkinID="BtnEdit" class="btn-save" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+
+<asp:Button runat="server"  Height="25px" SkinID="BtnGrdEdit" class="btn-clear" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+<asp:Button runat="server"  Height="25px" SkinID="BtnGrdEditRed" class="btn-delete" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+<asp:Button runat="server"  Height="25px" SkinID="BtnGrdEditGreen" class="btn-save" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+
+<asp:Button runat="server"  Height="75px" width="200px" SkinID="BtnCommandClearLarge" class="btn-clear" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+<asp:Button runat="server"  Height="75px" width="200px" SkinID="BtnCommandSaveLarge" class="btn-save" BorderWidth="0px" BorderColor="Gainsboro"></asp:Button>
+<%-- DropDownList Controls  --%>
+
+<asp:DropDownList  runat="server" CssClass="Dropdown_field_styleLarge" SkinID="DdlLarge" ></asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="300px" SkinID="DdlTrackStatus">
+<asp:ListItem Value="0">---Select---</asp:ListItem>
+<asp:ListItem Value="A">ORDER RECEIVED</asp:ListItem>
+<asp:ListItem Value="B">ORDERED</asp:ListItem>
+<asp:ListItem Value="I">ITEM IN STOCK</asp:ListItem>
+<asp:ListItem Value="G">ITEM DESPATCHED BY SUPPLIER</asp:ListItem>
+<asp:ListItem Value="C">ITEM RECEIVED IN OFFICE</asp:ListItem>
+<asp:ListItem Value="F">BILL ONLY GIVEN</asp:ListItem>
+<asp:ListItem Value="H">BILL ONLY ITEM DESPATCHED</asp:ListItem>
+<asp:ListItem Value="J">BILL ONLY ITEM RECEIVED IN OFFICE</asp:ListItem>
+<asp:ListItem Value="E">CANCELLED</asp:ListItem>
+<asp:ListItem Value="D">DELIVERED</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge"  Width="150px"  SkinID="DdlDespatchStatus">
+<asp:ListItem Value="0">---ALL---</asp:ListItem>
+<asp:ListItem Value="1">RECEIVE PENDING</asp:ListItem>
+<asp:ListItem Value="2">RECEIVED</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" SkinID="DdlWidthNill">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="100px" SkinID="Ddl100">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="100px" SkinID="DdlTempCat">
+<asp:ListItem Value="CATEGORY-1">CATEGORY-1</asp:ListItem>
+<asp:ListItem Value="CATEGORY-2">CATEGORY-2</asp:ListItem>
+<asp:ListItem Value="CATEGORY-3">CATEGORY-3</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Font-Bold="True" Font-Size="15pt" ForeColor="DarkGreen" Width="200px" Height="30px" SkinID="DdlRecevStatus">
+<asp:ListItem Value="STORE">STORE</asp:ListItem>
+<asp:ListItem Value="COMPLETED">COMPLETED</asp:ListItem>
+<asp:ListItem Value="RETURN">RETURN</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Font-Bold="True" Font-Size="15pt" ForeColor="DarkGreen" Width="100px" Height="30px" SkinID="DdlStockPosition">
+<asp:ListItem Value="100">100 %</asp:ListItem>
+<asp:ListItem Value="75">75 %</asp:ListItem>
+<asp:ListItem Value="50">50 %</asp:ListItem>
+<asp:ListItem Value="25">25 %</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="275px" SkinID="DdlLst12">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="200px" SkinID="DdlShiftDuty">
+<asp:ListItem Value="0">---Select---</asp:ListItem>
+<asp:ListItem Value="MORNING">MORNING</asp:ListItem>
+<asp:ListItem Value="AFTERNOON">AFTERNOON</asp:ListItem>
+<asp:ListItem Value="EVENING">EVENING</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="200px" SkinID="DdlTime">
+<asp:ListItem Value="0">---Select---</asp:ListItem>
+<asp:ListItem Value="9">9</asp:ListItem>
+<asp:ListItem Value="10">10</asp:ListItem>
+<asp:ListItem Value="11">11</asp:ListItem>
+<asp:ListItem Value="12">12</asp:ListItem>
+<asp:ListItem Value="13">13</asp:ListItem>
+<asp:ListItem Value="14">14</asp:ListItem>
+
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="80px" SkinID="DdlCurrency">
+<asp:ListItem Value="1">INR</asp:ListItem>
+<asp:ListItem Value="2">GBP</asp:ListItem>
+<asp:ListItem Value="3">USD</asp:ListItem>
+<asp:ListItem Value="4">EURO</asp:ListItem>
+<asp:ListItem Value="5">YEN</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="100px" SkinID="DdlBookNo">
+<asp:ListItem Value="0">---Select---</asp:ListItem>
+<asp:ListItem Value="A">A</asp:ListItem>
+<asp:ListItem Value="B">B</asp:ListItem>
+<asp:ListItem Value="C">C</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="75px" SkinID="DdlWrkShift">
+<asp:ListItem Value="D">Day</asp:ListItem>
+<asp:ListItem Value="M">Morning</asp:ListItem>
+<asp:ListItem Value="E">Evening</asp:ListItem>
+<asp:ListItem Value="N">Night</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="120px" SkinID="DdlStatus">
+<asp:ListItem Value="0">Pending</asp:ListItem>
+<asp:ListItem Value="-1">--Status--</asp:ListItem>
+<asp:ListItem Value="1">Closed</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="120px" SkinID="DdlYesNo">
+<asp:ListItem Value="0">--Select--</asp:ListItem>
+<asp:ListItem Value="YES">YES</asp:ListItem>
+<asp:ListItem Value="NO">NO</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="100px" SkinID="DdlYear">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="500px" SkinID="DdlLngWdth">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" ForeColor="#FF3300" Width="275px" SkinID="DdlDressType">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="154px" SkinID="DdlPriority">
+<asp:ListItem Value="NORMAL">NORMAL</asp:ListItem>
+<asp:ListItem Value="HEIGH">HEIGH</asp:ListItem>
+<asp:ListItem Value="LOW">LOW</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="154px" SkinID="DdlPriorityAll">
+<asp:ListItem Value="0">---All---</asp:ListItem>
+<asp:ListItem Value="NORMAL">NORMAL</asp:ListItem>
+<asp:ListItem Value="HEIGH">HEIGH</asp:ListItem>
+<asp:ListItem Value="LOW">LOW</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="154px" SkinID="DdlFuction">
+<asp:ListItem Value="">---SELECT---</asp:ListItem>
+<asp:ListItem Value="WEDDING">WEDDING</asp:ListItem>
+<asp:ListItem Value="ENCAGEMENT">ENCAGEMENT</asp:ListItem>
+<asp:ListItem Value="OTHERS">OTHERS</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="150px" SkinID="DdlCallStatus">
+<asp:ListItem Value="Wanted">Wanted</asp:ListItem>
+<asp:ListItem Value="Unwanted">Unwanted</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="150px" SkinID="DdlMaterialStatus">
+<asp:ListItem Value="Single">Single</asp:ListItem>
+<asp:ListItem Value="Married">Married</asp:ListItem>
+<asp:ListItem Value="Widow">Widow</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge"  Width="150px" SkinID="DdlCountryType">
+<asp:ListItem Value="0">---Select---</asp:ListItem>
+<asp:ListItem Value="CN">Country</asp:ListItem>
+<asp:ListItem Value="ST">State</asp:ListItem>
+<asp:ListItem Value="DI">District</asp:ListItem>
+<asp:ListItem Value="LOC">Location</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="150px" SkinID="DdlMonth">
+<asp:ListItem Value="0">---Select---</asp:ListItem>
+<asp:ListItem Value="1">January</asp:ListItem>
+<asp:ListItem Value="2">February</asp:ListItem>
+<asp:ListItem Value="3">March</asp:ListItem>
+<asp:ListItem Value="4">April</asp:ListItem>
+<asp:ListItem Value="5">May</asp:ListItem>
+<asp:ListItem Value="6">June</asp:ListItem>
+<asp:ListItem Value="7">July</asp:ListItem>
+<asp:ListItem Value="8">August</asp:ListItem>
+<asp:ListItem Value="9">September</asp:ListItem>
+<asp:ListItem Value="10">October</asp:ListItem>
+<asp:ListItem Value="11">November</asp:ListItem>
+<asp:ListItem Value="12">December</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="150px" SkinID="DdlBloodGroup">
+<asp:ListItem Value="">---Select---</asp:ListItem>
+<asp:ListItem Value="A+Ve">A+Ve</asp:ListItem>
+<asp:ListItem Value="A-Ve">A-Ve</asp:ListItem>
+<asp:ListItem Value="B+Ve">B+Ve</asp:ListItem>
+<asp:ListItem Value="B-Ve">B-Ve</asp:ListItem>
+<asp:ListItem Value="AB+Ve">AB+Ve</asp:ListItem>
+<asp:ListItem Value="AB-Ve">AB-Ve</asp:ListItem>
+<asp:ListItem Value="O+Ve">O+Ve</asp:ListItem>
+<asp:ListItem Value="O-Ve">O-Ve</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="150px" SkinID="DdlRptType">
+<asp:ListItem Value="0">---Select---</asp:ListItem>
+<asp:ListItem Value="VCHR">Voucher Report</asp:ListItem>
+<asp:ListItem Value="DTR">Detailed Report</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="100px" SkinID="DdlBankRecon">
+<%--<asp:ListItem Value="0">---ALL---</asp:ListItem>--%>
+<asp:ListItem Value="BR">RECEIPT</asp:ListItem>
+<asp:ListItem Value="BP">PAYMENT</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge"  Width="300px" SkinID="DdlRptClass">
+<asp:ListItem Value="0">---Select---</asp:ListItem>
+<asp:ListItem Value="LIBREPORT.ClsVoucherReport">Voucher Report</asp:ListItem>
+<asp:ListItem Value="LIBREPORT.ClsDetailedReport">Detailed Inventory Report</asp:ListItem>
+<asp:ListItem Value="LIBREPORT.ClsFinReport">Detailed Finance Report</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge"  Width="300px" SkinID="DdlEnqMode">
+<asp:ListItem Value="0">---Select---</asp:ListItem>
+<asp:ListItem Value="Telephonic">Telephonic</asp:ListItem>
+<asp:ListItem Value="Direct">Direct</asp:ListItem>
+<asp:ListItem Value="Email">Email</asp:ListItem>
+<asp:ListItem Value="Personal Refference">Personal Refference</asp:ListItem>
+<asp:ListItem Value="Internet">Internet</asp:ListItem>
+<asp:ListItem Value="Advertisement">Advertisement</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="160px" SkinID="DdlList160">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="200px" SkinID="DdlList200">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="300px"  SkinID="DdlList">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge"  Width="150px"  SkinID="DdlSmallList">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge"   Width="250px"  SkinID="DdlCtrlList">
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="150px" SkinID="DdlRelationShip">
+<asp:ListItem Value="">---Select---</asp:ListItem>
+<asp:ListItem Value="FATHER">FATHER</asp:ListItem>
+<asp:ListItem Value="MOTHER">MOTHER</asp:ListItem>
+<asp:ListItem Value="HUSBAND">HUSBAND</asp:ListItem>
+<asp:ListItem Value="WIFE">WIFE</asp:ListItem>
+<asp:ListItem Value="SON">SON</asp:ListItem>
+<asp:ListItem Value="DAUGHTER">DAUGHTER</asp:ListItem>
+<asp:ListItem Value="BROTHER">BROTHER</asp:ListItem>
+<asp:ListItem Value="SISTER">SISTER</asp:ListItem>
+<asp:ListItem Value="OTHER">OTHER</asp:ListItem>
+</asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="60px" SkinID="DdlWork">
+<asp:ListItem Value="-1">------</asp:ListItem>
+<asp:ListItem Value="0">NO</asp:ListItem>
+<asp:ListItem Value="1">YES</asp:ListItem>
+</asp:DropDownList>
+<%-- Text Box Controls   textbox_field_style --%>
+<asp:TextBox runat="server" CssClass="form-control"  SkinId="TxtFormCtrl"></asp:TextBox>
+<asp:TextBox runat="server" Width="300px" CssClass="textbox_field_style"></asp:TextBox>
+<asp:TextBox runat="server" Width="300px" CssClass="textbox_field_styleDisable20" SkinId="TxtSngDisable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="300px" CssClass="textbox_Multilinefield_styleDisable" SkinId="TxtMultiLineDisable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="148px" CssClass="textbox_field_styleDisable" SkinId="TxtCodeDisable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="75px" CssClass="textbox_field_styleDisable" SkinId="TxtIntegerDisable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="148px" CssClass="textbox_field_styleDisable" SkinId="TxtDateDisable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="250px" CssClass="textbox_field_styleDisable" SkinId="Txt250Disable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="265px" CssClass="textbox_field_styleDisable" SkinId="Txt265Disable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="265px" CssClass="textbox_field_styleDisableNew1" SkinId="Txt250Disable1" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="148px" CssClass="textbox_field_styleDisableNew1" SkinId="TxtCodeDisable1" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="148px" CssClass="textbox_field_styleDisableNew2" SkinId="TxtCodeDisable2" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="265px" CssClass="textbox_field_styleDisableNew3" SkinId="Txt265Disable1" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="130px" CssClass="textbox_field_styleDisable" SkinId="TxtDisable130" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="130px" CssClass="textbox_field_styleDisableNew2" SkinId="TxtDisableNew130" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="50px" CssClass="textbox_field_styleDisable" SkinId="Txt50Disable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+
+<asp:TextBox runat="server" Width="140px" CssClass="textbox_field_styleDisable" SkinId="Txt140Disable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+
+<asp:TextBox runat="server" Width="100px" CssClass="textbox_field_styleDisable" SkinId="Txt100Disable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="100px" CssClass="textbox_field_style" SkinId="Txt100"></asp:TextBox>
+<asp:TextBox runat="server" Width="400px" CssClass="textbox_field_style" SkinId="Txt400"></asp:TextBox>
+
+<asp:TextBox runat="server" Width="265px" CssClass="textbox_field_styleBold" SkinId="TxtOrderNo"></asp:TextBox>
+<asp:TextBox runat="server" Width="265px" CssClass="textbox_field_style" SkinId="TxtSng250"></asp:TextBox>
+<asp:TextBox runat="server" Width="200px" CssClass="textbox_field_style" SkinId="TxtSng200"></asp:TextBox>
+<asp:TextBox runat="server" Width="170px" CssClass="textbox_field_style" SkinId="TxtSng170"></asp:TextBox>
+<asp:TextBox runat="server" CssClass="textbox_field_style" SkinId="TxtWidthNill"></asp:TextBox>
+<asp:TextBox runat="server" CssClass="textbox_Multilinefield_style" SkinId="TxtMultiLineNill"></asp:TextBox>
+
+<asp:TextBox runat="server" Width="100px" CssClass="textbox_Multilinefield_style" SkinId="TxtMultiLine100"></asp:TextBox>
+<asp:TextBox runat="server" Width="300px" CssClass="textbox_Multilinefield_style50" SkinId="TxtMultiLine50"></asp:TextBox>
+<asp:TextBox runat="server" Width="300px" CssClass="textbox_Multilinefield_style50Disable" SkinId="TxtMultiLine50Disable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+
+<asp:TextBox runat="server" Width="300px" Height="50px" CssClass="textbox_AboutUsfield_style" SkinId="TxtMultilineOrder"></asp:TextBox>
+<asp:TextBox runat="server" Width="300px" CssClass="textbox_Multilinefield_style" SkinId="TxtMultiLine"></asp:TextBox>
+<asp:TextBox runat="server" Width="750px" Height="70px" CssClass="textbox_AboutUsfield_style" SkinId="TxtMultiAboutUs"></asp:TextBox>
+<asp:TextBox runat="server" Width="720px" Height="35px" CssClass="textbox_AboutUsfield_style" SkinId="TxtMultiParticular"></asp:TextBox>
+<asp:TextBox runat="server" Width="640px" CssClass="textbox_Multilinefield_style" SkinId="TxtFollowUp"></asp:TextBox>
+<asp:TextBox runat="server" CssClass="textbox_Multilinefield_style" SkinId="TxtMultiLineAuto"></asp:TextBox>
+<asp:TextBox runat="server" Width="600px" Height="200px" CssClass="textbox_AboutUsfield_style" SkinId="TxtMultiNew"></asp:TextBox>
+<asp:TextBox runat="server" Width="600px" Height="174px" CssClass="textbox_AboutUsfield_style" SkinId="TxtMulti175"></asp:TextBox>
+<asp:TextBox runat="server" Width="550px" Height="70px" CssClass="textbox_AboutUsfield_style" SkinId="TxtMulti550"></asp:TextBox>
+<asp:TextBox runat="server" Width="250px" Height="70px" CssClass="textbox_AboutUsfield_style" SkinId="TxtMulti250"></asp:TextBox>
+<asp:TextBox runat="server" Width="550px" Height="70px" CssClass="textbox_field_styleDisable" onkeyDown='return IsReadOnly(event);' SkinId="TxtMulti550Disable"></asp:TextBox>
+
+<asp:TextBox runat="server" Width="140px" CssClass="textbox_field_style" SkinId="Txt140"></asp:TextBox>
+<asp:TextBox runat="server" Width="148px" CssClass="textbox_field_style" SkinId="TxtCode"></asp:TextBox>
+<asp:TextBox runat="server" Width="148px" CssClass="textbox_field_style" SkinId="TxtRefNo"></asp:TextBox>
+<asp:TextBox runat="server" Width="100px" CssClass="textbox_field_style" SkinId="TxtRefNoNew"></asp:TextBox>
+<asp:TextBox runat="server" Width="100px" CssClass="textbox_field_style" SkinId="TxtDate"></asp:TextBox>
+<asp:TextBox runat="server" Width="148px" CssClass="textbox_field_styleIdentify" SkinId="TxtIdentify"></asp:TextBox>
+<asp:TextBox runat="server" Width="40px" CssClass="textbox_field_styleIdentify" SkinId="TxtPercentage"></asp:TextBox>
+
+
+<asp:TextBox runat="server" Width="148px" CssClass="textbox_field_Digitstyle" SkinId="TxtDigit"></asp:TextBox>
+<asp:TextBox runat="server" Width="148px" CssClass="textbox_field_styleDigitDisable" SkinId="TxtDigitDisable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+
+<asp:TextBox runat="server" Width="120px" CssClass="textbox_field_Digitstyle" SkinId="TxtTarget" Text="200000"></asp:TextBox>
+
+<asp:TextBox runat="server" Width="120px" CssClass="textbox_field_Centrestyle" SkinId="TxtRateCentre"></asp:TextBox>
+<asp:TextBox runat="server" Width="74px" CssClass="textbox_field_Centrestyle" SkinId="TxtQtyCentre"></asp:TextBox>
+<asp:TextBox runat="server" Width="50px" CssClass="textbox_field_Centrestyle" SkinId="Txt50Centre"></asp:TextBox>
+<asp:TextBox runat="server" Width="50px" SkinId="TxtNill"></asp:TextBox>
+
+<asp:TextBox runat="server" Width="74px" CssClass="textbox_field_Digitstyle" SkinId="TxtQty"></asp:TextBox>
+<asp:TextBox runat="server" Width="37px" CssClass="textbox_field_DigitstyleCentre" SkinId="TxtQty37"></asp:TextBox>
+<asp:TextBox runat="server" Width="74px" CssClass="textbox_field_styleGrdDigit" SkinId="TxtDigitGrd"></asp:TextBox>
+<asp:TextBox runat="server" Width="74px" CssClass="textbox_field_styleGrdDigitDisable" onkeyDown='return IsReadOnly(event);' SkinId="TxtDigitGrdDisable"></asp:TextBox>
+<asp:TextBox runat="server" Width="80px" CssClass="textbox_field_styleGrdText" SkinId="TxtGrd80"></asp:TextBox>
+<asp:TextBox runat="server" Width="100px" CssClass="textbox_field_styleGrdText" SkinId="TxtGrd100"></asp:TextBox>
+<asp:TextBox runat="server" Width="80px" CssClass="textbox_field_styleGrd22Text" SkinId="TxtGrd80Sml"></asp:TextBox>
+<asp:TextBox runat="server" Width="39px" CssClass="textbox_field_styleGrd22Text" SkinId="TxtGrd40Sml"></asp:TextBox>
+
+<asp:TextBox runat="server" Width="100px" CssClass="textbox_field_Digitstyle" SkinId="TxRate"></asp:TextBox>
+<asp:TextBox runat="server" Width="70px" CssClass="textbox_field_Digitstyle" SkinId="Txt70"></asp:TextBox>
+<asp:TextBox runat="server" Width="70px" CssClass="textbox_field_styleDigitDisable" SkinId="Txt70Disable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+
+<asp:TextBox runat="server" Width="90px" CssClass="textbox_field_styleDigitDisable" SkinId="TxRate90Disable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="100px" CssClass="textbox_field_styleDigitDisable" SkinId="TxRateDisable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="75px" CssClass="textbox_field_Digitstyle" SkinId="TxtInteger"></asp:TextBox>
+<asp:TextBox runat="server" Width="120px" CssClass="textbox_field_styleDigitDisable" SkinId="TxAmount" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="117px" CssClass="textbox_field_styleDigitDisable" SkinId="TxAmountSml" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="120px" CssClass="textbox_field_styleDigitDisableNew" SkinId="TxAmountNew" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="80px" CssClass="textbox_field_styleDigitDisableNew" SkinId="TxAmount80" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+<asp:TextBox runat="server" Width="117px" CssClass="textbox_field_styleDisable" SkinId="TxSmall117" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
+
+<asp:TextBox runat="server" Width="200px" CssClass="textbox_field_style" Font-Names="Arial" Font-Size="10pt" Font-Bold="true" ForeColor="#C00000" SkinId="TxtFetchNo"></asp:TextBox>
+<asp:TextBox runat="server" Width="150px" CssClass="textbox_field_style" Font-Names="Arial" Font-Size="12pt" Font-Bold="true" ForeColor="maroon" SkinId="TxtTokenNo"></asp:TextBox>
+<%-- CheckBox Controls --%>
+
+<asp:CheckBox runat="server" Style="cursor: hand;" Font-Names="Arial" Font-Size="10pt" Font-Bold="false" Text="Active" SkinID="IsActive" ></asp:CheckBox>
+<asp:CheckBox runat="server" Style="cursor: hand;" Font-Names="Arial" Font-Size="10pt" Font-Bold="false" SkinID="ChkBox" ></asp:CheckBox>
+<asp:CheckBox runat="server" Style="cursor: hand;" Font-Names="Arial" Font-Size="10pt" Font-Bold="false" ForeColor="maroon"  SkinID="ChkBoxApprove" ></asp:CheckBox>
+<asp:CheckBox runat="server" Style="cursor: hand;" Font-Names="Arial" Font-Size="10pt" Font-Bold="true" ForeColor="maroon" SkinID="ChkSelect" ></asp:CheckBox>
+
+<%-- RadioButtonList Controls --%>
+<asp:RadioButtonList runat="server" Style="cursor: hand;" CssClass="textbox_field_style"></asp:RadioButtonList>
+<asp:RadioButtonList runat="server" Width="150px" Style="cursor: hand;" CssClass="textbox_field_style" RepeatDirection="Horizontal" SkinID="RadBtnShift">
+<%--<asp:ListItem>IN</asp:ListItem>
+<asp:ListItem>OUT</asp:ListItem>--%>
+<asp:ListItem Value="P">Present</asp:ListItem>
+<asp:ListItem Value="L">Leave</asp:ListItem>
+</asp:RadioButtonList> 
+<asp:RadioButtonList runat="server" Width="150px" Style="cursor: hand;" CssClass="" RepeatDirection="Horizontal" SkinID="RadBtnSex">
+<asp:ListItem Value="Male" selected="true">Male</asp:ListItem>
+<asp:ListItem Value="Female">Female</asp:ListItem>
+</asp:RadioButtonList> 
+<asp:RadioButtonList runat="server" Width="100px" Style="cursor: hand;" CssClass="" RepeatDirection="Horizontal" SkinID="RadBtnYesNo">
+<asp:ListItem Value="True">YES</asp:ListItem>
+<asp:ListItem Value="False">NO</asp:ListItem>
+</asp:RadioButtonList> 
+<asp:RadioButtonList runat="server" Width="100px" Style="cursor: hand;" CssClass="" RepeatDirection="Horizontal" SkinID="RadBtn1">
+</asp:RadioButtonList> 
+<asp:RadioButtonList runat="server" Style="cursor: hand;" RepeatDirection="Horizontal" SkinID="RadBtnLst">
+</asp:RadioButtonList> 
+<asp:RadioButtonList runat="server" Style="cursor: hand;color :peru;font-size : 12pt;font-weight : bolder;" RepeatDirection="Horizontal" SkinID="RadBtnLstPeru">
+</asp:RadioButtonList> 
+<asp:RadioButtonList runat="server" Style="cursor: hand;color :Red;font-size : 12pt;font-weight : bolder;" RepeatDirection="Horizontal" SkinID="RadBtnLstRed">
+</asp:RadioButtonList> 
+<asp:RadioButtonList runat="server" Style="cursor: hand;color :mediumpurple;font-size : 12pt;font-weight : bolder;" RepeatDirection="Horizontal" SkinID="RadBtnLstmediumpurple">
+</asp:RadioButtonList> 
+
+<asp:RadioButtonList runat="server" Width="250px" Style="cursor: hand;" CssClass="" RepeatDirection="Vertical" SkinID="RadBtnTrialStatus">
+<asp:ListItem Value="B">B</asp:ListItem>
+<asp:ListItem Value="S">S</asp:ListItem>
+<asp:ListItem Value="G">G</asp:ListItem>
+<asp:ListItem Value="V.G">V.G</asp:ListItem>
+<asp:ListItem Value="EX">EX</asp:ListItem>
+<asp:ListItem Value="AL">AL</asp:ListItem>
+
+</asp:RadioButtonList> 
+<%-- GridView Controls --%>
+
+<asp:GridView runat="server" AllowPaging="True" AutoGenerateColumns="False" BackColor="white" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" HorizontalAlign="Left" PageSize="25" SkinId="GrdVwMasterLine">
+<RowStyle BackColor="white"  BorderColor="Gray" BorderStyle="Solid" BorderWidth="0px" Font-Names="Arial" Font-Size="10pt" HorizontalAlign="Left" VerticalAlign="Middle" />
+<PagerStyle BackColor="#f1f1f1" CssClass="pagination-row" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="0px" Font-Bold="True" Font-Italic="False" Font-Names="Arial" Font-Size="10pt" ForeColor="red" />
+<SelectedRowStyle BackColor="#FFC0FF" Font-Bold="True" Font-Names="Arial" ForeColor="#804000" />
+<HeaderStyle BackColor="#337ab7" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="0px" Font-Names="Arial" Font-Size="10pt" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" />
+<AlternatingRowStyle BackColor="#f1f1f1" />
+<PagerSettings Position="TopAndBottom" />
+</asp:GridView>
+
+<asp:GridView runat="server" AllowPaging="True" AutoGenerateColumns="False" BackColor="white"  GridLines="None" HorizontalAlign="Left" PageSize="25" SkinId="GrdVwMaster">
+<RowStyle BackColor="white"  BorderColor="Gray" BorderStyle="Solid" BorderWidth="0px" Font-Names="Arial" Font-Size="10pt" HorizontalAlign="Left" VerticalAlign="Middle" />
+<PagerStyle BackColor="#f1f1f1" CssClass="pagination-row" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="0px" Font-Bold="True" Font-Italic="False" Font-Names="Arial" Font-Size="10pt" ForeColor="red" />
+<SelectedRowStyle BackColor="#FFC0FF" Font-Bold="True" Font-Names="Arial" ForeColor="#804000" />
+<HeaderStyle BackColor="#337ab7" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="0px" Font-Names="Arial" Font-Size="10pt" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" />
+<AlternatingRowStyle BackColor="#f1f1f1" />
+<PagerSettings Position="TopAndBottom" />
+</asp:GridView>
+
+<asp:GridView runat="server" AllowPaging="True" AutoGenerateColumns="False" BackColor="white"  GridLines="None" HorizontalAlign="Left" PageSize="25" SkinId="GrdVwMasterNew">
+<RowStyle BackColor="#efbd93"  BorderColor="#efbd93" BorderStyle="Solid" BorderWidth="0px" Font-Names="Arial" Font-Size="10pt" HorizontalAlign="Left" VerticalAlign="Middle" />
+<PagerStyle BackColor="#f1f1f1" CssClass="pagination-row" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="0px" Font-Bold="True" Font-Italic="False" Font-Names="Arial" Font-Size="10pt" ForeColor="red" />
+<SelectedRowStyle BackColor="#FFC0FF" Font-Bold="True" Font-Names="Arial" ForeColor="#804000" />
+<HeaderStyle BackColor="#337ab7" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="0px" Font-Names="Arial" Font-Size="10pt" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" />
+<AlternatingRowStyle BackColor="#f1f1f1" />
+<PagerSettings Position="TopAndBottom" />
+</asp:GridView>
+
+<asp:GridView runat="server" AllowPaging="False" AutoGenerateColumns="False" BackColor="white" GridLines="None" HorizontalAlign="Left" PageSize="10" SkinId="GrdVwMasterNoPageing">
+<RowStyle BackColor="white"  BorderColor="Gray" BorderStyle="Solid" BorderWidth="0px" Font-Names="Arial" Font-Size="10pt" HorizontalAlign="Left" VerticalAlign="Middle" />
+<PagerStyle BackColor="#f5f5f5" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="1px" Font-Bold="True" Font-Italic="False" Font-Names="Arial" Font-Size="10pt" ForeColor="red" />
+<SelectedRowStyle BackColor="#FFC0FF" Font-Bold="True" Font-Names="Arial" ForeColor="#804000" />
+<HeaderStyle BackColor="#337ab7" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="1px" Font-Names="Arial" Font-Size="10pt" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" />
+<AlternatingRowStyle BackColor="#ecf0f5" />
+<PagerSettings Position="TopAndBottom" />
+</asp:GridView>
+
+<asp:GridView runat="server" AllowPaging="True" AutoGenerateColumns="False" BackColor="FloralWhite" GridLines="None" HorizontalAlign="Left" SkinId="GrdVwPaging">
+<RowStyle BorderColor="Gray" BorderStyle="Solid" BorderWidth="0px" Font-Names="Arial" Font-Size="10pt" HorizontalAlign="Left" VerticalAlign="Middle" />
+<PagerStyle BackColor="#E0E0E0" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="1px" Font-Bold="True" Font-Italic="False" Font-Names="Arial" Font-Size="10pt" ForeColor="Maroon" />
+<SelectedRowStyle BackColor="#FFC0FF" Font-Bold="True" Font-Names="Arial" ForeColor="#804000" />
+<HeaderStyle BackColor="#00A9FF" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="1px" Font-Names="Arial" Font-Size="10pt" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" />
+<AlternatingRowStyle BackColor="OldLace" />
+<PagerSettings Position="TopAndBottom" />
+</asp:GridView>
+
+<asp:GridView runat="server" AllowPaging="false" BackColor="White" BorderColor="#999999" BorderStyle="Solid" 
+BorderWidth="1px" CellPadding="3" Font-Size="9pt" Font-Names="Microsoft Sans Serif" 
+Font-Bold="False" ForeColor="Black" GridLines="None" SkinID="GrdVwList" 
+style="position: static"><footerstyle backcolor="#CCCCCC" />
+<selectedrowstyle backcolor="#FFC0FF" font-bold="True" forecolor="#804000" />
+<pagerstyle backcolor="#999999" forecolor="WhiteSmoke" horizontalalign="Center" 
+Font-Bold="True" VerticalAlign="Middle" Font-Names="Nina" />
+<headerstyle CssClass="header" backcolor="black" font-bold="True" forecolor="White" horizontalalign="Left" verticalalign="Middle"/>
+<alternatingrowstyle backcolor="#CCCCCC" />
+<rowstyle horizontalalign="Left" verticalalign="Middle" /></asp:GridView>
+                        
+<asp:GridView runat="server" AllowPaging="True" AutoGenerateColumns="False" BackColor="#FFC0FF" GridLines="None" HorizontalAlign="Left" PageSize="10" SkinId="GrdVwGroup">
+<RowStyle BorderColor="Gray" BorderStyle="Solid" BorderWidth="0px" Font-Names="Arial" Font-Size="10pt" HorizontalAlign="Left" VerticalAlign="Middle" />
+<PagerStyle BackColor="#E0E0E0" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="1px" Font-Bold="True" Font-Italic="False" Font-Names="Arial" Font-Size="10pt" ForeColor="Maroon" />
+<HeaderStyle BackColor="#00A9FF" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="1px" Font-Names="Arial" Font-Size="10pt" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" />
+<AlternatingRowStyle BackColor="#FFC0FF" />
+<PagerSettings Position="TopAndBottom" />
+</asp:GridView>
+
+
+<asp:GridView runat="server" AllowPaging="False" AutoGenerateColumns="False" BackColor="white" GridLines="None" HorizontalAlign="Left" PageSize="10" SkinId="GrdVwChldNoPageing">
+<RowStyle BackColor="white"  BorderColor="Gray" BorderStyle="Solid" BorderWidth="0px" Font-Names="Arial" Font-Size="10pt" HorizontalAlign="Left" VerticalAlign="Middle" />
+<PagerStyle BackColor="#f5f5f5" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="1px" Font-Bold="True" Font-Italic="False" Font-Names="Arial" Font-Size="10pt" ForeColor="red" />
+<SelectedRowStyle BackColor="#FFC0FF" Font-Bold="True" Font-Names="Arial" ForeColor="#804000" />
+<HeaderStyle BackColor="Tan" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="1px" Font-Names="Arial" Font-Size="10pt" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" />
+<AlternatingRowStyle BackColor="LightGoldenrodYellow" />
+<PagerSettings Position="TopAndBottom" />
+</asp:GridView>

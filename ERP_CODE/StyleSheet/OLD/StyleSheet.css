@@ -1,0 +1,340 @@
+﻿body
+{ 
+	background:url(../images/content_bg.jpg) #006ac5 right top;
+	background-repeat:no-repeat;
+	MARGIN-TOP: 0px;
+	margin-left:0px;
+	margin-right:0px;
+	font:Microsoft Sans Serif;
+}
+#main
+{
+  vertical-align :middle;
+  width:100%;
+  height:auto;
+  margin:0px auto;
+}
+#header
+{
+  width:100%;
+  float:right;
+  height:127px;
+  background:url(../images/header_bg.gif);
+  background-repeat:repeat-x;
+ }
+ #login_box
+ {
+  width:373px;
+  height:auto;
+  padding:100px 0px 0px 0px;
+  margin:0px auto;
+  } 
+#login
+{
+  width:347px;
+  height:339px;
+  float:left;
+  padding:15px 13px 15px 13px;
+  background:url(../images/login_bg.png) no-repeat;
+ }
+ #login1
+{
+  width:347px;
+  height:220px;
+  float:left;
+  padding:15px 13px 15px 13px;
+  background:url(../images/login_bg1.png) no-repeat;
+ }
+  #clear
+ {
+  clear:both;
+ }
+ #content{
+  width:100%;
+  height:550px;
+  float:right;
+  background:url(../images/content_bg.jpg) #006ac5 right top;
+  background-repeat:no-repeat;
+  }
+#containerTable
+{ 
+    background-image:url(../images/dot1.jpg);
+	background-repeat:repeat;
+	width:auto;
+	height:auto;
+	vertical-align:middle;
+	text-align:left;
+	margin: 0px auto 0 auto;
+	color: #006293;
+	border-style:solid ;
+	border-color:gray ;
+	border-width:1px;
+	box-shadow: 
+	    0 0px 15px 0px rgba(0, 0, 0, 0.6), 
+	    0 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+.LabelColour
+{
+	width:auto;
+	color:black;/*SlateGray*/
+	text-align:left ;
+	vertical-align:middle;
+	text-indent:5px;
+}
+td.ColumnWidth
+{
+	padding-left:3px;
+	padding-right:3px;
+	font-size:small;
+	font-weight:bold;
+	width:25px;
+}
+td:FooterCommand
+{
+	padding-top:15px;
+	height:50px;
+	text-align:center;
+	vertical-align:middle;
+}
+td:HeaderCommand
+{
+	padding-top:100px;
+	height:50px;
+	text-align:center;
+}
+td.Column
+{
+	background-color:Transparent;
+	padding-left:2px;
+	padding-right:2px;
+	width:20px;
+	text-align:center;
+	vertical-align:text-top;
+	font-weight:bold;
+}
+td.CmdBtns
+{
+	background-color:Transparent;
+	padding-left:5px;
+	width:25px;
+}
+td.RowHeight
+{
+	text-align:left;
+}
+td.PageHeaderBar
+{
+	background-color:gainsboro;
+	padding-left:1px;
+	height:25px;
+	text-align:left;
+	vertical-align:middle;
+}
+td.PageBottomBar
+{
+	background-color:#cc9966;
+	height:25px;
+	padding-left:1px;
+	height:25px;
+	text-align:left;
+	vertical-align:middle;
+}
+td.HeaderBar
+{
+	background-color:gainsboro ;
+	height:25px;
+	padding-left:1px;
+}
+td.PopUpHeader
+{
+	background-color:Blue;
+	/*background-image: url(images/Dsg.gif);
+	background-repeat:repeat-x;*/
+	height:25px;
+	padding-left:5px;
+}
+td.BottomBar
+{
+	background-color:graytext;/*darkkhaki;*/
+	height:25px;
+	padding-left:1px;
+}
+.TableBorder
+{
+	border-style:solid ;
+	/*border-color:Navy;*/
+	border-width:1px;
+}
+td.odd
+{
+	/*background-color:lightgrey; darkgray #d9e6a9;*/
+	padding-left:2px;
+	height:25px;
+	text-align:left ;
+	vertical-align:middle;
+}
+td.even
+{
+	/*background-color:lightgrey;#becf86;*/
+	padding-left:2px;
+	height:25px;
+	text-align:left;
+	vertical-align:middle ;
+}
+/* Rounded Corners*/
+
+.roundedPanel
+{	
+	width:300px;	
+	background-color:#5377A9;	
+	color:white;
+	font-weight:bold;		
+}
+#topbar
+{
+	background-color:#ffcc00;
+	height:25px;		
+}
+#mainpanel
+{
+	background-color:#abbb1a;
+	margin-left:10px;
+	margin-right:10px;
+	margin-top:10px;
+}
+td.header
+{
+	height:20px;
+	width:100%;
+	background-image: url(images/Dsg.gif);
+	background-repeat:repeat-x;
+
+}
+#header_left
+{
+	float:left;
+	width:150px;
+
+}
+#header_right
+{
+	float:right;
+	width:60%;
+	color:#666633;
+	font-size:11px;
+	height:86px;
+	/*background-image:url(images/header_right.gif);
+	background-repeat:no-repeat;*/
+	background-position:right;
+	text-align:right;
+	padding-right:15px;
+	line-height:35px;
+	font-family:Arial, Helvetica, sans-serif;
+
+}
+/*==========  Modal Popup=============*/
+.modalBackground 
+{
+	background-color:Gray;
+	filter:alpha(opacity=70);
+	opacity:0.7;
+}
+.modalPopup 
+{
+	background-color:#ffffdd;
+	border-width:3px;
+	border-style:solid;
+	border-color:Gray;
+	padding:3px;
+	width:250px;
+}
+.sampleStyleA 
+{
+	background-color:#FFF;
+}
+
+.sampleStyleB
+ {
+	background-color:#FFF;
+	font-family:monospace;
+	font-size:10pt;
+	font-weight:bold;
+}
+
+.sampleStyleC 
+{
+	background-color:#ddffdd;
+	font-family:sans-serif;
+	font-size:10pt;
+	font-style:italic;
+}
+
+.sampleStyleD 
+{
+	background-color:Blue;
+	color:White;
+	font-family:Arial;
+	font-size:10pt;
+}
+
+/*Popup Control*/
+.popupControl
+{
+	background-color:White;
+	position:absolute;
+	visibility:hidden;
+}
+/*----------------------------------------------*/
+
+	.TableContainer
+	{
+		/*padding-left:5px;
+		padding-right:5px;
+		height:25px;
+		text-align:left ;
+		vertical-align:text-top;
+		padding:1px;*/
+		padding-bottom:1px;
+		padding-top:1px;
+		border-right: 0px solid;
+		border-top: 0px solid; 
+		border-left: 0px solid;            
+		width: 128px; 
+		border-bottom: 0px solid;
+	}
+	
+	.DivStyle
+	{
+		border:2px;
+		cellpadding:0px; 
+		cellspacing:0px;
+		width: 310px; 
+		border-right: mintcream 2px solid; 
+		border-top: mintcream 2px solid; 
+		border-left: mintcream 2px solid; 
+		border-bottom: mintcream 2px solid;
+	}
+	.GridTextHeaderField
+	{
+		width:250px;
+		text-align:left;
+		vertical-align:middle;
+	}
+	.GridTextField
+	{
+		width:250px;
+		text-align:left;
+		vertical-align:middle;
+	}
+	td.GridNumericHeader
+	{
+		width:75px;
+		text-align:right;
+		vertical-align:middle;
+	}
+	td.GridNumeric
+	{
+		width:75px;
+		text-align:right;
+		vertical-align:middle;
+	}

@@ -1,0 +1,108 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPageChild.master.cs" Inherits="MasterPageChild" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>DATA DAYCARE :: ONLINE ERP APPLICATION</title>
+    <link href="StyleSheet/StyleSheetContentNew.css" rel="stylesheet" type="text/css" />
+    <link href="StyleSheet/StyleControlsNew.css" rel="stylesheet" type="text/css" />
+    <link href="DhtmlWindow/dhtmlwindowChild.css" rel="stylesheet" type="text/css" />
+    <link href="StyleSheet/StyleTabContainer.css" rel="stylesheet" type="text/css" />
+
+    <link href="CSS/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script language="javascript" src="../DhtmlWindow/dhtmlReportwindow.js" type="text/javascript" ></script>
+    <script language="javascript" src="../JavaScript/General.js" type="text/javascript"></script>
+    <script language="javascript" src="../JavaScript/WebServiceMethode.js" type="text/javascript"></script>  
+<style type="text/css">
+.modal
+{
+    position: fixed;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-color: Black;
+    filter: alpha(opacity=60);
+    opacity: 0.6;
+    -moz-opacity: 0.8;
+}
+.center
+{
+    z-index: 1000;
+    margin: 300px auto;
+    padding: 10px;
+    width: 130px;
+    background-color: White;
+    border-radius: 10px;
+    filter: alpha(opacity=100);
+    opacity: 1;
+    -moz-opacity: 1;
+}
+.center img
+{
+    height: 128px;
+    width: 128px;
+}
+</style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+        <table cellpadding="0" cellspacing="0" class="auto-style1">
+            <tr>
+                <td align="center"  valign="top">
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                       <ContentTemplate>
+    <div id="main" style="height: auto">        
+    <table  align="center" border="0" cellpadding="0" cellspacing="0"
+        style="vertical-align: top; height: 0px;width:0px">
+        <tr>
+            <td  id="containerTable" class="CellPadding" align="center" valign="top">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+                <table class="auto-style2">
+                    <tr>
+                        <td>
+                            <asp:HiddenField ID="HdnFrmDate" runat="server" />
+                        </td>
+                        <td>
+                            <asp:HiddenField ID="HdnToDate" runat="server" />
+                        </td>
+                         <td>
+                            <asp:HiddenField ID="HdnAcFrmDate" runat="server" />
+                        </td>
+                        <td>
+                            <asp:HiddenField ID="HdnAcToDate" runat="server" />
+                        </td>
+                        <td>
+                            <asp:Label ID="LblWindowTitle" runat="server" Font-Bold="True" Font-Italic="False" Font-Names="Microsoft Sans Serif" Font-Size="Small" Style="position: static" Visible="False"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:HiddenField ID="HdnDate" runat="server" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </ContentTemplate>
+                    </asp:UpdatePanel>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle">
+            <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1"  DisplayAfter="0" DynamicLayout="true">
+        <ProgressTemplate>
+            <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
+            <asp:Label ID="LblPrgBar" runat="server" Text="Label"></asp:Label>     
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+                </td>
+            </tr>
+        </table>
+      </form>
+</body>
+</html>

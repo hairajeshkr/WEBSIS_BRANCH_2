@@ -1,0 +1,513 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Sales : ClsPageEvents, IPageInterFace
+{
+    ClsInvoice ObjCls = new ClsInvoice();
+    ClsTempChildItems ObjChld = new ClsTempChildItems();
+    protected override void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            base.Page_Load(sender, e);
+            CtrlTokenEvent1.TokenCommands += new CtrlTokenEvent.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            CtrlRewindEvent1.RewindCommands += new CtrlRewindEvent.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            CtrlAddCommand1.AddCommands += new CtrlAddCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            if (!IsPostBack)
+            {
+                ChkSelect.Attributes.Add("onclick", "return GridChkSelectAll();");
+
+                TxtQty.Attributes.Add("onkeydown", "return IsDecimal(event,'" + TxtQty.ClientID + "');");
+                TxtRate.Attributes.Add("onkeydown", "return IsDecimal(event,'" + TxtRate.ClientID + "');");
+                TxtDisc.Attributes.Add("onkeydown", "return IsDecimal(event,'" + TxtDisc.ClientID + "');");
+                TxtRoundOff.Attributes.Add("onkeydown", "return IsDecimal(event,'" + TxtRoundOff.ClientID + "');");
+
+                string _strDestCtrl = TxtAmt.ClientID + "," + TxtAmt.ClientID + "," + TxtTaxValue.ClientID + "," + TxtTotalAmt.ClientID;
+                TxtQty.Attributes.Add("onkeyup", "return FnGetTaxCalculationExclusive('" + TxtQty.ClientID + "','" + TxtRate.ClientID + "','" + CtrlTax.IdControl + "','" + TxtDisc.ClientID + "','" + _strDestCtrl + "');");
+                TxtRate.Attributes.Add("onkeyup", "return FnGetTaxCalculationExclusive('" + TxtQty.ClientID + "','" + TxtRate.ClientID + "','" + CtrlTax.IdControl + "','" + TxtDisc.ClientID + "','" + _strDestCtrl + "');");
+                TxtDisc.Attributes.Add("onkeyup", "return FnGetTaxCalculationExclusive('" + TxtQty.ClientID + "','" + TxtRate.ClientID + "','" + CtrlTax.IdControl + "','" + TxtDisc.ClientID + "','" + _strDestCtrl + "');");
+                TxtRoundOff.Attributes.Add("onkeyup", "return FnCalculateGrandTotal();");
+                /*
+                 string _strDestCtrl = TxtAmt.ClientID + "," + TxtAmt.ClientID + "," + TxtTaxValue.ClientID + "," + TxtTotalAmt.ClientID + "," + TxtDisc.ClientID;
+                 TxtQty.Attributes.Add("onkeyup", "return FnGetPieceDiscTaxCalculation('" + TxtQty.ClientID + "','" + TxtRate.ClientID + "','" + TxtDisc.ClientID + "','" + CtrlTax.IdControl + "','" + _strDestCtrl + "');");
+
+                 */
+                FnInitializeForm();
+                if (ObjCls.FnIsNumeric(Request.QueryString["CNTRID"].ToString()) > 0)
+                {
+                    CtrlRewindEvent1.IsEnableFirstButton = false;
+                    CtrlRewindEvent1.IsEnableLastButton = false;
+                    CtrlRewindEvent1.IsEnableNextButton = false;
+                    CtrlRewindEvent1.IsEnablePreviousButton = false;
+                    CtrlRewindEvent1.IsEnableGetButton = false;
+                    CtrlCommand1.IsVisibleClear = false;
+                    ViewState["ID"] = Request.QueryString["CNTRID"].ToString();
+                    FnAssignProperty();
+                    FnFindRecord(ObjCls);
+                    FnFindRecord();
+                }
+                else
+                {
+                    CtrlRewindEvent1.IsEnableFirstButton = true;
+                    CtrlRewindEvent1.IsEnableLastButton = true;
+                    CtrlRewindEvent1.IsEnableNextButton = true;
+                    CtrlRewindEvent1.IsEnablePreviousButton = true;
+                    CtrlRewindEvent1.IsEnableGetButton = true;
+                    ViewState["DT"] = ObjCls.FnConvertStringToDataTable(ObjCls.FnReadXmlFile(Server.MapPath("XML_NULL//TransMaster.xml"))) as DataTable;
+                    FnGridViewBinding("SEARCH");
+                }
+            }
+            CtrlGrdItemName.DestinationControls = CtrlUom.IdControl + "," + CtrlUom.TextControl + "," + CtrlTax.IdControl + "," + CtrlTax.TextControl + "," + TxtRate.ClientID;// +"," + TxtMrp.ClientID;
+            CtrlGrdAcc.DestinationControls = TxtAddress.ClientID;
+            CtrlGrdBatchNo.DestinationControls = CtrlUom.IdControl + "," + CtrlUom.TextControl + "," + CtrlTax.IdControl + "," + CtrlTax.TextControl + "," + TxtRate.ClientID + "," + CtrlGrdItemName.IdControl + "," + CtrlGrdItemName.TextControl;
+
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    public override void FnInitializeForm()
+    {
+        TabContainer1.ActiveTabIndex = 0;
+        int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID;
+        ObjCls = new ClsInvoice(ref iCmpId, ref iBrId, ref iFaId);
+
+        ObjCls.TType = FnGetRights().TTYPE;
+        CtrlRewindEvent1.TxtRefNo = ObjCls.FnGetRefNo().ToString();
+        CtrlRewindEvent1.TokenNo = ObjCls.FnGetTokenId().ToString();
+        CtrlTokenEvent1.TokenNo = CtrlRewindEvent1.TokenNo;
+
+        string strSlId = "", strSlAcc = "";
+        FnGetDefaultSalesAccount(ref strSlId, ref strSlAcc);
+        CtrlGrdSlAccount.SelectedText = strSlAcc;
+        CtrlGrdSlAccount.SelectedValue = strSlId;
+
+        ViewState["DT_CHILD"] = ObjCls.FnConvertStringToDataTable(ObjCls.FnReadXmlFile(Server.MapPath("XML_NULL//TransChild.xml"))) as DataTable;
+        FnGridViewBinding("");
+    }
+    public void FnAssignProperty()
+    {
+        base.FnAssignProperty(ObjCls);
+        ObjCls.TokenNo = ObjChld.FnIsDouble(CtrlRewindEvent1.TokenNo);
+        ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+        ObjCls.TrDate = ObjCls.FnDateTime(CtrlTrDate.DateText);
+        ObjCls.OrderId = ObjCls.FnIsNumeric(CtrlSoNo.SelectedValue.ToString());
+
+        ObjCls.DrId = ObjCls.FnIsNumeric(CtrlGrdAcc.SelectedValue.ToString());
+        ObjCls.CrId = ObjCls.FnIsNumeric(CtrlGrdSlAccount.SelectedValue.ToString());
+        ObjCls.AgentId = ObjCls.FnIsNumeric(CtrlGrdAgent.SelectedValue.ToString());
+        ObjCls.EmpId = ObjCls.FnIsNumeric(CtrlGrdStaff.SelectedValue.ToString());
+        ObjCls.Address = TxtAddress.Text.Trim();
+        ObjCls.Approval = true;
+        ObjCls.IsAutoPost = 1;
+        ObjCls.TaxTotal = ObjCls.FnIsDouble(TxtTotalTax.Text);
+        ObjCls.NetTotal = ObjCls.FnIsDouble(TxtTotal.Text);
+        ObjCls.RoundOff = ObjCls.FnIsDouble(TxtRoundOff.Text);
+        ObjCls.GrandTotal = ObjCls.FnIsDouble(TxtGrandTotal.Text);
+
+        ObjCls.Remarks = TxtRemarks.Text.Trim();
+    }
+    public void FnAssignChildProperty()
+    {
+        base.FnAssignChildProperty(ObjChld);
+        ObjChld.TokenNo = ObjChld.FnIsDouble(CtrlRewindEvent1.TokenNo);
+
+        ObjChld.ItemId = ObjChld.FnIsNumeric(CtrlGrdItemName.SelectedValue.ToString());
+        ObjChld.UomId = ObjChld.FnIsNumeric(CtrlUom.SelectedValue.ToString());
+        ObjChld.TaxId = ObjChld.FnIsNumeric(CtrlTax.SelectedValue.ToString());
+        ObjChld.BatchNo = CtrlGrdBatchNo.SelectedText.ToString();
+
+        ObjChld.Qty = ObjChld.FnIsDouble(TxtQty.Text);
+        ObjChld.SlQty = ObjChld.FnIsDouble(TxtQty.Text);
+        ObjChld.Rate = ObjChld.FnIsDouble(TxtRate.Text);
+        ObjChld.Discount = ObjChld.FnIsDouble(TxtDisc.Text);
+        ObjChld.Price = ObjChld.FnIsDouble(TxtAmt.Text);
+        ObjChld.Amount = ObjChld.FnIsDouble(TxtAmt.Text);
+        ObjChld.TaxValue = ObjChld.FnIsDouble(TxtTaxValue.Text);
+        ObjChld.CGSTValue = ObjChld.FnIsDouble(TxtTaxValue.Text) / 2;
+        ObjChld.SGSTValue = ObjChld.FnIsDouble(TxtTaxValue.Text) / 2;
+        ObjChld.TotalAmt = ObjChld.FnIsDouble(TxtTotalAmt.Text);
+    }
+    public void FnAssignProperty_Search()
+    {
+        base.FnAssignProperty(ObjCls);
+        ObjCls.RefNo = ObjCls.FnIsNumeric(TxtFrmRefNo.Text);
+        ObjCls.ID = ObjCls.FnIsNumeric(TxtToRefNo.Text);
+        ObjCls.TrDate = ObjCls.FnDateTime(CtrlFrmDate.DateText);
+        ObjCls.OptDate = ObjCls.FnDateTime(CtrlToDate.DateText);
+        ObjCls.CrId = ObjCls.FnIsNumeric(CtrlGrdAcc_Srch.SelectedValue.ToString());
+        ObjCls.OptRefNo = TxtOptNo_Srch.Text.Trim();
+        ObjCls.Approval = true;
+    }
+    public void FnClose()
+    {
+        throw new NotImplementedException();
+    }
+    public override void FnCancel()
+    {
+        base.FnCancel();
+
+        TxtToRefNo.Text = "";
+        TxtFrmRefNo.Text = "";
+        CtrlGrdAcc.SelectedText = "";
+        CtrlGrdAcc.SelectedValue = "0";
+        CtrlGrdAcc_Srch.SelectedText = "";
+        CtrlGrdAcc_Srch.SelectedValue = "0";
+        TxtOptNo_Srch.Text = "";
+        CtrlFrmDate.FnNewDate();
+        CtrlToDate.FnNewDate();
+        //=====================================================
+        CtrlSoNo.SelectedText = "";
+        CtrlSoNo.SelectedValue = "0";
+        CtrlGrdItemName.SelectedText = "";
+        CtrlGrdItemName.SelectedValue = "0";
+        CtrlGrdAgent.SelectedText = "";
+        CtrlGrdAgent.SelectedValue = "0";
+        CtrlGrdStaff.SelectedText = "";
+        CtrlGrdStaff.SelectedValue = "0";
+        TxtQty.Text = "";
+        TxtAddress.Text = "";
+        TxtRemarks.Text = "";
+        TxtTotalTax.Text = "";
+        TxtTotal.Text = "";
+        TxtRoundOff.Text = "";
+        TxtGrandTotal.Text = "";
+        FnInitializeForm();
+        FnClearItems();
+
+        CtrlCommand1.SaveText = "Save";
+        CtrlCommand1.SaveCommandArgument = "NEW";
+        TabContainer1.ActiveTabIndex = 0;
+        FnFocus(CtrlGrdAcc.ControlTextBox);
+    }
+    public void FnClearItems()
+    {
+        base.FnClearItems("");
+        CtrlGrdItemName.SelectedValue = "0";
+        CtrlGrdItemName.SelectedText = "";
+        CtrlUom.SelectedValue = "0";
+        CtrlUom.SelectedText = "";
+        CtrlTax.SelectedValue = "0";
+        CtrlTax.SelectedText = "";
+        CtrlGrdBatchNo.SelectedValue = "0";
+        CtrlGrdBatchNo.SelectedText = "";
+
+        TxtQty.Text = "";
+        TxtDisc.Text = "";
+        TxtRate.Text = "";
+        TxtAmt.Text = "";
+        TxtTaxValue.Text = "";
+        TxtTotalAmt.Text = "";
+
+        CtrlAddCommand1.AddText = "ADD";
+        CtrlAddCommand1.AddCommandArgument = "ITEM_NEW";
+
+        //GrdChildItems.SelectedIndex = -1;
+        FnFocus(CtrlGrdItemName.ControlTextBox);
+    }
+    public void FnFindRecord()
+    {
+        if (ObjCls.FnIsNumeric(ViewState["ID"].ToString()) > 0)
+        {
+            ObjCls.GetDataRow(ViewState["ID"].ToString(), ViewState["DT"] as DataTable);
+            ViewState["ID"] = ObjCls.ID.ToString();
+            CtrlRewindEvent1.TxtRefNo = ObjCls.RefNo.ToString();
+            CtrlTrDate.DateText = ObjCls.FnDateTime(ObjCls.TrDate, "");
+            CtrlRewindEvent1.TokenNo = ObjCls.TokenNo.ToString();
+            CtrlTokenEvent1.TokenNo = CtrlRewindEvent1.TokenNo;
+
+            CtrlSoNo.SelectedText = ObjCls.OrderRefNo.ToString();
+            CtrlSoNo.SelectedValue = ObjCls.OrderId.ToString();
+
+            CtrlGrdAcc .SelectedText = ObjCls.AccountDr;
+            CtrlGrdAcc.SelectedValue = ObjCls.DrId.ToString();
+
+            CtrlGrdSlAccount .SelectedText = ObjCls.AccountCr;
+            CtrlGrdSlAccount.SelectedValue = ObjCls.CrId.ToString();
+
+            CtrlGrdAgent.SelectedText = ObjCls.AgentName;
+            CtrlGrdAgent.SelectedValue = ObjCls.AgentId.ToString();
+
+            CtrlGrdStaff.SelectedText = ObjCls.EmployeeName;
+            CtrlGrdStaff.SelectedValue = ObjCls.EmpId.ToString();
+
+            TxtAddress.Text = ObjCls.Address;
+            TxtRemarks.Text = ObjCls.Remarks;
+
+            TxtTotalTax.Text = FnSetFormatedValue(ObjCls.FnIsDouble(ObjCls.TaxTotal.ToString()));
+            TxtTotal.Text =FnSetFormatedValue(ObjCls.FnIsDouble( ObjCls.NetTotal.ToString()));
+            TxtRoundOff.Text = FnSetFormatedValue(ObjCls.FnIsDouble(ObjCls.RoundOff.ToString()));
+            TxtGrandTotal.Text =FnSetFormatedValue(ObjCls.FnIsDouble( ObjCls.GrandTotal.ToString()));
+
+            FnGridViewBinding("");
+
+            ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
+
+            FnClearItems();
+            CtrlCommand1.SaveText = "Update";
+            CtrlCommand1.SaveCommandArgument = "UPDATE";
+            TabContainer1.ActiveTabIndex = 0;
+        }
+    }    
+    private void FnGetTotal()
+    {
+        double dTaxTotal = 0, dNetTotal = 0, dDiscTotal = ObjCls.FnIsDouble(TxtRoundOff.Text);
+        DataTable _dtRecords =ViewState["DT_CHILD"] as DataTable;
+        if (_dtRecords.Rows.Count > 0)
+        {
+            if (ObjCls.FnIsNumeric(_dtRecords.Rows[0]["ItemId"].ToString()) > 0)
+            {
+                dTaxTotal = ObjCls.FnIsDouble(_dtRecords.Compute("SUM(TaxValue)", ""));
+                dNetTotal = ObjCls.FnIsDouble(_dtRecords.Compute("SUM(Amount)", ""));
+            }
+        }
+        TxtTotalTax.Text = FnSetFormatedValue(dTaxTotal);
+        TxtTotal.Text = FnSetFormatedValue(dNetTotal);
+
+        dNetTotal = (dNetTotal + dTaxTotal ) + dDiscTotal;
+        TxtGrandTotal.Text = FnSetFormatedValue(dNetTotal);
+    }
+    public object FnGetGridRowCount(string PrmFlag)
+    {
+        throw new NotImplementedException();
+    }
+    public void FnGridViewBinding(string PrmFlag)
+    {
+        if (PrmFlag.Equals("SEARCH"))
+        {
+            GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
+            GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+            GrdVwRecords.DataBind();
+            GrdVwRecords.SelectedIndex = -1;
+            LblGrdInfo.Visible = (GrdVwRecords.Rows.Count <= 0 ? true : false);
+        }
+        else
+        {
+            GrdVwChild.DataSource = ViewState["DT_CHILD"] as DataTable;
+            GrdVwChild.DataKeyNames = new String[] { ObjCls.KeyName };
+            GrdVwChild.DataBind();
+            GrdVwChild.SelectedIndex = -1;
+        }
+    }
+    public void FnPrintRecord()
+    {
+        throw new NotImplementedException();
+    }
+    public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            switch (((Button)sender).CommandName.ToString().ToUpper())
+            {
+                case "SAVE":
+                    if (ObjCls.FnIsNumeric(CtrlGrdAcc.SelectedValue.ToString()) <= 0)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the valid Customer/Party"));
+                        FnFocus(CtrlGrdAcc.ControlTextBox);
+                        return;
+                    }
+                    if (ObjCls.FnIsNumeric(CtrlGrdSlAccount.SelectedValue.ToString()) <= 0)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the valid sales account"));
+                        FnFocus(CtrlGrdSlAccount.ControlTextBox);
+                        return;
+                    } 
+                    HiddenField HdnAutoId = (HiddenField)GrdVwChild.Rows[0].FindControl("HdnAutoId");
+                    if (ObjCls.FnIsNumeric(HdnAutoId.Value) <= 0)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please add atleast one item."));
+                        FnFocus(CtrlGrdItemName.ControlTextBox);
+                        return;
+                    }
+                    FnAssignProperty();
+                    switch (((Button)sender).CommandArgument.ToString().ToUpper())
+                    {
+                        case "NEW":
+                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, CtrlCommand1.IsPrint);
+                            break;
+                        case "UPDATE":
+                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, CtrlCommand1.IsPrint);
+                            break;
+                    }
+                    break;
+                case "DELETE":
+                    FnAssignProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    break;
+                case "CLEAR":
+                    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
+                    FnCancel();
+                    break;
+                case "CLOSE":
+                    ObjCls.FnAlertMessage(" You Have No permission To Close Record");
+                    break;
+                case "PRINT":
+                    FnAssignProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    break;
+                case "FIND":
+                    FnAssignProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnGridViewBinding("");
+                    break;
+                case "SEARCH":
+                    FnAssignProperty_Search();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnGridViewBinding("SEARCH");
+                    TabContainer1.ActiveTabIndex = 1;
+                    break;
+                case "HELP":
+                    ObjCls.FnAlertMessage(" You Have No permission To Help Record");
+                    break;
+                case "FIRST":
+                    ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnFindRecord();
+                    break;
+                case "PREVIOUS":
+                    ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnFindRecord();
+                    break;
+                case "NEXT":
+                    ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnFindRecord();
+                    break;
+                case "LAST":
+                    ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnFindRecord();
+                    break;
+                case "GET":
+                    ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnFindRecord();
+                    break;
+                case "ADD":
+                    FnAssignChildProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjChld, false);
+                    FnGridViewBinding("");
+                    FnClearItems();
+                    FnGetTotal();
+                    break;
+                case "GENINV":// Auto Generate Sales Return 
+                    HiddenField HdnDrId = null, HdnCrId = null;
+                    FnAssignProperty();
+                    ObjCls.TrDate = ObjCls.FnDateTime(CtrlInvDate.DateText);
+                    CheckBox ChkGrd = null;
+                    int iCnt = 0;
+                    for (int iRw = 0; iRw <= GrdVwRecords.Rows.Count - 1; iRw++)
+                    {
+                        ChkGrd = (CheckBox)GrdVwRecords.Rows[iRw].FindControl("ChkGrd");
+                        if (ChkGrd.Checked == true)
+                        {
+                            HdnAutoId = (HiddenField)GrdVwRecords.Rows[iRw].FindControl("HdnAutoId");
+                            HdnDrId = (HiddenField)GrdVwRecords.Rows[iRw].FindControl("HdnDrId");
+                            HdnCrId = (HiddenField)GrdVwRecords.Rows[iRw].FindControl("HdnCrId");
+                            if (ObjCls.FnIsNumeric(HdnAutoId.Value) > 0)
+                            {
+                                ObjCls.CrId = ObjCls.FnIsNumeric(HdnDrId.Value);
+                                ObjCls.DrId = ObjCls.FnIsNumeric(HdnCrId.Value);
+                                ObjCls.ID = ObjCls.FnIsNumeric(HdnAutoId.Value);
+                                base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                                iCnt = iCnt + 1;
+                            }
+                        }
+                    }
+                    if (iCnt > 0)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " sales return has been generated successfully."));
+                    }
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
+    {
+        try
+        {
+            GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
+            ViewState["ID"] = GrdVwRecords.SelectedDataKey.Values[0].ToString();
+            base.FnAssignProperty(ObjCls);
+            FnFindRecord(ObjCls);
+            FnFindRecord();
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }        
+    }
+    protected void GrdVwRecords_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GrdVwRecords.PageIndex = e.NewPageIndex;
+            FnGridViewBinding("");
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    protected void GrdVwChild_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
+    {
+        try
+        {
+            GrdVwChild.SelectedIndex = e.NewSelectedIndex;
+            ObjChld.GetInventoryDataRow(GrdVwChild.SelectedDataKey.Values[0].ToString(), ViewState["DT_CHILD"] as DataTable);
+            ViewState["CHLD_ID"] = ObjChld.ID.ToString();
+
+            CtrlGrdItemName.SelectedText = ObjChld.ItemName;
+            CtrlGrdItemName.SelectedValue = ObjChld.ItemId.ToString();
+
+            CtrlGrdBatchNo.SelectedText = ObjChld.BatchNo;
+            CtrlGrdBatchNo.SelectedValue = ObjChld.ItemId.ToString();
+
+            CtrlUom.SelectedText = ObjChld.UomName;
+            CtrlUom.SelectedValue = ObjChld.UomId.ToString();
+
+            CtrlTax.SelectedText = ObjChld.TaxName;
+            CtrlTax.SelectedValue = ObjChld.TaxId.ToString();
+
+            TxtQty.Text = ObjChld.Qty.ToString();
+            TxtRate.Text = ObjChld.Rate.ToString();
+            TxtDisc.Text = ObjChld.Discount.ToString();
+            TxtAmt.Text = ObjChld.Price.ToString();
+            TxtTaxValue.Text = ObjChld.TaxValue.ToString();
+            TxtTotalAmt.Text = ObjChld.TotalAmt.ToString();
+
+            CtrlAddCommand1.AddText = "ADD";
+            CtrlAddCommand1.AddCommandArgument = "ITEM_UPDATE";
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
+        {
+            Button BtnEdit = (Button)e.Row.FindControl("BtnEdit");
+            e.Row.Attributes.Add("onmouseover", "this.style.cursor=\'pointer\'");
+            //string _strHdr = "Ref No :-" + DataBinder.Eval(e.Row.DataItem, "RefNo").ToString() + " , " + ObjCls.FnDateTime(DataBinder.Eval(e.Row.DataItem, "TrDate").ToString(), "");
+            string _strUrl = "TransItems.aspx?ID=" + ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")).ToString() + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + DataBinder.Eval(e.Row.DataItem, "TType").ToString() + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
+            string strTitle = "ITEM LIST : - ";
+            string strLnk = "return FnGetPopUp('" + _strUrl + "','" + strTitle + "',900,540);";
+            BtnEdit.Attributes.Add("onClick", strLnk);
+            // ChangeRowColor('" + e.Row.ClientID + "'); ../INVENTORY/Invoice.aspx FnChangeRowColor('" + HdnPrvRow.ClientID + "','" + e.Row.ClientID + "');
+        }
+    }
+}

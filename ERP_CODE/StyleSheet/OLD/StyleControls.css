@@ -1,0 +1,169 @@
+﻿.text_field_style
+{
+  border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:#e1f5ff;
+  height:33px;
+}
+.textbox_field_style
+{
+  border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:#e1f5ff;
+  height:25px;
+}
+.textbox_field_Digitstyle
+{
+  border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:#e1f5ff;
+  height:25px;
+  text-align:right;
+}
+.textbox_field_styleDisable
+{
+  border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:Linen;
+  height:25px;
+}
+.textbox_field_styleIdentify
+{
+  border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:#FFFFC0;
+  height:25px;
+}
+.textbox_field_styleDigitDisable
+{
+  border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:Linen;
+  height:25px;
+  text-align:right;
+}
+.textbox_field_styleGrdDigitDisable
+{
+   border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:Linen;
+  height:20px;
+  text-align:right;
+}
+.textbox_field_styleGrdDigit
+{
+   border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:#e1f5ff;
+  height:20px;
+  text-align:right;
+}
+.textbox_Multilinefield_style
+{
+  border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;/*#949494*/
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:#e1f5ff;
+  height:33px;
+}
+.textbox_Multilinefield_styleDisable
+{
+  border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:Linen;
+  height:33px;
+}
+.textbox_AboutUsfield_style
+{
+  border:2px #60c9ff solid;
+  padding:0px;
+  margin:0px;
+  border-top-right-radius:5px;
+  text-indent:3px;
+  color:black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  border-bottom-right-radius:5px;
+  background:#e1f5ff;
+  height:50px;
+}

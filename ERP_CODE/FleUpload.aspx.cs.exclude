@@ -1,0 +1,84 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Drawing.Imaging;
+using System.IO;
+
+public partial class FleUpload : System.Web.UI.Page
+{
+    ClsAccountLedger ObjCls = new ClsAccountLedger(); 
+    protected void Page_Load(object sender, EventArgs e)
+    {
+    }
+    protected void BtnFind_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (FileUpload1.PostedFile != null && FileUpload1.PostedFile.ContentLength > 0)
+            {
+                //FileStream fileStream = new FileStream(FileUpload1.PostedFile.FileName, FileMode.Open, FileAccess.Read);
+                //byte[] buffer = new byte[fileStream.Length];
+                //fileStream.Read(buffer, 0, (int)fileStream.Length);
+                //fileStream.Close();
+
+                string[] source = FileUpload1.PostedFile.FileName.Split('\\');
+                string[] sourcefile = source[source.GetUpperBound(0)].Split('.');
+                string sourcefileExt = sourcefile[sourcefile.GetUpperBound(0)];
+                string dest = Server.MapPath(Request.ApplicationPath) + "\\AttachFiles\\" + Request.QueryString["TEMPID"].ToString() + "." + sourcefileExt;
+                FileUpload1.PostedFile.SaveAs(dest);
+                Imgtarget.Src = "AttachFiles/" + Request.QueryString["TEMPID"].ToString() + "." + sourcefileExt;
+
+                FnGenerateThumbnail(Imgtarget.Src.ToString());
+                Session["IMG_PATH"] = dest;
+            }
+            else
+            {
+                FnPopUpAlert(ObjCls.FnAlertMessage("Please select valid images."));
+            }
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage("Please select valid images."));
+            //throw ex;
+        }
+    } 
+    public bool ThumbnailCallback()
+    {
+        return false;
+    }
+    private void FnGenerateThumbnail(string PrmVal)
+    {
+        string path = Server.MapPath(PrmVal);
+        System.Drawing.Image image = System.Drawing.Image.FromFile(path);
+        using (System.Drawing.Image thumbnail = image.GetThumbnailImage(150, 175, new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallback), IntPtr.Zero))
+        {
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                thumbnail.Save(memoryStream, ImageFormat.Png);
+                byte[] bytes = new byte[memoryStream.Length];
+                memoryStream.Position = 0;
+                memoryStream.Read(bytes, 0, (int)bytes.Length);
+                Session["IMGBYTES"] = bytes;
+                Session["IMG_TEMPID"] = Request.QueryString["TEMPID"].ToString();
+                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                ImgThump.Src = "data:image/png;base64," + base64String;
+                ImgThump.Visible = true;
+            }
+        }
+    }
+    public void FnPopUpAlert(string PrmMsgString)
+    {
+        Page objPage = (HttpContext.Current.CurrentHandler) as Page;
+        if (objPage != null)
+        {
+            ScriptManager.RegisterClientScriptBlock(objPage, typeof(ClsPageEvents), "Msg", PrmMsgString, false);
+        }
+    }
+}

@@ -1,0 +1,292 @@
+﻿.ajax__tab_default .ajax__tab {
+    height: 30px !important;
+    line-height:25px !important;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+}
+    .ajax__tab.ajax__tab_active.ajax__tab_hover {
+    height: 30px !important;
+    line-height:25px !important;
+    }
+        .ajax__tab.ajax__tab_hover {
+    height: 30px !important;
+    line-height:25px !important;
+    }
+.ajax__slider_h_rail {
+    background-image: url('WebResource.axd?d=vjopZCF4Py5sp5Wl3D85k-LE_OvsAt5eJjaHMsDyzcaBcPacMi7ITzJQU_GCOj5GPvWTriuM16blLFTugqWyNQewTi9RFo4XNThgbfyTx1svLGxGtS3Ff9kf-PmNMrsQ94GGqBupTA71fPS6Egi9VM1Jr7YqB1KOb7zId9edO-81&t=636145671380000039');
+}
+
+.ajax__slider_v_rail {
+    background-image: url('WebResource.axd?d=ZYqWuV5mvNiKDnPTE-n46oWUvDO3xU7QdRYso5HC4HrQiktzp2s_DCgvYZr0G0J_ijFIGM1sEi97-Jj46aBhGCbCKY0Thn8I4Gr7jEShBOiYvFlvB36Q08sGOwROGui7IRPfXVQMLaHroqqdoEG8D-rcHhY_OwVzabVQ2CZ4VYc1&t=636145671380000039');
+}
+
+.ajax__calendar_prev {
+    background-image: url('WebResource.axd?d=UPXEQMluqc11htPYbwu460XpDaiSCTS-cWy4Uopokm8SJWkfFkbiSdmdBvu2QPpFEFG0l4y-UWf4Ch1w-ODUmikfEviV07S23f6sNpiKGUnovYRsNsNoa8xA7p5NNrCGns_LPNYEHV0eYDxkhVxQmUsN0FPwdFKGQryDXAeEcKE1&t=636145671380000039');
+}
+
+.ajax__calendar_next {
+    background-image: url('WebResource.axd?d=81F2DMOAIlo6KXcWbBL__mnpzXThUtfLsw7D5mONcOEmL6dxJCUvQXfawwc259po09FCPLN31Dtip8IgyxoNWC8Dn5YH21ImKjojTLWoRjB5HGCYqSwawnyYIgOM1m5wNCESGIVwAl0ZGHFHovXdaLcbcJ7iTtHjCPFEc0DwF2M1&t=636145671380000039');
+}
+
+.ajax__dropdown_arrow_image {
+    background-image: url('WebResource.axd?d=HDKbuQAy9EPE8LQ5nvoyYjvfKDhtFE-L5dBzF5U5lDSWl3FnluIz6sus_E2malpO6o4EIztw3xoykYHKQwSaSVnYQh-6kTBxJoatrN7ZXooNOo7CLqWQXbe2abZMEn6jlBL5p869IqzMlIemGMMDkcjObFgXdt6t0bNd03WREKo1&t=636145671380000039');
+}
+
+.ajax__balloon_popup .rect {
+    background-image: url('WebResource.axd?d=v14ghLCyeMVq65mksX8IqyN5GHMFQuzYQ1oFB3VNfwT1HN1PRTKqBd4bCKJSSMEO3lvheCdGqiQcnLT2XgA9P73awFbqDdmdrMkyOvbWgdShgrsO8JgOJ6mb0-pgtuXoZbRr4pzoDDsoZeeZBRbqc7zXdoyLIuj6Lv3fm_w_lKs1&t=636145671380000039');
+    background-image: url('WebResource.axd?d=AZnkcpfe8cUWCtcOLopYT6GYl4nrHUBl9CshwWWphMeadsUlAHVPPOY-Rys5WC2grGnqnBPU0K2kHtgm2Roq0VAt26HN6vDEz6Pjw7crP53da2UpUy83HbZ2ZS1ZLCc2IxjJIIlgU1bRtrWbubGjN0v3N_MhelPc7jaRfM4yZ401&t=636145671380000039') !important;
+}
+
+.ajax__balloon_popup .cloud {
+    background-image: url('WebResource.axd?d=eQ-n5s02YkZldMpgrpJ53m9I_olAJA7BDi8Ok7EYYX5Lc51iP7zquvualcutylfMPsX5eQR5xD1nztNwryGlUUZnD1vRj92SQV5wESKytOu6AS6GrMnv-2XiyExMBDlGGeb8MbwKl1oq3xU6jXYlRTns-fpnutLWeLmKjAXqyo41&t=636145671380000039');
+    background-image: url('WebResource.axd?d=UdSvYt44CKQ_1AJ8w1wfrp4YZ9rLcyavX8MtIg9Orb3AkuTSBTRXrprjRF0Q6P9wqB4YUWUMKXslmKrplFTfBxBt-ulJrtTnKD-b-WGp5qaTvonpyBxXoY6SQ84uBIXYh81NtnyoM0mJbovy80LEP01y7P4fclpTk9aeYSeGDz81&t=636145671380000039') !important;
+}
+
+.ajax__tab_xp .ajax__tab_header {
+background-image: none !important;
+background-color: #fff !important;
+margin-left:1px !important;
+margin-top:5px !important;
+height:40px;
+line-height:40px;
+border-top:5px solid #fff;
+}
+
+.ajax__tab_xp .ajax__tab_header .ajax__tab_outer {
+    background-image: none !important;
+    background-color: #fff !important;
+    height:30px !important;
+    line-height:30px !important;
+    border-top:5px solid #fff !important;
+}
+
+.ajax__tab_xp .ajax__tab_header .ajax__tab_inner {
+    background-image: none !important;
+    background-color: #fff !important;
+    padding:0 10px !important;
+}
+
+.ajax__tab_xp .ajax__tab_header .ajax__tab_tab {
+    background-image: none !important;
+    background-color: #fff !important;
+    padding:0 !important;
+    line-height:30px !important;
+}
+
+.ajax__tab_xp .ajax__tab_header .ajax__tab_hover .ajax__tab_outer {
+    background-image: url('WebResource.axd?d=Q3pSPuwni8StpWPiBY_h6swGt_u5oAcMuKAp_z8ebR0x6rAy7yQRjW6-rg6USA_kKOeFx-I1LVEEdGMANfU2-9uB2pnju0f2jm9oZ3rEFK5970jXexHk-BUXzPXUVSTbf6kpsT_xMLocF1JZqWD3csNppIgBfnu958GTY-tBdw01&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header .ajax__tab_hover .ajax__tab_inner {
+    background-image: none !important;
+    height:30px !important;
+    line-height:25px !important;
+}
+
+.ajax__tab_xp .ajax__tab_header .ajax__tab_hover .ajax__tab_tab {
+    background-image: url('WebResource.axd?d=fYVbJgiPRfyr6jZ3UTeak5dhmzzecjtcMbnmbEB3y7n3_rr4AGdJ6ylnDx7jE3N3upg6oX6EwlQwWbVpk7BIT4kSv8WnNfy3EhCNEQTbQasG1r2SFypvODmlMCpi_wkEy68FYGRDqbwjGT65T_-V9Q2&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header .ajax__tab_active .ajax__tab_outer {
+    background-image: none !important;
+    background-color: #f1f1f1 !important;
+    height: 35px !important;
+    line-height: 30px !important;
+    border-top:4px solid #2fc32f !important;
+}
+
+.ajax__tab_xp .ajax__tab_header .ajax__tab_active .ajax__tab_inner {
+    background-image: none !important;
+    background-color: #f1f1f1 !important;
+    margin-left: 1px;
+}
+
+.ajax__tab_xp .ajax__tab_header .ajax__tab_active .ajax__tab_tab {
+ background-image: none !important;
+    background-color: #f1f1f1 !important;
+    line-height:35px !important;
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalleft {
+    background-image: url('WebResource.axd?d=6X_UlBOaP4TFR6DV_BEFf0Fwb56YVzYEqjtNtzEyIFaKj6wkx_52ZmfOBDPJzrqphF82xJ4fOril1D9E2wzZ-N2JlZV2iITDXfrOPXXz8hj9Kyos_78VZRrVsufofRAqfpd8jpTou7UBb77yoj6LKQ2&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalleft .ajax__tab_outer {
+    background-image: url('WebResource.axd?d=ohPU6mXraCuieTVpWD1MSm_HGYkw7deKBLWQHHPm-HKUNwj0n_r-tr1xaAoEMV5hJfP3iZh0ZYBSlYYBWdAPqs8oK6rxbYb1wpANIHJKh7eHrU7Adcgvdbb9aNnkAgNs4cDrrajaSunzPZXtXn1-lIpgB-4aNNSnvfcKH5VxplU1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalleft .ajax__tab_inner {
+    background-image: url('WebResource.axd?d=ekCMKwJAjA5j8NXfX-5th-tpucfgQ4lxcCnvdwZP1W6L670TUaAJT8mn3C40pDsVqnwNZ047MsZJc2o2E2UHo6UL-MyYYb0VGb_7N0oVN5m6LQ7tq-wk9Hkrd0Ndf4wOnfJV8DKtx_tFG3zCEcXu4XamM90xD55jOvt_JAn4bzE1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalleft .ajax__tab_tab {
+    background-image: url('WebResource.axd?d=p--S3vxKSi_X80UfDXCBXFcrDP_314KSAxOKQ7ZFzrhFVGlKOU1FL-nT9CQr-FkqAQgfL5p8KJXdG4K_F8mATFAUuaIUJ68C-Ct8PzIKHbMyCzblowo8Hmk3TNm6aRnLmZkwMKoZCRzoOFIaY1LOM-D7v2HZu7obwN95j_NR4o41&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalleft .ajax__tab_hover .ajax__tab_outer {
+    background-image: url('WebResource.axd?d=bAj-GZYwLL7QaCK9Ir3loJxSEPyw0NPvgHjG5v1dGHJNnDULufxlakv28R7lWACrwzodg6mAB6_It_RJDAilE6b4bqmZvlvcEf1UskPOqo9OkvT47ZMPubRocyMBmDNu6A7NmtL5DdwDhehwUw5QTdUTZOBIg-EjXCzMvZlpVXo1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalleft .ajax__tab_hover .ajax__tab_inner {
+    background-image: url('WebResource.axd?d=VYDip0LFKSqZcvmgtC_bm8_rZw0mTNu7NExBH0BH9c_8t6YbUQgYni0Qg8lo_n4U9VePvmSWpGPuQm23UHHVeyLFJpbJP1JHqau6tNSW36axcw0Wjlr9KE0aM4JZW0gm6b8HfxRafO5vVWIaH0amtES4XWhGFnAe0e1Zt6A7scQ1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalleft .ajax__tab_hover .ajax__tab_tab {
+    background-image: url('WebResource.axd?d=4X0ur3CsyLm5i5-9LimX_N3Gdn-nyhAtWkN081qTUI0MEkj-aZ9So12M5TLZW_p_i-xe_oqjLSaGdr78EzRvaz9Mfiqf71P1jN13Gdb7WoDd2fY-P3-yEejdnCqlbxpW-dxpaqXcTL-QvWYSWyXNAz1ZoXY7EJKOkt92RLfGeFM1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalleft .ajax__tab_active .ajax__tab_outer {
+    background-image: url('WebResource.axd?d=8HiWAMZpRm4FTRnVk8k-hehl6HO78jL0JkWomw6UR_p7RIuOi5BjblFYtfhYix3JnL256GRkuXVl-5RukAQ27i37-iDBeybmaePX3vfrVVIgVMu_szsJfU9yPyDtpdScOF_ZT6PhkAAwXBA1mE8z93HdmkFYjd0fVI4_4_YnCH01&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalleft .ajax__tab_active .ajax__tab_inner {
+    background-image: url('WebResource.axd?d=yL5Hv0wzXJNm6CeQrRR3weBaxHYRrICpu3w6TZz3fTpbE4um6edvoACQgT8uQT-asyeE79G9dGnnStIzpHEd8dkhGYh4aK4nP23NuT4FviuM9832rfQRomjqE99oNmNz25XvhgkHm_lm97cKUKh9oxknZJJD-Z5tcmgkqnPOUyE1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalleft .ajax__tab_active .ajax__tab_tab {
+    background-image: url('WebResource.axd?d=oumgplCbaCSccp7t_59-qNCVhg7seT_JlYejkhTtuL2HJufWfE8JAbV-Gc0_2t9gXipvC4bVHuTLPgzZuKwUu8ZcuEBMRxE5yAfKF0QMcI-7919hdmRIQBL_1io5bOOHDq-apS57OrUcLn48nOG_8IkWpk7y5RCGaNES6Myln7w1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalright {
+    background-image: url('WebResource.axd?d=6X_UlBOaP4TFR6DV_BEFf0Fwb56YVzYEqjtNtzEyIFaKj6wkx_52ZmfOBDPJzrqphF82xJ4fOril1D9E2wzZ-N2JlZV2iITDXfrOPXXz8hj9Kyos_78VZRrVsufofRAqfpd8jpTou7UBb77yoj6LKQ2&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalright .ajax__tab_outer {
+    background-image: url('WebResource.axd?d=RS9AkDDTUKVd1kE2nQdSwsHc1_AU-eVLNggKX3-8hdnVXsP_6kiGMFsQJhzuCcx0oy-jTnPEaZOQ7Cb0KgEnUqbGHf18PJ3eTfJPw19SwQNdtniCgHJm-AD_8YeN0Qityfapo5YFJ9HgpSnIt5TWqskxD4ZGvuzDF9gNXxwFMNE1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalright .ajax__tab_inner {
+    background-image: url('WebResource.axd?d=nDJKGMK5XDr5vfMELfQ2gtGqEKbqzTWDNvcRUXcycQoen4IkOXpFmvOp8HG76r81pmVNzKlIsk0Te2irm9oTZZhfuyGL53qRzztC5hF_tcnEZ0oUiDF59Y9sh9NG8iTmq9EjozEDK4Uf0Opn9dgzRKCQb_DfV2ijo61J9oTrjdY1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalright .ajax__tab_tab {
+    background-image: url('WebResource.axd?d=Nsn7ekEsgPMq4iBvTuyZ1HA5K-m7m7ZSMJWD9uPr2V-L8YQgsJpEJMUwMOtJXmQC620Blcyq70u05UZDIBV6K43RSQ_p8uDHoFw5ksEOJhkRdWBugO-nuYMuUh0JdBGLzFt_9yo0jx53HXxom1I1YqgJXqJN3ZX7G5FaMReDkNA1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalright .ajax__tab_hover .ajax__tab_outer {
+    background-image: url('WebResource.axd?d=Zz9Q9a1UoBTVWZB8ckc_8gtIpjOSb6qtaSWcNFEu21yYkYgfYw6DO9DXQuS58siurHic_hRtQsnS8k8EYoSIM6spMKeAJWH8XbqXLnvezn0UUpOm0ryo12mIqTK2GLTwzOsuNIhyJBazt-Tq4-keAmbQEHrEZnyU76MRhPgJjww1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalright .ajax__tab_hover .ajax__tab_inner {
+    background-image: url('WebResource.axd?d=rHjJ9duYonBefrcjaaJbxrmTcu9a5V6n-zd6_fiNh0hFsjqKF7KykvXbLIcQlwY7D36XVftZP5F2PPwCbxjpm_PNxE-Mg25b5jgJdr5kfKQI77h_XjQWgIuJ6MU65-8ddY1vk1DMdSzuswLFtLXqf5TXMPKFyp-eigNCfvVtykM1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalright .ajax__tab_hover .ajax__tab_tab {
+    background-image: url('WebResource.axd?d=rHjJ9duYonBefrcjaaJbxrmTcu9a5V6n-zd6_fiNh0hFsjqKF7KykvXbLIcQlwY7D36XVftZP5F2PPwCbxjpm_PNxE-Mg25b5jgJdr5kfKQI77h_XjQWgIuJ6MU65-8ddY1vk1DMdSzuswLFtLXqf5TXMPKFyp-eigNCfvVtykM1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalright .ajax__tab_active .ajax__tab_outer {
+    background-image: url('WebResource.axd?d=CD3WDhl4fzEQCsIKdKts530JflTzddmcHKGAtJNdJxNXGA0m-6qa-B2K65GOXV5AE970tIuVhOw3R0vA5t8myCjlVdIuFJdQUd5PAEpgfukXYtGNIkDIJs_t_ohTfzdABYIRYt6xbn92WGifTK1IbduFWkHXC5SalnD_CHD0XQxJsh8JExdOBlJ7XzpeLHqc0&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalright .ajax__tab_active .ajax__tab_inner {
+    background-image: url('WebResource.axd?d=sA4PIlVo_OjUbiHLC4oKckirdLtCOG9Pa60E2Xq6Ydh9ymn0KxAoWVoI1ow5sI1m2KEUoAUFdhqt_XQcjzHFey-1MjDpgAIhzY2P4D9GmQJ8WeJlywJ5k8GzHXwqjD6SvoNwk5AO6FXaQT3AgvgytyyUlcK-yNt1x4lyfaZhaFM1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_verticalright .ajax__tab_active .ajax__tab_tab {
+    background-image: url('WebResource.axd?d=QsjxCjwyD84Q8N_TB6uikUiO0Vl7TftdRCtPtFJlJMrKxLi6GsiamzZvSnBXAwVsvuHjbvETEQibOKVOOR7wqJYmUnjXJvP-rn379YchLUvZFsqtmjWaVH_T_cGrjZqxkJiXXLUPceptb2n4IiKsPdMlpLrBdtD4Ad10vkVoDcc1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_bottom {
+    background-image: url('WebResource.axd?d=6X_UlBOaP4TFR6DV_BEFf0Fwb56YVzYEqjtNtzEyIFaKj6wkx_52ZmfOBDPJzrqphF82xJ4fOril1D9E2wzZ-N2JlZV2iITDXfrOPXXz8hj9Kyos_78VZRrVsufofRAqfpd8jpTou7UBb77yoj6LKQ2&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_bottom .ajax__tab_outer {
+    background-image: url('WebResource.axd?d=JsLNJ9kf4ZiOkP6KZmiVj4-_iF_jlTWWsi30aNJ3DFG_QGe2rxgHeGe7zZt-t6AFp44PG548AyNSpkf8NoZqWtf7LCBEY5Ab51griB8vsJZzTdX94wkPBXoTunbClH4-ORsdZ7i9FMCc0OTO6D2t2bCM0TyjnLdlrK_-YgsPSh01&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_bottom .ajax__tab_inner {
+    background-image: url('WebResource.axd?d=3C_2yc8_kfzLwr9crg9KMRmCzABXYbgdvtWEfuuoKw7DrgYKqKwOTBn6wrJ8d-EFx6Wr-nT84g3CbYIqAlefXr3MuoFleO2ZHiZnOCL_QF-Fw1CyKKBcO8m4MQO0GcaLfWrECIVDLQlt3mQ2FKPAitxFRPmFucAnMOqmao4dwPw1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_bottom .ajax__tab_tab {
+    background-image: url('WebResource.axd?d=xuFQXGQiBWI8j9OV3MkDk-NKx24Zh5359__YT-DffuJecpBv-KrzQ8U5VDJDZNI8Oq9LVeIRgHJ0yBFS6nkgIYDEdrEIEw3oEB4NWPnPsx9Bcy6o9jhDVN4kXVfwscZeK2DAleDbMT1OfkGajejUhQ2&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_bottom .ajax__tab_hover .ajax__tab_outer {
+    background-image: url('WebResource.axd?d=lYT6M0aU-GE4ahjni3-mdGnB2Ci6TbfJbePQDggslUr_mlL6Z1nsK6xBJ31PhVi83dt0iQ-AgYSuHktKuhGa_bXx7XLthiaKVI8ifVRbJphgJrUuYHFDdMCC7wpRCjFyv8wDKthFxofBTG31K0Cf2GXEtu0QvGfK68ciqQVL0yA1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_bottom .ajax__tab_hover .ajax__tab_inner {
+    background-image: url('WebResource.axd?d=QuGWG4B3IDn45XxF5BSSQjsc_-JayJOJgb1ZJSEoj68qiy9VxXXVPKgaVAn2T22sum9WXC0-3erImsUrWUnpAxYJodH2ME7vPxJMROSrfNOG7mVotww9B_9B0rIFFuQgP93EL-9Ik6J6xd_NItM_DNhOxvXYCnIeez62Lj6Vbkw1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_bottom .ajax__tab_hover .ajax__tab_tab {
+    background-image: url('WebResource.axd?d=aIIlfonLRTMbHNrh46OYB0pgsWRk1VdItNxYKl1X2KNRri1jJZdZwINcZSzaMq0KHgu4lwx5a6KzGPiB9lVXyrEZehFGtJyDiOBRAuZ8xZGaVHxUEKVA6XdK9ONV83KEJ65eH6jLSmm3LIkbIqIDvwSqzyBhoyl9me6GRmM5stY1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_bottom .ajax__tab_active .ajax__tab_outer {
+    background-image: url('WebResource.axd?d=-mgZIFY4Grh_DSjpzXLtltWrskpcSXNM26vX8tm4OVh4TzQ2KhGIVyXbMpr3MoH91g0GJP9ORDRP9PLejObGNrjoenrCtzShNeerrVydJZl947K0-UVzSJ3XwBm0y-XK-9bZz1F1p0Wo1lkcDw2OHWp1YUKy6FX_iPdUc4QIM8s1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_bottom .ajax__tab_active .ajax__tab_inner {
+    background-image: url('WebResource.axd?d=PoANq6poA4pUhloBFie4nqRgGxlYZkI3Z8ccEIe0VYeZ4lUgdQ0XfCaWGWs_z5Rv1M6k-tZhHkHdZ2pALmBz74sCBVojFEsJIJplWDVg5I5sbN8lG7400ttB5MWQtJ-UsMXbzusCYJOi3A4gU2yvXFNCA4hs02VgOZ9jp7xoNHA1&t=636145671380000039');
+}
+
+.ajax__tab_xp .ajax__tab_header_bottom .ajax__tab_active .ajax__tab_tab {
+    background-image: url('WebResource.axd?d=09mwxcsp-_PC14ocav43p44lYxlhUIRAnBtijJxAgiP0poso6OEvBE2AsmQST4f73COA6vCWLjCFJk2IGLAohPZF44w37mBMhnsXNGlUxMcRZ3LhmbJXarNvSTccLJvqZQNMGNkAQCsFZYUovZvm5QymckDHIvfFXnIf2lUiYb01&t=636145671380000039');
+}
+
+.ajax__multi_slider_default .outer_rail_vertical {
+    background-image: url('WebResource.axd?d=UTa6StqII8X1FIK2ZsMndt0pkkMW2fiWVqGoqOtd5BviMmqeZ0G41Au5it5OQeX3oWNkiTG03F2Wsnp3o-4aO0HQrvLI6QfiDWc38dW8Qy6nQ7jVyxq6q6mf_wa4ncAzxmscf64vg4WBS9SE2KRWJaCrw3kxuCrgJjB8O7HDCAJX1vmQ3PJpABYcrVDGE9O10&t=636145671380000039');
+}
+
+.ajax__multi_slider_default .inner_rail_vertical {
+    background-image: url('WebResource.axd?d=FDM6aoC_cW0k-xpPqglGAc6P30ob5ZjGZW91xt_-ESWnbiWE8y63rMbD4tYzDMoMQkz-lscGEhvV3cpY6DjflZo3ALeDNe5uYqrfxrfg64DZVR0o4R-xzUYSqZSjBh67nrawh_J2HnXO9PeCBX0rtvqRIXS936D42ONpqlrpysX4UXcdrEd1gn51eTb7N6lm0&t=636145671380000039');
+}
+
+.ajax__multi_slider_default .inner_rail_horizontal {
+    background-image: url('WebResource.axd?d=EgFAdQav6kSa4vU6dBmiY6WtZaD2ygoe2LM2r1rp9m1XOUpe89hsFxLaO9VBMoKAw-R5W_w1WtBZ7ljawjhl5mkNIjjj2b9t462Rz-Y3NLQ_HvqM3ri0pHaDgwyHPEnmzwSymh_8Sz0xWrJ4CMr4eJU_ty0fCtAMi5KTG91vJegQRXiSnAT-a1Oqb3OU5vHg0&t=636145671380000039');
+}
+
+.ajax__multi_slider_default .outer_rail_horizontal {
+    background-image: url('WebResource.axd?d=dYrSlO4Zv16_zNHLXWpH3vBrquhg8HJD3ZwWsNyr4YOUMSxiwh0NoPmaCwJr2AnbBYNc_XeOX-kwSkiDthMarHXHTKDpHfeywDoxIqHSm2oaOAbQex43P7uDHRpJiHYth5-2wozrUpPXl36w01frq_xqiBNBh3SgRtSsTERrYvYEXOejiza0HALWyrq03A1J0&t=636145671380000039');
+}
+
+.ajax__multi_slider_default .handle_horizontal {
+    background-image: url('WebResource.axd?d=MuXa_f9tig6p--LmJu8ZTvUDb7t2y01Qr_qIhaGFg6tOW3voRYkVPMhsC06TPiFPkfCWsVZdo6qpa6RKedKSKIaPHjT30jtNVh1rf2Al4p-NqBAR_WfssuTDbFoPu95j8hkUS1l__QV5rCMYwOG0hroEyhqa1Hsu9_DcwKsLcL4qoppI1D_eqcKv7qlo1MkD0&t=636145671380000039');
+}
+
+.ajax__multi_slider_default .handle_horizontal_hover {
+    background-image: url('WebResource.axd?d=Rro_jtwHFJP8MU_nYbuFrg9nxjoqYPnSrgWdY3PKRPOUxIOcTAZ3YEeNr63gUh5LOyGbI5flGrLKUGlZ0IZyP5iKXBIPIXISmnFiBTHEIh8aDVdq_P_0oUdEU0ols3LIzllsPyqEuDUKX-fZP1_1rIi0e4z3WlZvVs0gnnknZ65OeQlBUTU1PXomg81qcZfu0&t=636145671380000039');
+}
+
+.ajax__multi_slider_default .handle_horizontal_down {
+    background-image: url('WebResource.axd?d=Vzb0pzi-0PElSMNAEOxw-iYKISdDLOMdxF-QCDhpyz9K1DiTmnce6eNtGHBei-gnGY6adjyDsAU-w7tUtdJ_bIdyVjT4bvpgZ2r00uAyObDo_SewqhAl6M84gZB57KJliI1Uoy7odYq6Irk1-lvVrDqkjQ5HwO_S99Y4B9ERjSJD7QfmnLk3Oko0ZynEBhei0&t=636145671380000039');
+}
+
+.ajax__multi_slider_default .handle_vertical {
+    background-image: url('WebResource.axd?d=kWmv49cW2lIvTFrXZxoz-TeWTi-oNmhPS9QC8dK0eteBuiZwD_l65w88Y-3EJ7AzkwOEJ7mVVGWAjlhKNuXzLtz1xawb_BLaDBrkq7cOyGQnkA9L7Fe8XO-_U83fX-Ra8crm5n26aCq7vj2jVfSsJBr7WaPwv8fj-WO10kcvGDdbqZHDLllvL9CGVH9zVW-60&t=636145671380000039');
+}
+
+.ajax__multi_slider_default .handle_vertical_hover {
+    background-image: url('WebResource.axd?d=3qv4zZFNaf-infcsoqoAXtzmJ2Be6DTSln43Uj06KYUcouG_vhK_dPRQpJospbEGHxjgp3cLLcpxpiGapQDHwnIieE6qykSWBQDHmtUs-wm85WgrvO4uqmzxZ_HQ5LRWlIMOVDvc_hd4W7Hj25PvwoFb7BhKba4eKwgV51p22WeFPPGZpifJLiHq7I0NlEU40&t=636145671380000039');
+}
+
+.ajax__multi_slider_default .handle_vertical_down {
+    background-image: url('WebResource.axd?d=6YRbAcDpaX_6vO3TUK0ZckmjeeLrfyUxCHsRKco7GPHs84TGS_lDYaQqjbUwy9Oix8ynVxNUQ64bXVERz2y12FmdNPGqC8KsYvs1tCbnEJzNujNmG27HHnBzgNxMQAWqWfgcR_5gzA6cwCYU-CLJ8zsn7lmsAVECdW3E4x8NU6VBRDoeX90vQyFFWHn3B-rq0&t=636145671380000039');
+}
+
+.ajax__combobox_buttoncontainer button {
+    background-image: url('WebResource.axd?d=QaRcS5Tc5Cm9bWYlNxuIOYAr_QCp4StrB6izLIJcha2fGvtHcg2FGfq4TbYgvAM8aRbaDqeWFlrTUQrMwPDxwRm6uhQMSfJ7jhZIcZTrGNUG8F-MpAHcnQBHAiucZDwRyThz5QUglj2j3pB6e3hWqDtJEBsevUm5XLMv6U8J4J41&t=636145671380000039');
+}
+
+.ajax__htmleditor_attachedpopup_default td.ajax__htmleditor_popup_bgibutton {
+    background-image: url('WebResource.axd?d=YSlNhrYDPwxVb3g77jBy6VMiBSrrDuYCEc--niNtFQRZ1ZmESVgHLstQvDt--uzUEgARTMCmCRQCCgeJPREKnQy8iHRWOT95IKrH8m-2k8-wcbGfbcEGK4p7M0XQkzqFUqKOTWsN-aksPEZocgm5A7AmIBcXzDlIVLb3ifZ5Xbw1&t=636145671380000039');
+}
+
+.ajax__html_editor_extender_button { 
+    background-image: url('WebResource.axd?d=MrU4aqBvPqVAVM5wHQ9ZJnsdAcXchtXd28CHH5mW57vmYSVQ_7CMDO1RrLWpP_hCthHCIlYwwXADFGQv0JiqQPMXztg1VxzI2UQ94kAi1NlQ6p6b1lVcepozk4M4qkVSlPiKIB--x3curMAUr2_vPrDNiOQwHbTgKrZKvYWxsu01&t=636145671380000039');   
+}
+
+.ajax__html_editor_extender_separator {
+    background-image: url('WebResource.axd?d=MrU4aqBvPqVAVM5wHQ9ZJnsdAcXchtXd28CHH5mW57vmYSVQ_7CMDO1RrLWpP_hCthHCIlYwwXADFGQv0JiqQPMXztg1VxzI2UQ94kAi1NlQ6p6b1lVcepozk4M4qkVSlPiKIB--x3curMAUr2_vPrDNiOQwHbTgKrZKvYWxsu01&t=636145671380000039');
+}
+.ajax__tab_xp .ajax__tab_body {
+    background-color: #f1f1f1 !important;
+    border: 1px solid #fff !important;
+    border-top: 0;
+    font-size: 10pt;
+    padding: 10px 10px 10px 10px !important;
+}

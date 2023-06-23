@@ -1,0 +1,403 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class PurchaseBill : ClsPageEvents, IPageInterFace
+{
+    ClsInvoice ObjCls = new ClsInvoice();
+    ClsTempChildItems ObjChld = new ClsTempChildItems();
+    protected override void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            base.Page_Load(sender, e);
+            CtrlTokenEvent1.TokenCommands += new CtrlTokenEvent.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            CtrlRewindEvent1.RewindCommands += new CtrlRewindEvent.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            CtrlAddCommand1.AddCommands += new CtrlAddCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            if (!IsPostBack)
+            {
+                LblHdr.Text = Request.QueryString["TITLE"].ToString();
+                LblHdr1.Text = Request.QueryString["TITLE"].ToString() + " List";
+
+                TxtQty.Attributes.Add("autocomplete", "off");
+                TxtQty.Attributes.Add("onkeydown", "return IsDecimal(event,'" + TxtQty.ClientID + "');");
+                FnInitializeForm();
+                if (ObjCls.FnIsNumeric(Request.QueryString["CNTRID"].ToString()) > 0)
+                {
+                    CtrlRewindEvent1.IsEnableFirstButton = false;
+                    CtrlRewindEvent1.IsEnableLastButton = false;
+                    CtrlRewindEvent1.IsEnableNextButton = false;
+                    CtrlRewindEvent1.IsEnablePreviousButton = false;
+                    CtrlRewindEvent1.IsEnableGetButton = false;
+                    CtrlCommand1.IsVisibleClear = false;
+                    ViewState["ID"] = Request.QueryString["CNTRID"].ToString();
+                    FnAssignProperty();
+                    FnFindRecord(ObjCls);
+                    FnFindRecord();
+                }
+                else
+                {
+                    CtrlRewindEvent1.IsEnableFirstButton = true;
+                    CtrlRewindEvent1.IsEnableLastButton = true;
+                    CtrlRewindEvent1.IsEnableNextButton = true;
+                    CtrlRewindEvent1.IsEnablePreviousButton = true;
+                    CtrlRewindEvent1.IsEnableGetButton = true;
+                    ViewState["DT"] = ObjCls.FnConvertStringToDataTable(ObjCls.FnReadXmlFile(Server.MapPath("XML_NULL//TransMaster.xml"))) as DataTable;
+                    FnGridViewBinding("SEARCH");
+                }
+            }
+            //CtrlGrdItemName.DestinationControls = CtrlUom.IdControl + "," + CtrlUom.TextControl + "," + CtrlTax.IdControl + "," + CtrlTax.TextControl + "," + TxtItmBarCode.ClientID + "," + HdnBarCode.ClientID;
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    public override void FnInitializeForm()
+    {
+        TabContainer1.ActiveTabIndex = 0;
+        int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID;
+        ObjCls = new ClsInvoice(ref iCmpId, ref iBrId, ref iFaId);
+
+        ObjCls.TType = FnGetRights().TTYPE;
+        CtrlRewindEvent1.TxtRefNo = ObjCls.FnGetRefNo().ToString();
+        CtrlRewindEvent1.TokenNo = ObjCls.FnGetTokenId().ToString();
+        CtrlTokenEvent1.TokenNo = CtrlRewindEvent1.TokenNo;
+
+        ChkIsIsBarCode.Checked = true;
+        FnGetBarCode();
+        ViewState["DT_CHILD"] = ObjCls.FnConvertStringToDataTable(ObjCls.FnReadXmlFile(Server.MapPath("XML_NULL//TransChild.xml"))) as DataTable;
+        FnGridViewBinding("");
+    }
+    public void FnAssignProperty()
+    {
+        base.FnAssignProperty(ObjCls);
+        ObjCls.TokenNo = ObjChld.FnIsDouble(CtrlRewindEvent1.TokenNo);
+        ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+        ObjCls.TrDate = ObjCls.FnDateTime(CtrlTrDate.DateText);
+        ObjCls.CrId = ObjCls.FnIsNumeric(CtrlGrdAcc.SelectedValue.ToString());
+        ObjCls.DrId = ObjCls.FnIsNumeric(FnGetDefaultPurchaseAccount());
+        ObjCls.Approval = true;
+
+        ObjCls.IsAutoPost = 1;
+        ObjCls.Remarks = TxtRemarks.Text.Trim();
+    }
+    public void FnAssignChildProperty()
+    {
+        base.FnAssignChildProperty(ObjChld);
+        ObjChld.TokenNo = ObjChld.FnIsDouble(CtrlRewindEvent1.TokenNo);
+
+        ObjChld.ItemId = ObjChld.FnIsNumeric(CtrlGrdItemName.SelectedValue.ToString());
+        ObjChld.Qty = ObjChld.FnIsDouble(TxtQty.Text);
+        ObjChld.PuQty = ObjChld.FnIsDouble(TxtQty.Text);
+        ObjChld.DueDate = ObjCls.FnDateTime(CtrlDueDate.DateText);
+
+        ObjChld.BatchNo = TxtItmBarCode.Text.Trim();
+        ObjChld.Remarks = TxtItmRemarks.Text.Trim();
+    }
+    public void FnAssignProperty_Search()
+    {
+        base.FnAssignProperty(ObjCls);
+        ObjCls.RefNo = ObjCls.FnIsNumeric(TxtFrmRefNo.Text);
+        ObjCls.ID = ObjCls.FnIsNumeric(TxtToRefNo.Text);
+        ObjCls.TrDate = ObjCls.FnDateTime(CtrlFrmDate.DateText);
+        ObjCls.OptDate = ObjCls.FnDateTime(CtrlToDate.DateText);
+        ObjCls.CrId = ObjCls.FnIsNumeric(CtrlGrdAcc_Srch.SelectedValue.ToString());
+        ObjCls.Remarks = TxtOptNo_Srch.Text.Trim();
+        ObjCls.Approval = true;
+    }
+    public void FnClose()
+    {
+        throw new NotImplementedException();
+    }
+    public override void FnCancel()
+    {
+        base.FnCancel();
+
+        TxtToRefNo.Text = "";
+        TxtFrmRefNo.Text = "";
+        CtrlGrdAcc.SelectedText = "";
+        CtrlGrdAcc.SelectedValue = "0";
+        CtrlGrdAcc_Srch.SelectedText = "";
+        CtrlGrdAcc_Srch.SelectedValue = "0";
+        TxtOptNo_Srch.Text = "";
+        CtrlFrmDate.FnNewDate();
+        CtrlToDate.FnNewDate();
+              //=====================================================
+        CtrlTrDate.FnNewDate();
+        CtrlGrdItemName.SelectedText = "";
+        CtrlGrdItemName.SelectedValue = "0";
+        TxtQty.Text = "";
+        TxtRemarks.Text = "";
+        FnInitializeForm();
+        FnClearItems();
+
+        CtrlCommand1.SaveText = "Save";
+        CtrlCommand1.SaveCommandArgument = "NEW";
+        TabContainer1.ActiveTabIndex = 0;
+        FnFocus(CtrlGrdAcc.ControlTextBox);
+    }
+    public void FnClearItems()
+    {
+        base.FnClearItems("");
+        CtrlGrdItemName.SelectedValue = "0";
+        CtrlGrdItemName.SelectedText = "";
+        CtrlDueDate.DateText = "";
+        TxtQty.Text = "";
+        TxtItmRemarks.Text = "";
+        TxtItmBarCode.Text = "";
+        FnGetBarCode();
+        FnNoneImage(ImgItem);
+        CtrlAddCommand1.AddText = "ADD";
+        CtrlAddCommand1.AddCommandArgument = "ITEM_NEW";
+
+        //GrdChildItems.SelectedIndex = -1;
+        FnFocus(CtrlGrdItemName.ControlTextBox);
+    }
+    public void FnFindRecord()
+    {
+        if (ObjCls.FnIsNumeric(ViewState["ID"].ToString()) > 0)
+        {
+            ObjCls.GetDataRow(ViewState["ID"].ToString(), ViewState["DT"] as DataTable);
+            ViewState["ID"] = ObjCls.ID.ToString();
+            CtrlRewindEvent1.TxtRefNo = ObjCls.RefNo.ToString();
+            CtrlTrDate.DateText = ObjCls.FnDateTime(ObjCls.TrDate, "");
+            CtrlRewindEvent1.TokenNo = ObjCls.TokenNo.ToString();
+            CtrlTokenEvent1.TokenNo = CtrlRewindEvent1.TokenNo;
+
+            CtrlGrdAcc .SelectedText = ObjCls.AccountCr;
+            CtrlGrdAcc.SelectedValue = ObjCls.CrId.ToString();
+            TxtRemarks.Text = ObjCls.Remarks;
+
+            FnGridViewBinding("");
+
+            ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
+
+            FnClearItems();
+            CtrlCommand1.SaveText = "Update";
+            CtrlCommand1.SaveCommandArgument = "UPDATE";
+            TabContainer1.ActiveTabIndex = 0;
+        }
+    }    
+    public object FnGetGridRowCount(string PrmFlag)
+    {
+        throw new NotImplementedException();
+    }
+    public void FnGridViewBinding(string PrmFlag)
+    {
+        if (PrmFlag.Equals("SEARCH"))
+        {
+            GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
+            GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+            GrdVwRecords.DataBind();
+            GrdVwRecords.SelectedIndex = -1;
+            LblGrdInfo.Visible = (GrdVwRecords.Rows.Count <= 0 ? true : false);
+        }
+        else
+        {
+            GrdVwChild.DataSource = ViewState["DT_CHILD"] as DataTable;
+            GrdVwChild.DataKeyNames = new String[] { ObjCls.KeyName };
+            GrdVwChild.DataBind();
+            GrdVwChild.SelectedIndex = -1;
+        }
+    }
+    public void FnPrintRecord()
+    {
+        throw new NotImplementedException();
+    }
+    private void FnGetBarCode()
+    {
+        if (ChkIsIsBarCode.Checked == true)
+        {
+            TxtItmBarCode.Text = Convert.ToString(ObjCls.FnGetBarCode());
+        }
+    }
+    public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            _nRptWidth = 1000;
+            _nRptHeight = 550;
+            switch (((Button)sender).CommandName.ToString().ToUpper())
+            {
+                case "SAVE":
+                    if (ObjCls.FnIsNumeric(CtrlGrdAcc.SelectedValue.ToString()) <= 0)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the valid Supplier/Party"));
+                        FnFocus(CtrlGrdAcc.ControlTextBox);
+                        return;
+                    }
+                    HiddenField HdnAutoId = (HiddenField)GrdVwChild.Rows[0].FindControl("HdnAutoId");
+                    if (ObjCls.FnIsNumeric(HdnAutoId.Value) <= 0)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please add atleast one item."));
+                        FnFocus(CtrlGrdItemName.ControlTextBox);
+                        return;
+                    }
+                    FnAssignProperty();
+                    switch (((Button)sender).CommandArgument.ToString().ToUpper())
+                    {
+                        case "NEW":
+
+                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, CtrlCommand1.IsPrint);
+                            break;
+                        case "UPDATE":
+                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, CtrlCommand1.IsPrint);
+                            break;
+                    }
+                    break;
+                case "DELETE":
+                    FnAssignProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    break;
+                case "CLEAR":
+                    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
+                    FnCancel();
+                    break;
+                case "CLOSE":
+                    ObjCls.FnAlertMessage(" You Have No permission To Close Record");
+                    break;
+                case "PRINT":
+                    FnAssignProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    break;
+                case "FIND":
+                    FnAssignProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnGridViewBinding("");
+                    break;
+                case "SEARCH":
+                    FnAssignProperty_Search();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnGridViewBinding("SEARCH");
+                    TabContainer1.ActiveTabIndex = 1;
+                    break;
+                case "HELP":
+                    ObjCls.FnAlertMessage(" You Have No permission To Help Record");
+                    break;
+                case "FIRST":
+                    ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnFindRecord();
+                    break;
+                case "PREVIOUS":
+                    ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnFindRecord();
+                    break;
+                case "NEXT":
+                    ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnFindRecord();
+                    break;
+                case "LAST":
+                    ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnFindRecord();
+                    break;
+                case "GET":
+                    ObjCls.RefNo = ObjCls.FnIsNumeric(CtrlRewindEvent1.TxtRefNo);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    FnFindRecord();
+                    break;
+                case "ADD":
+                    if (ObjChld.FnIsNumeric(CtrlGrdItemName.SelectedValue.ToString()) <= 0)
+                    {
+                        return;
+                    }
+                    if (((Button)sender).CommandArgument.ToString().ToUpper() == "ITEM_NEW" || ((Button)sender).CommandArgument.ToString().ToUpper() == "ITEM_UPDATE")
+                    {
+                        if (ChkIsExpireItem.Checked == true)
+                        {
+                            if (ObjCls.FnDateTime(CtrlDueDate.DateText) < ObjCls.FnDateTime(DateTime.Now.ToString()))
+                            {
+                                FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the valid expire date"));
+                                FnFocus(CtrlDueDate.ControlTextBox);
+                                return;
+                            }
+                        }
+                    }
+                    FnAssignChildProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjChld, false);
+                    FnGridViewBinding("");
+                    FnClearItems();
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
+    {
+        try
+        {
+            GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
+            ViewState["ID"] = GrdVwRecords.SelectedDataKey.Values[0].ToString();
+            base.FnAssignProperty(ObjCls);
+            FnFindRecord(ObjCls);
+            FnFindRecord();
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }        
+    }
+    protected void GrdVwRecords_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GrdVwRecords.PageIndex = e.NewPageIndex;
+            FnGridViewBinding("");
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    protected void GrdVwChild_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
+    {
+        try
+        {
+            GrdVwChild.SelectedIndex = e.NewSelectedIndex;
+            ObjChld.GetDataRow(GrdVwChild.SelectedDataKey.Values[0].ToString(), ViewState["DT_CHILD"] as DataTable);
+            ViewState["CHLD_ID"] = ObjChld.ID.ToString();
+
+            CtrlGrdItemName.SelectedText = ObjChld.ItemName;
+            CtrlGrdItemName.SelectedValue = ObjChld.ItemId.ToString();
+            CtrlDueDate.DateText = ObjCls.FnDateTime(ObjChld.DueDate, "");
+
+            TxtQty.Text = ObjChld.Qty.ToString();
+            TxtItmBarCode.Text = ObjChld.BatchNo.ToString();
+            TxtItmRemarks.Text = ObjChld.Remarks;
+            FnGetItemPicture(ObjCls, ObjChld.ItemId, ImgItem, ChkIsExpireItem);
+            CtrlAddCommand1.AddText = "ADD";
+            CtrlAddCommand1.AddCommandArgument = "ITEM_UPDATE";
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        
+    }
+    public string FnGetGrdDateFormat(string PrmDateVal)
+    {
+        string strVal = ObjCls.FnDateTime(PrmDateVal, "dd/MMM/yyyy").ToString();
+        return (strVal.Equals("1/1/1800") ? "" : strVal);
+    }
+
+    protected void LnkViewImg_Click(object sender, EventArgs e)
+    {
+        FnGetItemPicture(ObjCls, ObjCls.FnIsNumeric(CtrlGrdItemName.SelectedValue), ImgItem, ChkIsExpireItem);
+        FnFocus(TxtQty);
+    }
+}

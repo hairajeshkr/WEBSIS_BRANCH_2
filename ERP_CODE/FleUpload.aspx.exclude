@@ -1,0 +1,59 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="FleUpload.aspx.cs" Inherits="FleUpload" StyleSheetTheme="SkinFile" Theme="SkinFile" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+      <link href="StyleSheet/StyleSheetContentNew.css" rel="stylesheet" type="text/css" />
+    <link href="StyleSheet/StyleControlsNew.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div style="vertical-align:top;">
+        <table border="0" cellpadding="0" cellspacing="0" style="background-color:#f1f1f1">
+            <tr>
+                <td style="width: 100px; height: 12px">
+                    <asp:Label ID="Label1" runat="server" Text="Browse File" Width="107px"></asp:Label></td>
+                <td style="width: 139px; height: 12px">
+                    <asp:FileUpload ID="FileUpload1" runat="server" Width="257px" /></td>
+                <td style="width: 100px; height: 12px">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px; height: 12px">
+                </td>
+                <td style="width: 139px; height: 12px">
+                    <asp:Button ID="BtnFind" runat="server" CommandName="FIND" OnClick="BtnFind_Click"
+                        SkinID="BtnCommandFind" Text="Upload / Generate Thumbnail" Width="253px" /></td>
+                <td style="width: 100px; height: 12px">
+                    <asp:Label ID="Label2" runat="server" Width="138px"></asp:Label></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 500px">
+                        <tr>
+                            <td style="width: 100px">
+                    <div style="overflow: auto; width: 366px; height: 214px; text-align: center;">
+                        <img id="Imgtarget" alt="Orginal Image" runat="server" /></div>
+                            </td>
+                            <td style="width: 100px">
+                                <img id="ImgThump" alt="Thumbnail Image" src="" height="175" runat="server" width="150" /></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px">
+                </td>
+                <td style="width: 139px">
+                </td>
+                <td style="width: 100px">
+                </td>
+            </tr>
+        </table>
+    
+    </div>
+    </form>
+</body>
+</html>

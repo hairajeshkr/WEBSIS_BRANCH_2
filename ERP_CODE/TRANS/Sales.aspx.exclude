@@ -1,0 +1,453 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Sales.aspx.cs" Inherits="Sales" StyleSheetTheme="SkinFile" Theme="SkinFile" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="ajaxToolkit" %>
+<%@ Register src="../CtrlCommand.ascx" tagname="CtrlCommand" tagprefix="uc1" %>
+<%@ Register src="../CtrlGridList.ascx" tagname="CtrlGridList" tagprefix="uc2" %>
+<%@ Register src="../CtrlDate.ascx" tagname="CtrlDate" tagprefix="uc3" %>
+<%@ Register src="../WebUserControl.ascx" tagname="WebUserControl" tagprefix="uc4" %>
+<%@ Register src="../CtrlRewindEvent.ascx" tagname="CtrlRewindEvent" tagprefix="uc5" %>
+<%@ Register src="../CtrlNameIdCtrl.ascx" tagname="CtrlNameIdCtrl" tagprefix="uc6" %>
+<%@ Register src="../CtrlAddCommand.ascx" tagname="CtrlAddCommand" tagprefix="uc7" %>
+<%@ Register src="../CtrlGridSmallList.ascx" tagname="CtrlGridSmallList" tagprefix="uc8" %>
+<%@ Register src="../CtrlTokenEvent.ascx" tagname="CtrlTokenEvent" tagprefix="uc9" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <script language="javascript" src="Script/Sales.js" type="text/javascript"></script>
+    <div style="height:500px; width:915px">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="540px" Width="890px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" style="border:1px solid #fff !important;">
+          <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
+              <HeaderTemplate> Sales Invoice
+              </HeaderTemplate>
+              <ContentTemplate>
+                  <table class="auto-style2">
+                      <tr><td class="odd">
+                              <asp:Label ID="Label1" runat="server" Text="Ref No." Width="120px"></asp:Label>
+                          </td>
+                          <td class="odd">
+                              <uc5:CtrlRewindEvent ID="CtrlRewindEvent1" runat="server" />
+                          </td>
+                          <td class="odd">
+                              <asp:Label ID="Label67" runat="server" Text="Sales Account" Width="120px"></asp:Label>
+                          </td>
+                          <td class="odd">
+                              <uc2:CtrlGridList ID="CtrlGrdSlAccount" runat="server" AccountType="SalesAccount" GridHeight="200" PlaceHoldr="Sales Account Type" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="even">
+                              <asp:Label ID="Label61" runat="server" Text="Date" Width="120px"></asp:Label>
+                          </td>
+                          <td class="even">
+                              <table style="width: 100%">
+                                  <tr>
+                                      <td>
+                                          <uc3:CtrlDate ID="CtrlTrDate" runat="server" IsVisibleDate="True" IsVisibleDateTime="True" />
+                                      </td>
+                                      <td class="valign-fix-left">
+                                          <asp:Label ID="Label74" runat="server" Text="S.O. No." Width="60px"></asp:Label>
+                                      </td>
+                                      <td>
+                                          <uc6:CtrlNameIdCtrl ID="CtrlSoNo" runat="server" PlaceHoldr="S.O. No." />
+                                      </td>
+                                  </tr>
+                              </table>
+                          </td>
+                          <td class="even">
+                              <asp:Label ID="Label29" runat="server" Text="Agent" Width="80px"></asp:Label>
+                          </td>
+                          <td class="even">
+                              <uc2:CtrlGridList ID="CtrlGrdAgent" runat="server" AccountType="AgentList" GridHeight="200" PlaceHoldr="Agent" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="odd">
+                              <asp:Label ID="Label8" runat="server" Text="Customer / Party" Width="120px"></asp:Label>
+                          </td>
+                          <td class="odd" align="left">
+                              <uc2:CtrlGridList ID="CtrlGrdAcc" runat="server" AccountType="BuyerList" GridHeight="200" PlaceHoldr="Customer / Party" />
+                          </td>
+                          <td class="odd">
+                              <asp:Label ID="Label27" runat="server" Text="Sales Man" Width="80px"></asp:Label>
+                          </td>
+                          <td class="odd">
+                              <uc2:CtrlGridList ID="CtrlGrdStaff" runat="server" AccountType="StaffList" GridHeight="200" PlaceHoldr="Sales Man" />
+                          </td>
+                      </tr>
+                      <tr class="property-head">
+                          <td class="odd">
+                              <asp:Label ID="Label16" runat="server" Text="Address" Width="100px"></asp:Label>
+                          </td>
+                          <td align="left" class="odd">
+                              <asp:TextBox ID="TxtAddress" runat="server" placeholder="Permanent Address" SkinID="TxtMultiLine50" TextMode="MultiLine"></asp:TextBox>
+                          </td>
+                          <td class="odd">
+                              <asp:Label ID="Label17" runat="server" Text="Remarks" Width="80px"></asp:Label>
+                          </td>
+                          <td class="odd">
+                              <asp:TextBox ID="TxtRemarks" runat="server" SkinID="TxtMultiLine50" TextMode="MultiLine"></asp:TextBox>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="rowheight">
+                              <asp:Label ID="Label75" runat="server" Text="Batch No." Width="120px"></asp:Label>
+                          </td>
+                          <td align="left" class="rowheight">
+                              <uc2:CtrlGridList ID="CtrlGrdBatchNo" runat="server" AccountType="BatchNoAllList" GridHeight="200" GridWidht="600" PlaceHoldr="Batch No." />
+                          </td>
+                          <td class="rowheight" colspan="2">
+                              <table style="width:90%">
+                                  <tr>
+                                      <td class="odd">
+                                          <asp:Label ID="Label2" runat="server" Text="Qty" Width="42px"></asp:Label>
+                                      </td>
+                                      <td>
+                                          <asp:TextBox ID="TxtQty" runat="server" placeholder="Qty" SkinID="TxtQty"></asp:TextBox>
+                                      </td>
+                                      <td class="odd">
+                                          <asp:Label ID="Label65" runat="server" Text="Rate" Width="38px"></asp:Label>
+                                      </td>
+                                      <td class="odd">
+                                          <asp:TextBox ID="TxtRate" runat="server" placeholder="Rate" SkinID="TxRate"></asp:TextBox>
+                                      </td>
+                                      <td class="odd">
+                                          <asp:Label ID="Label66" runat="server" Text="Amount" Width="50px"></asp:Label>
+                                      </td>
+                                      <td class="odd">
+                                          <asp:TextBox ID="TxtAmt" runat="server" placeholder="Amuont" SkinID="TxRateDisable"></asp:TextBox>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="odd">
+                              <asp:Label ID="Label5" runat="server" Text="Item Name" Width="120px"></asp:Label>
+                          </td>
+                          <td align="left" class="odd">
+                              <uc2:CtrlGridList ID="CtrlGrdItemName" runat="server" AccountType="ItemList" GridHeight="200" PlaceHoldr="Item Name" />
+                          </td>
+                          <td class="odd" colspan="2">
+                              <table style="width:90%">
+                                  <tr>
+                                      <td class="odd">
+                                          <asp:Label ID="Label3" runat="server" Text="Disc." Width="42px"></asp:Label>
+                                      </td>
+                                      <td>
+                                          <asp:TextBox ID="TxtDisc" runat="server" placeholder="Disc." SkinID="TxtQty"></asp:TextBox>
+                                      </td>
+                                      <td class="odd">
+                                          <asp:Label ID="Label4" runat="server" Text="Tax" Width="38px"></asp:Label>
+                                      </td>
+                                      <td class="odd">
+                                          <asp:TextBox ID="TxtTaxValue" runat="server" placeholder="Tax Value" SkinID="TxRateDisable"></asp:TextBox>
+                                      </td>
+                                      <td class="odd">
+                                          <asp:Label ID="Label6" runat="server" Text="TOTAL" Width="50px"></asp:Label>
+                                      </td>
+                                      <td class="odd">
+                                          <asp:TextBox ID="TxtTotalAmt" runat="server" placeholder="Grand Total" SkinID="TxRateDisable"></asp:TextBox>
+                                      </td>
+                                  </tr>
+                              </table></td>
+                      </tr>
+                      <tr>
+                          <td class="even">
+                              <asp:Label ID="Label18" runat="server" Text="Uom" Width="120px"></asp:Label>
+                          </td>
+                          <td class="even">
+                              <table style="width: 38%">
+                                  <tr>
+                                      <td>
+                                          <uc6:CtrlNameIdCtrl ID="CtrlUom" runat="server" PlaceHoldr="Uom" />
+                                      </td>
+                                      <td class="odd">
+                                          <asp:Label ID="Label64" runat="server" Text="Tax" Width="60px"></asp:Label>
+                                      </td>
+                                      <td class="odd">
+                                          <uc6:CtrlNameIdCtrl ID="CtrlTax" runat="server" PlaceHoldr="Tax" />
+                                      </td>
+                                  </tr>
+                              </table>
+                          </td>
+                          <td class="even" colspan="2">
+                              <table style="width: 100%">
+                                  <tr>
+                                      <td>
+                                          <asp:Label ID="Label24" runat="server" Text="Remarks" Width="120px"></asp:Label>
+                                      </td>
+                                      <td>
+                                          <asp:TextBox ID="TxtItmRemarks" runat="server" placeholder="Item Remarks" SkinID="TxtCode"></asp:TextBox>
+                                      </td>
+                                      <td>
+                                          <uc7:CtrlAddCommand ID="CtrlAddCommand1" runat="server" />
+                                      </td>
+                                  </tr>
+                              </table>
+                          </td>
+                          <tr>
+                              <td class="even" colspan="4">
+                                  <div class="result-list" style="overflow: scroll; height: 160px; width:850px">
+                                      <asp:GridView ID="GrdVwChild" runat="server" SkinID="GrdVwMaster" OnSelectedIndexChanging="GrdVwChild_SelectedIndexChanging">
+                                          <Columns>
+                                              <asp:TemplateField HeaderText="Name">
+                                                  <ItemTemplate>
+                                                      <asp:LinkButton ID="LnkItmName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("ItemName") %>' Width="220px"></asp:LinkButton>
+                                                      <asp:HiddenField ID="HdnAutoId" runat="server"  Value='<%# Eval("AutoId") %>' />
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                               <asp:TemplateField HeaderText="BatchNo">
+                                                  <ItemTemplate>
+                                                      <asp:Label ID="LblBatchNo" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("BatchNo") %>' Width="100px"></asp:Label>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                              <asp:TemplateField HeaderText="Uom">
+                                                  <ItemTemplate>
+                                                      <asp:Label ID="LblUom" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("UomName") %>' Width="100px"></asp:Label>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                              <asp:TemplateField HeaderText="Tax">
+                                                  <ItemTemplate>
+                                                      <asp:Label ID="LblTax" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("TaxName") %>' Width="100px"></asp:Label>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                              <asp:TemplateField HeaderText="Qty">
+                                                  <ItemTemplate>
+                                                      <asp:Label ID="LblQty" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Qty") %>' Width="80px"></asp:Label>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                              <asp:TemplateField HeaderText="Rate">
+                                                  <ItemTemplate>
+                                                      <asp:Label ID="LblRate" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Rate") %>' Width="100px"></asp:Label>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                              <asp:TemplateField HeaderText="Disc.">
+                                                  <ItemTemplate>
+                                                      <asp:Label ID="LblMargin" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Discount") %>' Width="100px"></asp:Label>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                              <asp:TemplateField HeaderText="Amount">
+                                                  <ItemTemplate>
+                                                      <asp:Label ID="LblAmount" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Amount") %>' Width="100px"></asp:Label>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                              <asp:TemplateField HeaderText="Tax Amt.">
+                                                  <ItemTemplate>
+                                                      <asp:Label ID="LblTaxVal" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("TaxValue") %>' Width="100px"></asp:Label>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                              <asp:TemplateField HeaderText="Total">
+                                                  <ItemTemplate>
+                                                      <asp:Label ID="LblTotalAmt" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("TotalAmt") %>' Width="150px"></asp:Label>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                              <asp:BoundField DataField="Remarks" HeaderText="Remarks">
+                                              <ItemStyle Width="200px" />
+                                              </asp:BoundField>
+                                          </Columns>
+                                      </asp:GridView>
+                                  </div>
+                              </td>
+                             </tr>
+                          <tr>
+                              <td class="even" colspan="4">
+                                  <table style="width: 100%">
+                                      <tr class="property-head">
+                                          <td class="rightalign">
+                                              <asp:Label ID="Label70" runat="server" SkinID="LblBold" Text="TOTAL AMT." Width="80px"></asp:Label>
+                                          </td>
+                                          <td class="rightalign">
+                                              <asp:TextBox ID="TxtTotal" runat="server" placeholder="TOTAL AMOUNT" SkinID="TxAmount"></asp:TextBox>
+                                          </td>
+                                          <td class="rightalign">
+                                              <asp:Label ID="Label71" runat="server" SkinID="LblBold" Text="ROUND OFF" Width="90px"></asp:Label>
+                                          </td>
+                                          <td class="rightalign">
+                                              <asp:TextBox ID="TxtRoundOff" runat="server" placeholder="ROUND OFF" SkinID="TxRate"></asp:TextBox>
+                                          </td>
+                                          <td class="rightalign">
+                                              <asp:Label ID="Label69" runat="server" SkinID="LblBold" Text="CGST+SGST" Width="80px"></asp:Label>
+                                          </td>
+                                          <td class="rightalign">
+                                              <asp:TextBox ID="TxtTotalTax" runat="server" placeholder="TOTAL GST" SkinID="TxAmount"></asp:TextBox>
+                                          </td>
+                                          <td class="rightalign">
+                                              <asp:Label ID="Label68" runat="server" SkinID="LblBold" Text="GRAND TOTAL" Width="100px"></asp:Label>
+                                          </td>
+                                          <td class="rightalign">
+                                              <asp:TextBox ID="TxtGrandTotal" runat="server" placeholder="GRAND TOTAL" SkinID="TxAmount"></asp:TextBox>
+                                          </td>
+                                      </tr>
+                                  </table>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td align="center" class="FooterCommand" colspan="4" valign="middle" >
+                                  <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True"  IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="True" FindCommandName="SEARCH" />
+                              </td>
+                          </tr>
+                      </tr>
+                      <tr>
+                          <td align="center" class="tokenposition" colspan="4" valign="middle">
+                              <uc9:CtrlTokenEvent ID="CtrlTokenEvent1" runat="server" />
+                              <asp:HiddenField ID="HdnMargin" runat="server" Value="0" />
+                          </td>
+                      </tr>
+                  </table>
+              </ContentTemplate>
+              
+          </ajaxToolkit:TabPanel>
+          <ajaxToolkit:TabPanel ID="TabPanel2" runat="server" HeaderText="TabPanel2">
+              <HeaderTemplate>Sales Invoice List
+              </HeaderTemplate>
+              
+              <ContentTemplate>
+                  <table style="width: 100%; height: 0px;">
+                      <tr>                         
+                          <td class="valign-fix">
+                              <asp:Label ID="Label13" runat="server" Text="From Date" Width="60px"></asp:Label>
+                          </td>
+                          <td class="odd">
+                               <uc3:CtrlDate ID="CtrlFrmDate" runat="server" IsVisibleDateTime="True" IsVisibleDate="True" />
+                          </td>
+                          <td class="valign-fix-left">
+                              <asp:Label ID="Label72" runat="server" Text="From Ref No." Width="80px"></asp:Label>
+                          </td>
+                          <td class="valign-fix">
+                              <asp:TextBox ID="TxtFrmRefNo" runat="server" placeholder="From Ref No." SkinID="Txt100" ></asp:TextBox>
+                          </td>
+                          <td class="odd">
+                              <asp:Label ID="Label26" runat="server" Text="Customer / Party" Width="100px"></asp:Label>
+                          </td>
+                          <td style="height: 39px" align="left" valign="middle" class="valign-fix">
+                              <uc2:CtrlGridList ID="CtrlGrdAcc_Srch" runat="server" AccountType="BuyerList" PlaceHoldr="Customer / Party" GridHeight="200" />
+                          </td>
+                          <td>
+                             
+                          </td>
+                      </tr>
+                      <tr class="result-head">
+                          <td class="valign-fix">
+                              <asp:Label ID="Label14" runat="server" Text="To Date" Width="60px"></asp:Label>
+                          </td>
+                          <td class="odd">
+                              <uc3:CtrlDate ID="CtrlToDate" runat="server" IsVisibleDate="True" IsVisibleDateTime="True" />
+                          </td>
+                          <td class="valign-fix-left">
+                              <asp:Label ID="Label73" runat="server" Text="To Ref No." Width="80px"></asp:Label>
+                          </td>
+                          <td class="valign-fix">
+                              <asp:TextBox ID="TxtToRefNo" runat="server" placeholder="To Ref No." SkinID="Txt100"></asp:TextBox>
+                          </td>
+                          <td class="odd" ><asp:Label ID="Label7" runat="server" Text="Order No." Width="100px"></asp:Label></td>
+                          <td class="valign-fix">
+                              <asp:TextBox ID="TxtOptNo_Srch" runat="server" placeholder="Order No." ></asp:TextBox></td>
+                          <td class="valign-fix-top"> 
+                              <asp:Button ID="BtnFind" runat="server" OnClick="ManiPulateDataEvent_Clicked" Text="Find" Width="69px" CommandName="SEARCH" SkinID="BtnCommandFindNew" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td colspan="7">
+                              <div class="result-list" style="overflow: scroll; height: 385px; width:850px">
+                                  <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster" PageSize="25" OnRowDataBound="GrdVwRecords_RowDataBound">
+                                      <Columns>
+                                           <asp:TemplateField HeaderText="Select">
+                                              <ItemTemplate>
+                                                  <asp:CheckBox ID="ChkGrd" runat="server" SkinID="ChkSelect" Width="50px"></asp:CheckBox>
+                                              </ItemTemplate>
+                                              <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                          </asp:TemplateField>
+                                           <asp:TemplateField HeaderText="Edit Items">
+                                               <ItemTemplate>
+                                                   <asp:Button ID="BtnEdit" runat="server" CommandName="DELETE" SkinID="BtnGrdEdit" Text='EDIT ITEMS' Width="85px"></asp:Button>
+                                                </ItemTemplate>
+                                           </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Ref No">
+                                              <ItemTemplate>
+                                                  <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("RefNo") %>' Width="100px"></asp:LinkButton>
+                                                   <asp:HiddenField ID="HdnAutoId" runat="server" Value='<%# Eval("ID") %>' />
+                                                    <asp:HiddenField ID="HdnDrId" runat="server" Value='<%# Eval("DrId") %>' />
+                                                    <asp:HiddenField ID="HdnCrId" runat="server" Value='<%# Eval("CrID") %>' />
+                                              </ItemTemplate>
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Date">
+                                              <ItemTemplate>
+                                                  <asp:LinkButton ID="LnkDate" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Bind("TrDate", "{0:dd/MMM/yyyy}") %>' Width="100px"></asp:LinkButton>
+                                              </ItemTemplate>
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Customer"><ItemTemplate>
+                                               <asp:LinkButton ID="LnAdd" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("AccountDr") %>' Width="200px"></asp:LinkButton>
+                                              </ItemTemplate></asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Address"><ItemTemplate>
+                                                  <asp:Label ID="LblContactAdd" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Address") %>' Width="200px"></asp:Label>
+                                              </ItemTemplate></asp:TemplateField>
+                                          <asp:TemplateField HeaderText="S.O.No."><ItemTemplate>
+                                                  <asp:Label ID="LblOptNo" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OrderRefNo") %>' Width="100px"></asp:Label>
+                                              </ItemTemplate></asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Agent"><ItemTemplate>
+                                                  <asp:Label ID="LblAgent" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("AgentName") %>' Width="150px"></asp:Label>
+                                              </ItemTemplate></asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Sales Man"><ItemTemplate>
+                                                  <asp:Label ID="LblEmployee" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("EmployeeName") %>' Width="150px"></asp:Label>
+                                              </ItemTemplate></asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Total Amt."><ItemTemplate>
+                                                  <asp:Label ID="LblTot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("NetTotal") %>' Width="100px"></asp:Label>
+                                              </ItemTemplate>
+                                          </asp:TemplateField>
+                                           <asp:TemplateField HeaderText="Total Gst."><ItemTemplate>
+                                                  <asp:Label ID="LblTotGst" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("TaxTotal") %>' Width="100px"></asp:Label>
+                                              </ItemTemplate></asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Round Off"><ItemTemplate>
+                                                  <asp:Label ID="LblRound" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("RoundOff") %>' Width="100px"></asp:Label>
+                                              </ItemTemplate></asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Grand Total"><ItemTemplate>
+                                                  <asp:Label ID="LblGrandTot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("GrandTotal") %>' Width="150px"></asp:Label>
+                                              </ItemTemplate></asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Remarks"><ItemTemplate>
+                                                  <asp:Label ID="LblRemarks" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Remarks") %>' Width="200px"></asp:Label>
+                                              </ItemTemplate></asp:TemplateField>
+                                      </Columns>
+                                  </asp:GridView>
+                                  <asp:Label ID="LblGrdInfo" Width="100%" style="text-align:center"  runat="server" Text="Record Couldn't found" SkinID="LblReadOnly"></asp:Label>
+                              </div>
+                          </td>
+                      </tr>
+                       <tr>
+                          <td colspan="7">
+                              <table style="width: 100%">
+                                  <tr>
+                                      <td class="odd">
+                                          <asp:CheckBox ID="ChkSelect" runat="server" SkinID="ChkSelect" Text="Select" Width="90px" />
+                                      </td>
+                                      <td class="odd">
+                                          <asp:Label ID="Label9" runat="server" Text="INVOICE DATE" Width="100px" SkinID="LblBold"></asp:Label>
+                                      </td>
+                                      <td class="odd">
+                                          <uc3:CtrlDate ID="CtrlInvDate" runat="server" IsVisibleDate="True" IsVisibleDateTime="True" />
+                                      </td>
+                                      <td class="odd">
+                                          <asp:Button ID="BtnGenInv0" runat="server" CommandName="GENINV" OnClick="ManiPulateDataEvent_Clicked" SkinID="BtnCommandSave" Text="Generate Sales Return / Credit Note" Width="300px" OnClientClick="return ValidateGenerateData();" />
+                                      </td>
+                                      <td class="odd">
+                                      </td>
+                                      <td class="odd">
+                                           <asp:Label ID="Label10" runat="server" Width="175px" SkinID="LblBold"></asp:Label>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                  </table>
+              </ContentTemplate>
+              
+          </ajaxToolkit:TabPanel>
+      </ajaxToolkit:TabContainer>
+    </div>  
+</asp:Content>
+

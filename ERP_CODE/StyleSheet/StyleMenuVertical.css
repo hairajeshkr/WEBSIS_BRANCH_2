@@ -1,0 +1,9 @@
+﻿.content-wrapper, .right-side {
+	min-height: 100%;
+	background-color: #ecf0f5;
+	z-index: 800;
+	margin: 0;
+}
+.hide {
+    display: block!important;
+}

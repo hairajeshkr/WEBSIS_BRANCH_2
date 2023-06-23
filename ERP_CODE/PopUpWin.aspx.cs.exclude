@@ -1,0 +1,82 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class PopUpWin : System.Web.UI.Page
+{
+    ClsAlert ObjCls = new ClsAlert();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            string[] _strLogDetails = (string[])((Session["LOG"]));
+
+            ViewState["UNAME"] = _strLogDetails[0].ToString();
+            ViewState["UID"] = _strLogDetails[1].ToString();
+            ViewState["GRPID"] = _strLogDetails[2].ToString();
+
+            ViewState["CID"] = _strLogDetails[3].ToString();
+            ViewState["BID"] = _strLogDetails[4].ToString();
+            ViewState["FID"] = _strLogDetails[5].ToString();
+        }
+        FnPopUp(sender);
+    }
+    private void FnPopUp(object sender)
+    {
+        ObjCls.CompanyId = ObjCls.FnIsNumeric(ViewState["CID"].ToString());
+        ObjCls.BranchId = ObjCls.FnIsNumeric(ViewState["BID"].ToString());
+        ObjCls.FaId = ObjCls.FnIsNumeric(ViewState["FID"].ToString());
+        DateTime dtDue;
+        string strTblRw = "";
+        DataTable dtAlert = ObjCls.FnGetAlert();
+        string strTable = "<style type='text/css' >.AlertHdrStyle{text-align:center;vertical-align:central;background-color:darkcyan;font-size:medium;font-weight:bold;color:white;border:solid;border-width:2px;}"
+                        + ".AlertRowStyle{text-align:center;vertical-align:central;font-size:small;font-weight:bold;color:black;border:solid;border-width:2px;}.AlertRowMaroonStyle{text-align:center;vertical-align:central;font-size:small;font-weight:bold;color:maroon;border:solid;border-width:2px;}</style>"
+                        + "<table style='width:1200px'><tr>"
+                            + "<td class='AlertHdrStyle' width='150px'>DUE DATE</td><td class='AlertHdrStyle' width='150px'>TIME</td>"
+                            +"<td class='AlertHdrStyle' width='150px'>ORDER NO</td>"
+                            + "<td class='AlertHdrStyle' width='300px'>CUSTOMER</td><td class='AlertHdrStyle' width='150px'>ITEM</td><td class='AlertHdrStyle' width='150px'>UNIT</td>"
+                            + "<td class='AlertHdrStyle' width='200px'>STATUS</td><td  class='AlertHdrStyle' width='300px'>ALERT</td></tr>";
+        for (int i = 0; i <= dtAlert.Rows.Count - 1; i++)
+        {
+            dtDue = ObjCls.FnDateTime(dtAlert.Rows[i]["AlertDateTime"].ToString());
+            strTblRw = strTblRw + "<tr><td class='AlertRowStyle'>" + dtDue.ToString("dd/MMM/yyyy") + "</td>"
+                    + "<td class='AlertRowMaroonStyle'>" + dtDue.ToString("h:mm:ss tt") + "</td>"
+                    + "<td class='AlertRowStyle'>" + dtAlert.Rows[i]["OptRefNo"].ToString() + "</td>"
+                    + "<td class='AlertRowStyle'>" + dtAlert.Rows[i]["AccName"].ToString().Trim() + "</td>"
+                    + "<td class='AlertRowStyle'>" + dtAlert.Rows[i]["DressTypeVal"].ToString().Trim() + "</td>"
+                    + "<td class='AlertRowStyle'>" + dtAlert.Rows[i]["UnitBranch"].ToString().Trim() + "</td>"
+                    + "<td class='AlertRowStyle'>" + dtAlert.Rows[i]["WorkStatus"].ToString().Trim() + "</td>"
+                    + "<td class='AlertRowStyle'>" + dtAlert.Rows[i]["AlertMessage"].ToString().Trim() + "</td></tr>";
+        }
+        
+        strTable = strTable + strTblRw + "</table>";
+        if (strTable.Trim().Length > 0)
+        {
+            PopupWin1.HideAfter = (sender == null) ? -1 : 20000;
+            PopupWin1.Visible = true;
+            PopupWin1.Title = "URGENT DELIVERY LIST";
+            PopupWin1.Message = (strTable.Trim().Length > 0 ? strTable : "");
+            PopupWin1.Text = (strTable.Trim().Length > 0 ? strTable : "");
+            PopupWin1.DockMode = EeekSoft.Web.PopupDocking.BottomRight;
+
+            //PopupWin1.ColorStyle = EeekSoft.Web.PopupColorStyle.Red;
+            //PopupWin1.ColorStyle = EeekSoft.Web.PopupColorStyle.Custom;
+            //PopupWin1.TextColor = System.Drawing.Color.Red;
+        }
+        else
+        {
+            PopupWin1.Visible = false;
+        }
+    }
+    protected void Timer1_Tick(object sender, EventArgs e)
+    {
+        FnPopUp(sender);
+    }
+}

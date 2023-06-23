@@ -1,0 +1,46 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PopUpWinTask.aspx.cs" Inherits="PopUpWinTask" %>
+
+<%@ Register Assembly="EeekSoft.Web.PopupWin" Namespace="EeekSoft.Web" TagPrefix="cc1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>TASK LIST</title>
+     <link href="StyleSheet/StyleSheet.css" rel="stylesheet" type="text/css" />
+        <style type="text/css" >
+    .AlertHdrStyle 
+    {
+    text-align:left;
+    vertical-align:central;
+    background-color:darkcyan;
+    font-size:medium;
+    font-weight:bold;
+    color:white;
+    border:solid;
+    border-width:2px;
+}
+ .AlertRowStyle 
+    {
+    text-align:left;
+    vertical-align:central;
+    font-size:small;
+    font-weight:normal;
+    color:black;
+    border:solid;
+    border-width:2px;
+}
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+        <asp:Timer ID="Timer1" runat="server" Interval="10000" OnTick="Timer1_Tick">
+        </asp:Timer>
+    <cc1:PopupWin ID="PopupWin1" runat="server" DarkShadow="255, 192, 192" ForeColor="White" GradientDark="255, 255, 192" GradientLight="255, 255, 255" Height="129px" LightShadow="255, 192, 192" Shadow="255, 192, 192" Width="240px" style="text-align: left" ActionType="MessageWindow" BorderStyle="Solid" BorderWidth="2px" DockMode="BottomRight" DragDrop="False" LinkTarget="" OffsetX="0" OffsetY="0" WindowScroll="False" ColorStyle="Green" />
+    </div>
+    </form>
+</body>
+</html>

@@ -44,7 +44,7 @@ public class Web_GridSelection : System.Web.Services.WebService
                                     || PrmFlag.Equals("CSH") || PrmFlag.Equals("AGNT") || PrmFlag.Equals("ALCN") || PrmFlag.Equals("BSR") || PrmFlag.Equals("SLR") 
                                     || PrmFlag.Equals("PAY") || PrmFlag.Equals("HELTH") || PrmFlag.Equals("BLDTLS") || PrmFlag.Equals("BRAND")
                                     || PrmFlag.Equals("BSLST") || PrmFlag.Equals("PASPORT") || PrmFlag.Equals("BANKNO") || PrmFlag.Equals("STDCAT")
-                                    || PrmFlag.Equals("QUAL") || PrmFlag.Equals("DESG") || PrmFlag.Equals("HRS") || PrmFlag.Equals("VCHNO")
+                                    || PrmFlag.Equals("QUAL") || PrmFlag.Equals("DESG") || PrmFlag.Equals("HRS") || PrmFlag.Equals("VCHNO") || PrmFlag.Equals("STDNT")
                                     || PrmFlag.Equals("GWN") || PrmFlag.Equals("BATCHNO") || PrmFlag.Equals("MOBACC") || PrmFlag.Equals("MENU") || PrmFlag.Equals("PMENU")
                                     || PrmFlag.Equals("INVADD") || PrmFlag.Equals("ORDADD") || PrmFlag.Equals("CUST_GRP") || PrmFlag.Equals("SUP_GRP")
                                     || PrmFlag.Equals("RACK")   || PrmFlag.Equals("EMAIL") || PrmFlag.Equals("PHONENO") || PrmFlag.Equals("FACEBOOK") 
@@ -80,6 +80,10 @@ public class Web_GridSelection : System.Web.Services.WebService
         else if (PrmFlag.Equals("ITM") || PrmFlag.Equals("ITMACC") || PrmFlag.Equals("ITMZERO"))
         {
             _Results = FnGetGridItemList(dtList.DefaultView, pageNo, rowCount, PrmCtrlId, PrmDestCtrls, PrmFlag);
+        }
+        else if (PrmFlag.Equals("STDNT"))
+        {
+            _Results = FnGetGridStudentList(dtList.DefaultView, pageNo, rowCount, PrmCtrlId, PrmDestCtrls, PrmFlag);
         }
         else if (PrmFlag.Equals("EMAIL") || PrmFlag.Equals("PHONENO") || PrmFlag.Equals("FACEBOOK") || PrmFlag.Equals("WHATSAPP") || PrmFlag.Equals("MOBILENO"))
         {
@@ -266,6 +270,78 @@ public class Web_GridSelection : System.Web.Services.WebService
                 strResults.Append("</td>");
                 strResults.Append("<td class = 'rowcellDigit'>");
                 strResults.Append(dv[i]["CurrentStock"].ToString());
+                strResults.Append("</td>");
+
+                strResults.Append("</tr>");
+            }
+            strResults.Append("</table>");
+        }
+        else
+        {
+            strResults.Append("");
+            //strResults.Append("<table border='0'cellpadding='0' cellspacing='0' style='width: 100%'><tr><td align='center' colspan='3' valign='middle'><span style='color: #990000'><strong>Invalid Searching</strong></span></td></tr></table>");
+        }
+        return strResults.ToString();
+    }
+    private string FnGetGridStudentList(DataView dv, int intPageNo, int intRowsPerPage, string PrmCtrlId, string PrmDestCtrl, string PrmFlag)
+    {
+        StringBuilder strResults = new StringBuilder();
+        if (dv.ToTable().Rows.Count > 0)
+        {
+            string strCtlr = PrmDestCtrl.Trim();
+            string _strName = "";
+            strResults.Append(" <table id = 'tblContent' cellpadding = '0' cellspacing = '0'  width = '650px'>");
+            strResults.Append("<tr class='header'>"
+                                + "<td class='headercell'>Name</td>"
+                                + "<td class='headercellCode'>Student Id</td>"
+                                + "<td class='headercellCode'>Adm.No</td>"
+                                + "<td class='headercellCode'>RegNo.</td>"
+                                + "<td class='headercell'>Class</td>"
+                                + "<td class='headercell'>Division</td></tr>");
+            int intStartIndex, intEndIndex, intRowCount;
+            intRowCount = dv.Count;
+            intStartIndex = ((intPageNo - 1) * intRowsPerPage);
+            intEndIndex = (intStartIndex + intRowsPerPage) - 1;
+            if (intRowCount <= intEndIndex)
+            {
+                intEndIndex = intRowCount - 1;
+            }
+            for (int i = intStartIndex; i <= intEndIndex; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    strResults.Append("<tr class = 'rowstyle'>");
+                }
+                else
+                {
+                    strResults.Append("<tr class = 'alternatingrowstyle'>");
+                }
+                strResults.Append("<td class = 'rowcell'>");
+
+                if (PrmDestCtrl.Trim().Length > 0)
+                {
+                    _strName = "<a href='#' onClick=\"return FnGetSelecteItemListValue('" + PrmCtrlId + "','" + dv[i]["Id"].ToString() + "','" + FnReplaceString(dv[i]["Name"].ToString()) + "','" + ObjCls.FnIsNumeric(dv[i]["Code"].ToString()).ToString() + "','" + FnReplaceString(dv[i]["AdmissionNo"].ToString()) + "','" + ObjCls.FnIsNumeric(dv[i]["RegNo"].ToString()).ToString() + "','" + FnReplaceString(dv[i]["ClassId"].ToString()) + "','" + FnReplaceString(dv[i]["ClassName"].ToString()) + "','" + FnReplaceString(dv[i]["DivisionId"].ToString()) + "','" + FnReplaceString(dv[i]["DivisionName"].ToString()) + "','" + PrmDestCtrl + "');\">" + dv[i]["Name"].ToString() + "</a>";
+                }
+                else
+                {
+                    _strName = "<a href='#' onClick=\"return FnGetSelectedGeneralListValue('" + PrmCtrlId + "','" + dv[i]["Id"].ToString() + "','" + FnReplaceString(dv[i]["Name"].ToString()) + "');\">" + dv[i]["Name"].ToString().Replace("'", " ") + "</a>";
+                }
+                strResults.Append(_strName);
+                strResults.Append("</td>");
+                strResults.Append("<td class = 'rowcellCode'>");
+                strResults.Append(dv[i]["Code"].ToString());
+                strResults.Append("</td>");
+                strResults.Append("<td class = 'rowcellCode'>");
+                strResults.Append(dv[i]["AdmissionNo"].ToString());
+                strResults.Append("</td>");
+                strResults.Append("<td class = 'rowcellCode'>");
+                strResults.Append(dv[i]["RegNo"].ToString());
+                strResults.Append("</td>");
+                strResults.Append("<td class = 'rowcell'>");
+                strResults.Append(dv[i]["ClassName"].ToString());
+                strResults.Append("</td>");
+                strResults.Append("<td class = 'rowcell'>");
+                strResults.Append(dv[i]["DivisionName"].ToString());
                 strResults.Append("</td>");
 
                 strResults.Append("</tr>");

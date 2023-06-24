@@ -41,9 +41,9 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjCls.SiblingName = TxtName.Text.Trim();
+        ObjCls.SiblingName = CtrlGrdName.SelectedText.ToString();
         //ObjCls.SiblingId=
-        ObjCls.SiblingCode = TxtCode.Text.Trim();
+        //ObjCls.SiblingCode = TxtCode.Text.Trim();
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.RelationShip = DrpRelationshp.SelectedValue.ToString();
     }
@@ -55,9 +55,10 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
     {
         base.FnCancel();
 
-        TxtName.Text = "";
-        TxtCode.Text = "";
-        
+        //TxtName.Text = "";
+        //TxtCode.Text = "";
+        CtrlGrdName.SelectedValue = "0";
+        CtrlGrdName.SelectedText = "";
 
         FnInitializeForm();
 
@@ -95,12 +96,12 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    if (TxtName.Text.Trim().Length <= 0)
-                    {
-                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the education"));
-                        FnFocus(TxtName);
-                        return;
-                    }
+                    //if (TxtName.Text.Trim().Length <= 0)
+                    //{
+                    //    FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the education"));
+                    //    FnFocus(TxtName);
+                    //    return;
+                    //}
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -147,9 +148,11 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
-            TxtName.Text = ObjCls.SiblingName.ToString();
-            TxtCode.Text = ObjCls.SiblingCode.ToString();
-           
+            //TxtName.Text = ObjCls.SiblingName.ToString();
+            //TxtCode.Text = ObjCls.SiblingCode.ToString();
+
+            CtrlGrdName.SelectedText = ObjCls.SiblingName.ToString();
+            CtrlGrdName.SelectedValue = ObjCls.SiblingId.ToString();
 
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             //ChkActive.Checked = ObjCls.Active;

@@ -5,6 +5,8 @@
 <%@ Register src="../CtrlDate.ascx" tagname="CtrlDate" tagprefix="uc3" %>
 <%@ Register src="../WebUserControl.ascx" tagname="WebUserControl" tagprefix="uc4" %>
 <%@ Register src="../CtrlGridSmallList.ascx" tagname="CtrlGridSmallList" tagprefix="uc5" %>
+<%@ Register Src="~/CtrlGridList.ascx" TagPrefix="uc1" TagName="CtrlGridList" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div style="height:300px; width:750px">
       <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="395px" Width="700px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" style="border:1px solid #fff !important;">
@@ -47,17 +49,18 @@
                              <asp:Label ID="Label122" runat="server" Text="Siblings Name" Width="90px" Height="30px"></asp:Label>
                          </td>
                          <td class="odd" style="width: 319px; height: 30px">
-                             <asp:TextBox ID="TxtName" runat="server" placeholder="Siblings Name" Width="300px" Height="30px"></asp:TextBox>
+                             <uc1:CtrlGridList runat="server" ID="CtrlGrdName" AccountType="StudentList"  />
+                             <%--<asp:TextBox ID="TxtName" runat="server" placeholder="Siblings Name" Width="300px" Height="30px"></asp:TextBox>--%>
                          </td>
                          </tr>
-                     <tr>
+                     <%--<tr>
                          <td class="odd" style="width: 16px; height: 30px">
                              <asp:Label ID="Label2" runat="server" Text="Code" Width="90px" Height="30px"></asp:Label>
                          </td>
                          <td class="odd" style="width: 319px; height: 30px">
                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" Width="300px" Height="30px"></asp:TextBox>
                          </td>
-                         </tr>
+                         </tr>--%>
                      <tr>
                          <td class="odd" style="width: 16px; height: 30px">
                              <asp:Label ID="Label125" runat="server" Height="30px" Text="Relationship" Width="90px"></asp:Label>

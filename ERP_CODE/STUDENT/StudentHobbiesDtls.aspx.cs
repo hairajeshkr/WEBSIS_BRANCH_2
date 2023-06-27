@@ -8,8 +8,11 @@ using System.Data;
 using System.IO;
 public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
 {
-    ClsStudentHouse ObjCls = new ClsStudentHouse();
 
+
+    ClsGeneral ObjCls = new ClsGeneral();
+
+    ClsDropdownRecordList ObjDrop = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -21,6 +24,8 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
                 // TxtPercentage.Attributes.Add("onkeydown", "return NumbersOnly(event);");
                 FnInitializeForm();
+                // ObjDrop.FnGetCustomTypeList(DropDowHeadType, "");
+                ObjDrop.FnGetCustomList(DrpDownHobbie, "",0);
             }
         }
         catch (Exception ex)
@@ -32,17 +37,19 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new ClsStudentHouse(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        //ObjCls = new ClsGeneral(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         //ViewState["DT"] = FnGetGeneralTable(ObjCls);
         Session["DOC"] = "";
         FnFindRecord();
+        //FnGridViewBinding("");
     }
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjCls.Name = TxtName.Text.Trim();
-        ObjCls.Code = TxtCode.Text.Trim();
+        ObjCls.Code = DrpDownHobbie.SelectedValue.ToString();
+        ObjCls.Name = DrpDownHobbie.SelectedItem.Text.ToString();
+        ObjCls.GrpId = ObjCls.FnIsNumeric(TxtCode.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
 
@@ -50,10 +57,16 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
 
     public void FnClose()
     {
+        throw new NotImplementedException();
+
+    }
+
+    public override void FnCancel()
+    {
         base.FnCancel();
 
         TxtCode.Text = "";
-        TxtName.Text = "";
+        DrpDownHobbie.SelectedValue = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;
@@ -62,8 +75,7 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 0;
-        FnFocus(TxtName);
-        
+        FnFocus(DrpDownHobbie);
     }
 
     public void FnFindRecord()
@@ -154,8 +166,10 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
 
-            TxtName.Text = ObjCls.Name.ToString();
-            TxtCode.Text = ObjCls.Code.ToString();
+            // ObjClsStudAdmm.ClassId = ObjCls.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
+            DrpDownHobbie.SelectedValue = ObjCls.Code;
+            
+            TxtCode.Text = ObjCls.GrpId.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
 

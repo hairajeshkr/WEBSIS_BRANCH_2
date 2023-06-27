@@ -7,7 +7,8 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
 {
-    ClsCustomHeadMaster ObjCls = new ClsCustomHeadMaster();
+    CustomHeadType ObjCls = new CustomHeadType();
+    ClsDropdownRecordList ObjDrop = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -16,8 +17,10 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
-                TxtMaxDataLength.Attributes.Add("onkeydown", "return NumbersOnly(event);");
+                //TxtMaxDataLength.Attributes.Add("onkeydown", "return NumbersOnly(event);");
                 FnInitializeForm();
+                ObjDrop.FnGetCustomTypeList(DropDowHeadType, "");
+                
             }
         }
         catch (Exception ex)
@@ -30,7 +33,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new ClsCustomHeadMaster(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls = new CustomHeadType(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
 
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
@@ -40,13 +43,14 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
         base.FnAssignProperty(ObjCls);
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
-        // ObjCls.HeadTypeId = CtrlGrdHeadType.SelectedValue.ToString();
+        ObjCls.ParentId = DropDowHeadType.SelectedIndex;
+        //ObjCls. = DropDowHeadType.SelectedIndex;
 
         //ObjCls.HeadTypeId = ChklistHeadType.SelectedValue;
-        ObjCls.HeadTypeId = ChklistHeadType.SelectedItem.ToString();
+        //ObjCls.HeadTypeId = ChklistHeadType.SelectedItem.ToString();
         //ObjCls.HeadTypeId = null;
 
-        ObjCls.MaxDataLength = ObjCls.FnIsNumeric(TxtMaxDataLength.Text.Trim());
+        //ObjCls.MaxDataLength = ObjCls.FnIsNumeric(TxtMaxDataLength.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
        
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
@@ -61,7 +65,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
         TxtName.Text = "";
         TxtName.Text = "";
         TxtCode_Srch.Text = "";
-        TxtMaxDataLength.Text = "";
+        //TxtMaxDataLength.Text = "";
        // ChklistHeadType.SelectedValue = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
@@ -83,7 +87,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
         base.FnAssignProperty(ObjCls);
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode_Srch.Text.Trim();
-        //ObjCls.HeadTypeId = ChklistHeadType.SelectedValue;
+        ObjCls.ParentId = DropDowHeadType.SelectedIndex;
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
         TabContainer1.ActiveTabIndex = 1;
@@ -175,8 +179,9 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
             ViewState["ID"] = ObjCls.ID.ToString();
             TxtName.Text = ObjCls.Name.ToString();
             TxtCode.Text = ObjCls.Code.ToString();
-            //ChklistHeadType.SelectedValue = ObjCls.HeadTypeId.ToString();
-            TxtMaxDataLength.Text = ObjCls.MaxDataLength.ToString();
+           
+            DropDowHeadType.SelectedIndex = ObjCls.ParentId;
+            //TxtMaxDataLength.Text = ObjCls.MaxDataLength.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
             //ChkApprove.Checked = ObjCls.IsApprove;

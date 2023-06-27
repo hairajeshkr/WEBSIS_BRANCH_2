@@ -486,17 +486,23 @@
                                        <td class="odd3">
                                            <asp:Label ID="Label143" runat="server" SkinID="LblBold" Text="Hobbies &amp; Activities" Width="200px"></asp:Label>
                                        </td>
+                                        <td class="odd1">
+                                           <asp:Label ID="Label3" runat="server" SkinID="LblBold" Text="Document Upload" Width="150px"></asp:Label>
+                                       </td>
                                    </tr>
                                    <tr>
                                        <td style="height: 20px">
                                            <img id="ImgStudent" runat="server" alt="Image"  class="ImageStyle" src="~/images/student_assistant.png" />
-                                        &nbsp;&nbsp;</td>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;</td>
                                        <td style="height: 20px">
                                            <img id="ImgEducation" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentEducations.jpg" />
-                                       &nbsp;&nbsp;</td>
+                                       &nbsp;&nbsp;&nbsp;&nbsp;</td>
                                        <td style="height: 20px">
                                            <img id="ImgHobby" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentHobby.png" />
-                                        &nbsp;&nbsp;</td>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td style="height: 20px">
+                                           <img id="ImgDocument" runat="server" alt="Image" class="ImageStyle" src="~/images/DocumentUpload.png" />
+                                       &nbsp;&nbsp;&nbsp;&nbsp;</td>
                                    </tr>
                                    <tr>
                                        <td class="odd2">
@@ -508,17 +514,19 @@
                                        <td class="odd1">
                                            <asp:Label ID="Label146" runat="server" SkinID="LblBold" Text="Fee Details" Width="150px"></asp:Label>
                                        </td>
+                                       
                                    </tr>
                                    <tr>
                                        <td>
                                            <img id="ImgSibling" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentSibling.png"  />
-                                       &nbsp;&nbsp;</td>
+                                       &nbsp;&nbsp;&nbsp;&nbsp;</td>
                                        <td>
                                            <img id="ImgAddress" runat="server" alt="Image" class="ImageStyle" src="~/images/HomeAddress.png" />
-                                       &nbsp;&nbsp;</td>
+                                       &nbsp;&nbsp;&nbsp;&nbsp;</td>
                                        <td>
                                            <img id="ImgFee" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentFee.png" />
-                                       &nbsp;&nbsp;</td>
+                                       &nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                      
                                    </tr>
                                </table>
                            </td>

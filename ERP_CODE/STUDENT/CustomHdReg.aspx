@@ -9,7 +9,7 @@
 
 
     <div style="height:385px; width:569px">
-      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="385px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="385px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
               <HeaderTemplate> Custom Head
               </HeaderTemplate>
@@ -33,31 +33,18 @@
                          
                       </tr>
 
-                        <tr>
-                         
-                      <td class="odd" style="height: 50px; width: 128px;">
-                              <asp:Label ID="Label6" runat="server" Text="Head Type" Width="110px" ></asp:Label>
-                          </td>
-                           <td class="odd" align="left">
-                                <asp:CheckBoxList ID="ChklistHeadType" runat="server" RepeatDirection="Horizontal">
-                                <asp:ListItem></asp:ListItem>
-                              </asp:CheckBoxList>
-                          </td>
-                      </tr>
+                        
 
-                       <tr>
-                          
-                          
-
-                            <td class="odd" style="width: 128px">
-                              <asp:Label ID="Label3" runat="server" Text="Max Data Length" Width="110px"></asp:Label>
-                          </td>
-                           <td class="odd">
-                                <asp:TextBox ID="TxtMaxDataLength" runat="server" placeholder="Enter Numbers" SkinID="TxtCode"></asp:TextBox>
-                          </td>
-
-                      </tr>
-
+                     <tr>
+                            <td class="odd">
+                                <asp:Label ID="Label3" runat="server" Text="Head Type" Width="100px"></asp:Label>
+                            </td>
+                            <td class="odd" >
+                                 <asp:DropDownList ID="DropDowHeadType" runat="server" Width="300px"></asp:DropDownList>
+                            </td>
+                            <td class="odd"></td>
+                        </tr>
+                     
                          <tr>
                           <td class="even" style="width: 128px">
                               <asp:Label ID="Label12" runat="server" Text="Remarks" Width="110px"></asp:Label>
@@ -137,17 +124,12 @@
                                               </ItemTemplate>
                                           </asp:TemplateField>
 
-                                           <asp:TemplateField HeaderText="Max Data Length">
-                                                <ItemTemplate>
-                                                  <asp:Label ID="LblMaxDataLength" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("MaxDataLength") %>' Width="100px"></asp:Label>
-                                              </ItemTemplate>
-                                           </asp:TemplateField>
-
+                                          
                                         <asp:BoundField DataField="Remarks" HeaderText="Remarks">
                                           <ItemStyle Width="200px" />
                                           </asp:BoundField>
                                           <asp:CheckBoxField DataField="Active" HeaderText="Active" />
-                                          <asp:BoundField DataField="HeadTypeId" HeaderText="Head Type" />
+                                          <%--<asp:BoundField DataField="HeadTypeId" HeaderText="Head Type" />--%>
                                       </Columns>
                                   </asp:GridView>
                               </div>

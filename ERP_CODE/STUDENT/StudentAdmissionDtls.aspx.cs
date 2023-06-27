@@ -162,10 +162,10 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
             ObjClsStudAdmm.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjClsStudAdmm.ID.ToString();
 
-            ObjClsStudAdmm.Rank = TxtRank.Text.Trim();
-            ObjClsStudAdmm.ClassId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
-            ObjClsStudAdmm.QuotaId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdQuota.SelectedValue.ToString());
-            ObjClsStudAdmm.CategoryId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdCategory.SelectedValue.ToString());
+            //ObjClsStudAdmm.Rank = TxtRank.Text.Trim();
+            //ObjClsStudAdmm.ClassId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
+            //ObjClsStudAdmm.QuotaId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdQuota.SelectedValue.ToString());
+            //ObjClsStudAdmm.CategoryId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdCategory.SelectedValue.ToString());
 
             TxtRank.Text = ObjClsStudAdmm.Rank.ToString();
             CtrlGrdAdmmisionClass.SelectedValue = ObjClsStudAdmm.ClassId.ToString();

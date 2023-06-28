@@ -11,7 +11,7 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
     
     
          ClsDocumentUpload ObjCls = new ClsDocumentUpload();
-    ClsDropdownRecordList ObjDrop = new ClsDropdownRecordList();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -21,11 +21,11 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
             if (!IsPostBack)
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
-               // TxtPercentage.Attributes.Add("onkeydown", "return NumbersOnly(event);");
+               
                 FnInitializeForm();
-                ObjDrop.FnGetDocumentList(DrpDownDocument, "");
+                ObjLst.FnGetDocumentList(DdlDocument, "");
                 
-                   // ObjDrop.FnGetCustomList(DrpDownDocument, "",0);
+                   
             }
         }
         catch (Exception ex)
@@ -41,7 +41,7 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
         //ViewState["DT"] = FnGetGeneralTable(ObjCls);
         Session["DOC"] = "";
         FnFindRecord();
-        //FnGridViewBinding("");
+        
     }
 
 
@@ -49,8 +49,8 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjCls.DocTypeId = ObjCls.FnIsNumeric(DrpDownDocument.SelectedValue);
-        ObjCls.DocTypeName = DrpDownDocument.SelectedValue.ToString();
+        ObjCls.DocTypeId = ObjCls.FnIsNumeric(DdlDocument.SelectedValue);
+        ObjCls.DocTypeName = DdlDocument.SelectedValue.ToString();
         ObjCls.UploadFileName = Session["DOC"].ToString();
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         
@@ -65,14 +65,14 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
     public override void FnCancel()
     {
         base.FnCancel();
-        DrpDownDocument.SelectedValue = "";
+        DdlDocument.SelectedValue = "";
         TxtRemarks.Text = "";
         FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 0;
-        FnFocus(DrpDownDocument);
+        FnFocus(DdlDocument);
     }
 
     public void FnFindRecord()
@@ -108,12 +108,7 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    //if (TxtEducation.Text.Trim().Length <= 0)
-                    //{
-                    //    FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the education"));
-                    //    FnFocus(TxtEducation);
-                    //    return;
-                    //}
+                    
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -164,8 +159,8 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
            
             Session["DOC"] = ObjCls.UploadFileName;
             FnBindDocumetPath(HyLnkDoc, ObjCls.UploadFileName, "DOC");
-                   
 
+            DdlDocument.SelectedValue = ObjCls.DocTypeId.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();

@@ -22,7 +22,7 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
                 FnInitializeForm();
-                ObjLst.FnGetCustomList(DrpDownHobbie, "",0);
+                ObjLst.FnGetCustomList(DdlHobbie, "",0);
             }
         }
         catch (Exception ex)
@@ -44,8 +44,8 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjCls.CustomId = ObjCls.FnIsNumeric(DrpDownHobbie.SelectedValue);
-        ObjCls.CustomName = DrpDownHobbie.SelectedItem.Text.ToString();
+        ObjCls.CustomId = ObjCls.FnIsNumeric(DdlHobbie.SelectedValue);
+        ObjCls.CustomName = DdlHobbie.SelectedItem.Text.ToString();
         ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtCode.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
@@ -63,7 +63,7 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
         base.FnCancel();
 
         TxtCode.Text = "";
-        DrpDownHobbie.SelectedValue = "";
+        DdlHobbie.SelectedValue = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;
@@ -72,7 +72,7 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 0;
-        FnFocus(DrpDownHobbie);
+        FnFocus(DdlHobbie);
     }
 
     public void FnFindRecord()
@@ -164,7 +164,7 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             ViewState["ID"] = ObjCls.ID.ToString();
 
             // ObjClsStudAdmm.ClassId = ObjCls.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
-            DrpDownHobbie.SelectedValue = ObjCls.CustomId.ToString();
+            DdlHobbie.SelectedValue = ObjCls.CustomId.ToString();
             
             TxtCode.Text = ObjCls.CustomId.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();

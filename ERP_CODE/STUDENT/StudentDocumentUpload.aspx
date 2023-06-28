@@ -48,7 +48,7 @@
                                 <asp:Label ID="Label122" runat="server" Text="Document" Width="100px"></asp:Label>
                             </td>
                             <td class="odd">
-                                <asp:DropDownList ID="DrpDownDocument" runat="server" Width="300px"></asp:DropDownList>
+                                <asp:DropDownList ID="DdlDocument" runat="server" Width="300px"></asp:DropDownList>
 
                             </td>
                             <td class="odd"></td>

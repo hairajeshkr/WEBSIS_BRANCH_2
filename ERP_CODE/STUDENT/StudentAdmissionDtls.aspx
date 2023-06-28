@@ -74,7 +74,7 @@
                         </td>
                          <td class="odd" height="30px" style="width: 180px; height: 30px;">
                                
-                             <asp:DropDownList ID="DropDownQuota" runat="server" Width="300px"></asp:DropDownList>
+                             <asp:DropDownList ID="DdlQuota" runat="server" Width="300px"></asp:DropDownList>
                                
                           </td>
                        </tr>

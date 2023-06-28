@@ -54,7 +54,7 @@
                                 <asp:Label ID="Label122" runat="server" Text="Hobbie Name" Width="100px"></asp:Label>
                             </td>
                             <td class="odd">
-                                <asp:DropDownList ID="DrpDownHobbie" runat="server" Width="300px"  >
+                                <asp:DropDownList ID="DdlHobbie" runat="server" Width="300px"  >
                                     <asp:ListItem Text="Select" Value="0" />
 
                                 </asp:DropDownList>

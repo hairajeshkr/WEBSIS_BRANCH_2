@@ -22,14 +22,14 @@
                                       <Columns>
                                           <asp:TemplateField HeaderText="Name">
                                               <ItemTemplate>
-                                                  <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Name") %>' Width="175px"></asp:LinkButton>
+                                                  <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("CustomName") %>' Width="175px"></asp:LinkButton>
                                               </ItemTemplate>
                                           </asp:TemplateField>
-                                           <asp:TemplateField HeaderText="Priority">
+                                          <%-- <asp:TemplateField HeaderText="Priority">
                                               <ItemTemplate>
-                                                  <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("GrpId") %>' Width="100px"></asp:Label>
+                                                  <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OrderIndex") %>' Width="100px"></asp:Label>
                                               </ItemTemplate>
-                                          </asp:TemplateField>
+                                          </asp:TemplateField>--%>
                                         <asp:BoundField DataField="Remarks" HeaderText="Remarks">
                                           <ItemStyle Width="200px" />
                                           </asp:BoundField>

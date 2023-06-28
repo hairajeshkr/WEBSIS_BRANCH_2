@@ -9,8 +9,8 @@ using System.IO;
 
 public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFace
 {
-    ClsStudentAdmissionDetails ObjClsStudAdmm = new ClsStudentAdmissionDetails();
-
+    ClsStudentAdmissionDetails ObjCls = new ClsStudentAdmissionDetails();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
 
     protected override void Page_Load(object sender, EventArgs e)
     {
@@ -23,11 +23,12 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
                // TxtPercentage.Attributes.Add("onkeydown", "return NumbersOnly(event);");
                 FnInitializeForm();
+                ObjLst.FnGetQuotaList(DropDownQuota, "");
             }
         }
         catch (Exception ex)
         {
-            FnPopUpAlert(ObjClsStudAdmm.FnAlertMessage(ex.Message));
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
 
@@ -35,21 +36,25 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjClsStudAdmm = new ClsStudentAdmissionDetails(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
-        //ViewState["DT"] = FnGetGeneralTable(ObjCls);
-        Session["DOC"] = "";
+        ObjCls = new ClsStudentAdmissionDetails(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        //ViewState["DT"] = FnGetGeneralTable(ObjClsStudAdmm);
+        //Session["DOC"] = "";
+       // FnGridViewBinding("");
         FnFindRecord();
     }
 
 
     public void FnAssignProperty()
     {
-        base.FnAssignProperty(ObjClsStudAdmm);
-        ObjClsStudAdmm.StudentId = ObjClsStudAdmm.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjClsStudAdmm.Rank = TxtRank.Text.Trim();
-        ObjClsStudAdmm.ClassId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
-        ObjClsStudAdmm.QuotaId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdQuota.SelectedValue.ToString());
-        ObjClsStudAdmm.CategoryId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdCategory.SelectedValue.ToString());
+        base.FnAssignProperty(ObjCls);
+        ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
+        ObjCls.Rank = TxtRank.Text.Trim();
+        ObjCls.ClassId = ObjCls.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
+        //ObjCls.ClassName= CtrlGrdAdmmisionClass.SelectedValue.ToString();
+        ObjCls.QuotaId = ObjCls.FnIsNumeric(DropDownQuota.SelectedValue.ToString());
+        //ObjCls.QuotaName=DropDownQuota.SelectedValue.ToString();
+        ObjCls.Remarks = TxtRemarks.Text.Trim();
+
 
     }
 
@@ -62,9 +67,9 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
         base.FnCancel();
 
         TxtRank.Text = "";
-        CtrlGrdAdmmisionClass.SelectedValue = "";
-        CtrlGrdQuota.SelectedValue = "";
-        CtrlGrdCategory.SelectedValue = "";
+        CtrlGrdAdmmisionClass.SelectedValue = "0";
+        DropDownQuota.SelectedValue = "0";
+        TxtRemarks.Text = "";
 
         FnInitializeForm();
 
@@ -77,7 +82,7 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
     public void FnFindRecord()
     {
         FnAssignProperty();
-        FnFindRecord(ObjClsStudAdmm);
+        FnFindRecord(ObjCls);
         FnGridViewBinding("");
         TabContainer1.ActiveTabIndex = 0;
     }
@@ -90,7 +95,7 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
     public void FnGridViewBinding(string PrmFlag)
     {
         GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
-        GrdVwRecords.DataKeyNames = new String[] { ObjClsStudAdmm.KeyName };
+        GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
         GrdVwRecords.DataBind();
         GrdVwRecords.SelectedIndex = -1;
     }
@@ -107,49 +112,49 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    if (TxtRank.Text.Trim().Length <= 0)
-                    {
-                        FnPopUpAlert(ObjClsStudAdmm.FnAlertMessage("Please enter the education"));
-                        FnFocus(TxtRank);
-                        return;
-                    }
+                    //if (TxtRank.Text.Trim().Length <= 0)
+                    //{
+                    //    FnPopUpAlert(ObjClsStudAdmm.FnAlertMessage("Please enter the education"));
+                    //    FnFocus(TxtRank);
+                    //    return;
+                    //}
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
                         case "NEW":
-                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjClsStudAdmm, false);
+                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
                             break;
                         case "UPDATE":
-                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjClsStudAdmm, false);
+                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
                             break;
                     }
                     break;
                 case "DELETE":
                     FnAssignProperty();
-                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjClsStudAdmm, false);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     break;
                 case "CLEAR":
                     //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
                     FnCancel();
                     break;
                 case "CLOSE":
-                    ObjClsStudAdmm.FnAlertMessage(" You Have No permission To Close Record");
+                    ObjCls.FnAlertMessage(" You Have No permission To Close Record");
                     break;
                 case "PRINT":
                     FnAssignProperty();
-                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjClsStudAdmm, false);
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     break;
                 case "FIND":
                     FnFindRecord();
                     break;
                 case "HELP":
-                    ObjClsStudAdmm.FnAlertMessage(" You Have No permission To Help Record");
+                    ObjCls.FnAlertMessage(" You Have No permission To Help Record");
                     break;
             }
         }
         catch (Exception ex)
         {
-            FnPopUpAlert(ObjClsStudAdmm.FnAlertMessage(ex.Message));
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
 
@@ -159,20 +164,20 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
         try
         {
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
-            ObjClsStudAdmm.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
-            ViewState["ID"] = ObjClsStudAdmm.ID.ToString();
+            ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
+            ViewState["ID"] = ObjCls.ID.ToString();
 
             //ObjClsStudAdmm.Rank = TxtRank.Text.Trim();
             //ObjClsStudAdmm.ClassId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
             //ObjClsStudAdmm.QuotaId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdQuota.SelectedValue.ToString());
             //ObjClsStudAdmm.CategoryId = ObjClsStudAdmm.FnIsNumeric(CtrlGrdCategory.SelectedValue.ToString());
 
-            TxtRank.Text = ObjClsStudAdmm.Rank.ToString();
-            CtrlGrdAdmmisionClass.SelectedValue = ObjClsStudAdmm.ClassId.ToString();
-            CtrlGrdQuota.SelectedValue = ObjClsStudAdmm.QuotaId.ToString();
-            CtrlGrdCategory.SelectedValue = ObjClsStudAdmm.CategoryId.ToString();
-
-            ViewState["DT_UPDATE"] = ObjClsStudAdmm.UpdateDate.ToString();
+            TxtRank.Text = ObjCls.Rank.ToString();
+            CtrlGrdAdmmisionClass.SelectedValue = ObjCls.ClassId.ToString();
+            CtrlGrdAdmmisionClass.SelectedText = ObjCls.ClassName.ToString();
+            DropDownQuota.SelectedValue = ObjCls.QuotaId.ToString();
+            TxtRemarks.Text = ObjCls.Remarks.ToString();
+            ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";
             CtrlCommand1.SaveCommandArgument = "UPDATE";
@@ -181,7 +186,7 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
         }
         catch (Exception ex)
         {
-            FnPopUpAlert(ObjClsStudAdmm.FnAlertMessage(ex.Message));
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
     protected void GrdVwRecords_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -193,7 +198,7 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
         }
         catch (Exception ex)
         {
-            FnPopUpAlert(ObjClsStudAdmm.FnAlertMessage(ex.Message));
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
 

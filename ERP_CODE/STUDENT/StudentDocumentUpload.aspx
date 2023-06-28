@@ -16,18 +16,14 @@
 
                 <ContentTemplate>
                     <div class="result-list" style="overflow: scroll; height: 370px; width: 735px;">
-                        <asp:GridView ID="GrdVwRecords" runat="server"  SkinID="GrdVwMaster">
+                        <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging"  SkinID="GrdVwMaster">
                                       <Columns>
                                           <asp:TemplateField HeaderText="Name">
                                               <ItemTemplate>
-                                                  <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Name") %>' Width="175px"></asp:LinkButton>
+                                                  <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("DocTypeName") %>' Width="175px"></asp:LinkButton>
                                               </ItemTemplate>
                                           </asp:TemplateField>
-                                           <asp:TemplateField HeaderText="Code">
-                                              <ItemTemplate>
-                                                  <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Code") %>' Width="100px"></asp:Label>
-                                              </ItemTemplate>
-                                          </asp:TemplateField>
+                                          
                                         <asp:BoundField DataField="Remarks" HeaderText="Remarks">
                                           <ItemStyle Width="200px" />
                                           </asp:BoundField>

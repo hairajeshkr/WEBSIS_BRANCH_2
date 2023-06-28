@@ -9,10 +9,9 @@ using System.IO;
 public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
 {
 
-
-    ClsGeneral ObjCls = new ClsGeneral();
-
-    ClsDropdownRecordList ObjDrop = new ClsDropdownRecordList();
+    
+    ClsStudentCustomDetails ObjCls = new ClsStudentCustomDetails();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -22,10 +21,8 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             if (!IsPostBack)
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
-                // TxtPercentage.Attributes.Add("onkeydown", "return NumbersOnly(event);");
                 FnInitializeForm();
-                // ObjDrop.FnGetCustomTypeList(DropDowHeadType, "");
-                ObjDrop.FnGetCustomList(DrpDownHobbie, "",0);
+                ObjLst.FnGetCustomList(DrpDownHobbie, "",0);
             }
         }
         catch (Exception ex)
@@ -37,19 +34,19 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        //ObjCls = new ClsGeneral(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls = new ClsStudentCustomDetails(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         //ViewState["DT"] = FnGetGeneralTable(ObjCls);
         Session["DOC"] = "";
         FnFindRecord();
-        //FnGridViewBinding("");
+        FnGridViewBinding("");
     }
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjCls.Code = DrpDownHobbie.SelectedValue.ToString();
-        ObjCls.Name = DrpDownHobbie.SelectedItem.Text.ToString();
-        ObjCls.GrpId = ObjCls.FnIsNumeric(TxtCode.Text.Trim());
+        ObjCls.CustomId = ObjCls.FnIsNumeric(DrpDownHobbie.SelectedValue);
+        ObjCls.CustomName = DrpDownHobbie.SelectedItem.Text.ToString();
+        ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtCode.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
 
@@ -167,9 +164,9 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             ViewState["ID"] = ObjCls.ID.ToString();
 
             // ObjClsStudAdmm.ClassId = ObjCls.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
-            DrpDownHobbie.SelectedValue = ObjCls.Code;
+            DrpDownHobbie.SelectedValue = ObjCls.CustomId.ToString();
             
-            TxtCode.Text = ObjCls.GrpId.ToString();
+            TxtCode.Text = ObjCls.CustomId.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
 

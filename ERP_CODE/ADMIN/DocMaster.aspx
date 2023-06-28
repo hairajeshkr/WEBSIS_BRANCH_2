@@ -17,7 +17,7 @@
               <ContentTemplate>
                       <table class="auto-style1">
                           <tr>
-                              <td class="odd" style="width: 90px; height: 30px">
+                              <td class="odd" style="width: 90px; height: 30px">  
                                   <asp:Label ID="Label122" runat="server" Text="Documentation Name " Width="120px" Height="30px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 319px; height: 30px">

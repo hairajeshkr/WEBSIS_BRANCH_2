@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StudentSibling.aspx.cs" Inherits="STUDENT_StudentSibling" StyleSheetTheme="SkinFile" %>
 <%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="ajaxToolkit" %>
+
 <%@ Register src="../CtrlCommand.ascx" tagname="CtrlCommand" tagprefix="uc1" %>
 <%@ Register src="../CtrlGridList.ascx" tagname="CtrlGridList" tagprefix="uc2" %>
 <%@ Register src="../CtrlDate.ascx" tagname="CtrlDate" tagprefix="uc3" %>
@@ -14,17 +15,18 @@
               <HeaderTemplate>Siblings Details
               </HeaderTemplate>
               <ContentTemplate>
-                  <div class="result-list" style="overflow: scroll; height: 370px; width: 735px;">
+                  <%--<div class="result-list" style="overflow: scroll; height: 370px; width: 735px;">
                       <asp:GridView ID="GrdVwRecords" runat="server"  OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster">
                           <Columns>
-                              <asp:TemplateField HeaderText="Course Name">
+                              <asp:TemplateField HeaderText="Sibling Name">
                                   <ItemTemplate>
-                                      <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Name") %>' Width="175px"></asp:LinkButton>
+                                      <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("SiblingName") %>' Width="175px"></asp:LinkButton>
                                   </ItemTemplate>
                               </asp:TemplateField>
-                              <asp:TemplateField HeaderText="Institution">
+                              <asp:TemplateField HeaderText="Relationship">
                                   <ItemTemplate>
-                                      <asp:LinkButton ID="LblInstitution" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Code") %>' Width="100px"></asp:LinkButton>
+                                      <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Relationship") %>' Width="100px"></asp:Label>
+                                      <%--<asp:LinkButton ID="LblInstitution" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Relationship") %>' Width="100px"></asp:LinkButton>--
                                   </ItemTemplate>
                               </asp:TemplateField>
                              
@@ -33,7 +35,31 @@
                               </asp:BoundField>
                           </Columns>
                       </asp:GridView>
+                  </div>--%>
+
+
+
+                  <div class="result-list" style="overflow: scroll; height: 370px; width: 735px;">
+                      <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster">
+                          <Columns>
+                              <asp:TemplateField HeaderText="Sibling Name">
+                                  <ItemTemplate>
+                                      <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("SiblingName") %>' Width="175px"></asp:LinkButton>
+                                  </ItemTemplate>
+                              </asp:TemplateField>
+                              <asp:TemplateField HeaderText="Relationship">
+                                  <ItemTemplate>
+                                      <asp:LinkButton ID="LblInstitution" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Relationship") %>' Width="100px"></asp:LinkButton>
+                                  </ItemTemplate>
+                              </asp:TemplateField>                          
+                              <asp:BoundField DataField="Remarks" HeaderText="Remarks">
+                              <ItemStyle Width="200px" />
+                              </asp:BoundField>
+                          </Columns>
+                      </asp:GridView>
                   </div>
+
+
               </ContentTemplate>
           </ajaxToolkit:TabPanel>
                
@@ -66,7 +92,7 @@
                              <asp:Label ID="Label125" runat="server" Height="30px" Text="Relationship" Width="90px"></asp:Label>
                          </td>
                          <td class="odd" style="width: 319px; height: 20px">
-                             <asp:DropDownList ID="DrpRelationshp" runat="server" placeholder="Relationship" Width="200px" Height="25px">
+                             <asp:DropDownList ID="DrpRelationshp" runat="server" placeholder="Relationship" Width="200px" Height="25px" SkinID="DdlRelationShip"  >
                              </asp:DropDownList>
                          </td>
                      </tr>
@@ -94,24 +120,7 @@
           </ajaxToolkit:TabContainer>
         </div>
 </asp:Content>
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+              
                  <%-- <table >
 
 

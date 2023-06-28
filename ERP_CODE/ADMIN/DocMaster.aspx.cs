@@ -58,10 +58,7 @@ public partial class ADMIN_DocMaster : ClsPageEvents, IPageInterFace
         ObjCls.OrderIndex= ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.GrpId = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
-        //ObjCls.IsApprove = (ChkApprove.Checked == true ? true : false);
-       
 
-        //ObjCls.Active = (ChkActive.Checked == true ? true : false);
     }
     public override void FnCancel()
     {
@@ -71,6 +68,8 @@ public partial class ADMIN_DocMaster : ClsPageEvents, IPageInterFace
         TxtPriority.Text = "";
         TxtRemarks.Text = "";
         //ChkActive.Checked = true;
+
+
 
         FnInitializeForm();
 
@@ -89,10 +88,7 @@ public partial class ADMIN_DocMaster : ClsPageEvents, IPageInterFace
     public void FnFindRecord()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.Name = txtName.Text.Trim();
-        //ObjCls.Code = TxtCode_Srch.Text.Trim();
-       
-        // ObjCls.ApplicationNo= TxtMaxAddmission.Text.Trim();  /// maximum no of admission
+        ObjCls.Name = TxtName_Srch.Text.Trim();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
         TabContainer1.ActiveTabIndex = 1;
@@ -191,6 +187,7 @@ public partial class ADMIN_DocMaster : ClsPageEvents, IPageInterFace
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
             //ChkApprove.Checked = ObjCls.IsApprove;
+            //ChkDtype.SelectedIndex=
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
            
 

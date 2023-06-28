@@ -34,15 +34,17 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
         ObjCls = new ClsStudentSiblingDetails(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         //ViewState["DT"] = FnGetGeneralTable(ObjCls);
-        Session["DOC"] = "";
+        //Session["DOC"] = "";
+        FnGridViewBinding("");
         FnFindRecord();
     }
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjCls.SiblingName = CtrlGrdName.SelectedText.ToString();
-        //ObjCls.SiblingId=
+       // ObjCls.SiblingName = CtrlGrdName.SelectedText.ToString();
+        //ObjCls.Name= CtrlGrdName.SelectedText.ToString();
+        ObjCls.SiblingId = ObjCls.FnIsNumeric(CtrlGrdName.SelectedValue);
         //ObjCls.SiblingCode = TxtCode.Text.Trim();
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.RelationShip = DrpRelationshp.SelectedValue.ToString();
@@ -65,10 +67,15 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 0;
-       // FnFocus();
+       FnFocus(TxtRemarks);
     }
     public void FnFindRecord()
     {
+        //FnAssignProperty(ObjCls);
+        //FnFindRecord(ObjCls);
+        //FnGridViewBinding("");
+        //TabContainer1.ActiveTabIndex = 0;
+
         FnAssignProperty();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");

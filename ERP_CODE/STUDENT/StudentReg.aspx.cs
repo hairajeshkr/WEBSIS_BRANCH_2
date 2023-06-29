@@ -375,7 +375,7 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',770,450);";
             ImgHobby.Attributes.Add("onClick", _strLnk);
 
-            _strUrl = "StudentDocumentUpload.aspx?CNTRID=" + HdnAutoId.Value + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
+            _strUrl = "DocUpload.aspx?CNTRID=" + HdnAutoId.Value + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
             _strTitle = "DOCUMENT UPLOAD : - " + _strHdr;
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',770,450);";
             ImgDocument.Attributes.Add("onClick", _strLnk);

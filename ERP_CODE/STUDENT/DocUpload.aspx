@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StudentDocumentUpload.aspx.cs" StyleSheetTheme="SkinFile" Inherits="STUDENT_StudentDocumentUpload" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="DocUpload.aspx.cs" StyleSheetTheme="SkinFile" Inherits="STUDENT_StudentDocumentUpload" %>
 <%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="ajaxToolkit" %>
 <%@ Register src="../CtrlCommand.ascx" tagname="CtrlCommand" tagprefix="uc1" %>
 <%@ Register src="../CtrlGridList.ascx" tagname="CtrlGridList" tagprefix="uc2" %>
@@ -61,7 +61,7 @@
                                 <table>
                                     <tr>
                                         <td>
-                                            <ajaxToolkit:AsyncFileUpload ID="FileUploadDoc" runat="server" CssClass="FileUploadControl upload-field-parent upload-field-input" FailedValidation="False"  Width="360px" />
+                                            <ajaxToolkit:AsyncFileUpload ID="FileUploadDoc" runat="server" CssClass="FileUploadControl upload-field-parent upload-field-input" FailedValidation="False" OnUploadedComplete="FileUploadDoc_UploadedComplete" Width="360px" />
                                         </td>
                                         <td>
                                             <asp:HyperLink ID="HyLnkDoc" runat="server" CssClass="upload-field-img"></asp:HyperLink>

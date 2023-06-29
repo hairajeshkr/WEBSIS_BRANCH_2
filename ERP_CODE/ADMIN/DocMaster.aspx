@@ -7,9 +7,9 @@
 <%@ Register src="../CtrlGridSmallList.ascx" tagname="CtrlGridSmallList" tagprefix="uc5" %>
 <%@ Register Src="~/CtrlGridList.ascx" TagPrefix="uc1" TagName="CtrlGridList" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<script language="javascript" src="Script/Division.js" type="text/javascript"></script>
-    <div style="height:385px; width:569px">
-      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="385px" Width="560px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" style="border:1px solid #fff !important;">
+<script language="javascript" src="Script/DocMaster.js" type="text/javascript"></script>
+    <div style="height:385px; width:620px">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="365px" Width="680px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" style="border:1px solid #fff !important;">
           
         <ajaxToolkit:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1">
               <HeaderTemplate>Documentation Register
@@ -17,42 +17,52 @@
               <ContentTemplate>
                       <table class="auto-style1">
                           <tr>
-                              <td class="odd" style="width: 90px; height: 30px">  
+                              <td class="odd">
                                   <asp:Label ID="Label122" runat="server" Text="Documentation Name " Width="120px" Height="30px"></asp:Label>
                               </td>
-                              <td class="odd" style="width: 319px; height: 30px">
-                                  <asp:TextBox ID="txtName" runat="server" placeholder="Documentation Name" Width="300px" Height="30px"></asp:TextBox>
+                              <td class="odd" >
+                                  <asp:TextBox ID="TxtName" runat="server" placeholder="Documentation Name"></asp:TextBox>
                               </td>
-                              </tr>
+                          </tr>
+                           <tr>
+                              <td class="odd">
+                                  <asp:Label ID="Label3" runat="server" Text="Code" Width="120px" Height="30px"></asp:Label>
+                              </td>
+                              <td class="odd">
+                                  <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCode" ></asp:TextBox>
+                              </td>
+                          </tr>
                           <tr>
-                              <td class="odd" style="width: 90px; height: 30px">
+                              <td class="odd">
                                   <asp:Label ID="Label125" runat="server" Height="30px" Text="Documentation Type" Width="120px"></asp:Label>
                               </td>
-                              <td class="odd" style="width: 319px; height: 20px">
+                              <td class="odd">
                                   <asp:CheckBoxList ID="ChkDtype" runat="server" RepeatDirection="Horizontal" >
-                                      <asp:ListItem Text="Staff&amp;nbsp" Value="1"></asp:ListItem>
-                                      <asp:ListItem Text="&nbspStudent" Value="2"></asp:ListItem>
+                                      <asp:ListItem Text="Staff&amp;nbsp" Value="staff"></asp:ListItem>
+                                      <asp:ListItem Text="&nbspStudent" Value="student"></asp:ListItem>
                                   </asp:CheckBoxList>
                               </td>
                           </tr>
                           <tr>
-                              <td class="odd" style="width: 90px; height: 30px">
+                              <td class="odd">
                                   <asp:Label ID="Label1" runat="server" Text="Priority" Width="120px" Height="30px"></asp:Label>
                               </td>
-                              <td class="odd" style="width: 319px; height: 30px">
-                                  <asp:TextBox ID="TxtPriority" runat="server" placeholder="Enter numbers" Width="300px" Height="30px"></asp:TextBox>
+                              <td class="odd">
+                                  <asp:TextBox ID="TxtPriority" runat="server" placeholder="Enter numbers" Width="300px" Height="30px" SkinID="TxtCode" ></asp:TextBox>
                               </td>
                           </tr>
                           <tr>
-                              <td class="odd" style="width: 90px; height: 30px">
-                                  <asp:Label ID="Label12" runat="server" Text="Remarks" Width="105px"></asp:Label>
+                              <td class="odd">
+                                  <asp:Label ID="Label12" runat="server" Text="Remarks" Width="120px"></asp:Label>
                               </td>
-                              <td class="odd" style="width: 319px; height: 30px">
+                              <td class="odd" >
                                   <asp:TextBox ID="TxtRemarks" runat="server" SkinID="TxtMultiLine" TextMode="MultiLine"></asp:TextBox>
                               </td>
-                              <td class="odd" style="width: 319px; height: 30px"></td>
-                              <td class="odd" style="width: 319px; height: 30px">
-                                  <asp:CheckBox ID="ChkActive" runat="server" Checked="True" Visible="False" Font-Bold="False" SkinID="IsActive" Text="Active" Width="92px" />
+                          </tr>
+                          <tr>
+                              <td class="odd"></td>
+                              <td class="odd">
+                                  <asp:CheckBox ID="ChkActive" runat="server" Checked="True" Font-Bold="False" SkinID="IsActive" Text="Active" Width="92px" />
                               </td>
                           </tr>
                           <tr>
@@ -84,26 +94,31 @@
 
                       <tr>
                           <td colspan="5">
-                  <div class="result-list" style="overflow: scroll; height: 370px; width: 735px;">
-                      <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster">
+                  <div class="result-list">
+                      <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging"  SkinID="GrdVwMaster">
                           <Columns>
                                <asp:TemplateField HeaderText="Name">
                                               <ItemTemplate>
                                                   <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Name") %>' Width="175px"></asp:LinkButton>
                                               </ItemTemplate>
                                           </asp:TemplateField>
-                                         <asp:TemplateField HeaderText="Code">
+                                         <asp:TemplateField HeaderText="Document type">
                                               <ItemTemplate>
-                                                  <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Code") %>' Width="100px"></asp:Label>
+                                                  <asp:Label ID="LblOtherDtls" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OtherDetails") %>' Width="100px"></asp:Label>
                                               </ItemTemplate>
                                           </asp:TemplateField>
-                                               <asp:TemplateField HeaderText="Priority">
-                                              <ItemTemplate>
-                                                  <asp:Label ID="LblStaff" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OrderIndex") %>' Width="150px"></asp:Label>
-                                              </ItemTemplate>
-                                          </asp:TemplateField>
-                              <asp:BoundField DataField="Remarks" HeaderText="Remarks">
-                              <ItemStyle Width="200px" />
+                              <asp:TemplateField HeaderText="Code">
+                                  <ItemTemplate>
+                                      <asp:Label ID="LblStaff" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Code") %>' Width="150px"></asp:Label>
+                                  </ItemTemplate>
+                              </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Priority">
+                                  <ItemTemplate>
+                                      <asp:Label ID="LblPriority" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OrderIndex") %>' Width="150px"></asp:Label>
+                                  </ItemTemplate>
+                              </asp:TemplateField>
+                               <asp:BoundField DataField="Remarks" HeaderText="Remarks">
+                                  <ItemStyle Width="200px" />
                               </asp:BoundField>
                           </Columns>
                       </asp:GridView>

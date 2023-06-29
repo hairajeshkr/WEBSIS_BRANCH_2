@@ -47,7 +47,7 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
         ObjCls.SiblingId = ObjCls.FnIsNumeric(CtrlGrdName.SelectedValue);
         //ObjCls.SiblingCode = TxtCode.Text.Trim();
         ObjCls.Remarks = TxtRemarks.Text.Trim();
-        ObjCls.RelationShip = DrpRelationshp.SelectedValue.ToString();
+        ObjCls.RelationShip = DdlRelationship.SelectedValue.ToString();
     }
     public void FnClose()
     {
@@ -71,11 +71,6 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
     }
     public void FnFindRecord()
     {
-        //FnAssignProperty(ObjCls);
-        //FnFindRecord(ObjCls);
-        //FnGridViewBinding("");
-        //TabContainer1.ActiveTabIndex = 0;
-
         FnAssignProperty();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
@@ -160,6 +155,8 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
 
             CtrlGrdName.SelectedText = ObjCls.SiblingName.ToString();
             CtrlGrdName.SelectedValue = ObjCls.SiblingId.ToString();
+
+            DdlRelationship.SelectedValue = ObjCls.RelationShip.ToString();
 
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             //ChkActive.Checked = ObjCls.Active;

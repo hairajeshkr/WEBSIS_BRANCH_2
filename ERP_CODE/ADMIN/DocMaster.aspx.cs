@@ -35,10 +35,11 @@ public partial class ADMIN_DocMaster : ClsPageEvents, IPageInterFace
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        //ObjCls = new ClsGeneral(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls = new ClsGeneral(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
 
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
 
+     
         FnGridViewBinding("");
 
     }
@@ -47,36 +48,31 @@ public partial class ADMIN_DocMaster : ClsPageEvents, IPageInterFace
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.Name = txtName.Text.Trim();
-        //ObjCls.Code = Drpcode.SelectedItem.Text.ToString();
-        //ObjCls.Code = ChkDtype.SelectedItem.Text.ToString();
-        for(int i=0;i<ChkDtype.Items.Count;i++)
-        {
-            if (ChkDtype.Items[i].Selected)
-                ObjCls.Code += ChkDtype.Items[i].Text.ToString()+",";
-        }
+        ObjCls.Name = TxtName.Text.Trim();
+        ObjCls.Code = TxtCode.Text.Trim();
+        
         ObjCls.OrderIndex= ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
-        ObjCls.GrpId = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
-
+        
+        ObjCls.OtherDetails = FnGetCheckboxListText(ChkDtype);
+        
     }
     public override void FnCancel()
     {
         base.FnCancel();
 
-        txtName.Text = "";
+        TxtName.Text = "";
         TxtPriority.Text = "";
         TxtRemarks.Text = "";
+        FnUnSelectCheckboxListValue(ChkDtype);
+        TxtCode.Text = "";
         //ChkActive.Checked = true;
-
-
-
         FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 0;
-        //FnFocus(TxtName);
+        FnFocus(TxtName);
     }
 
 
@@ -119,10 +115,10 @@ public partial class ADMIN_DocMaster : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    if (txtName.Text.Trim().Length <= 0)
+                    if (TxtName.Text.Trim().Length <= 0)
                     {
                         FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the name"));
-                        FnFocus(txtName);
+                        FnFocus(TxtName);
                         return;
                     }
 
@@ -180,17 +176,16 @@ public partial class ADMIN_DocMaster : ClsPageEvents, IPageInterFace
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
-            txtName.Text = ObjCls.Name.ToString();
-            ChkDtype.SelectedValue = ObjCls.Code.ToString();
-            //TxtCode.Text = ObjCls.Code.ToString();
+            TxtName.Text = ObjCls.Name.ToString();
+            //ChkDtype.SelectedValue = ObjCls.Code.ToString();
+            TxtCode.Text = ObjCls.Code.ToString();
             TxtPriority.Text = ObjCls.OrderIndex.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
-            ChkActive.Checked = ObjCls.Active;
-            //ChkApprove.Checked = ObjCls.IsApprove;
-            //ChkDtype.SelectedIndex=
-            ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
-           
+            FnSetCheckboxListText(ChkDtype,ObjCls.OtherDetails);
 
+            ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
+
+            
 
             CtrlCommand1.SaveText = "Update";
             CtrlCommand1.SaveCommandArgument = "UPDATE";

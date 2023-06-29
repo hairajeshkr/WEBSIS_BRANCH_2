@@ -38,7 +38,6 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
         ObjCls = new ClsDocumentUpload(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
-        //ViewState["DT"] = FnGetGeneralTable(ObjCls);
         Session["DOC"] = "";
         FnFindRecord();
         
@@ -50,11 +49,8 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
         ObjCls.DocTypeId = ObjCls.FnIsNumeric(DdlDocument.SelectedValue);
-        ObjCls.DocTypeName = DdlDocument.SelectedValue.ToString();
         ObjCls.UploadFileName = Session["DOC"].ToString();
         ObjCls.Remarks = TxtRemarks.Text.Trim();
-        
-
     }
 
     public void FnClose()
@@ -125,7 +121,6 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
                     base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     break;
                 case "CLEAR":
-                    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
                     FnCancel();
                     break;
                 case "CLOSE":

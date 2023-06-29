@@ -6,14 +6,14 @@
 <%@ Register Src="~/CtrlGridList.ascx" TagPrefix="uc1" TagName="CtrlGridList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-     <script language="javascript" src="Script/Division.js" type="text/javascript"></script>
+     <script language="javascript" src="Script/StudentAdmisDtls.js" type="text/javascript"></script>
     <div style="height:400px; width:750px">
       <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="395px" Width="750px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" style="border:1px solid #fff !important;">
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
               <HeaderTemplate>Admission Details
               </HeaderTemplate>
               <ContentTemplate>
-                  <div class="result-list" style="overflow: scroll; height: 370px; width: 735px;">
+                  <div class="result-list" style="overflow: scroll; ">
                       <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster">
                           <Columns>
                               <asp:TemplateField HeaderText="Rank">
@@ -51,30 +51,30 @@
               <ContentTemplate>
                      <table class="auto-style1">
                         <tr>
-                          <td class="odd" style="width: 90px; height:35px">
+                          <td class="odd" >
                             <asp:Label ID="Label21" runat="server" Text="Rank" Width="90px"></asp:Label>
                           </td>
-                            <td class="odd" style="width: 180px; height: 35px;">
-                              <asp:TextBox ID="TxtRank" runat="server" placeholder="Rank" Width="280px" Height="25px"></asp:TextBox>
+                            <td class="odd" >
+                              <asp:TextBox ID="TxtRank" runat="server" placeholder="Rank" ></asp:TextBox>
                           </td>
                             </tr>
                             <tr>
-                             <td class="odd" style="width: 110px; height: 35px" >
+                             <td class="odd"  >
                              <asp:Label ID="Label22" runat="server" Text="Admission Class" Width="110px"></asp:Label>
                         </td>
-                         <td class="odd" width="180px" style="height: 30px">
+                         <td class="odd" >
                                <uc1:CtrlGridList ID="CtrlGrdAdmmisionClass" runat="server" AccountType="ClassList" />
                           </td>
                          </tr>
 
                         <tr>
 
-                            <td class="odd" style="width: 90px; height: 35px" height="30px" >
+                            <td class="odd"  >
                              <asp:Label ID="Label23" runat="server" Text="Quota" Width="90px"></asp:Label>
                         </td>
-                         <td class="odd" height="30px" style="width: 180px; height: 30px;">
+                         <td class="odd" height="30px" >
                                
-                             <asp:DropDownList ID="DdlQuota" runat="server" Width="300px"></asp:DropDownList>
+                             <asp:DropDownList ID="DdlQuota" runat="server" SkinID="DdlList" ></asp:DropDownList>
                                
                           </td>
                        </tr>

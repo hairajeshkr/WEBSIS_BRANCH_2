@@ -63,6 +63,7 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
         base.FnCancel();
 
         TxtRank.Text = "";
+        CtrlGrdAdmmisionClass.SelectedText = "";
         CtrlGrdAdmmisionClass.SelectedValue = "0";
         DdlQuota.SelectedValue = "0";
         TxtRemarks.Text = "";

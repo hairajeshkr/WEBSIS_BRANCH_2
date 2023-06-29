@@ -7,7 +7,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
 
-    <script language="javascript" src="Script/Division.js" type="text/javascript"></script>
+    <script language="javascript" src="Script/StudentHobbiesDtls.js" type="text/javascript"></script>
     <div style="height: 400px; width: 750px">
         <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="395px" Width="750px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
@@ -17,7 +17,7 @@
                 </HeaderTemplate>
 
                 <ContentTemplate>
-                    <div class="result-list" style="overflow: scroll; height: 370px; width: 735px;">
+                    <div class="result-list" style="overflow: scroll;">
                         <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster">
                                       <Columns>
                                           <asp:TemplateField HeaderText="Name">
@@ -54,7 +54,7 @@
                                 <asp:Label ID="Label122" runat="server" Text="Hobbie Name" Width="100px"></asp:Label>
                             </td>
                             <td class="odd">
-                                <asp:DropDownList ID="DdlHobbie" runat="server" Width="300px"  >
+                                <asp:DropDownList ID="DdlHobbie" runat="server" SkinID="DdlList" >
                                     <asp:ListItem Text="Select" Value="0" />
 
                                 </asp:DropDownList>

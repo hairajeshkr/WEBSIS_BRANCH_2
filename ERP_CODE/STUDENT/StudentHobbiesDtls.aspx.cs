@@ -166,7 +166,7 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             // ObjClsStudAdmm.ClassId = ObjCls.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
             DdlHobbie.SelectedValue = ObjCls.CustomId.ToString();
             
-            TxtCode.Text = ObjCls.CustomId.ToString();
+            TxtCode.Text = ObjCls.OrderIndex.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
 

@@ -9,7 +9,7 @@
 
     <script language="javascript" src="Script/StudentHobbiesDtls.js" type="text/javascript"></script>
     <div style="height: 400px; width: 750px">
-        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="395px" Width="750px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
+        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="395px" Width="750px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
                     Hobbie Details
@@ -17,7 +17,7 @@
                 </HeaderTemplate>
 
                 <ContentTemplate>
-                    <div class="result-list" style="overflow: scroll;">
+                    <div class="result-list" style="overflow: scroll;height: 375px; width: 735px;">
                         <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster">
                                       <Columns>
                                           <asp:TemplateField HeaderText="Name">
@@ -25,11 +25,6 @@
                                                   <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("CustomName") %>' Width="175px"></asp:LinkButton>
                                               </ItemTemplate>
                                           </asp:TemplateField>
-                                           <%--<asp:TemplateField HeaderText="Priority">
-                                              <ItemTemplate>
-                                                  <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OrderIndex") %>' Width="100px"></asp:Label>
-                                              </ItemTemplate>
-                                          </asp:TemplateField>--%>
                                         <asp:BoundField DataField="Remarks" HeaderText="Remarks">
                                           <ItemStyle Width="200px" />
                                           </asp:BoundField>
@@ -63,16 +58,6 @@
                             </td>
                             <td class="odd"></td>
                         </tr>
-                        <%--<tr>
-                            <td class="even">
-                                <asp:Label ID="Label3" runat="server" Text="Priority" Width="125px"></asp:Label>
-                            </td>
-                            <td class="even">
-                                <asp:TextBox ID="TxtCode" runat="server" placeholder="Priority" SkinID="TxtCode"></asp:TextBox>
-                            </td>
-                            <td class="even"></td>
-                            <td class="even"></td>
-                        </tr>--%>
                         <tr>
                             <td class="even">
                                 <asp:Label ID="Label12" runat="server" Text="Remarks" Width="125px"></asp:Label>

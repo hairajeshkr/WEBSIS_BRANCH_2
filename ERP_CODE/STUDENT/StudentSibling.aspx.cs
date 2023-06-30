@@ -61,6 +61,9 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
         //TxtCode.Text = "";
         CtrlGrdName.SelectedValue = "0";
         CtrlGrdName.SelectedText = "";
+        DdlRelationship.SelectedValue = "0";
+        DdlRelationship.SelectedIndex = 0;
+        TxtRemarks.Text = "";
 
         FnInitializeForm();
 

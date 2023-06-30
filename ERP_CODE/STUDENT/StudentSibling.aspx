@@ -73,9 +73,7 @@
                          </td>
                      </tr>
                      <tr>
-
                          <td class="odd"></td>
-                         
                          <td align="center" class="FooterCommand" valign="middle" height="60">
                              <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />
                          </td>

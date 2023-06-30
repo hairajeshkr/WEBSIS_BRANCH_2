@@ -67,6 +67,7 @@ public partial class ADMIN_DocMaster : ClsPageEvents, IPageInterFace
         FnUnSelectCheckboxListValue(ChkDtype);
         TxtCode.Text = "";
         //ChkActive.Checked = true;
+        
         FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";

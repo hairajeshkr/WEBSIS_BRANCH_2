@@ -8,12 +8,12 @@
 }
 function ValidateAdd() {
    
-    //var TxtGrpId = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel1_CtrlGrdUserGroup_HdnId');
-    var SibName = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_CtrlGrdName_TxtCaption');
-    var Relashp = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_ddlRelationship');
+    var DdlRelationship = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_DdlRelationship');
+    var SibId = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_CtrlGrdName_HdnId');
+    var SiblingName = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_CtrlGrdName_TxtCaption');
 
-    if (isChildData(Relashp, 'please select a valid relationship', Relashp)&&
-        isChildData(SibName, 'Please select Valid student Name.', SibName)) {
+    if (isChildData(SibId, 'Please select Valid student Name.', SiblingName) &&
+        isListSelected(DdlRelationship, 'Please select relationship.', DdlRelationship,0)) {
         return true;
     }
     else {

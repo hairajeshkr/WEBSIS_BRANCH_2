@@ -8,9 +8,8 @@
 <%@ Register Src="~/CtrlGridList.ascx" TagPrefix="uc1" TagName="CtrlGridList" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 <script language="javascript" src="Script/DocMaster.js" type="text/javascript"></script>
-    <div style="height:385px; width:620px">
-      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="365px" Width="680px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" style="border:1px solid #fff !important;">
-          
+     <div style="height: 310px; width: 569px">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="330px" Width="560px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" style="border:1px solid #fff !important;">
         <ajaxToolkit:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1">
               <HeaderTemplate>Documentation Register
               </HeaderTemplate>
@@ -79,22 +78,20 @@
               <ContentTemplate>
                   <table style="width: 100%; height: 0px;">
                       <tr class="result-head">                         
-                          <td style="height: 39px;width:50px;" >
-                              <asp:Label ID="Label2" runat="server" Text="Name" Width="20px" ></asp:Label>
+                          <td style="height: 39px">
+                              <asp:Label ID="Label2" runat="server" Text="Name" Width="42px"></asp:Label>
                           </td>
-                          <td style="height: 39px;width:120px">
-                              <asp:TextBox ID="TxtName_Srch" runat="server" placeholder="Name" SkinID="TxtCode" Width="80px"></asp:TextBox>
+                          <td style="height: 39px">
+                              <asp:TextBox ID="TxtName_Srch" runat="server" placeholder="Name" SkinID="TxtSng200"></asp:TextBox>
                           </td>
-                          <td style="height: 39px;width:50px;width:120px;">
-                              <asp:Button ID="BtnFind" runat="server" OnClick="ManiPulateDataEvent_Clicked" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" style="left: 236px; top: 3px" />
-                          </td>
-                          <td style="height: 39px;width:50px;width:100px;">
+                          <td style="height: 39px">
+                              <asp:Button ID="BtnFind" runat="server" OnClick="ManiPulateDataEvent_Clicked" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" />
                           </td>
                       </tr>
 
                       <tr>
                           <td colspan="5">
-                  <div class="result-list">
+                              <div class="result-list" style="overflow: scroll; height: 235px; width: 529px;">
                       <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging"  SkinID="GrdVwMaster">
                           <Columns>
                                <asp:TemplateField HeaderText="Name">

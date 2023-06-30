@@ -44,7 +44,7 @@
                           </tr>
                           <tr>
                               <td class="odd">
-                                  <asp:Label ID="Label1" runat="server" Text="Priority" Width="120px" Height="30px"></asp:Label>
+                                  <asp:Label ID="Label1" runat="server" Text="Order Index" Width="120px" Height="30px"></asp:Label>
                               </td>
                               <td class="odd">
                                   <asp:TextBox ID="TxtPriority" runat="server" placeholder="Enter numbers" Width="300px" Height="30px" SkinID="TxtCode" ></asp:TextBox>
@@ -109,7 +109,7 @@
                                       <asp:Label ID="LblStaff" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Code") %>' Width="150px"></asp:Label>
                                   </ItemTemplate>
                               </asp:TemplateField>
-                             <asp:TemplateField HeaderText="Priority">
+                             <asp:TemplateField HeaderText="Order Index">
                                   <ItemTemplate>
                                       <asp:Label ID="LblPriority" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OrderIndex") %>' Width="150px"></asp:Label>
                                   </ItemTemplate>

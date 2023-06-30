@@ -9,11 +9,11 @@
 function ValidateAdd() {
 
    
-    var TxtDocument = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_DdlDocument');
-    var TxtFile = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_FileUploadDoc_ClassId');
-    var TxtFileN = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_HyLnkDoc_ClassId');
+    //var TxtDocument = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_DdlDocument');
+    //var TxtFile = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_FileUploadDoc_ClassId');
+    var DdlDocument = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_DdlDocument');
 
-    if (isChildData(TxtDocument, 'Please select Valid Document.', TxtDocument) &&
+    if (isListSelected(DdlDocument, 'Please select Valid Document.', DdlDocument, 0) &&
         isChildData(TxtFile, 'Please Upload Document.', TxtFile)) {
         return true;
     }

@@ -25,7 +25,7 @@
                                                   <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("CustomName") %>' Width="175px"></asp:LinkButton>
                                               </ItemTemplate>
                                           </asp:TemplateField>
-                                          <%-- <asp:TemplateField HeaderText="Priority">
+                                           <%--<asp:TemplateField HeaderText="Priority">
                                               <ItemTemplate>
                                                   <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OrderIndex") %>' Width="100px"></asp:Label>
                                               </ItemTemplate>
@@ -63,7 +63,7 @@
                             </td>
                             <td class="odd"></td>
                         </tr>
-                        <tr>
+                        <%--<tr>
                             <td class="even">
                                 <asp:Label ID="Label3" runat="server" Text="Priority" Width="125px"></asp:Label>
                             </td>
@@ -72,7 +72,7 @@
                             </td>
                             <td class="even"></td>
                             <td class="even"></td>
-                        </tr>
+                        </tr>--%>
                         <tr>
                             <td class="even">
                                 <asp:Label ID="Label12" runat="server" Text="Remarks" Width="125px"></asp:Label>

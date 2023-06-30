@@ -46,7 +46,7 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
         ObjCls.CustomId = ObjCls.FnIsNumeric(DdlHobbie.SelectedValue);
         ObjCls.CustomName = DdlHobbie.SelectedItem.Text.ToString();
-        ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtCode.Text.Trim());
+        //ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtCode.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
 
@@ -62,8 +62,8 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
     {
         base.FnCancel();
 
-        TxtCode.Text = "";
-        DdlHobbie.SelectedValue = "";
+        //TxtCode.Text = "";
+        DdlHobbie.SelectedValue = "0";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;
@@ -108,12 +108,12 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    if (TxtCode.Text.Trim().Length <= 0)
-                    {
-                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the Code"));
-                        FnFocus(TxtCode);
-                        return;
-                    }
+                    //if (TxtCode.Text.Trim().Length <= 0)
+                    //{
+                    //    FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the Code"));
+                    //    FnFocus(TxtCode);
+                    //    return;
+                    //}
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -166,7 +166,7 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             // ObjClsStudAdmm.ClassId = ObjCls.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
             DdlHobbie.SelectedValue = ObjCls.CustomId.ToString();
             
-            TxtCode.Text = ObjCls.OrderIndex.ToString();
+            //TxtCode.Text = ObjCls.OrderIndex.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
 

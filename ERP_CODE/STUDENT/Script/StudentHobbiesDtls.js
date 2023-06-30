@@ -8,12 +8,10 @@
 }
 function ValidateAdd() {
     
-    var TxtPriority = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_TxtCode');
-    var TxtHobbie = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_DdlHobbie');
-   
+    //var TxtPriority = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_TxtCode');
+    var DdlHobbie = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_DdlHobbie');
 
-    if (isChildData(TxtHobbie, 'Please select Valid Hobbie.', TxtHobbie)&&
-        !isEmpty(TxtPriority, 'Please enter Priority.', TxtPriority)    ) {
+    if (isListSelected(DdlHobbie, 'Please select Valid Hobbie.', DdlHobbie, 0)   ) {
         return true;
     }
     else {

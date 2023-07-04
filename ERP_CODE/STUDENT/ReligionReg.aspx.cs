@@ -51,7 +51,6 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        //TxtCode.Text = "";
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;

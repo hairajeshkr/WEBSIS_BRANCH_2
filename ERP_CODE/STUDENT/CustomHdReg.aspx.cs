@@ -46,18 +46,10 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
         ObjCls.ParentId = DropDowHeadType.SelectedIndex;
-        //ObjCls. = DropDowHeadType.SelectedIndex;
 
-        //ObjCls.HeadTypeId = ChklistHeadType.SelectedValue;
-        //ObjCls.HeadTypeId = ChklistHeadType.SelectedItem.ToString();
-        //ObjCls.HeadTypeId = null;
-
-        //ObjCls.MaxDataLength = ObjCls.FnIsNumeric(TxtMaxDataLength.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
        
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
-        //ObjCls.MaxDataLength = ObjCls.FnIsNumeric(CtrlGrdMaxDLength.SelectedValue.ToString());
-        //ObjCls.HeadTypeId = ObjCls.FnIsNumeric(CtrlGrdHeadType.SelectedValue.ToString());
     }
 
     public override void FnCancel()
@@ -65,10 +57,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        TxtName.Text = "";
         TxtCode_Srch.Text = "";
-        //TxtMaxDataLength.Text = "";
-       // ChklistHeadType.SelectedValue = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;

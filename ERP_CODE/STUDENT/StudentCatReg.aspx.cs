@@ -30,6 +30,9 @@ public partial class STUDENT_StudentCatReg : ClsPageEvents,IPageInterFace
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
         ObjCls = new ClsStudentCategory(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls.TType = FnGetRights().TTYPE;
+        ObjCls.MenuId = FnGetRights().MENUID;
+        TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -47,14 +50,14 @@ public partial class STUDENT_StudentCatReg : ClsPageEvents,IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        TxtCode.Text = "";
+        //TxtCode.Text = "";
         TxtName_Srch.Text = "";
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkReservation.Checked = true;
 
-        FnInitializeForm();
+       
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";

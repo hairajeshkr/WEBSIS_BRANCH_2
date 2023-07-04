@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
 {
-    CustomHeadType ObjCls = new CustomHeadType();
+    ClsCustomHeadType ObjCls = new ClsCustomHeadType();
     ClsDropdownRecordList ObjDrop = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
@@ -33,8 +33,10 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new CustomHeadType(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
-
+        ObjCls = new ClsCustomHeadType(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls.TType = FnGetRights().TTYPE;
+        ObjCls.MenuId = FnGetRights().MENUID;
+        TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -70,7 +72,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;
-        FnInitializeForm();
+        
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";

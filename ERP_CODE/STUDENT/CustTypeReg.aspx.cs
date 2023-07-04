@@ -53,7 +53,6 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        TxtName.Text = "";
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
@@ -72,7 +71,7 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
     public void FnFindRecord()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.Name = TxtName.Text.Trim();
+        ObjCls.Name = TxtName_Srch.Text.Trim();
         ObjCls.Code = TxtCode_Srch.Text.Trim();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");

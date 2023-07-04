@@ -56,7 +56,6 @@ public partial class STUDENT_ClubReg : ClsPageEvents,IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        TxtName.Text = "";
         TxtColor.Text = "";
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";

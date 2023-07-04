@@ -55,11 +55,9 @@ public partial class STUDENT_DivisionReg : ClsPageEvents, IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        TxtCode.Text = "";
         TxtName_Srch.Text = "";
         TxtCode_Srch.Text = "";
         TxtPriority.Text = "";
-        TxtCode.Text = "";
         CtrlGrdCls.SelectedValue = "0";
         CtrlGrdCls.SelectedText = "";
         TxtRemarks.Text = "";

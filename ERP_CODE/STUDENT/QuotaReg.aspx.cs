@@ -57,7 +57,6 @@ public partial class STUDENT_QuotaReg : ClsPageEvents,IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        TxtCode.Text = "";
         TxtMaxAddmission.Text = "";
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";

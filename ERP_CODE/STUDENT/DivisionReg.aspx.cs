@@ -31,6 +31,9 @@ public partial class STUDENT_DivisionReg : ClsPageEvents, IPageInterFace
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
         ObjCls = new ClsClassDivision(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls.TType = FnGetRights().TTYPE;
+        ObjCls.MenuId = FnGetRights().MENUID;
+        TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -61,8 +64,6 @@ public partial class STUDENT_DivisionReg : ClsPageEvents, IPageInterFace
         CtrlGrdCls.SelectedText = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
-
-        FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";

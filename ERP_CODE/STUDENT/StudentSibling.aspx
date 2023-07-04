@@ -24,11 +24,11 @@
                                       <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("SiblingName") %>' Width="175px"></asp:LinkButton>
                                   </ItemTemplate>
                               </asp:TemplateField>
-                              <asp:TemplateField HeaderText="Relationship">
+                              <%--<asp:TemplateField HeaderText="Relationship">
                                   <ItemTemplate>
                                       <asp:LinkButton ID="LblInstitution" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Relationship") %>' Width="100px"></asp:LinkButton>
                                   </ItemTemplate>
-                              </asp:TemplateField>                          
+                              </asp:TemplateField>   --%>                       
                               <asp:BoundField DataField="Remarks" HeaderText="Remarks">
                               <ItemStyle Width="200px" />
                               </asp:BoundField>
@@ -55,7 +55,7 @@
                              <uc1:CtrlGridList runat="server" ID="CtrlGrdName" AccountType="StudentList"  />
                          </td>
                          </tr>
-                     <tr>
+                     <%--<tr>
                          <td class="odd">
                              <asp:Label ID="Label125" runat="server" Height="30px" Text="Relationship" Width="90px"></asp:Label>
                          </td>
@@ -63,7 +63,7 @@
                              <asp:DropDownList ID="DdlRelationship" runat="server" placeholder="Relationship" Width="200px" Height="27px" SkinID="DdlRelationShip"  >
                              </asp:DropDownList>
                          </td>
-                     </tr>
+                     </tr>--%>
                      <tr>
                          <td class="odd">
                              <asp:Label ID="Label1" runat="server" Text="Remarks" Width="90px" Height="30px"></asp:Label>

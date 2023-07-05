@@ -7,9 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
 {
-    CustomHeadType ObjCls = new CustomHeadType();
-
-    //ClsCustomHeadMaster
+    ClsCustomHeadType ObjCls = new ClsCustomHeadType();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -19,7 +17,6 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
             if (!IsPostBack)
             {
                 FnInitializeForm();
-                //ObjCls = new ClsCommunity(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
             }
         }
         catch (Exception ex)
@@ -31,8 +28,12 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
     public override void FnInitializeForm()
     {
         TabContainer1.ActiveTabIndex = 0;
-        /*int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID;
-        ObjCls = new clsAccountGroup(ref iCmpId, ref iBrId, ref iFaId);*/
+        int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
+        ObjCls = new ClsCustomHeadType(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls.TType = FnGetRights().TTYPE;
+        ObjCls.MenuId = FnGetRights().MENUID;
+        TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
+
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -50,12 +51,11 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        TxtName.Text = "";
+        TxtName_Srch.Text = "";
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;
-        FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
@@ -70,7 +70,7 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
     public void FnFindRecord()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.Name = TxtName.Text.Trim();
+        ObjCls.Name = TxtName_Srch.Text.Trim();
         ObjCls.Code = TxtCode_Srch.Text.Trim();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
@@ -152,7 +152,6 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
     protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
     {
         try

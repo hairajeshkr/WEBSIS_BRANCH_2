@@ -25,7 +25,7 @@
                               <asp:Label ID="Label14" runat="server" Text="Code" Width="100px"></asp:Label>
                           </td>
                           <td class="odd">
-                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCode"></asp:TextBox>
+                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="false"></asp:TextBox>
                               <asp:CheckBox ID="ChkReservation" runat="server" SkinID="ChkBox" Text="IsReservation" />
                           </td>
                         </tr>

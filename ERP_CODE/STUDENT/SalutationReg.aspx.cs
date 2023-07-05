@@ -29,8 +29,12 @@ public partial class STUDENT_SalutationReg : ClsPageEvents, IPageInterFace
     public override void FnInitializeForm()
     {
         TabContainer1.ActiveTabIndex = 0;
-        /*int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID;
-        ObjCls = new clsAccountGroup(ref iCmpId, ref iBrId, ref iFaId);*/
+        int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
+        ObjCls = new ClsStudentHouse(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls.TType = FnGetRights().TTYPE; 
+        ObjCls.MenuId = FnGetRights().MENUID;
+        TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
+
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -56,7 +60,6 @@ public partial class STUDENT_SalutationReg : ClsPageEvents, IPageInterFace
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
-        FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";

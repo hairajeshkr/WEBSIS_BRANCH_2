@@ -34,7 +34,7 @@
                                 <asp:Label ID="Label10" runat="server" Text="Code" Width="90px"></asp:Label>
                             </td>
                             <td class="odd" style="height: 40px">
-                                <asp:TextBox ID="TxtCode" runat="server" Height="30px" placeholder="Code" SkinID="TxtCode" Width="90px"></asp:TextBox>
+                                <asp:TextBox ID="TxtCode" runat="server" Height="30px" placeholder="Code" SkinID="TxtCodeDisable" Enabled="false"></asp:TextBox>
                                 <asp:CheckBox ID="ChkExfrmFine" runat="server" Text="Exclude From Fine" />
                             </td>
                         </tr>

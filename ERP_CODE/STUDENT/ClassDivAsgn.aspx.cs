@@ -9,7 +9,7 @@ using System.Data;
 public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
 {
     ClsClass ObjCls = new ClsClass();
-    ClsDropdownRecordList ObjLst=new ClsDropdownRecordList();
+    ClsDropdownRecordList obj=new ClsDropdownRecordList();
     
     protected override void Page_Load(object sender, EventArgs e)
     {
@@ -20,11 +20,8 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
             if (!IsPostBack)
             {
                 FnInitializeForm();
-                ObjLst.FnGetBranchList(DrpInstitution, "");
-                ObjLst.FnGetBranchList(DrpInstitution1, "");
-
-               // ObjLst.FnGetStudentList();
-
+                obj.FnGetBranchList(DrpInstitution, "");
+                obj.FnGetBranchList(DrpInstitution1, "");
                 //filldropdown();
                 //ObjCls = new ClsUser(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
             }

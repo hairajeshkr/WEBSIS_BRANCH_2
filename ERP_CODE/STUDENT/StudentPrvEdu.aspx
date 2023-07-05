@@ -36,6 +36,11 @@
                                       <asp:Label ID="LblRegNo" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("RegNo") %>' Width="150px"></asp:Label>
                                   </ItemTemplate>
                               </asp:TemplateField>
+                              <asp:TemplateField HeaderText="Document File">
+                                <ItemTemplate>
+                                    <asp:HyperLink ID="HyLnkFile" runat="server" Text='<%# Eval("UploadFileName") %>' Target = "_blank" NavigateUrl='<%# FnFileDownloadPath(Eval("UploadFileName"),"DOC")%>' Width="175px"></asp:HyperLink>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                               <asp:TemplateField HeaderText="From Date">
                                   <ItemTemplate>
                                       <asp:Label ID="LblFrmDate" runat="server" SkinID="LblGrdMaster" Text='<%# FnGetDateString(Eval("FromDate"))%>' Width="100px"></asp:Label>

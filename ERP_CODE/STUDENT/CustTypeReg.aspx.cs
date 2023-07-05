@@ -8,8 +8,6 @@ using System.Data;
 public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
 {
     ClsCustomHeadType ObjCls = new ClsCustomHeadType();
-
-    //ClsCustomHeadMaster
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -19,7 +17,6 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
             if (!IsPostBack)
             {
                 FnInitializeForm();
-                //ObjCls = new ClsCommunity(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
             }
         }
         catch (Exception ex)
@@ -36,6 +33,7 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
         ObjCls.TType = FnGetRights().TTYPE;
         ObjCls.MenuId = FnGetRights().MENUID;
         TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
+
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -53,6 +51,7 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
+        TxtName_Srch.Text = "";
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
@@ -153,7 +152,6 @@ public partial class STUDENT_CustTypeReg : ClsPageEvents,IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
     protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
     {
         try

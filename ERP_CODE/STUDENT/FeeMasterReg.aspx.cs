@@ -31,6 +31,10 @@ public partial class STUDENT_FeeMasterReg : ClsPageEvents,IPageInterFace
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
         ObjCls = new ClsFeeMaster(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls.TType = FnGetRights().TTYPE;
+        ObjCls.MenuId = FnGetRights().MENUID;
+        TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
+
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -60,9 +64,7 @@ public partial class STUDENT_FeeMasterReg : ClsPageEvents,IPageInterFace
     public override void FnCancel()
     {
         base.FnCancel();
-
         TxtName.Text = "";
-        TxtCode.Text = "";
         TxtPrintName.Text = "";
         TxtPriority.Text = "";
         TxtCode_Srch.Text = "";
@@ -74,8 +76,6 @@ public partial class STUDENT_FeeMasterReg : ClsPageEvents,IPageInterFace
         ChkOwnAcc.Checked = false;
         ChkSwPro.Checked = false;
         ChkTutFee.Checked = false;
-
-        FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";

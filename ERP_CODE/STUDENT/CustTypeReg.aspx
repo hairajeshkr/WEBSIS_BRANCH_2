@@ -7,7 +7,7 @@
      <script language="javascript" src="Script/CustTypeReg.js" type="text/javascript"></script>
 
     <div style="height:385px; width:569px">
-      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="385px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="385px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
               <HeaderTemplate> Head Type
               </HeaderTemplate>
@@ -15,7 +15,7 @@
                <ContentTemplate>
                    <table class="auto-style1">
                       <tr><td class="odd">
-                              <asp:Label ID="Label122" runat="server" Text="Head Type Name" Width="100px"></asp:Label>
+                              <asp:Label ID="Label122" runat="server" Text="Head Type Name" Width="120px"></asp:Label>
                           </td>
                           <td class="odd">
                               <asp:TextBox ID="TxtName" runat="server" placeholder="Head Type Name"></asp:TextBox>
@@ -27,7 +27,7 @@
                               <asp:Label ID="Label3" runat="server" Text="Code" Width="125px"></asp:Label>
                           </td>
                           <td class="even">
-                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="false" ></asp:TextBox>
+                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="false"></asp:TextBox>
                           </td>
                           <td class="even"></td>
                           <td class="even"></td>

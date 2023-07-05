@@ -5,9 +5,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
+public partial class STUDENT_CustomHdReg : ClsPageEvents, IPageInterFace
 {
-    ClsCustomHeadMaster ObjCls = new ClsCustomHeadMaster();
+    ClsCustomHeadType  ObjCls = new ClsCustomHeadType();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -16,8 +17,9 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
-                TxtMaxDataLength.Attributes.Add("onkeydown", "return NumbersOnly(event);");
+                //TxtMaxDataLength.Attributes.Add("onkeydown", "return NumbersOnly(event);");
                 FnInitializeForm();
+                ObjLst.FnGetCustomTypeList(DdlHeadType, "");
             }
         }
         catch (Exception ex)
@@ -30,7 +32,10 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new ClsCustomHeadMaster(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls = new ClsCustomHeadType(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls.TType = FnGetRights().TTYPE;
+        ObjCls.MenuId = FnGetRights().MENUID;
+        TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
 
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
@@ -40,33 +45,22 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
         base.FnAssignProperty(ObjCls);
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
-        // ObjCls.HeadTypeId = CtrlGrdHeadType.SelectedValue.ToString();
-
-        //ObjCls.HeadTypeId = ChklistHeadType.SelectedValue;
-        ObjCls.HeadTypeId = ChklistHeadType.SelectedItem.ToString();
-        //ObjCls.HeadTypeId = null;
-
-        ObjCls.MaxDataLength = ObjCls.FnIsNumeric(TxtMaxDataLength.Text.Trim());
+        ObjCls.ParentId = ObjCls.FnIsNumeric(DdlHeadType.SelectedValue);
         ObjCls.Remarks = TxtRemarks.Text.Trim();
-       
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
-        //ObjCls.MaxDataLength = ObjCls.FnIsNumeric(CtrlGrdMaxDLength.SelectedValue.ToString());
-        //ObjCls.HeadTypeId = ObjCls.FnIsNumeric(CtrlGrdHeadType.SelectedValue.ToString());
     }
 
     public override void FnCancel()
     {
         base.FnCancel();
 
-        TxtName.Text = "";
-        TxtName.Text = "";
+        TxtName_Srch.Text = "";
         TxtCode_Srch.Text = "";
-        TxtMaxDataLength.Text = "";
-       // ChklistHeadType.SelectedValue = "";
+        TxtName.Text = "";
+        DdlHeadType.SelectedIndex = 0;
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;
-        FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
@@ -81,9 +75,9 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
     public void FnFindRecord()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.Name = TxtName.Text.Trim();
+        ObjCls.Name = TxtName_Srch.Text.Trim();
         ObjCls.Code = TxtCode_Srch.Text.Trim();
-        //ObjCls.HeadTypeId = ChklistHeadType.SelectedValue;
+
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
         TabContainer1.ActiveTabIndex = 1;
@@ -120,7 +114,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
                         FnFocus(TxtName);
                         return;
                     }
-                   
+
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -157,7 +151,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
                 case "HELP":
                     ObjCls.FnAlertMessage(" You Have No permission To Help Record");
                     break;
-               
+
             }
         }
         catch (Exception ex)
@@ -175,11 +169,9 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
             ViewState["ID"] = ObjCls.ID.ToString();
             TxtName.Text = ObjCls.Name.ToString();
             TxtCode.Text = ObjCls.Code.ToString();
-            //ChklistHeadType.SelectedValue = ObjCls.HeadTypeId.ToString();
-            TxtMaxDataLength.Text = ObjCls.MaxDataLength.ToString();
+            DdlHeadType.Text = ObjCls.ParentId.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
-            //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";

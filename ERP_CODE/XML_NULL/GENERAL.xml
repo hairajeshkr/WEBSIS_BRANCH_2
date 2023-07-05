@@ -20,6 +20,9 @@
 <StudentCode></StudentCode>
 <Qualification></Qualification>
 <InstituteName></InstituteName>
+<IsFine>0</IsFine>
+<Abbrevation></Abbrevation>
+<OtherDetails></OtherDetails>
 <Board></Board>
 <RegNo></RegNo>
 <Designation/>
@@ -136,10 +139,5 @@
 <TType/>
 <UserId/>
 <UpdateDate/>
-	<IsEca></IsEca>
-	<IsOneTime></IsOneTime>
-	<IsFine>0</IsFine>
-	<Abbrevation></Abbrevation>
-
 </Table>
 </NewDataSet>

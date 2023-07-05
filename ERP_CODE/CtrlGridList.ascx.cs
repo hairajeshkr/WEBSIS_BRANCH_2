@@ -84,7 +84,10 @@ public partial class CtrlGridList : System.Web.UI.UserControl
         ClassList,
         DivisionList,
         InstituteList,
-        StudentList
+        StudentList,
+        CustomerHead,
+        CustomeType,
+        QuotaList
 
     }
     [DisplayName("Choose Model")]
@@ -383,7 +386,19 @@ public partial class CtrlGridList : System.Web.UI.UserControl
         {
             HdnFlag.Value = "STDNT";
         }
-        if (!IsPostBack)//
+        else if (Type.ToString().Equals("CustomerHead"))
+        {
+            HdnFlag.Value = "CUTYPE";
+        }
+        else if (Type.ToString().Equals("CustomeType"))
+        {
+            HdnFlag.Value = "CUSTHD";
+        }
+        else if (Type.ToString().Equals("QuotaList"))
+        {
+            HdnFlag.Value = "QUOTA";
+        }
+        if (!IsPostBack)//           
         {
             try
             {

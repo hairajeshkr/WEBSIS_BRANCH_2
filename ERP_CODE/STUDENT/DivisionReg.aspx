@@ -21,7 +21,7 @@
                                 <asp:Label ID="Label122" runat="server" Text="Division Name" Width="105px" Height="30px"></asp:Label>
                             </td>
                             <td class="odd" style="width: 319px; height: 30px">
-                                <asp:TextBox ID="TxtName" runat="server" placeholder="Division Name" Width="300px" Height="30px"></asp:TextBox>
+                                <asp:TextBox ID="TxtName" runat="server" placeholder="Division Name" ></asp:TextBox>
                             </td>
                       </tr>
                   <tr>
@@ -29,7 +29,7 @@
                                 <asp:Label ID="Label1" runat="server" Text="Code" Width="105px" Height="30px"></asp:Label>
                             </td>
                             <td class="odd" style="width: 319px; height: 30px">
-                                <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" Width="200px" Height="30px" SkinID="TxtCodeDisable" Enabled="false" ></asp:TextBox>
+                                <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="false"></asp:TextBox>
                             </td>
                       </tr>
                   <tr>

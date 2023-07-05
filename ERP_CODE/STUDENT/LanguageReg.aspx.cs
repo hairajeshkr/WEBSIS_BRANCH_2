@@ -60,7 +60,6 @@ public void FnClose()
         TxtPriority.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
-        FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";

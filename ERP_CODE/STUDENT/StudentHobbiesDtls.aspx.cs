@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
+using System.IO;
+public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
 {
-    ClsStudentCategory ObjCls = new ClsStudentCategory();
+    ClsStudentCustomDetails ObjCls = new ClsStudentCustomDetails();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -16,64 +18,62 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
+                ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
                 FnInitializeForm();
-                //ObjCls = new ClsCommunity(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
             }
+            CtrlGrdCustome.ParentControl = CtrlGrdCustomeHead.IdControl;
         }
         catch (Exception ex)
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
     public override void FnInitializeForm()
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new ClsStudentCategory(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
-        ObjCls.TType = FnGetRights().TTYPE;
-        ObjCls.MenuId = FnGetRights().MENUID;
-        TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
-
-        ViewState["DT"] = FnGetGeneralTable(ObjCls);
+        ObjCls = new ClsStudentCustomDetails(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        Session["DOC"] = "";
+        FnFindRecord();
         FnGridViewBinding("");
     }
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.Name = TxtName.Text.Trim();
-        ObjCls.Code = TxtCode.Text.Trim();
+        ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
+        ObjCls.CustomId = ObjCls.FnIsNumeric(CtrlGrdCustome.SelectedValue);
+        ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtOrderIndex.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
-    }
-
-    public override void FnCancel()
-    {
-        base.FnCancel();
-        TxtName.Text = "";
-        TxtCode_Srch.Text = "";
-        TxtRemarks.Text = "";
-        ChkActive.Checked = true;
-        ChkApprove.Checked = false;
-
-        CtrlCommand1.SaveText = "Save";
-        CtrlCommand1.SaveCommandArgument = "NEW";
-        TabContainer1.ActiveTabIndex = 0;
-        FnFocus(TxtName);
     }
     public void FnClose()
     {
         throw new NotImplementedException();
     }
+    public override void FnCancel()
+    {
+        base.FnCancel();
+        CtrlGrdCustome.SelectedValue = "0";
+        CtrlGrdCustome.SelectedText = "";
+        CtrlGrdCustomeHead.SelectedValue = "0";
+        CtrlGrdCustomeHead.SelectedText = "";
+        TxtOrderIndex.Text = "";
+        TxtRemarks.Text = "";
+        ChkActive.Checked = true;
+        ChkApprove.Checked = false;
+        FnInitializeForm();
 
+        CtrlCommand1.SaveText = "Save";
+        CtrlCommand1.SaveCommandArgument = "NEW";
+        TabContainer1.ActiveTabIndex = 1;
+        FnFocus(CtrlGrdCustomeHead.ControlTextBox);
+    }
     public void FnFindRecord()
     {
-        base.FnAssignProperty(ObjCls);
-        ObjCls.Name = TxtName.Text.Trim();
-        ObjCls.Code = TxtCode_Srch.Text.Trim();
+        FnAssignProperty();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
-        TabContainer1.ActiveTabIndex = 1;
+        TabContainer1.ActiveTabIndex = 0;
     }
 
     public object FnGetGridRowCount(string PrmFlag)
@@ -101,12 +101,6 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    if (TxtName.Text.Trim().Length <= 0)
-                    {
-                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the name"));
-                        FnFocus(TxtName);
-                        return;
-                    }
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -135,15 +129,10 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
                     break;
                 case "FIND":
                     FnFindRecord();
-                    //FnAssignProperty();
-                    //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                    //FnGridViewBinding("");
-                    //System.Threading.Thread.Sleep(1000000);
                     break;
                 case "HELP":
                     ObjCls.FnAlertMessage(" You Have No permission To Help Record");
                     break;
-
             }
         }
         catch (Exception ex)
@@ -151,7 +140,6 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
     protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
     {
         try
@@ -159,24 +147,25 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
-            TxtName.Text = ObjCls.Name.ToString();
-            TxtCode.Text = ObjCls.Code.ToString();
+            CtrlGrdCustome.SelectedValue = ObjCls.CustomId.ToString();
+            CtrlGrdCustome.SelectedText  = ObjCls.CustomName.ToString();
+            CtrlGrdCustomeHead.SelectedValue = ObjCls.ParentId.ToString();
+            CtrlGrdCustomeHead.SelectedText = ObjCls.Parent.ToString();
+            TxtOrderIndex.Text = ObjCls.OrderIndex.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
-            //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";
             CtrlCommand1.SaveCommandArgument = "UPDATE";
 
-            TabContainer1.ActiveTabIndex = 0;
+            TabContainer1.ActiveTabIndex = 1;
         }
         catch (Exception ex)
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
     protected void GrdVwRecords_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
@@ -189,4 +178,5 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
+
 }

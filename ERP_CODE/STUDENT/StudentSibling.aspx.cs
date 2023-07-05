@@ -19,7 +19,6 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
             if (!IsPostBack)
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
-                //TxtPercentage.Attributes.Add("onkeydown", "return NumbersOnly(event);");
                 FnInitializeForm();
             }
         }
@@ -33,21 +32,15 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
         ObjCls = new ClsStudentSiblingDetails(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
-        //ViewState["DT"] = FnGetGeneralTable(ObjCls);
-        //Session["DOC"] = "";
-        FnGridViewBinding("");
         FnFindRecord();
     }
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-       // ObjCls.SiblingName = CtrlGrdName.SelectedText.ToString();
-        //ObjCls.Name= CtrlGrdName.SelectedText.ToString();
-        ObjCls.SiblingId = ObjCls.FnIsNumeric(CtrlGrdName.SelectedValue);
-        //ObjCls.SiblingCode = TxtCode.Text.Trim();
+        ObjCls.SiblingId = ObjCls.FnIsNumeric(CtrlGrdStudent.SelectedValue.ToString());
+        ObjCls.RelationShip = DdlRelationshp.SelectedValue.ToString();
         ObjCls.Remarks = TxtRemarks.Text.Trim();
-        //ObjCls.RelationShip = DdlRelationship.SelectedValue.ToString();
     }
     public void FnClose()
     {
@@ -57,20 +50,16 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
     {
         base.FnCancel();
 
-        //TxtName.Text = "";
-        //TxtCode.Text = "";
-        CtrlGrdName.SelectedValue = "0";
-        CtrlGrdName.SelectedText = "";
-       // DdlRelationship.SelectedValue = "0";
-        //DdlRelationship.SelectedIndex = 0;
+        CtrlGrdStudent.SelectedText = "";
+        CtrlGrdStudent.SelectedValue = "0";
+        DdlRelationshp.SelectedIndex = 0;
         TxtRemarks.Text = "";
-
         FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 0;
-       FnFocus(TxtRemarks);
+        FnFocus(CtrlGrdStudent.ControlTextBox);
     }
     public void FnFindRecord()
     {
@@ -101,12 +90,12 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    //if (TxtName.Text.Trim().Length <= 0)
-                    //{
-                    //    FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the education"));
-                    //    FnFocus(TxtName);
-                    //    return;
-                    //}
+                    if (ObjCls.FnIsNumeric(CtrlGrdStudent.SelectedValue.ToString()) <= 0)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the education"));
+                        FnFocus(CtrlGrdStudent.ControlTextBox);
+                        return;
+                    }
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -153,16 +142,10 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
-            //TxtName.Text = ObjCls.SiblingName.ToString();
-            //TxtCode.Text = ObjCls.SiblingCode.ToString();
-
-            CtrlGrdName.SelectedText = ObjCls.SiblingName.ToString();
-            CtrlGrdName.SelectedValue = ObjCls.SiblingId.ToString();
-
-            //DdlRelationship.SelectedValue = ObjCls.RelationShip.ToString();
-
+            CtrlGrdStudent.SelectedValue = ObjCls.SiblingId.ToString();
+            CtrlGrdStudent.SelectedText = ObjCls.SiblingName.ToString();
+            DdlRelationshp.Text = ObjCls.RelationShip;
             TxtRemarks.Text = ObjCls.Remarks.ToString();
-            //ChkActive.Checked = ObjCls.Active;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";
@@ -187,6 +170,4 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
-    
 }

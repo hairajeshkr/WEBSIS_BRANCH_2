@@ -34,6 +34,7 @@ public partial class STUDENT_DivisionReg : ClsPageEvents, IPageInterFace
         ObjCls.TType = FnGetRights().TTYPE;
         ObjCls.MenuId = FnGetRights().MENUID;
         TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
+
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -53,7 +54,6 @@ public partial class STUDENT_DivisionReg : ClsPageEvents, IPageInterFace
     public override void FnCancel()
     {
         base.FnCancel();
-
         TxtName.Text = "";
         TxtName_Srch.Text = "";
         TxtCode_Srch.Text = "";

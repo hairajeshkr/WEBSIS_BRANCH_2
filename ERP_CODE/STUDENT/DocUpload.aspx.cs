@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
+using System.IO;
+public partial class STUDENT_DocUpload : ClsPageEvents, IPageInterFace
 {
-    ClsStudentCategory ObjCls = new ClsStudentCategory();
+    ClsDocumentUpload ObjCls = new ClsDocumentUpload();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -16,8 +18,9 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
+                ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
                 FnInitializeForm();
-                //ObjCls = new ClsCommunity(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
+                ObjLst.FnGetDocumentList(DdlDocument, "");
             }
         }
         catch (Exception ex)
@@ -25,55 +28,46 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
     public override void FnInitializeForm()
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new ClsStudentCategory(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
-        ObjCls.TType = FnGetRights().TTYPE;
-        ObjCls.MenuId = FnGetRights().MENUID;
-        TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
-
-        ViewState["DT"] = FnGetGeneralTable(ObjCls);
-        FnGridViewBinding("");
+        ObjCls = new ClsDocumentUpload(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        Session["DOC"] = "";
+        FnFindRecord();
     }
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.Name = TxtName.Text.Trim();
-        ObjCls.Code = TxtCode.Text.Trim();
+        ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
+        ObjCls.DocTypeId = ObjCls.FnIsNumeric(DdlDocument.SelectedValue);
+        ObjCls.UploadFileName = Session["DOC"].ToString();
         ObjCls.Remarks = TxtRemarks.Text.Trim();
-        ObjCls.Active = (ChkActive.Checked == true ? true : false);
     }
 
-    public override void FnCancel()
-    {
-        base.FnCancel();
-        TxtName.Text = "";
-        TxtCode_Srch.Text = "";
-        TxtRemarks.Text = "";
-        ChkActive.Checked = true;
-        ChkApprove.Checked = false;
-
-        CtrlCommand1.SaveText = "Save";
-        CtrlCommand1.SaveCommandArgument = "NEW";
-        TabContainer1.ActiveTabIndex = 0;
-        FnFocus(TxtName);
-    }
     public void FnClose()
     {
         throw new NotImplementedException();
     }
 
+    public override void FnCancel()
+    {
+        base.FnCancel();
+        DdlDocument.SelectedValue = "";
+        TxtRemarks.Text = "";
+
+        CtrlCommand1.SaveText = "Save";
+        CtrlCommand1.SaveCommandArgument = "NEW";
+        TabContainer1.ActiveTabIndex = 0;
+        FnFocus(DdlDocument);
+    }
+
     public void FnFindRecord()
     {
-        base.FnAssignProperty(ObjCls);
-        ObjCls.Name = TxtName.Text.Trim();
-        ObjCls.Code = TxtCode_Srch.Text.Trim();
+        FnAssignProperty();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
-        TabContainer1.ActiveTabIndex = 1;
+        TabContainer1.ActiveTabIndex = 0;
     }
 
     public object FnGetGridRowCount(string PrmFlag)
@@ -101,12 +95,7 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    if (TxtName.Text.Trim().Length <= 0)
-                    {
-                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the name"));
-                        FnFocus(TxtName);
-                        return;
-                    }
+
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -135,15 +124,10 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
                     break;
                 case "FIND":
                     FnFindRecord();
-                    //FnAssignProperty();
-                    //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                    //FnGridViewBinding("");
-                    //System.Threading.Thread.Sleep(1000000);
                     break;
                 case "HELP":
                     ObjCls.FnAlertMessage(" You Have No permission To Help Record");
                     break;
-
             }
         }
         catch (Exception ex)
@@ -159,17 +143,19 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
-            TxtName.Text = ObjCls.Name.ToString();
-            TxtCode.Text = ObjCls.Code.ToString();
+
+            Session["DOC"] = ObjCls.UploadFileName;
+            FnBindDocumetPath(HyLnkDoc, ObjCls.UploadFileName, "DOC");
+
+            DdlDocument.SelectedValue = ObjCls.DocTypeId.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
-            ChkActive.Checked = ObjCls.Active;
-            //ChkApprove.Checked = ObjCls.IsApprove;
+
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";
             CtrlCommand1.SaveCommandArgument = "UPDATE";
 
-            TabContainer1.ActiveTabIndex = 0;
+            TabContainer1.ActiveTabIndex = 1;
         }
         catch (Exception ex)
         {
@@ -189,4 +175,39 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
+
+
+    protected void FileUploadDoc_UploadedComplete(object sender, AjaxControlToolkit.AsyncFileUploadEventArgs e)
+    {
+        try
+        {
+            string[] allowed = FnGetPdfFormat(ref _strFileFormat);
+            if (FileUploadDoc.PostedFile != null && FileUploadDoc.PostedFile.ContentLength > 0)
+            {
+                if (allowed.Contains(Path.GetExtension(e.FileName)))
+                {
+                    Session["DOC"] = FnSaveUploadFileName(ObjCls, e.FileName, "DOC");
+                    FileUploadDoc.PostedFile.SaveAs(FnServerUploadPath(FnDocFilePath("DOC", Session["DOC"].ToString().Trim())));
+                }
+                else
+                {
+                    FileUploadDoc.Attributes.Clear();
+                    FileUploadDoc.Dispose();
+                    Session["DOC"] = "";
+                    FnPopUpAlert(ObjCls.FnAlertMessage(_strFileFormat));
+                    return;
+                }
+            }
+            else
+            {
+                FnPopUpAlert(ObjCls.FnAlertMessage(_strFileFormat));
+            }
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(_strFileFormat);
+            throw ex;
+        }
+    }
+
 }

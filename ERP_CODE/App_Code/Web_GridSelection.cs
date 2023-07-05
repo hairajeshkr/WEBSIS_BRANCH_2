@@ -51,7 +51,8 @@ public class Web_GridSelection : System.Web.Services.WebService
                                     || PrmFlag.Equals("FAMILYNAME") || PrmFlag.Equals("PLACE") || PrmFlag.Equals("WHATSAPP") || PrmFlag.Equals("HOUSENAME") || PrmFlag.Equals("MOBILENO")
                                     || PrmFlag.Equals("SHOPECUST") || PrmFlag.Equals("WPGRP") || PrmFlag.Equals("SUBGRD") || PrmFlag.Equals("ITMACC")
                                     || PrmFlag.Equals("PLCB") || PrmFlag.Equals("RELGN") || PrmFlag.Equals("TSKGRP") || PrmFlag.Equals("CLS")
-                                    || PrmFlag.Equals("STDCOM") || PrmFlag.Equals("ITMZERO") || PrmFlag.Equals("LANG") || PrmFlag.Equals("DIVN"))
+                                    || PrmFlag.Equals("STDCOM") || PrmFlag.Equals("ITMZERO") || PrmFlag.Equals("LANG") || PrmFlag.Equals("DIVN") 
+                                    || PrmFlag.Equals("CUTYPE") || PrmFlag.Equals("CUSTHD") || PrmFlag.Equals("QUOTA"))
         {
             dtList = ObjCls.FnGetGeneralRecordList(PrmFlag); 
         }

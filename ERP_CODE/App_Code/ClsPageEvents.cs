@@ -818,8 +818,29 @@ public partial class ClsPageEvents : System.Web.UI.Page
     {
         return PrmBaseMaster.FnConvertStringToDataTable(PrmBaseMaster.FnReadXmlFile(Server.MapPath("~/XML_NULL//TransChild.xml"))) as DataTable;
     }
-  
+
     // FILE UPLOAD====================
+    public string FnFileDownloadPath(object PrmFileName, string PrmFlag)
+    {
+        string strFile = "#";
+        if (PrmFlag.Equals("VCH"))
+        {
+            strFile = "~\\UploadedFiles\\Vehicle\\" + PrmFileName.ToString().Replace("~", "").Trim();
+        }
+        else if (PrmFlag.Equals("ITM"))
+        {
+            strFile = "~\\UploadedFiles\\Products\\" + PrmFileName.ToString().Replace("~", "").Trim();
+        }
+        else if (PrmFlag.Equals("DOC"))
+        {
+            strFile = "~\\UploadedFiles\\Documents\\" + PrmFileName.ToString().Replace("~", "").Trim();
+        }
+        else if (PrmFlag.Equals("PRF"))
+        {
+            strFile = "~\\UploadedFiles\\Profile\\" + PrmFileName.ToString().Replace("~", "").Trim();
+        }
+        return strFile.Trim();
+    }
     public string FnServerUploadPath(string PrmFileName)
     {
         return Server.MapPath(Request.ApplicationPath) + PrmFileName.Trim();

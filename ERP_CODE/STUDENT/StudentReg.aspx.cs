@@ -63,6 +63,7 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
         ObjCls.DisplayName = FnCombineString(DdlSaltn.SelectedItem.ToString(), TxtName.Text.Trim());
+        ObjCls.RollNo = ObjCls.FnIsNumeric(TxtRollNo.Text);
 
         ObjCls.AdmissionNo = TxtAdmnNo.Text.Trim();
         ObjCls.RegNo = TxtRegNo.Text.Trim();
@@ -76,7 +77,6 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         ObjCls.ReligionId = ObjCls.FnIsNumeric(CtrlGrdReligion.SelectedValue.ToString());
         ObjCls.CommunityId = ObjCls.FnIsNumeric(CtrlGrdCommunity.SelectedValue.ToString());
         ObjCls.CategoryId = ObjCls.FnIsNumeric(CtrlGrdCategory.SelectedValue.ToString());
-        //ObjCls.ReligionId = ObjCls.FnIsNumeric(CtrlGrdReligion.SelectedValue.ToString());
         ObjCls.ClassId = ObjCls.FnIsNumeric(CtrlGrdClass.SelectedValue.ToString());
         ObjCls.DivisionId = ObjCls.FnIsNumeric(CtrlGrdDivision.SelectedValue.ToString());
 
@@ -96,10 +96,13 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         ObjCls.MotherLanguageId = ObjCls.FnIsNumeric(DdlLanguage.SelectedValue.ToString());
         ObjCls.AccLedgerId = ObjCls.FnIsNumeric(DdlAccountLedger.SelectedValue.ToString());
         ObjCls.BloodGroup = DdlBloodGrp.SelectedValue.ToString();
+        ObjCls.Status = DdlStatus.SelectedValue.ToString();
+
+        ObjCls.IdentificationMark1 = TxtMark1.Text.Trim();
+        ObjCls.IdentificationMark2 = TxtMark2.Text.Trim();
+
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
-
-        //ObjCls.FaxNo = TxtFaxNo.Text.Trim();
     }
     public void FnClose()
     {
@@ -108,7 +111,6 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
     public override void FnCancel()
     {
         base.FnCancel();
-        FnInitializeForm();
         TxtName.Text = "";
         TxtName_Srch.Text = "";
         TxtAdhar_Srch.Text = "";
@@ -139,7 +141,12 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         CtrlGrdDivision.SelectedText = "";
         CtrlGrdPlace.SelectedValue = "0";
         CtrlGrdPlace.SelectedText = "";
+        DdlStatus.SelectedIndex = 0;
+
         TxtAge.Text = "";
+        TxtMark1.Text = "";
+        TxtMark2.Text = "";
+        TxtRollNo.Text = "";
         DdlAccountLedger.SelectedIndex = 0;
         CtrlGrdCountry.SelectedValue = "0";
         CtrlGrdCountry.SelectedText = "";
@@ -280,6 +287,7 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
 
             CtrlDob.DateText = ObjCls.FnDateTime(ObjCls.Dob, "");
             TxtAge.Text = ObjCls.Age.ToString();
+            TxtRollNo.Text = ObjCls.RollNo.ToString();
 
             CtrlAdmnDate.DateText = ObjCls.FnDateTime(ObjCls.JoinDate, "");
             RadBtnGender.Text = ObjCls.Sex.ToString();
@@ -312,6 +320,9 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
 
             DdlLanguage.Text = ObjCls.MotherLanguageId.ToString();
             DdlAccountLedger.Text = ObjCls.AccLedgerId.ToString();
+            DdlStatus.Text = ObjCls.Status.ToString();
+            TxtMark1.Text = ObjCls.IdentificationMark1;
+            TxtMark2.Text = ObjCls.IdentificationMark2;
 
             Session["IMG_PRF"] = ObjCls.ImgePath;
             if (ObjCls.ImageByte.Length > 0)
@@ -358,8 +369,6 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',770,450);";
             ImgEducation.Attributes.Add("onClick", _strLnk);
 
- 
-
             _strUrl = "StudentSibling.aspx?CNTRID=" + HdnAutoId.Value + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
             _strTitle = "SIBLING DETAILS : - " + _strHdr;
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',770,450);";
@@ -376,11 +385,9 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             ImgHobby.Attributes.Add("onClick", _strLnk);
 
             _strUrl = "DocUpload.aspx?CNTRID=" + HdnAutoId.Value + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
-            _strTitle = "DOCUMENT UPLOAD : - " + _strHdr;
+            _strTitle = "DOCUMENTS : - " + _strHdr;
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',770,450);";
-            ImgDocument.Attributes.Add("onClick", _strLnk);
-
-
+            ImgDoc.Attributes.Add("onClick", _strLnk);
 
             TabContainer1.ActiveTabIndex = 2;
         }

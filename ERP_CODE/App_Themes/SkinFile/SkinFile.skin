@@ -315,7 +315,25 @@
 <asp:ListItem Value="0">NO</asp:ListItem>
 <asp:ListItem Value="1">YES</asp:ListItem>
 </asp:DropDownList>
+
+<asp:DropDownList runat="server" CssClass="Dropdown_field_styleLarge" Width="180px" SkinID="DdlStudentStatus">
+<asp:ListItem Value="">---Select---</asp:ListItem>
+<asp:ListItem Value="In the Role">In the Role</asp:ListItem>
+<asp:ListItem Value="Suspended">Suspended</asp:ListItem>
+<asp:ListItem Value="Removed from the Role">Removed from the Role</asp:ListItem>
+<asp:ListItem Value="TC">TC</asp:ListItem>
+</asp:DropDownList>
+
+<%-- Check Box List Controls    --%>
+
+<asp:CheckBoxList runat="server" Style="cursor: hand;" Font-Names="Arial" Font-Size="10pt" Font-Bold="true" Width="150px" SkinID="ChkDocModeTo">
+<asp:ListItem Value="Staff">Staff</asp:ListItem>
+<asp:ListItem Value="Student">Student</asp:ListItem>
+</asp:CheckBoxList>
+
+
 <%-- Text Box Controls   textbox_field_style --%>
+
 <asp:TextBox runat="server" CssClass="form-control"  SkinId="TxtFormCtrl"></asp:TextBox>
 <asp:TextBox runat="server" Width="300px" CssClass="textbox_field_style"></asp:TextBox>
 <asp:TextBox runat="server" Width="300px" CssClass="textbox_field_styleDisable20" SkinId="TxtSngDisable" onkeyDown='return IsReadOnly(event);'></asp:TextBox>
@@ -380,6 +398,7 @@
 <asp:TextBox runat="server" Width="74px" CssClass="textbox_field_Centrestyle" SkinId="TxtQtyCentre"></asp:TextBox>
 <asp:TextBox runat="server" Width="50px" CssClass="textbox_field_Centrestyle" SkinId="Txt50Centre"></asp:TextBox>
 <asp:TextBox runat="server" Width="50px" SkinId="TxtNill"></asp:TextBox>
+<asp:TextBox runat="server" Width="74px" CssClass="textbox_field_CentrestyleDisable" SkinId="TxtQtyCentreDisable"></asp:TextBox>
 
 <asp:TextBox runat="server" Width="74px" CssClass="textbox_field_Digitstyle" SkinId="TxtQty"></asp:TextBox>
 <asp:TextBox runat="server" Width="37px" CssClass="textbox_field_DigitstyleCentre" SkinId="TxtQty37"></asp:TextBox>

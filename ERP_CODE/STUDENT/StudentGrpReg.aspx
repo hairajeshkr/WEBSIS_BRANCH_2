@@ -24,7 +24,7 @@
                               <asp:Label ID="Label19" runat="server" Text="Code" Width="100px"></asp:Label>
                           </td>
                           <td class="odd">
-                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCode" Width="150px"></asp:TextBox>
+                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="false"></asp:TextBox>
                           </td>
                       </tr>
                       <tr>

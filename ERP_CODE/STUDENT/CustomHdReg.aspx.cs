@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
+public partial class STUDENT_CustomHdReg : ClsPageEvents, IPageInterFace
 {
-    ClsCustomHeadType ObjCls = new ClsCustomHeadType();
-    ClsDropdownRecordList ObjDrop = new ClsDropdownRecordList();
+    ClsCustomHeadType  ObjCls = new ClsCustomHeadType();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -19,8 +19,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
             {
                 //TxtMaxDataLength.Attributes.Add("onkeydown", "return NumbersOnly(event);");
                 FnInitializeForm();
-                ObjDrop.FnGetCustomTypeList(DropDowHeadType, "");
-                
+                ObjLst.FnGetCustomTypeList(DdlHeadType, "");
             }
         }
         catch (Exception ex)
@@ -37,6 +36,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
         ObjCls.TType = FnGetRights().TTYPE;
         ObjCls.MenuId = FnGetRights().MENUID;
         TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
+
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -45,10 +45,8 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
         base.FnAssignProperty(ObjCls);
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
-        ObjCls.ParentId = DropDowHeadType.SelectedIndex;
-
+        ObjCls.ParentId = ObjCls.FnIsNumeric(DdlHeadType.SelectedValue);
         ObjCls.Remarks = TxtRemarks.Text.Trim();
-       
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
     }
 
@@ -56,12 +54,13 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
     {
         base.FnCancel();
 
-        TxtName.Text = "";
+        TxtName_Srch.Text = "";
         TxtCode_Srch.Text = "";
+        TxtName.Text = "";
+        DdlHeadType.SelectedIndex = 0;
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;
-        
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
@@ -76,9 +75,9 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
     public void FnFindRecord()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.Name = TxtName.Text.Trim();
+        ObjCls.Name = TxtName_Srch.Text.Trim();
         ObjCls.Code = TxtCode_Srch.Text.Trim();
-        ObjCls.ParentId = DropDowHeadType.SelectedIndex;
+
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
         TabContainer1.ActiveTabIndex = 1;
@@ -115,7 +114,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
                         FnFocus(TxtName);
                         return;
                     }
-                   
+
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -152,7 +151,7 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
                 case "HELP":
                     ObjCls.FnAlertMessage(" You Have No permission To Help Record");
                     break;
-               
+
             }
         }
         catch (Exception ex)
@@ -170,12 +169,9 @@ public partial class STUDENT_CustomHdReg : ClsPageEvents,IPageInterFace
             ViewState["ID"] = ObjCls.ID.ToString();
             TxtName.Text = ObjCls.Name.ToString();
             TxtCode.Text = ObjCls.Code.ToString();
-           
-            DropDowHeadType.SelectedIndex = ObjCls.ParentId;
-            //TxtMaxDataLength.Text = ObjCls.MaxDataLength.ToString();
+            DdlHeadType.Text = ObjCls.ParentId.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
-            //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";

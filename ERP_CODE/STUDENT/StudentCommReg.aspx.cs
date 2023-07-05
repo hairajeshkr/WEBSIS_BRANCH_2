@@ -51,15 +51,12 @@ public partial class STUDENT_StudentCommReg : ClsPageEvents,IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        TxtName.Text = "";
         TxtCode_Srch.Text = "";
         CtrlGrdReligion.SelectedText = "";
         CtrlGrdReligion.SelectedValue = "0";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;
-        
-
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 0;

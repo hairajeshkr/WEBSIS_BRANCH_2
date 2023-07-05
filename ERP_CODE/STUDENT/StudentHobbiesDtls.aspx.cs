@@ -8,8 +8,6 @@ using System.Data;
 using System.IO;
 public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
 {
-
-    
     ClsStudentCustomDetails ObjCls = new ClsStudentCustomDetails();
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
@@ -22,8 +20,8 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
                 FnInitializeForm();
-                ObjLst.FnGetCustomList(DdlHobbie, "",0);
             }
+            CtrlGrdCustome.ParentControl = CtrlGrdCustomeHead.IdControl;
         }
         catch (Exception ex)
         {
@@ -35,7 +33,6 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
         ObjCls = new ClsStudentCustomDetails(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
-        //ViewState["DT"] = FnGetGeneralTable(ObjCls);
         Session["DOC"] = "";
         FnFindRecord();
         FnGridViewBinding("");
@@ -44,26 +41,23 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjCls.CustomId = ObjCls.FnIsNumeric(DdlHobbie.SelectedValue);
-        ObjCls.CustomName = DdlHobbie.SelectedItem.Text.ToString();
-        //ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtCode.Text.Trim());
+        ObjCls.CustomId = ObjCls.FnIsNumeric(CtrlGrdCustome.SelectedValue);
+        ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtOrderIndex.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
-
     }
-
     public void FnClose()
     {
         throw new NotImplementedException();
-
     }
-
     public override void FnCancel()
     {
         base.FnCancel();
-
-        //TxtCode.Text = "";
-        DdlHobbie.SelectedValue = "0";
+        CtrlGrdCustome.SelectedValue = "0";
+        CtrlGrdCustome.SelectedText = "";
+        CtrlGrdCustomeHead.SelectedValue = "0";
+        CtrlGrdCustomeHead.SelectedText = "";
+        TxtOrderIndex.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;
@@ -71,10 +65,9 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
-        TabContainer1.ActiveTabIndex = 0;
-        FnFocus(DdlHobbie);
+        TabContainer1.ActiveTabIndex = 1;
+        FnFocus(CtrlGrdCustomeHead.ControlTextBox);
     }
-
     public void FnFindRecord()
     {
         FnAssignProperty();
@@ -108,12 +101,6 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    //if (TxtCode.Text.Trim().Length <= 0)
-                    //{
-                    //    FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the Code"));
-                    //    FnFocus(TxtCode);
-                    //    return;
-                    //}
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -153,8 +140,6 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
-
     protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
     {
         try
@@ -162,15 +147,13 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
-
-            // ObjClsStudAdmm.ClassId = ObjCls.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
-            DdlHobbie.SelectedValue = ObjCls.CustomId.ToString();
-            
-            //TxtCode.Text = ObjCls.OrderIndex.ToString();
+            CtrlGrdCustome.SelectedValue = ObjCls.CustomId.ToString();
+            CtrlGrdCustome.SelectedText  = ObjCls.CustomName.ToString();
+            CtrlGrdCustomeHead.SelectedValue = ObjCls.ParentId.ToString();
+            CtrlGrdCustomeHead.SelectedText = ObjCls.Parent.ToString();
+            TxtOrderIndex.Text = ObjCls.OrderIndex.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
-
-
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";

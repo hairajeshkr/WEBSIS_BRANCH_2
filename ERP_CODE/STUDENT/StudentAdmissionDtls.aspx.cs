@@ -10,8 +10,6 @@ using System.IO;
 public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFace
 {
     ClsStudentAdmissionDetails ObjCls = new ClsStudentAdmissionDetails();
-    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
-
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -21,9 +19,7 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
             if (!IsPostBack)
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
-               
                 FnInitializeForm();
-                ObjLst.FnGetQuotaList(DdlQuota, "");
             }
         }
         catch (Exception ex)
@@ -37,7 +33,7 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
         ObjCls = new ClsStudentAdmissionDetails(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
-        
+        Session["DOC"] = "";
         FnFindRecord();
     }
 
@@ -46,12 +42,9 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjCls.Rank = TxtRank.Text.Trim();
         ObjCls.ClassId = ObjCls.FnIsNumeric(CtrlGrdAdmmisionClass.SelectedValue.ToString());
-        ObjCls.QuotaId = ObjCls.FnIsNumeric(DdlQuota.SelectedValue.ToString());
-        ObjCls.Remarks = TxtRemarks.Text.Trim();
-
-
+        ObjCls.QuotaId = ObjCls.FnIsNumeric(CtrlGrdQuota.SelectedValue.ToString());
+        ObjCls.Rank = TxtRank.Text.Trim();
     }
 
     public void FnClose()
@@ -61,19 +54,18 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
     public override void FnCancel()
     {
         base.FnCancel();
-
-        TxtRank.Text = "";
+        CtrlGrdAdmmisionClass.SelectedValue = "";
         CtrlGrdAdmmisionClass.SelectedText = "";
-        CtrlGrdAdmmisionClass.SelectedValue = "0";
-        DdlQuota.SelectedValue = "0";
+        CtrlGrdQuota.SelectedValue = "";
+        CtrlGrdQuota.SelectedText = "";
+        TxtRank.Text = "";
         TxtRemarks.Text = "";
-
         FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
-        TabContainer1.ActiveTabIndex = 0;
-        FnFocus(TxtRank);
+        TabContainer1.ActiveTabIndex = 1;
+        FnFocus(CtrlGrdAdmmisionClass.ControlTextBox);
     }
 
     public void FnFindRecord()
@@ -109,7 +101,6 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                   
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -149,8 +140,6 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
-
     protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
     {
         try
@@ -158,12 +147,15 @@ public partial class STUDENT_StudentAdmissionDtls : ClsPageEvents, IPageInterFac
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
-
-            TxtRank.Text = ObjCls.Rank.ToString();
+            
             CtrlGrdAdmmisionClass.SelectedValue = ObjCls.ClassId.ToString();
             CtrlGrdAdmmisionClass.SelectedText = ObjCls.ClassName.ToString();
-            DdlQuota.SelectedValue = ObjCls.QuotaId.ToString();
+
+            CtrlGrdQuota.SelectedValue = ObjCls.QuotaId.ToString();
+            CtrlGrdQuota.SelectedValue = ObjCls.QuotaName.ToString();
+            TxtRank.Text = ObjCls.Rank.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
+
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";

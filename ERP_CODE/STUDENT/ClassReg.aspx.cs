@@ -36,12 +36,10 @@ public partial class STUDENT_ClassReg : ClsPageEvents,IPageInterFace
         ObjCls.TType = FnGetRights().TTYPE;
         ObjCls.MenuId = FnGetRights().MENUID;
         TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
+
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
-
-
-
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
@@ -60,13 +58,11 @@ public partial class STUDENT_ClassReg : ClsPageEvents,IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        TxtName.Text = "";
         TxtPriority.Text = "";
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkApprove.Checked = false;
-       
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";

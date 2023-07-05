@@ -22,7 +22,7 @@
                                 <asp:Label ID="Label122" runat="server" Text="Language Name" Width="110px" Height="30px"></asp:Label>
                             </td>
                             <td class="odd" style="width: 319px; height: 40px">
-                                <asp:TextBox ID="TxtName" runat="server" placeholder="Language Name" Width="300px" Height="30px"></asp:TextBox>
+                                <asp:TextBox ID="TxtName" runat="server" placeholder="Language Name"></asp:TextBox>
                             </td>
                         </tr>
                             <tr>
@@ -30,7 +30,7 @@
                                 <asp:Label ID="Label2" runat="server" Text="Code" Width="90px" Height="30px"></asp:Label>
                             </td>
                             <td class="odd" style="width: 319px; height: 40px">
-                               <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" Width="120px" Height="30px"></asp:TextBox>
+                               <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCode"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>

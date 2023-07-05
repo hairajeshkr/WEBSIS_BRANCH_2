@@ -6,11 +6,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.IO;
-public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFace
+public partial class STUDENT_DocUpload : ClsPageEvents, IPageInterFace
 {
-    
-    
-         ClsDocumentUpload ObjCls = new ClsDocumentUpload();
+    ClsDocumentUpload ObjCls = new ClsDocumentUpload();
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
@@ -21,11 +19,8 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
             if (!IsPostBack)
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
-               
                 FnInitializeForm();
                 ObjLst.FnGetDocumentList(DdlDocument, "");
-                
-                   
             }
         }
         catch (Exception ex)
@@ -40,10 +35,7 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
         ObjCls = new ClsDocumentUpload(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         Session["DOC"] = "";
         FnFindRecord();
-        
     }
-
-
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
@@ -63,7 +55,6 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
         base.FnCancel();
         DdlDocument.SelectedValue = "";
         TxtRemarks.Text = "";
-        FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
@@ -104,7 +95,7 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    
+
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -121,6 +112,7 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
                     base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     break;
                 case "CLEAR":
+                    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
                     FnCancel();
                     break;
                 case "CLOSE":
@@ -151,13 +143,13 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
-           
+
             Session["DOC"] = ObjCls.UploadFileName;
             FnBindDocumetPath(HyLnkDoc, ObjCls.UploadFileName, "DOC");
 
             DdlDocument.SelectedValue = ObjCls.DocTypeId.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
-            
+
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";
@@ -194,7 +186,7 @@ public partial class STUDENT_StudentDocumentUpload : ClsPageEvents, IPageInterFa
             {
                 if (allowed.Contains(Path.GetExtension(e.FileName)))
                 {
-                    Session["DOC"] = FnSaveUploadFileName(ObjCls, e.FileName, "EDU");
+                    Session["DOC"] = FnSaveUploadFileName(ObjCls, e.FileName, "DOC");
                     FileUploadDoc.PostedFile.SaveAs(FnServerUploadPath(FnDocFilePath("DOC", Session["DOC"].ToString().Trim())));
                 }
                 else

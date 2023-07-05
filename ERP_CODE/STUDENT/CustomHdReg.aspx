@@ -5,11 +5,8 @@
 <%@ Register src="../CtrlDate.ascx" tagname="CtrlDate" tagprefix="uc3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
      <script language="javascript" src="Script/CustomHead.js" type="text/javascript"></script>
-
-
-
     <div style="height:385px; width:569px">
-      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="385px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="385px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
               <HeaderTemplate> Custom Head
               </HeaderTemplate>
@@ -28,19 +25,15 @@
                               <asp:Label ID="Label2" runat="server" Text="Code" Width="110px"></asp:Label>
                           </td>
                           <td class="even">
-                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="False"></asp:TextBox>
+                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="false"></asp:TextBox>
                           </td>
-                         
                       </tr>
-
-                        
-
                      <tr>
                             <td class="odd">
                                 <asp:Label ID="Label3" runat="server" Text="Head Type" Width="100px"></asp:Label>
                             </td>
                             <td class="odd" >
-                                 <asp:DropDownList ID="DropDowHeadType" runat="server" Width="300px"></asp:DropDownList>
+                                 <asp:DropDownList ID="DdlHeadType" runat="server" Width="300px"></asp:DropDownList>
                             </td>
                             <td class="odd"></td>
                         </tr>
@@ -66,12 +59,8 @@
                                           <asp:CheckBox ID="ChkApprove" runat="server" SkinID="ChkBox" Font-Bold="False" Text="Is Approve" Width="102px" Visible="False" /></td>
                                   </tr>
                               </table>
-                                                       </td>
-                         
+                             </td>                         
                       </tr>
-
-
-
                         <tr>
                           <td align="center" class="FooterCommand" colspan="3" valign="middle">
                               <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />
@@ -80,8 +69,6 @@
 
                        </table>
               </ContentTemplate>
-
-
                </ajaxToolkit:TabPanel>
           <ajaxToolkit:TabPanel ID="TabPanel2" runat="server" HeaderText="TabPanel2">
               <HeaderTemplate>Custom Head List
@@ -106,8 +93,6 @@
                               <asp:Button ID="BtnFind" runat="server" OnClick="ManiPulateDataEvent_Clicked" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" />
                           </td>
                       </tr>
-
-
                       <tr>
                           <td colspan="5">
                               <div class="result-list" style="overflow: scroll; height: 300px; width: 529px;">
@@ -129,15 +114,11 @@
                                           <ItemStyle Width="200px" />
                                           </asp:BoundField>
                                           <asp:CheckBoxField DataField="Active" HeaderText="Active" />
-                                          <%--<asp:BoundField DataField="HeadTypeId" HeaderText="Head Type" />--%>
                                       </Columns>
                                   </asp:GridView>
                               </div>
                           </td>
                       </tr>
-
-
-
                       <tr>
                           <td></td>
                           <td></td>
@@ -147,14 +128,7 @@
                       </tr>
                   </table>
               </ContentTemplate>
-
-
-
                 </ajaxToolkit:TabPanel>
       </ajaxToolkit:TabContainer>
         </div>  
-
-
-
 </asp:Content>
-

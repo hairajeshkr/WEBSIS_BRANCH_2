@@ -33,6 +33,7 @@ public partial class STUDENT_StudentCatReg : ClsPageEvents,IPageInterFace
         ObjCls.TType = FnGetRights().TTYPE;
         ObjCls.MenuId = FnGetRights().MENUID;
         TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
+
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -48,17 +49,12 @@ public partial class STUDENT_StudentCatReg : ClsPageEvents,IPageInterFace
     public override void FnCancel()
     {
         base.FnCancel();
-
         TxtName.Text = "";
-        //TxtCode.Text = "";
         TxtName_Srch.Text = "";
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
         ChkReservation.Checked = true;
-
-       
-
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 0;

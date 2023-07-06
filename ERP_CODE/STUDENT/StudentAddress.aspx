@@ -200,9 +200,14 @@
                               </td>
                           </tr>
                           <tr>
-                              <td align="center" class="FooterCommand" colspan="4" valign="middle">
+                              
+                              <td align="center" class="FooterCommand" colspan="5" valign="middle">
+                                  
                                   <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="false" />
                               </td>
+                               <td align="center" class="FooterCommand" colspan="6" valign="middle">
+                                 <asp:Button ID="Button1" runat="server" Text="Copy To" OnClick="Button1_Click" />
+                               </td>
                           </tr>
                       </tr>                            
              </table>

@@ -47,8 +47,8 @@
                             <td class="even">
                                 <asp:Label ID="Label123" runat="server" Text="Custome Head" Width="152px"></asp:Label>
                             </td>
-                            <td class="even">
-                                <uc2:CtrlGridList ID="CtrlGrdCustomeHead" runat="server" AccountType="CustomerHead" PlaceHoldr="Custome Head" />
+                            <td class="even" >
+                                <asp:DropDownList ID="DdlCustomHead" runat="server" OnSelectedIndexChanged="DdlCustomHead_SelectedIndexChanged" Width="300px" AutoPostBack="True"></asp:DropDownList>
                             </td>
                             <td class="even">
                                 <asp:Label ID="Label125" runat="server" Width="200px"></asp:Label>
@@ -60,7 +60,13 @@
                                 <asp:Label ID="Label122" runat="server" Text="Hobbies &amp; Activities" Width="152px"></asp:Label>
                             </td>
                             <td class="even">
-                                <uc2:CtrlGridList ID="CtrlGrdCustome" runat="server" AccountType="CustomeType" PlaceHoldr="Hobbies &amp; Activities" />
+                                <asp:TextBox ID="TextBox1" runat="server" ></asp:TextBox>
+                                <asp:CheckBoxList ID="CheckBoxList1" runat="server" >
+                                    <asp:ListItem Text="S" Value="1"></asp:ListItem>
+                                </asp:CheckBoxList>
+                                <asp:RadioButtonList ID="RadioButtonList1" runat="server">
+                                     <asp:ListItem Text="S1" Value="1"></asp:ListItem>
+                                </asp:RadioButtonList>
                             </td>
                             <td class="even"></td>
                             <td class="even"></td>

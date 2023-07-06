@@ -20,8 +20,9 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
                 FnInitializeForm();
+                ObjLst.FnGetCustomTypeList(DdlCustomHead, "");
             }
-            CtrlGrdCustome.ParentControl = CtrlGrdCustomeHead.IdControl;
+           // CtrlGrdCustome.ParentControl = DdlCustomHead.IdControl;
         }
         catch (Exception ex)
         {
@@ -41,7 +42,7 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjCls.CustomId = ObjCls.FnIsNumeric(CtrlGrdCustome.SelectedValue);
+        //ObjCls.CustomId = ObjCls.FnIsNumeric(CtrlGrdCustome.SelectedValue);
         ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtOrderIndex.Text.Trim());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
@@ -53,10 +54,9 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
     public override void FnCancel()
     {
         base.FnCancel();
-        CtrlGrdCustome.SelectedValue = "0";
-        CtrlGrdCustome.SelectedText = "";
-        CtrlGrdCustomeHead.SelectedValue = "0";
-        CtrlGrdCustomeHead.SelectedText = "";
+        //CtrlGrdCustome.SelectedValue = "0";
+        //CtrlGrdCustome.SelectedText = "";
+        DdlCustomHead.SelectedIndex = 0;
         TxtOrderIndex.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
@@ -66,7 +66,7 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 1;
-        FnFocus(CtrlGrdCustomeHead.ControlTextBox);
+        FnFocus(DdlCustomHead);
     }
     public void FnFindRecord()
     {
@@ -147,10 +147,10 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
-            CtrlGrdCustome.SelectedValue = ObjCls.CustomId.ToString();
-            CtrlGrdCustome.SelectedText  = ObjCls.CustomName.ToString();
-            CtrlGrdCustomeHead.SelectedValue = ObjCls.ParentId.ToString();
-            CtrlGrdCustomeHead.SelectedText = ObjCls.Parent.ToString();
+            //CtrlGrdCustome.SelectedValue = ObjCls.CustomId.ToString();
+            //CtrlGrdCustome.SelectedText  = ObjCls.CustomName.ToString();
+            DdlCustomHead.Text = ObjCls.ParentId.ToString();
+            
             TxtOrderIndex.Text = ObjCls.OrderIndex.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
@@ -179,4 +179,9 @@ public partial class STUDENT_StudentHobbiesDtls : ClsPageEvents, IPageInterFace
         }
     }
 
+
+    protected void DdlCustomHead_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
 }

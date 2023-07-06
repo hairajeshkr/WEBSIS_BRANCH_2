@@ -703,10 +703,10 @@ public partial class STUDENT_StudentAddress : ClsPageEvents,IPageInterFace
         //LblStudentId.Text = LnkStudentCode.Text;
 
        // _strHdr = "Student Id :-" + LnkStudentCode.Text + " , " + LnkName.Text;
-        _strUrl = "SalutationReg.aspx?CNTRID=" + ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString()) + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
+        _strUrl = "StudentAddressCopy.aspx?CNTRID=" + ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString()) + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
         _strTitle = "ADDRESS COPY : - " ;
         //_strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',900,600);";
-         FnPopUpChild(ObjCls,  _strTitle ,  _strUrl, 900,600,true);
+         FnPopUpChild(ObjCls,  _strTitle ,  _strUrl, 450,350,true);
 
         //Button1.Attributes.Add("onClick", _strLnk);
 

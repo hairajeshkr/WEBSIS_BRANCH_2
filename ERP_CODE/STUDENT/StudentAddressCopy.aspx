@@ -16,7 +16,7 @@
                       <tr><td class="odd">
                              
                            <td >
-                                <asp:Label ID="Label4" runat="server" Text="Copy Address To" Width="150px"></asp:Label>
+                                <asp:Label ID="Label4" runat="server" Text="Copy Address To" Width="150px" Font-Bold="True"></asp:Label>
                           <asp:CheckBoxList ID="CheckBoxList1" runat="server" >
                                     <asp:ListItem Text="Father Address" Value="1"></asp:ListItem>
                                     <asp:ListItem Text="Mother Address" Value="2"></asp:ListItem>
@@ -27,7 +27,7 @@
                           <td class="odd">
                                <td >
                          
-                              <asp:Label ID="Label2" runat="server" Text="Copy Options" Width="100px"></asp:Label>
+                              <asp:Label ID="Label2" runat="server" Text="Copy Options" Width="100px" Font-Bold="True"></asp:Label>
                               <asp:CheckBoxList ID="CheckBoxList2" runat="server" >
                                     <asp:ListItem Text="Permenant Address" Value="1"></asp:ListItem>
                                     <asp:ListItem Text="Temporary Address" Value="2"></asp:ListItem>

@@ -9,8 +9,8 @@ using System.Data;
 public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
 {
     ClsClass ObjCls = new ClsClass();
-    ClsDropdownRecordList obj=new ClsDropdownRecordList();
-    
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
+
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -20,8 +20,8 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
             if (!IsPostBack)
             {
                 FnInitializeForm();
-                obj.FnGetBranchList(DrpInstitution, "");
-                obj.FnGetBranchList(DrpInstitution1, "");
+                ObjLst.FnGetBranchList(DrpInstitution, "");
+                ObjLst.FnGetBranchList(DrpInstitution1, "");
                 //filldropdown();
                 //ObjCls = new ClsUser(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
             }
@@ -33,17 +33,24 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
     }
     public override void FnInitializeForm()
     {
+        //TabContainer1.ActiveTabIndex = 0;
+        ///*int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID;
+        //ObjCls = new clsAccountGroup(ref iCmpId, ref iBrId, ref iFaId);*/
+        //ViewState["DT"] = ObjCls.FnConvertStringToDataTable(ObjCls.FnReadXmlFile(Server.MapPath("XML_NULL//GENERAL.xml"))) as DataTable;
+        //FnGridViewBinding("");
+
         TabContainer1.ActiveTabIndex = 0;
-        /*int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID;
-        ObjCls = new clsAccountGroup(ref iCmpId, ref iBrId, ref iFaId);*/
+        int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
+        ObjCls = new ClsClass(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
     public void FnAssignProperty()
     {
     }
-    public void FnAssignStudent() 
-    { 
+    public void FnAssignStudent()
+    {
         foreach (GridViewRow gvrow in GrdVwRecords.Rows)
         {
             var checkbox = gvrow.FindControl("ChkSelect") as CheckBox;
@@ -83,7 +90,7 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
     {
         base.FnAssignProperty(ObjCls);
         //ObjCls.Name = TxtName_Srch.Text.Trim();
-       // ObjCls.Code = TxtCode_Srch.Text.Trim();
+        // ObjCls.Code = TxtCode_Srch.Text.Trim();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
         TabContainer1.ActiveTabIndex = 1;
@@ -110,98 +117,119 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
+                    DataTable dt = new DataTable();
+                    DataRow dr;
+                    DataTable dts = new DataTable();
+                    DataRow drs;
+
+                    dt.Columns.Add(new DataColumn("StudentName"));
+                    dt.Columns.Add(new DataColumn("StudentId"));
+                    dt.Columns.Add(new DataColumn("ClassName"));
+                    dt.Columns.Add(new DataColumn("DivisionName"));
+
+                    dts.Columns.Add(new DataColumn("StudentName"));
+                    dts.Columns.Add(new DataColumn("StudentId"));
+                    dts.Columns.Add(new DataColumn("Institution"));
+                    dts.Columns.Add(new DataColumn("ClassName"));
+                    dts.Columns.Add(new DataColumn("DivisionName"));
+
+
+                    foreach (GridViewRow gvr in GrdVwRecords.Rows)
+                    {
+                        if (((CheckBox)gvr.Cells[0].FindControl("chk")).Checked == true)
+                        {
+                            dr = dt.NewRow();
+                            dr["StudentName"] = ((Label)gvr.Cells[0].FindControl("LblName")).Text;
+                            dr["StudentId"] = ((Label)gvr.Cells[1].FindControl("LblCode")).Text;
+                            dr["ClassName"] = ((Label)gvr.Cells[2].FindControl("LblClass")).Text;
+                            dr["DivisionName"] = ((Label)gvr.Cells[3].FindControl("LblDiv")).Text;
+                            dt.Rows.Add(dr);
+                        }
+                        GridView1.DataSource = dt;
+                        GridView1.DataBind();
+
+                    }
+
+
+                    string ins = DrpInstitution1.SelectedItem.ToString();
+                    string cls1 = DrpClass1.SelectedItem.ToString();
+                    string division = DrpDivision1.SelectedItem.ToString();
+                    foreach (GridViewRow gvr in GridView1.Rows)
+                    {
+                        drs = dts.NewRow();
+                        drs["StudentName"] = ((Label)gvr.Cells[1].FindControl("LblName1")).Text;
+                        drs["StudentId"] = ((Label)gvr.Cells[1].FindControl("LblCode1")).Text;
+                        drs["Institution"] = ins;
+                        drs["ClassName"] = cls1;                 //((Label)gvr.Cells[2].FindControl("LblClass")).Text;
+                        drs["DivisionName"] = division;          //((Label)gvr.Cells[3].FindControl("LblDiv")).Text;
+                        dts.Rows.Add(drs);
+                    }
+
+
+                    GrdStudents.DataSource = dts;
+                    GrdStudents.DataBind();
+                    GrdStudents.SelectedIndex = -1;
+                    TabContainer1.ActiveTabIndex = 1;
+
+
+
+                    break;
+
                     //// if (TxtName.Text.Trim().Length <= 0)
                     // {
                     //     FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the name"));
                     //  //   FnFocus(TxtName);
                     //     return;
                     // }
-                    FnAssignStudent();
-                    switch (((Button)sender).CommandArgument.ToString().ToUpper())
-                    {
-                        case "NEW":
-                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
-                            break;
-                        case "UPDATE":
-                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
-                            break;
-                    }
-                    break;
-                //case "DELETE":
-                //    FnAssignProperty();
-                //    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                //    break;
-                //case "CLEAR":
-                //    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
-                //    FnCancel();
-                //    break;
-                //case "CLOSE":
-                //    ObjCls.FnAlertMessage(" You Have No permission To Close Record");
-                //    break;
-                //case "PRINT":
-                //    FnAssignProperty();
-                //    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                //    break;
-                //case "FIND":
-                //    FnFindRecord();
-                //    //FnAssignProperty();
-                //    //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                //    //FnGridViewBinding("");
-                //    //System.Threading.Thread.Sleep(1000000);
-                //    break;
-                //case "HELP":
-                //    ObjCls.FnAlertMessage(" You Have No permission To Help Record");
-                //    break;
-                //case "FIRST":
-                //    //========Code
-                //    break;
-                //case "PREVIOUS":
-                //    //========Code
-                //    break;
-                //case "NEXT":
-                //    //========Code
-                //    break;
-                //case "LAST":
-                //    //========Code
-                //    break;
+                    //FnAssignStudent();
+                    //switch (((Button)sender).CommandArgument.ToString().ToUpper())
+                    //{
+                    //    case "NEW":
+                    //        base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
+                    //        break;
+                    //    case "UPDATE":
+                    //        base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
+                    //        break;
+                    //}
+                    //break;
+                    //case "DELETE":
+                    //    FnAssignProperty();
+                    //    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    //    break;
+                    //case "CLEAR":
+                    //    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
+                    //    FnCancel();
+                    //    break;
+                    //case "CLOSE":
+                    //    ObjCls.FnAlertMessage(" You Have No permission To Close Record");
+                    //    break;
+                    //case "PRINT":
+                    //    FnAssignProperty();
+                    //    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    //    break;
+                    //case "FIND":
+                    //    FnFindRecord();
+                    //    //FnAssignProperty();
+                    //    //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    //    //FnGridViewBinding("");
+                    //    //System.Threading.Thread.Sleep(1000000);
+                    //    break;
+                    //case "HELP":
+                    //    ObjCls.FnAlertMessage(" You Have No permission To Help Record");
+                    //    break;
+                    //case "FIRST":
+                    //    //========Code
+                    //    break;
+                    //case "PREVIOUS":
+                    //    //========Code
+                    //    break;
+                    //case "NEXT":
+                    //    //========Code
+                    //    break;
+                    //case "LAST":
+                    //    //========Code
+                    //    break;
             }
-        }
-        catch (Exception ex)
-        {
-            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-        }
-    }
-    protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
-    {
-        try
-        {
-            GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
-            ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
-            ViewState["ID"] = ObjCls.ID.ToString();
-            //TxtName.Text = ObjCls.Name.ToString();
-            //TxtCode.Text = ObjCls.Code.ToString();
-
-            //TxtRemarks.Text = ObjCls.Remarks.ToString();
-            //ChkActive.Checked = ObjCls.Active;
-            //ChkApprove.Checked = ObjCls.IsApprove;
-            ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
-
-            CtrlCommand1.SaveText = "Update";
-            CtrlCommand1.SaveCommandArgument = "UPDATE";
-
-            TabContainer1.ActiveTabIndex = 0;
-        }
-        catch (Exception ex)
-        {
-            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-        }
-    }
-    protected void GrdVwRecords_PageIndexChanging(object sender, GridViewPageEventArgs e)
-    {
-        try
-        {
-            GrdVwRecords.PageIndex = e.NewPageIndex;
-            FnGridViewBinding("");
         }
         catch (Exception ex)
         {
@@ -218,9 +246,9 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
             GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
             GrdVwRecords.DataBind();
             GrdVwRecords.SelectedIndex = -1;
-            
+
         }
-        else if((DrpInstitution.SelectedValue != "0")&&(DrpClass.SelectedValue=="0")&&(DrpDivision.SelectedValue=="0"))
+        else if ((DrpInstitution.SelectedValue != "0") && (DrpClass.SelectedValue == "0") && (DrpDivision.SelectedValue == "0"))
         {
             DataTable dt = (ObjCls.FnGetDataSet("select  nId ID,cName,'' Remarks,'True' Active from TblBranch") as DataSet).Tables[0];
             GrdVwRecords.DataSource = dt;
@@ -230,16 +258,21 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
         }
         else if ((DrpInstitution.SelectedValue != "0") && (DrpClass.SelectedValue != "0") && (DrpDivision.SelectedValue == "0"))
         {
-            DataTable dt = (ObjCls.FnGetDataSet("select  nId ID,cName,'' Remarks,'True' Active from TblClassDetails") as DataSet).Tables[0];
+            //DataTable dt = (ObjCls.FnGetDataSet("select  nId ID,cName,'' Remarks,'True' Active from TblRegistrationStudent") as DataSet).Tables[0];
+            DataTable dt = (ObjCls.FnGetDataSet("select  * from TblRegistrationStudent") as DataSet).Tables[0];
             GrdVwRecords.DataSource = dt;
             GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
             GrdVwRecords.DataBind();
             GrdVwRecords.SelectedIndex = -1;
         }
-        else if((DrpInstitution.SelectedValue != "0") && (DrpClass.SelectedValue != "0") && (DrpDivision.SelectedValue != "0"))
+        else if ((DrpInstitution.SelectedValue != "0") && (DrpClass.SelectedValue != "0") && (DrpDivision.SelectedValue != "0"))
         {
-            DataTable dt = (ObjCls.FnGetDataSet("select  nId ID,cName,'' Remarks,'True' Active from TblClassDetails") as DataSet).Tables[0];
+            DataTable dt = (ObjCls.FnGetDataSet("select  TRS.cCode ID,TRS.cName Name,(select CName from TblClassDetails TGL where TGL.nId=TBL.nClassId and cTType='CLS') ClassName,(select CName from TblClassDetails TDL where TDL.nId=TBL.nDivisionId and cTType='DIVN') DivisionName from TblStudentAdmissionDetails TBL INNER JOIN TblRegistrationStudent TRS on TRS.nId=TBL.nStudentId") as DataSet).Tables[0];
+            //DataTable dt = (ObjCls.FnGetDataSet("select  * from TblRegistrationStudent") as DataSet).Tables[0];
+            // INNER JOIN TblClassDetails TDL on TRS.nDivisionId=TDL.nId AND TCL.cTType='DIVN'
+            //DataTable dt = (ObjCls.FnGetDataSet("select  TRS.nId ID,TRS.cName,TAD.cName,TAD.cName,'' Remarks,'True' Active from TblRegistrationStudent TRS inner join TblStudentAdmissionDetails TAD on TRS.nStudentId=TAD.nStudentId ") as DataSet).Tables[0];
             GrdVwRecords.DataSource = dt;
+            
             GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
             GrdVwRecords.DataBind();
             GrdVwRecords.SelectedIndex = -1;
@@ -252,18 +285,18 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
     {
         //obj.FnGetBranchList(DrpInstitution, "");
         DrpClass.Items.Clear();
-        DrpClass.Items.Add(new ListItem("select","0"));
+        DrpClass.Items.Add(new ListItem("select", "0"));
         int i = ObjCls.FnIsNumeric(DrpInstitution.SelectedValue);
         DataTable clsCls = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='CLS' and nBranchId=" + i + "") as DataSet).Tables[0];
         DrpClass.DataSource = clsCls;
         DrpClass.DataValueField = "nId";
         DrpClass.DataTextField = "cName";
         DrpClass.DataBind();
-        
+
     }
 
     protected void DrpInstitution1_SelectedIndexChanged(object sender, EventArgs e)
-    { 
+    {
         DrpClass1.Items.Clear();
         DrpClass1.Items.Add(new ListItem("select", "0"));
         int j = ObjCls.FnIsNumeric(DrpInstitution1.SelectedValue);
@@ -281,8 +314,8 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
         DrpDivision.Items.Clear();
         DrpDivision.Items.Add(new ListItem("select", "0"));
         int i = ObjCls.FnIsNumeric(DrpClass.SelectedValue);
-        DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='CLS' and nParentId=" + i + "") as DataSet).Tables[0];
-        //DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='DIVN'") as DataSet).Tables[0];
+        //DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='CLS' and nParentId=" + i + "") as DataSet).Tables[0];
+        DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='DIVN'  and nParentId=" + i + "") as DataSet).Tables[0];
         DrpDivision.DataSource = clsDiv;
         DrpDivision.DataValueField = "nId";
         DrpDivision.DataTextField = "cName";
@@ -295,8 +328,8 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
         DrpDivision1.Items.Clear();
         DrpDivision1.Items.Add(new ListItem("select", "0"));
         int i = ObjCls.FnIsNumeric(DrpClass1.SelectedValue);
-        DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='CLS' and nParentId=" + i + "") as DataSet).Tables[0];
-        //DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='DIVN'") as DataSet).Tables[0];
+        //DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='DIVN' ") as DataSet).Tables[0];
+        DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='DIVN' and nParentId=" + i + "") as DataSet).Tables[0];
         DrpDivision1.DataSource = clsDiv;
         DrpDivision1.DataValueField = "nId";
         DrpDivision1.DataTextField = "cName";
@@ -305,44 +338,70 @@ public partial class STUDENT_ClassAssign : ClsPageEvents, IPageInterFace
 
     }
 
-    protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+    protected void cbxHdrPresent_OnCheckedChanged(object sender, EventArgs e)
     {
-        
-        foreach (GridViewRow gvrow in GrdVwRecords.Rows)
+        int chkCount = 0;
+        CheckBox chkHead = (CheckBox)GrdVwRecords.HeaderRow.FindControl("chkAll");
+        if (chkHead.Checked)
         {
-            var checkbox = gvrow.FindControl("ChkSelect") as CheckBox;
-            if (checkbox.Checked)
+            for (int i = 0; i < GrdVwRecords.Rows.Count; i++)
             {
-                DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId ID,cName from TblClassDetails where cTType='CLS' ") as DataSet).Tables[0];
-                GrdStudents.DataSource = clsDiv;
-                GrdStudents.DataKeyNames = new String[] { ObjCls.KeyName };
-                GrdStudents.DataBind();
-                GrdStudents.SelectedIndex = -1;
-                //TabContainer1.ActiveTabIndex = 1;
+                CheckBox chk = (CheckBox)GrdVwRecords.Rows[i].FindControl("chk");
+                chk.Checked = true;
+                chkCount++;
+                DataTable dt = new DataTable();
+                DataRow dr;
+
+                dt.Columns.Add(new DataColumn("StudentName"));
+                dt.Columns.Add(new DataColumn("StudentId"));
+                dt.Columns.Add(new DataColumn("ClassName"));
+                dt.Columns.Add(new DataColumn("DivisionName"));
+                foreach (GridViewRow gvr in GrdVwRecords.Rows)
+                {
+                    //if(((CheckBox)gvr.Cells[5].FindControl("chkb1")).Checked == true)
+                    //{
+                    dr = dt.NewRow();
+                    dr["StudentName"] = ((Label)gvr.Cells[1].FindControl("LblName")).Text;
+                    dr["StudentId"] = ((Label)gvr.Cells[2].FindControl("LblCode")).Text;
+                    dr["ClassName"] = ((Label)gvr.Cells[3].FindControl("LblClass")).Text;
+                    dr["DivisionName"] = ((Label)gvr.Cells[4].FindControl("LblDiv")).Text;
+                    dt.Rows.Add(dr);
+                    // }
+                    GridView1.DataSource = dt;
+                    GridView1.DataBind();
+                }
 
             }
         }
-    }
-    protected void GetSelectedRecords(object sender, EventArgs e)
-    {
-        DataTable dt = new DataTable();
-        dt.Columns.AddRange(new DataColumn[4] { new DataColumn("Name"), new DataColumn("Id"), new DataColumn("Class"), new DataColumn("Division") });
-        foreach (GridViewRow row in GrdVwRecords.Rows)
+        else
         {
-            if (row.RowType == DataControlRowType.DataRow)
+            for (int i = 0; i < GrdVwRecords.Rows.Count; i++)
             {
-                CheckBox chkRow = (row.Cells[0].FindControl("ChkSelect") as CheckBox);
-                if (chkRow.Checked)
+                CheckBox chk = (CheckBox)GrdVwRecords.Rows[i].FindControl("chkb2");
+                chk.Checked = false;
+                DataTable dt = new DataTable();
+                DataRow dr;
+
+                dt.Columns.Add(new DataColumn("StudentName"));
+                dt.Columns.Add(new DataColumn("StudentId"));
+                dt.Columns.Add(new DataColumn("ClassName"));
+                dt.Columns.Add(new DataColumn("DivisionName"));
+                foreach (GridViewRow gvr in GrdVwRecords.Rows)
                 {
-                    string name = row.Cells[1].Text;
-                    //string id=row.Cells[2].Text;
-                    string cls=row.Cells[3].Text;
-                    string div=row.Cells[4].Text;
-                    dt.Rows.Add(name,cls,div);
+                    //if (((CheckBox)gvr.Cells[5].FindControl("chkb1")).Checked == true)
+                    //{
+                    dr = dt.NewRow();
+                    dr["StudentName"] = ((Label)gvr.Cells[1].FindControl("LblName")).Text;
+                    dr["StudentId"] = ((Label)gvr.Cells[2].FindControl("LblCode")).Text;
+                    dr["ClassName"] = ((Label)gvr.Cells[3].FindControl("LblClass")).Text;
+                    dr["DivisionName"] = ((Label)gvr.Cells[4].FindControl("LblDiv")).Text;
+                    dt.Rows.Add(dr);
+                    // }
+                    GridView1.DataSource = dt;
+                    GridView1.DataBind();
                 }
             }
         }
-        GrdStudents.DataSource = dt;
-        GrdStudents.DataBind();
     }
+
 }

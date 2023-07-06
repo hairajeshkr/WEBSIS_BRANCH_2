@@ -27,11 +27,23 @@
                               <asp:Label ID="Label3" runat="server" Text="Code" Width="125px"></asp:Label>
                           </td>
                           <td class="even">
-                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="false"></asp:TextBox>
+                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="False"></asp:TextBox>
                           </td>
                           <td class="even"></td>
                           <td class="even"></td>
                       </tr>
+                       <tr>
+                           <td class="even">
+                              <asp:Label ID="Label1" runat="server" Text="Head Type" Width="125px"></asp:Label>
+                          </td>
+                           <td class="odd">
+                               <asp:RadioButtonList ID="RadioButtonList1" runat="server" RepeatDirection="Horizontal" >
+                                   <asp:ListItem Text="Single-select" Value="S"></asp:ListItem>
+                                   <asp:ListItem Text="Multi-select" Value="M"></asp:ListItem>
+                                   <asp:ListItem Text="Text&nbsp&nbsp" Value="T"></asp:ListItem>
+                               </asp:RadioButtonList>
+                           </td>
+                       </tr>
                         <tr>
                           <td class="even">
                               <asp:Label ID="Label12" runat="server" Text="Remarks" Width="125px"></asp:Label>

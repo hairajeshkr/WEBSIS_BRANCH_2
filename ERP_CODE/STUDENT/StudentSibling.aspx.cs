@@ -39,7 +39,6 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
         base.FnAssignProperty(ObjCls);
         ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
         ObjCls.SiblingId = ObjCls.FnIsNumeric(CtrlGrdStudent.SelectedValue.ToString());
-        ObjCls.RelationShip = DdlRelationshp.SelectedValue.ToString();
         ObjCls.Remarks = TxtRemarks.Text.Trim();
     }
     public void FnClose()
@@ -52,9 +51,7 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
 
         CtrlGrdStudent.SelectedText = "";
         CtrlGrdStudent.SelectedValue = "0";
-        DdlRelationshp.SelectedIndex = 0;
         TxtRemarks.Text = "";
-        FnInitializeForm();
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
@@ -144,7 +141,6 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
             ViewState["ID"] = ObjCls.ID.ToString();
             CtrlGrdStudent.SelectedValue = ObjCls.SiblingId.ToString();
             CtrlGrdStudent.SelectedText = ObjCls.SiblingName.ToString();
-            DdlRelationshp.Text = ObjCls.RelationShip;
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 

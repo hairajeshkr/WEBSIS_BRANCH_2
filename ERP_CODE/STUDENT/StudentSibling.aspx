@@ -19,9 +19,14 @@
                                       <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("SiblingName") %>' Width="300px"></asp:LinkButton>
                                   </ItemTemplate>
                               </asp:TemplateField>
-                              <asp:TemplateField HeaderText="RelationShip">
+                              <asp:TemplateField HeaderText="Admission No">
                                   <ItemTemplate>
-                                      <asp:LinkButton ID="LblRelationShip" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("RelationShip") %>' Width="150px"></asp:LinkButton>
+                                      <asp:LinkButton ID="LblAdmNo" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("SiblingAdmissionNo") %>' Width="150px"></asp:LinkButton>
+                                  </ItemTemplate>
+                              </asp:TemplateField>
+                              <asp:TemplateField HeaderText="Student Id">
+                                  <ItemTemplate>
+                                      <asp:LinkButton ID="LblCode" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("SiblingCode") %>' Width="150px"></asp:LinkButton>
                                   </ItemTemplate>
                               </asp:TemplateField>
                               <asp:BoundField DataField="Remarks" HeaderText="Remarks">
@@ -48,16 +53,6 @@
                              <asp:Label ID="Label126" runat="server" Height="30px" Width="150px"></asp:Label>
                          </td>
                          </tr>
-                     <tr>
-                         <td class="odd">
-                             <asp:Label ID="Label125" runat="server" Height="30px" Text="Relationship" Width="120px"></asp:Label>
-                         </td>
-                         <td class="odd">
-                             <asp:DropDownList ID="DdlRelationshp" runat="server" placeholder="Relationship" SkinID="DdlRelationShip">
-                             </asp:DropDownList>
-                         </td>
-                         <td class="odd"></td>
-                     </tr>
                      <tr>
                          <td class="odd">
                              <asp:Label ID="Label1" runat="server" Text="Remarks" Width="120px" Height="30px"></asp:Label>

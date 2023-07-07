@@ -41,7 +41,7 @@
                                  </asp:DropDownList>
                             </td>
                             <td class="odd" style="width: 319px; height: 30px">
-                                <asp:Button ID="BtnFind" runat="server" Text="Fill" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="BtnFind_Click" />
+                                <asp:Button ID="BtnFind" runat="server" Text="FIND" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="ManiPulateDataEvent_Clicked" />
                             </td>
                         </tr>
                         <tr>
@@ -49,24 +49,32 @@
                                 <div class="result-list" style="overflow: scroll; height: 300px; width: 720px;">
                                     <asp:GridView ID="GrdVwRecords" runat="server"  SkinID="GrdVwMaster"  >
                                         <Columns>
-                                            <asp:TemplateField>
-                                                <HeaderTemplate>
-                                                    <asp:CheckBox ID="chkAll" runat="server" onclick="SelectAll(this)" OnCheckedChanged="cbxHdrPresent_OnCheckedChanged" />
-                                                </HeaderTemplate>
+                                           <asp:TemplateField>
+                                                <%-- <HeaderTemplate>
+                                                    <asp:CheckBox ID="chkAll" runat="server" onclick="SelectAll(this)"  />
+                                                </HeaderTemplate>--%>
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="chk" runat="server" onclick="SelectOne(this)" />
+                                                    <asp:CheckBox ID="ChkVal" runat="server" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Student Name">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblName" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("cName") %>' Width="100px"></asp:Label>
+                                                    <asp:Label ID="LblName" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("StudentName") %>' Width="100px"></asp:Label>
+                                                    <asp:HiddenField ID="Hdnstid" runat="server" Value='<%# Eval("StudentId") %>' />
+                                                    <asp:HiddenField ID="HdnAdId" runat="server" Value='<%# Eval("ID") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Student ID">
+                                            
+                                            <%--<asp:TemplateField HeaderText="Admission ID">
                                                 <ItemTemplate>
                                                     <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("ID") %>' Width="100px"></asp:Label>
                                                 </ItemTemplate>
-                                            </asp:TemplateField>
+                                            </asp:TemplateField>--%>
+<%--                                            <asp:TemplateField HeaderText="ID" >
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblid" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("StudentId") %>' Width="100px"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>--%>
                                             <asp:TemplateField HeaderText="Class">
                                                 <ItemTemplate>
                                                     <asp:Label ID="LblClass" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("ClassName") %>' Width="150px"></asp:Label>

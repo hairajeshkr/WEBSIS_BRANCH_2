@@ -5,6 +5,8 @@
 <%@ Register src="../CtrlDate.ascx" tagname="CtrlDate" tagprefix="uc3" %>
 <%@ Register Src="~/CtrlGridList.ascx" TagPrefix="uc1" TagName="CtrlGridList" %>
 
+<%@ Register src="../CtrlMnthYear.ascx" tagname="CtrlMnthYear" tagprefix="uc4" %>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <script language="javascript" src="Script/Division.js" type="text/javascript"></script>
     <div style="height:400px; width:750px">
@@ -41,14 +43,14 @@
                                     <asp:HyperLink ID="HyLnkFile" runat="server" Text='<%# Eval("UploadFileName") %>' Target = "_blank" NavigateUrl='<%# FnFileDownloadPath(Eval("UploadFileName"),"DOC")%>' Width="175px"></asp:HyperLink>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                              <asp:TemplateField HeaderText="From Date">
+                              <asp:TemplateField HeaderText="Start">
                                   <ItemTemplate>
-                                      <asp:Label ID="LblFrmDate" runat="server" SkinID="LblGrdMaster" Text='<%# FnGetDateString(Eval("FromDate"))%>' Width="100px"></asp:Label>
+                                      <asp:Label ID="LblFrmDate" runat="server" SkinID="LblGrdMaster" Text='<%# FnGetMonthYear(Eval("FromDate"))%>' Width="100px"></asp:Label>
                                   </ItemTemplate>
                               </asp:TemplateField>
-                               <asp:TemplateField HeaderText="To Date">
+                               <asp:TemplateField HeaderText="End">
                                   <ItemTemplate>
-                                      <asp:Label ID="LblToDate" runat="server" SkinID="LblGrdMaster" Text='<%# FnGetDateString(Eval("ToDate"))%>' Width="100px"></asp:Label>
+                                      <asp:Label ID="LblToDate" runat="server" SkinID="LblGrdMaster" Text='<%# FnGetMonthYear(Eval("ToDate"))%>' Width="100px"></asp:Label>
                                   </ItemTemplate>
                               </asp:TemplateField>
                               <asp:BoundField DataField="Remarks" HeaderText="Remarks">
@@ -75,7 +77,8 @@
                                 <asp:Label ID="Label125" runat="server" Height="30px" Text="Year of passing" Width="120px"></asp:Label>
                             </td>
                             <td class="odd" style="width: 319px; height: 30px">
-                                <asp:TextBox ID="TxtYear" runat="server" placeholder="Year of passing" SkinID="TxtCode"></asp:TextBox>
+                                <asp:DropDownList ID="DdlYear" runat="server" SkinID="Ddl150">
+                                </asp:DropDownList>
                             </td>
                              </tr>
                              <tr>
@@ -115,20 +118,20 @@
                       </tr>
                       <tr>
                           <td class="odd" style="width: 90px; height: 30px">
-                              <asp:Label ID="Label126" runat="server" Height="30px" Text="From Date" Width="100px"></asp:Label>
+                              <asp:Label ID="Label126" runat="server" Height="30px" Text="Start" Width="100px"></asp:Label>
                           </td>
                           <td class="odd" style="width: 319px; height: 30px">
-                              <uc3:CtrlDate ID="CtrlFrmDate" runat="server" />
+                              <uc4:CtrlMnthYear ID="CtrlFrm" runat="server" />
                           </td>
                           <td class="odd" style="width: 319px; height: 30px"></td>
                           <td class="odd" style="width: 319px; height: 30px"></td>
                       </tr>
                       <tr>
                           <td class="odd" style="width: 90px; height: 30px">
-                              <asp:Label ID="Label127" runat="server" Height="30px" Text="To Date" Width="100px"></asp:Label>
+                              <asp:Label ID="Label127" runat="server" Height="30px" Text="End" Width="100px"></asp:Label>
                           </td>
                           <td class="odd" style="width: 319px; height: 30px">
-                              <uc3:CtrlDate ID="CtrlToDate" runat="server" />
+                              <uc4:CtrlMnthYear ID="CtrlTo" runat="server" />
                           </td>
                           <td class="odd" style="width: 319px; height: 30px"></td>
                           <td class="odd" style="width: 319px; height: 30px"></td>
@@ -159,7 +162,7 @@
                            </td>
                            <td class="odd" style="width: 319px; height: 30px"></td>
                            <td class="odd" style="width: 319px; height: 30px">
-                               <asp:CheckBox ID="ChkActive" runat="server" Checked="True" Visible="false" Font-Bold="False" SkinID="IsActive" Text="Active" Width="92px" />
+                               <asp:CheckBox ID="ChkActive" runat="server" Checked="True" Visible="False" Font-Bold="False" SkinID="IsActive" Text="Active" Width="92px" />
                            </td>
                       </tr>
                       <tr>

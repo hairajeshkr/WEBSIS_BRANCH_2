@@ -23,7 +23,7 @@ public partial class ClsPageEvents : System.Web.UI.Page
     public DataTable DT_RECORD = null;
     public DataView _dwMainRecord = null, _dwChildRecod = null;
 
-    ClsUserRights objUserRights;   
+    ClsUserRights objUserRights;
     protected virtual void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -36,7 +36,7 @@ public partial class ClsPageEvents : System.Web.UI.Page
             ViewState["DT_CHILD"] = "";
             ViewState["DT_UPDATE"] = DateTime.Now.ToString();
             objUserRights.USERID = ObjUsrPrevilage.FnIsNumeric(ObjUsrPrevilage.DecryptQueryString(Request.QueryString["UID"].ToString().Replace(" ", "+")));
-            objUserRights.COMPANYID = ObjUsrPrevilage.FnIsNumeric(ObjUsrPrevilage.DecryptQueryString(Request.QueryString["CID"].ToString())); 
+            objUserRights.COMPANYID = ObjUsrPrevilage.FnIsNumeric(ObjUsrPrevilage.DecryptQueryString(Request.QueryString["CID"].ToString()));
             objUserRights.BRANCHID = ObjUsrPrevilage.FnIsNumeric(ObjUsrPrevilage.DecryptQueryString(Request.QueryString["BID"].ToString()));
             objUserRights.FAYEARID = ObjUsrPrevilage.FnIsNumeric(ObjUsrPrevilage.DecryptQueryString(Request.QueryString["FID"].ToString()));
             objUserRights.ACYEARID = ObjUsrPrevilage.FnIsNumeric(ObjUsrPrevilage.DecryptQueryString(Request.QueryString["AID"].ToString()));
@@ -61,7 +61,7 @@ public partial class ClsPageEvents : System.Web.UI.Page
             objUserRights.PRINTPREVIEW = ObjUsrPrevilage.ISPRINTPREVIEWROLE;
             objUserRights.EMAIL = ObjUsrPrevilage.ISEMAILROLE;
             ViewState["USERRIGHTS"] = objUserRights;
-        } 
+        }
         if (ViewState["USERRIGHTS"] != null)
         {
             objUserRights = ViewState["USERRIGHTS"] as ClsUserRights;
@@ -109,11 +109,11 @@ public partial class ClsPageEvents : System.Web.UI.Page
         string[] _strMsg = PrmOutPut.Split('/');
         if (PrmIsAdd == true)
         {
-            ViewState["ID"] =_strMsg[0].ToString();
+            ViewState["ID"] = _strMsg[0].ToString();
         }
         FnPopUpAlert(PrmBaseMaster.FnAlertMessage((_strMsg.Length > 1 ? _strMsg[1] : _strMsg[0])));
     }
-    public virtual void ManiPulateDataEvent_Clicked(string PrmFlag,ClsCommonBaseMaster PrmBaseMaster,bool PrmIsPrint)
+    public virtual void ManiPulateDataEvent_Clicked(string PrmFlag, ClsCommonBaseMaster PrmBaseMaster, bool PrmIsPrint)
     {
         try
         {
@@ -280,7 +280,7 @@ public partial class ClsPageEvents : System.Web.UI.Page
         catch (Exception ex)
         {
             PrmBaseMaster.FnAlertMessage(ex.Message);
-        } 
+        }
     }
     public virtual void FnAssignProperty(ClsCommonBaseMaster PrmBaseItems)
     {
@@ -304,14 +304,14 @@ public partial class ClsPageEvents : System.Web.UI.Page
         PrmBaseItems.TType = objUserRights.TTYPE;
     }
     public virtual void FnCancel()
-    { 
+    {
         ViewState["ID"] = "0";
         ViewState["DT_UPDATE"] = DateTime.Now.ToString();
         FnInitializeForm();
     }
     public virtual void FnClearItems(string PrmFlag)
     {
-        ViewState["CHLD_ID"] = "0";  
+        ViewState["CHLD_ID"] = "0";
     }
     public virtual void FnFindRecord(ClsCommonBaseMaster PrmBaseMaster)
     {
@@ -335,7 +335,7 @@ public partial class ClsPageEvents : System.Web.UI.Page
     public void FnEditListRecord(ClsCommonBaseMaster PrmBaseMaster)
     {
         DataSet dsVal = PrmBaseMaster.EditListRecord() as DataSet;
-        ViewState["DT"] = dsVal.Tables[0]; 
+        ViewState["DT"] = dsVal.Tables[0];
         if (dsVal.Tables.Count.Equals(2))
         {
             ViewState["DT_CHILD"] = dsVal.Tables[1];
@@ -373,13 +373,13 @@ public partial class ClsPageEvents : System.Web.UI.Page
         if (objUserRights.PRINT == true)
         {
             ClsReportGeneral ObjRpt = new ClsReportGeneral();
-            string _strRpt = ObjRpt.FnVoucherReportWindow(PrmBaseMaster.ID.ToString(), PrmBaseMaster.RefNo.ToString(), objUserRights.COMPANYID.ToString(), objUserRights.BRANCHID.ToString(), objUserRights.FAYEARID.ToString(), objUserRights.USERID.ToString(), objUserRights.MENUID.ToString(),objUserRights.TTYPE);
+            string _strRpt = ObjRpt.FnVoucherReportWindow(PrmBaseMaster.ID.ToString(), PrmBaseMaster.RefNo.ToString(), objUserRights.COMPANYID.ToString(), objUserRights.BRANCHID.ToString(), objUserRights.FAYEARID.ToString(), objUserRights.USERID.ToString(), objUserRights.MENUID.ToString(), objUserRights.TTYPE);
             FnPopUpAlert(_strRpt);
         }
         else
         {
             FnPopUpAlert(PrmBaseMaster.FnAlertMessage(" You Have No permission To Print Record"));
-        }                   
+        }
     }
     public void FnPrintBarCode(ClsCommonBaseMaster PrmBaseMaster, string PrmBarCode)
     {
@@ -393,7 +393,7 @@ public partial class ClsPageEvents : System.Web.UI.Page
         string _strRpt = ObjRpt.FnVoucherReportWindow(PrmBaseMaster.ID.ToString(), PrmBaseMaster.RefNo.ToString(), objUserRights.COMPANYID.ToString(), objUserRights.BRANCHID.ToString(), objUserRights.FAYEARID.ToString(), objUserRights.USERID.ToString(), objUserRights.MENUID.ToString(), objUserRights.TTYPE, PrmOrderType);
         FnPopUpAlert(_strRpt);
     }
-    public void FnPopUpChild(ClsCommonBaseMaster PrmBaseMaster,string PrmHeader,string PrmURL,int PrmWidth,int PrmHeight,bool PrmResize)
+    public void FnPopUpChild(ClsCommonBaseMaster PrmBaseMaster, string PrmHeader, string PrmURL, int PrmWidth, int PrmHeight, bool PrmResize)
     {
         string _strRpt = PrmBaseMaster.FnPopUpWindow(PrmHeader, PrmURL, PrmWidth, PrmHeight, PrmResize);
         FnPopUpAlert(_strRpt);
@@ -726,12 +726,12 @@ public partial class ClsPageEvents : System.Web.UI.Page
         string strVal = "";
         for (int iRw = 0; iRw <= PrmChkBoxLst.Items.Count - 1; iRw++)
         {
-            if (PrmChkBoxLst.Items[iRw].Selected==true)
+            if (PrmChkBoxLst.Items[iRw].Selected == true)
             {
                 strVal = strVal + PrmChkBoxLst.Items[iRw].Value + ",";
             }
         }
-        return strVal;
+        return (strVal.Trim().Length > 0 ? strVal.Remove(strVal.Length - 1) : "");
     }
     public string FnGetCheckboxListText(CheckBoxList PrmChkBoxLst)
     {
@@ -743,7 +743,11 @@ public partial class ClsPageEvents : System.Web.UI.Page
                 strVal = strVal + PrmChkBoxLst.Items[iRw].Text + ",";
             }
         }
-        return strVal;
+        return (strVal.Trim().Length > 0 ? strVal.Remove(strVal.Length - 1) : "");
+    }
+    public string FnRemoveLastValue(string PrmValue)
+    {
+        return (PrmValue.Trim().Length > 0 ? PrmValue.Remove(PrmValue.Length - 1) : "");
     }
     public int FnGetLastItemCode(ClsCommonBaseMaster PrmBaseMaster, int PrmCmpId)
     {
@@ -774,6 +778,15 @@ public partial class ClsPageEvents : System.Web.UI.Page
     {
         string strSql = "SELECT nId AS Id,cName AS Name,cCode AS Code,cPAddress AS Address FROM TblRegistration WHERE nCompanyId =" + PrmCmpId + " AND nId="+ PrmAccId+ " AND cCode='" + PrmCode + "'";
         return PrmBaseMaster.FnGetDataSet(strSql).Tables[0];
+    }
+    public void FnBindYear(ClsCommonBaseMaster PrmBaseMaster, DropDownList PrmDropDown)
+    {
+        AppSettingsReader asdr = new AppSettingsReader();
+        for (int nYr = PrmBaseMaster.FnIsNumeric(asdr.GetValue("FRMYEAR", typeof(string)).ToString()); nYr <= DateTime.Now.Year; nYr++)
+        {
+            PrmDropDown.Items.Add(nYr.ToString());
+        }
+        PrmDropDown.Items.Insert(0, "--Year--");
     }
     //=========================================================================================
     public bool FnAlterationStatusVisible(ClsCommonBaseMaster PrmBaseMaster, string PrmStatus)
@@ -1081,6 +1094,14 @@ public partial class ClsPageEvents : System.Web.UI.Page
         if (PrmVal.ToString().Trim().Length > 0)
         {
             _strDateVal = (Convert.ToDateTime(PrmVal).ToString("dd/MMM/yyyy") == "01/Jan/1800" ? "" : Convert.ToDateTime(PrmVal).ToString("dd/MMM/yyyy"));
+        }
+        return _strDateVal;
+    }
+    public string FnGetMonthYear(object PrmVal)
+    {
+        if (PrmVal.ToString().Trim().Length > 0)
+        {
+            _strDateVal = (Convert.ToDateTime(PrmVal).ToString("dd/MMM/yyyy") == "01/Jan/1800" ? "" : Convert.ToDateTime(PrmVal).ToString("MMM/yyyy"));
         }
         return _strDateVal;
     }

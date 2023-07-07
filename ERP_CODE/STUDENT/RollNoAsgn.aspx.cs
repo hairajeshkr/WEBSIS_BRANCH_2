@@ -7,7 +7,8 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class STUDENT_RollNoAsgn : ClsPageEvents,IPageInterFace
 {
-    ClsClass ObjCls = new ClsClass();
+    ClsStudentRollNoAssign ObjCls = new ClsStudentRollNoAssign();
+    
     ClsDropdownRecordList obj = new ClsDropdownRecordList();
 
     protected override void Page_Load(object sender, EventArgs e)
@@ -19,7 +20,7 @@ public partial class STUDENT_RollNoAsgn : ClsPageEvents,IPageInterFace
             if (!IsPostBack)
             {
                 FnInitializeForm();
-                obj.FnGetBranchList(DrpInstitution, "");
+                obj.FnGetBranchList(DdlInstitute, "");
                 
                 //filldropdown();
                 //ObjCls = new ClsUser(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
@@ -37,30 +38,19 @@ public partial class STUDENT_RollNoAsgn : ClsPageEvents,IPageInterFace
         ObjCls = new clsAccountGroup(ref iCmpId, ref iBrId, ref iFaId);*/
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
+        //FnGetCheckboxListValue();
     }
 
     public void FnAssignProperty()
     {
-        throw new NotImplementedException();
+        base.FnAssignProperty(ObjCls);
+        ObjCls.ClassId = ObjCls.FnIsNumeric(DdlClass.SelectedValue);
+        ObjCls.DivisionId = ObjCls.FnIsNumeric(DdlDivision.SelectedValue);
+        ObjCls.SortByName =DdlSortBy.SelectedValue;
+        ObjCls.SortByLanguage = DdlSortBy.SelectedValue;
+        ObjCls.SortBySex = DdlSortBy.SelectedValue;
     }
 
-    public void FnAssignStudent()
-    {
-        foreach (GridViewRow gvrow in GrdVwRecords.Rows)
-        {
-            var checkbox = gvrow.FindControl("ChkSelect") as CheckBox;
-            if (checkbox.Checked)
-            {
-                DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='CLS' ") as DataSet).Tables[0];
-                GrdStudents.DataSource = clsDiv;
-                GrdStudents.DataKeyNames = new String[] { ObjCls.KeyName };
-                GrdStudents.DataBind();
-                GrdStudents.SelectedIndex = -1;
-                TabContainer1.ActiveTabIndex = 1;
-
-            }
-        }
-    }
     public void FnClose()
     {
         throw new NotImplementedException();
@@ -79,11 +69,46 @@ public partial class STUDENT_RollNoAsgn : ClsPageEvents,IPageInterFace
 
     public void FnFindRecord()
     {
-        base.FnAssignProperty(ObjCls);
-       
+        FnAssignProperty();
+
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
-        TabContainer1.ActiveTabIndex = 1;
+
+        //if (DdlInstitute.SelectedValue == "0")
+        //{
+        //    DataTable clsls1 = (ObjCls.FnGetDataSet("select  TRS.cCode ID,TRS.cName Name,(select CName from TblClassDetails TGL where TGL.nId=TBL.nClassId and cTType='CLS') ClassName,(select CName from TblClassDetails TDL where TDL.nId=TBL.nDivisionId and cTType='DIVN') DivisionName,'' RollNo from TblStudentAdmissionDetails TBL INNER JOIN TblRegistrationStudent TRS on TRS.nId=TBL.nStudentId") as DataSet).Tables[0];
+        //    GrdVwRecords.DataSource = clsls1;
+        //    GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+        //    GrdVwRecords.DataBind();
+        //    GrdVwRecords.SelectedIndex = -1;
+
+        //}
+        //else if ((DdlInstitute.SelectedValue != "0") && (DdlClass.SelectedValue == "0") && (DdlDivision.SelectedValue == "0"))
+        //{
+        //    DataTable dt = (ObjCls.FnGetDataSet("select  TRS.cCode ID,TRS.cName Name,(select CName from TblClassDetails TGL where TGL.nId=TBL.nClassId and cTType='CLS') ClassName,(select CName from TblClassDetails TDL where TDL.nId=TBL.nDivisionId and cTType='DIVN') DivisionName,'' RollNo from TblStudentAdmissionDetails TBL INNER JOIN TblRegistrationStudent TRS on TRS.nId=TBL.nStudentId") as DataSet).Tables[0];
+        //    GrdVwRecords.DataSource = dt;
+        //    GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+        //    GrdVwRecords.DataBind();
+        //    GrdVwRecords.SelectedIndex = -1;
+        //}
+        //else if ((DdlInstitute.SelectedValue != "0") && (DdlClass.SelectedValue != "0") && (DdlDivision.SelectedValue == "0"))
+        //{
+        //    DataTable dt = (ObjCls.FnGetDataSet("select  TRS.cCode ID,TRS.cName Name,(select CName from TblClassDetails TGL where TGL.nId=TBL.nClassId and cTType='CLS') ClassName,(select CName from TblClassDetails TDL where TDL.nId=TBL.nDivisionId and cTType='DIVN') DivisionName,'' RollNo from TblStudentAdmissionDetails TBL INNER JOIN TblRegistrationStudent TRS on TRS.nId=TBL.nStudentId") as DataSet).Tables[0];
+        //    GrdVwRecords.DataSource = dt;
+        //    GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+        //    GrdVwRecords.DataBind();
+        //    GrdVwRecords.SelectedIndex = -1;
+        //}
+        //else if ((DdlInstitute.SelectedValue != "0") && (DdlClass.SelectedValue != "0") && (DdlDivision.SelectedValue != "0"))
+        //{
+        //    DataTable dt = (ObjCls.FnGetDataSet("select  TRS.cCode ID,TRS.cName Name,(select CName from TblClassDetails TGL where TGL.nId=TBL.nClassId and cTType='CLS') ClassName,(select CName from TblClassDetails TDL where TDL.nId=TBL.nDivisionId and cTType='DIVN') DivisionName,'' RollNo from TblStudentAdmissionDetails TBL INNER JOIN TblRegistrationStudent TRS on TRS.nId=TBL.nStudentId where TBL.nClassId=" + DdlClass.SelectedValue + " and TBL.nDivisionId=" + DdlDivision.SelectedValue + " order by TRS.cName") as DataSet).Tables[0];
+        //    GrdVwRecords.DataSource = dt;
+        //    GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+        //    GrdVwRecords.DataBind();
+        //    GrdVwRecords.SelectedIndex = -1;
+
+        //}
+
     }
 
     public object FnGetGridRowCount(string PrmFlag)
@@ -106,77 +131,93 @@ public partial class STUDENT_RollNoAsgn : ClsPageEvents,IPageInterFace
 
     public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
     {
+
         try
         {
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    //// if (TxtName.Text.Trim().Length <= 0)
-                    // {
-                    //     FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the name"));
-                    //  //   FnFocus(TxtName);
-                    //     return;
-                    // }
-                    FnAssignStudent();
+                    //FnAssignProperty();
+                    
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
                         case "NEW":
-                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
-                            break;
-                        case "UPDATE":
-                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
+                            FnAssignProperty();
+                            int iCnt = 0;
+                            for (int i = 0; i <= GrdVwRecords.Rows.Count-1; i++)
+                            {
+                                HiddenField HdnStudentId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnStudentId");
+                                Label LblRollNo = (Label)GrdVwRecords.Rows[i].FindControl("LblRollNo");
+                                ObjCls.StudentId = ObjCls.FnIsNumeric(HdnStudentId.Value);
+                                ObjCls.RollNo = ObjCls.FnIsNumeric(LblRollNo.Text);
+                                _strMsg = ObjCls.UpdateRecord() as string;
+                                iCnt = iCnt + 1;
+                            }
+
+                            if (iCnt > 0)
+                            {
+                                FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + "Records Roll No Assigned"));
+                            }
+
                             break;
                     }
                     break;
-                    //case "DELETE":
-                    //    FnAssignProperty();
-                    //    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                    //    break;
-                    //case "CLEAR":
-                    //    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
-                    //    FnCancel();
-                    //    break;
-                    //case "CLOSE":
-                    //    ObjCls.FnAlertMessage(" You Have No permission To Close Record");
-                    //    break;
-                    //case "PRINT":
-                    //    FnAssignProperty();
-                    //    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                    //    break;
-                    //case "FIND":
-                    //    FnFindRecord();
-                    //    //FnAssignProperty();
-                    //    //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                    //    //FnGridViewBinding("");
-                    //    //System.Threading.Thread.Sleep(1000000);
-                    //    break;
-                    //case "HELP":
-                    //    ObjCls.FnAlertMessage(" You Have No permission To Help Record");
-                    //    break;
-                    //case "FIRST":
-                    //    //========Code
-                    //    break;
-                    //case "PREVIOUS":
-                    //    //========Code
-                    //    break;
-                    //case "NEXT":
-                    //    //========Code
-                    //    break;
-                    //case "LAST":
-                    //    //========Code
-                    //    break;
+                case "FIND":
+                    FnFindRecord();
+                    break;
+
+
             }
         }
         catch (Exception ex)
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
+
+
+        //try
+        //{
+        //    switch (((Button)sender).CommandArgument.ToString().ToUpper())
+        //    {
+
+        //        case "NEW":
+        //            FnAssignProperty();
+        //            int iCnt = 0;
+        //            for (int i = 0; i <= GrdStudents.Rows.Count; i++)
+        //            {
+        //                HiddenField HdnStudentId = (HiddenField)GrdStudents.Rows[i].FindControl("HdnStudentId");
+        //                Label LblRollNo = (Label)GrdStudents.Rows[i].FindControl("LblRollNo");
+        //                ObjCls.StudentId = ObjCls.FnIsNumeric(HdnStudentId.Value);
+        //                ObjCls.RollNo = ObjCls.FnIsNumeric(LblRollNo.Text);
+        //                _strMsg = ObjCls.UpdateRecord() as string;
+        //                iCnt = iCnt + 1;
+        //            }
+                    
+        //            if (iCnt > 0)
+        //            {
+        //                FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + "Records Roll No Assigned"));
+        //            }
+
+        //            break;
+        //        case "FIND":
+        //            FnFindRecord();
+        //            break;
+
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        //}
     }
 
 
     protected void BtnFind_Click(object sender, EventArgs e)
     {
-        if (DrpInstitution.SelectedValue == "0")
+
+        FnFindRecord();
+
+        if (DdlInstitute.SelectedValue == "0")
         {
             DataTable clsls1 = (ObjCls.FnGetDataSet("select  TRS.cCode ID,TRS.cName Name,(select CName from TblClassDetails TGL where TGL.nId=TBL.nClassId and cTType='CLS') ClassName,(select CName from TblClassDetails TDL where TDL.nId=TBL.nDivisionId and cTType='DIVN') DivisionName from TblStudentAdmissionDetails TBL INNER JOIN TblRegistrationStudent TRS on TRS.nId=TBL.nStudentId") as DataSet).Tables[0];
             GrdVwRecords.DataSource = clsls1;
@@ -185,7 +226,7 @@ public partial class STUDENT_RollNoAsgn : ClsPageEvents,IPageInterFace
             GrdVwRecords.SelectedIndex = -1;
 
         }
-        else if ((DrpInstitution.SelectedValue != "0") && (DrpClass.SelectedValue == "0") && (DrpDivision.SelectedValue == "0"))
+        else if ((DdlInstitute.SelectedValue != "0") && (DdlClass.SelectedValue == "0") && (DdlDivision.SelectedValue == "0"))
         {
             DataTable dt = (ObjCls.FnGetDataSet("select  TRS.cCode ID,TRS.cName Name,(select CName from TblClassDetails TGL where TGL.nId=TBL.nClassId and cTType='CLS') ClassName,(select CName from TblClassDetails TDL where TDL.nId=TBL.nDivisionId and cTType='DIVN') DivisionName from TblStudentAdmissionDetails TBL INNER JOIN TblRegistrationStudent TRS on TRS.nId=TBL.nStudentId") as DataSet).Tables[0];
             GrdVwRecords.DataSource = dt;
@@ -193,7 +234,7 @@ public partial class STUDENT_RollNoAsgn : ClsPageEvents,IPageInterFace
             GrdVwRecords.DataBind();
             GrdVwRecords.SelectedIndex = -1;
         }
-        else if ((DrpInstitution.SelectedValue != "0") && (DrpClass.SelectedValue != "0") && (DrpDivision.SelectedValue == "0"))
+        else if ((DdlInstitute.SelectedValue != "0") && (DdlClass.SelectedValue != "0") && (DdlDivision.SelectedValue == "0"))
         {
             DataTable dt = (ObjCls.FnGetDataSet("select  TRS.cCode ID,TRS.cName Name,(select CName from TblClassDetails TGL where TGL.nId=TBL.nClassId and cTType='CLS') ClassName,(select CName from TblClassDetails TDL where TDL.nId=TBL.nDivisionId and cTType='DIVN') DivisionName from TblStudentAdmissionDetails TBL INNER JOIN TblRegistrationStudent TRS on TRS.nId=TBL.nStudentId") as DataSet).Tables[0];
             GrdVwRecords.DataSource = dt;
@@ -201,7 +242,7 @@ public partial class STUDENT_RollNoAsgn : ClsPageEvents,IPageInterFace
             GrdVwRecords.DataBind();
             GrdVwRecords.SelectedIndex = -1;
         }
-        else if ((DrpInstitution.SelectedValue != "0") && (DrpClass.SelectedValue != "0") && (DrpDivision.SelectedValue != "0"))
+        else if ((DdlInstitute.SelectedValue != "0") && (DdlClass.SelectedValue != "0") && (DdlDivision.SelectedValue != "0"))
         {
             DataTable dt = (ObjCls.FnGetDataSet("select  TRS.cCode ID,TRS.cName Name,(select CName from TblClassDetails TGL where TGL.nId=TBL.nClassId and cTType='CLS') ClassName,(select CName from TblClassDetails TDL where TDL.nId=TBL.nDivisionId and cTType='DIVN') DivisionName from TblStudentAdmissionDetails TBL INNER JOIN TblRegistrationStudent TRS on TRS.nId=TBL.nStudentId") as DataSet).Tables[0];
             GrdVwRecords.DataSource = dt;
@@ -218,28 +259,28 @@ public partial class STUDENT_RollNoAsgn : ClsPageEvents,IPageInterFace
     protected void DrpInstitution_SelectedIndexChanged(object sender, EventArgs e)
     {
         //obj.FnGetBranchList(DrpInstitution, "");
-        DrpClass.Items.Clear();
-        DrpClass.Items.Add(new ListItem("select", "0"));
-        int i = ObjCls.FnIsNumeric(DrpInstitution.SelectedValue);
+        DdlClass.Items.Clear();
+        DdlClass.Items.Add(new ListItem("select", "0"));
+        int i = ObjCls.FnIsNumeric(DdlInstitute.SelectedValue);
         DataTable clsCls = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='CLS' and nBranchId=" + i + "") as DataSet).Tables[0];
-        DrpClass.DataSource = clsCls;
-        DrpClass.DataValueField = "nId";
-        DrpClass.DataTextField = "cName";
-        DrpClass.DataBind();
+        DdlClass.DataSource = clsCls;
+        DdlClass.DataValueField = "nId";
+        DdlClass.DataTextField = "cName";
+        DdlClass.DataBind();
 
     }
 
     protected void DrpClass_SelectedIndexChanged(object sender, EventArgs e)
     {
-        DrpDivision.Items.Clear();
-        DrpDivision.Items.Add(new ListItem("select", "0"));
-        int i = ObjCls.FnIsNumeric(DrpClass.SelectedValue);
+        DdlDivision.Items.Clear();
+        DdlDivision.Items.Add(new ListItem("select", "0"));
+        int i = ObjCls.FnIsNumeric(DdlClass.SelectedValue);
         DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='DIVN' and nParentId=" + i + "") as DataSet).Tables[0];
         //DataTable clsDiv = (ObjCls.FnGetDataSet("select  nId,cName from TblClassDetails where cTType='DIVN'") as DataSet).Tables[0];
-        DrpDivision.DataSource = clsDiv;
-        DrpDivision.DataValueField = "nId";
-        DrpDivision.DataTextField = "cName";
-        DrpDivision.DataBind();
+        DdlDivision.DataSource = clsDiv;
+        DdlDivision.DataValueField = "nId";
+        DdlDivision.DataTextField = "cName";
+        DdlDivision.DataBind();
         ////clsDiv.Clear();
 
     }

@@ -20,6 +20,7 @@ public partial class STUDENT_StudentPrvEdu : ClsPageEvents, IPageInterFace
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
                 TxtPercentage.Attributes.Add("onkeydown", "return NumbersOnly(event);");
+                FnBindYear(ObjCls, DdlYear);
                 FnInitializeForm();
             }
         }
@@ -45,11 +46,11 @@ public partial class STUDENT_StudentPrvEdu : ClsPageEvents, IPageInterFace
         ObjCls.InstituteName = TxtInstitute.Text.Trim();
         ObjCls.Board = TxtBoard.Text.Trim();
         ObjCls.RegNo = TxtRegNo.Text.Trim();
-        ObjCls.PassingYear = ObjCls.FnIsNumeric(TxtYear.Text);
+        ObjCls.PassingYear = ObjCls.FnIsNumeric(DdlYear.SelectedValue);
         ObjCls.Percentage = ObjCls.FnIsDouble(TxtPercentage.Text);
-        ObjCls.PassingDate = ObjCls.FnDateTime(CtrlToDate.DateText);
-        ObjCls.FromDate = ObjCls.FnDateTime(CtrlFrmDate.DateText);
-        ObjCls.ToDate = ObjCls.FnDateTime(CtrlToDate.DateText);
+        ObjCls.PassingDate = ObjCls.FnDateTime(CtrlTo.MonthYearText);
+        ObjCls.FromDate = ObjCls.FnDateTime(CtrlFrm.MonthYearText);
+        ObjCls.ToDate = ObjCls.FnDateTime(CtrlTo.MonthYearText);
         ObjCls.UploadFileName = Session["DOC"].ToString();
 
         ObjCls.Percentage = ObjCls.FnIsNumeric(TxtPercentage.Text);
@@ -65,21 +66,19 @@ public partial class STUDENT_StudentPrvEdu : ClsPageEvents, IPageInterFace
 
         TxtEducation.Text = "";
         TxtInstitute.Text = "";
-        CtrlToDate.DateText = "";
-        CtrlFrmDate.DateText = "";
+        CtrlFrm.FnSetClear();
+        CtrlTo.FnSetClear();
         TxtPercentage.Text = "";
-        TxtYear.Text = "";
+        DdlYear.SelectedIndex = 0;
         TxtBoard.Text = "";
         TxtInstitute.Text = "";
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
 
-        FnInitializeForm();
-
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
-        TabContainer1.ActiveTabIndex = 0;
         FnFocus(TxtEducation);
+        TabContainer1.ActiveTabIndex = 1;
     }
     public void FnFindRecord()
     {
@@ -165,14 +164,14 @@ public partial class STUDENT_StudentPrvEdu : ClsPageEvents, IPageInterFace
             TxtEducation.Text = ObjCls.Qualification.ToString();
             TxtInstitute.Text = ObjCls.InstituteName.ToString();
             TxtBoard.Text = ObjCls.Board.ToString();
-            TxtYear.Text = ObjCls.PassingYear.ToString();
+            DdlYear.Text = ObjCls.PassingYear.ToString();
             TxtPercentage.Text = ObjCls.Percentage.ToString();
             TxtRegNo.Text = ObjCls.RegNo.ToString();
             Session["DOC"] = ObjCls.UploadFileName;
             FnBindDocumetPath(HyLnkDoc, ObjCls.UploadFileName, "DOC");
 
-            CtrlFrmDate.DateText = ObjCls.FnDateTime(ObjCls.FromDate, "");
-            CtrlToDate.DateText = ObjCls.FnDateTime(ObjCls.ToDate, "");
+            CtrlFrm.MonthYearText = FnGetDateString(ObjCls.FromDate.ToString());
+            CtrlTo.MonthYearText = FnGetDateString(ObjCls.ToDate.ToString());
 
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;

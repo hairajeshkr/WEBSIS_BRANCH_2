@@ -130,6 +130,10 @@
 <FeeType></FeeType>
 <PrintName></PrintName>
 <AccCmpName></AccCmpName>
+	<RollNo></RollNo>
+	<StudentName></StudentName>
+	<StudentId></StudentId>
+	<RollSlNo></RollSlNo>
 <ColorCode></ColorCode>
 <ChronicalOrder/>
 <Active>false</Active>

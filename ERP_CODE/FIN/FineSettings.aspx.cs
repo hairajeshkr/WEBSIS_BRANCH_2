@@ -12,8 +12,9 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
 {
     ClsStudentAdmissionDetails ObjCls = new ClsStudentAdmissionDetails();
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
-    //finma ObjClsFin = new ClsFeeMaster();
+    ClsFeeMaster ObjCls1 = new ClsFeeMaster();
     static int icount = 0;
+    TreeNode tnode;
     protected override void Page_Load(object sender, EventArgs e)
     {
 
@@ -22,14 +23,17 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
 
             base.Page_Load(sender, e);
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
-           // CtrlCommand2.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            //CtrlCommand2.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
-               
+                //ChkSelect.Attributes.Add("onclick", "return GridChkSelectAll();");
+
+                //ObjLst.FnGetUserAcYearList(DdlAcYear, "--- ACADEMIC YEAR ---");
+                // ObjLst.FnGetLanguageList(DdlAcYear, "---Sort by Language---");
                 FnInitializeForm();
 
-               
-                DataTable ClsTD = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nClassId  where TCD.cttype='CLS'") as DataSet).Tables[0];
+                /////Tree View
+                DataTable ClsTD = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='INGRP'") as DataSet).Tables[0];
                 this.PopulateTreeView(ClsTD, icount, null);
 
             }
@@ -57,7 +61,7 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             if (ParentId == 0)
             {
                 TreeView1.Nodes.Add(tnode);
-                DataTable dtChild = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nDivisionId  where TCD.cttype='DIVN' and SAD.nClassId= " + tnode.Value) as DataSet).Tables[0];
+                DataTable dtChild = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nClassId  where TCD.cttype='CLS' and TCD.nParentId="+ tnode.Value) as DataSet).Tables[0];
                 VS = 1;
                 this.PopulateTreeView(dtChild, VS, tnode);
 
@@ -66,9 +70,17 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             else if (ParentId == 1)
             {
                 treeNode.ChildNodes.Add(tnode);
-                DataTable dtChild1 = (ObjCls.FnGetDataSet("select  TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId=SAD.nStudentId where SAD.nDivisionId= " + tnode.Value) as DataSet).Tables[0];
+                DataTable dtChild1 = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nDivisionId  where TCD.cttype='DIVN' and SAD.nClassId= " + tnode.Value) as DataSet).Tables[0];
                 VS = 2;
                 PopulateTreeView(dtChild1, VS, tnode);
+
+            }
+            else if (ParentId == 2)
+            {
+                treeNode.ChildNodes.Add(tnode);
+                DataTable dtChild2 = (ObjCls.FnGetDataSet("select  TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId=SAD.nStudentId where SAD.nDivisionId= " + tnode.Value) as DataSet).Tables[0];
+                VS = 3;
+                PopulateTreeView(dtChild2, VS, tnode);
 
             }
             else
@@ -81,276 +93,140 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
     }
 
 
+
     public override void FnInitializeForm()
-{
-    TabContainer1.ActiveTabIndex = 0;
-    //int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-    //ObjCls = new ClsStudentAdmissionDetails(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
- 
-    //TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
-
-    ViewState["DT"] = FnGetGeneralTable(ObjCls);
-    FnGridViewBinding("");
-}
-public void FnAssignProperty()
-{
-    base.FnAssignProperty(ObjCls);
-    //ObjCls.Name = TxtName.Text.Trim();
-    //ObjCls.Code = TxtCode.Text.Trim();
-    //ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());  // max no of Admission
-
-    //ObjCls.Remarks = TxtRemarks.Text.Trim();
-    ////ObjCls.IsApprove = (ChkApprove.Checked == true ? true : false);
-    //ObjCls.Active = (ChkActive.Checked == true ? true : false);
-
-}
-
-public override void FnCancel()
-{
-    base.FnCancel();
-
-    //TxtName.Text = "";
-    //TxtPriority.Text = "";
-    //TxtCode_Srch.Text = "";
-    //TxtRemarks.Text = "";
-    //ChkActive.Checked = true;
-    //ChkApprove.Checked = false;
-
-    CtrlCommand1.SaveText = "Save";
-    CtrlCommand1.SaveCommandArgument = "NEW";
-    TabContainer1.ActiveTabIndex = 0;
-    //FnFocus(TxtName);
-}
-public void FnClose()
-{
-    throw new NotImplementedException();
-}
-
-public void FnFindRecord()
-{
-    base.FnAssignProperty(ObjCls);
-    //ObjCls.Name = TxtName.Text.Trim();
-    //ObjCls.Code = TxtCode_Srch.Text.Trim();
-    //ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());  /// maximum no of admission
-    FnFindRecord(ObjCls);
-    FnGridViewBinding("");
-    TabContainer1.ActiveTabIndex = 1;
-}
-public object FnGetGridRowCount(string PrmFlag)
-{
-    throw new NotImplementedException();
-}
-
-public void FnGridViewBinding(string PrmFlag)
-{
-    GrdVwSummary.DataSource = ViewState["DT"] as DataTable;
-    GrdVwSummary.DataKeyNames = new String[] { ObjCls.KeyName };
-    GrdVwSummary.DataBind();
-    GrdVwSummary.SelectedIndex = -1;
-}
-
-public void FnPrintRecord()
-{
-    throw new NotImplementedException();
-}
-
-public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
-{
-    try
     {
-        switch (((Button)sender).CommandName.ToString().ToUpper())
-        {
-            case "SAVE":
-                //if (TxtName.Text.Trim().Length <= 0)
-                //{
-                //    FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the name"));
-                //    FnFocus(TxtName);
-                //    return;
-                //}
-
-                FnAssignProperty();
-                switch (((Button)sender).CommandArgument.ToString().ToUpper())
-                {
-                    case "NEW":
-                        base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
-                        break;
-                    case "UPDATE":
-                        base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
-                        break;
-                }
-                break;
-            case "DELETE":
-                FnAssignProperty();
-                base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                break;
-            case "CLEAR":
-                //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
-                FnCancel();
-                break;
-            case "CLOSE":
-                ObjCls.FnAlertMessage(" You Have No permission To Close Record");
-                break;
-            case "PRINT":
-                FnAssignProperty();
-                base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                break;
-            case "FIND":
-                FnFindRecord();
-                //FnAssignProperty();
-                //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                //FnGridViewBinding("");
-                //System.Threading.Thread.Sleep(1000000);
-                break;
-            case "HELP":
-                ObjCls.FnAlertMessage(" You Have No permission To Help Record");
-                break;
-
-        }
+        TabContainer1.ActiveTabIndex = 0;
+        int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
+        ObjCls1 = new ClsFeeMaster(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        FnFindRecord();
     }
-    catch (Exception ex)
+    public void FnAssignProperty()
     {
-        FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        base.FnAssignProperty(ObjCls);
     }
-}
-
-protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
-{
-    try
+    public void FnClose()
     {
-        //GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
-        //ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
-        //ViewState["ID"] = ObjCls.ID.ToString();
-        //TxtName.Text = ObjCls.Name.ToString();
-        //TxtCode.Text = ObjCls.Code.ToString();
-        //TxtPriority.Text = ObjCls.OrderIndex.ToString();
-        //TxtRemarks.Text = ObjCls.Remarks.ToString();
-        //ChkActive.Checked = ObjCls.Active;
-        //ChkApprove.Checked = ObjCls.IsApprove;
-        ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
-
-        CtrlCommand1.SaveText = "Update";
-        CtrlCommand1.SaveCommandArgument = "UPDATE";
-
+        throw new NotImplementedException();
+    }
+    public override void FnCancel()
+    {
+        base.FnCancel();
         TabContainer1.ActiveTabIndex = 0;
     }
-    catch (Exception ex)
+    public void FnFindRecord()
     {
-        FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-    }
-}
+        FnAssignProperty();
+        ViewState["DT"] = ObjLst.FnGetFineMasterList() as DataTable;
+        //ViewState["DT_CHILD"] = (ObjCls.FindRecord() as DataSet).Tables[0];
 
-protected void GrdVwRecords_PageIndexChanging(object sender, GridViewPageEventArgs e)
-{
-    try
-    {
-        //GrdVwRecords.PageIndex = e.NewPageIndex;
+        //FnGridViewBinding("MAIN");
         FnGridViewBinding("");
     }
-    catch (Exception ex)
+    public object FnGetGridRowCount(string PrmFlag)
     {
-        FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        throw new NotImplementedException();
     }
-}
-
-
-public void PopulateNode(Object sender, TreeNodeEventArgs e)
-{
-
-    // Call the appropriate method to populate a node at a particular level.
-    switch (e.Node.Depth)
+    public void FnGridViewBinding(string PrmFlag)
     {
-        case 0:
-            // Populate the first-level nodes.
-            PopulateCategories(e.Node);
-            break;
-        case 1:
-            // Populate the second-level nodes.
-            PopulateProducts(e.Node);
-            break;
-        default:
-            // Do nothing.
-            break;
+        
+            GrdVwRecordsMain.DataSource = ViewState["DT"] as DataTable;
+            GrdVwRecordsMain.DataKeyNames = new String[] { ObjCls1.KeyName };
+            GrdVwRecordsMain.DataBind();
+            GrdVwRecordsMain.SelectedIndex = -1;
+        
     }
-
-}
-
-void PopulateCategories(TreeNode node)
-{
-
-    // Query for the product categories. These are the values
-    // for the second-level nodes.
-    DataSet ResultSet = new DataSet("Select * From TblStudentAdmissionDetails");
-    DataTable dt = new DataTable();
-
-
-
-    // Create the second-level nodes.
-    if (ResultSet.Tables.Count > 0)
+    public void FnPrintRecord()
     {
-
-        // Iterate through and create a new node for each row in the query results.
-        // Notice that the query results are stored in the table of the DataSet.
-        foreach (DataRow row in ResultSet.Tables[0].Rows)
+        throw new NotImplementedException();
+    }
+    public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
+    {
+        try
         {
+            switch (((Button)sender).CommandName.ToString().ToUpper())
+            {
+                case "SAVE":
+                    switch (((Button)sender).CommandArgument.ToString().ToUpper())
+                    {
+                        case "NEW":
+                            FnAssignProperty();
+                            int iCnt = 0;
+                            //for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
+                            //{
+                            //    HdnFeeMstId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnFeeMstId");
+                            //    HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                            //    DdlLedger = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlLedger");
 
-            // Create the new node. Notice that the CategoryId is stored in the Value property 
-            // of the node. This will make querying for items in a specific category easier when
-            // the third-level nodes are created. 
-            TreeNode newNode = new TreeNode();
-            newNode.Text = row["ClassName"].ToString();
-            newNode.Value = row["ClassID"].ToString();
-
-            // Set the PopulateOnDemand property to true so that the child nodes can be 
-            // dynamically populated.
-            newNode.PopulateOnDemand = true;
-
-            // Set additional properties for the node.
-            newNode.SelectAction = TreeNodeSelectAction.Expand;
-
-            // Add the new node to the ChildNodes collection of the parent node.
-            node.ChildNodes.Add(newNode);
-
+                            //    ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
+                            //    ObjCls.FeeMasterId = ObjCls.FnIsNumeric(HdnFeeMstId.Value);
+                            //    ObjCls.AccLedgerId = ObjCls.FnIsNumeric(DdlLedger.SelectedValue);
+                            //    _strMsg = ObjCls.UpdateRecord() as string;
+                            //    iCnt = iCnt + 1;
+                            //}
+                            //if (iCnt > 0)
+                            //{
+                            //    FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + "Records updated successfully"));
+                            //}
+                            break;
+                    }
+                    break;
+                //case "ADD":
+                //    FnAssignProperty();
+                //    int nCnt = 0;
+                //    string strId = "";
+                //    for (int i = 0; i <= GrdVwRecordsMain.Rows.Count - 1; i++)
+                //    {
+                //        ChkVal = (CheckBox)GrdVwRecordsMain.Rows[i].FindControl("ChkVal");
+                //        if (ChkVal.Checked == true)
+                //        {
+                //            HdnId = (HiddenField)GrdVwRecordsMain.Rows[i].FindControl("HdnId");
+                //            strId = strId + HdnId.Value + ",";
+                //            nCnt++;
+                //        }
+                //    }
+                //    if (nCnt > 0)
+                //    {
+                //        ObjCls.Remarks = FnRemoveLastValue(strId);
+                //        ViewState["DT_CHILD"] = (ObjCls.SaveChildRecord() as DataSet).Tables[0];
+                //        FnGridViewBinding("");
+                //    }
+                //    break;
+                case "FIND":
+                    FnFindRecord();
+                    break;
+                case "CLEAR":
+                    FnCancel();
+                    break;
+                case "PRINT":
+                    FnAssignProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    break;
+            }
         }
-
-    }
-
-}
-
-void PopulateProducts(TreeNode node)
-{
-
-    // Query for the products of the current category. These are the values
-    // for the third-level nodes.
-    DataSet ResultSet = new DataSet("Select DivisionId,DivisionName From TblClassDetails");
-
-    // Create the third-level nodes.
-    if (ResultSet.Tables.Count > 0)
-    {
-
-        // Iterate through and create a new node for each row in the query results.
-        // Notice that the query results are stored in the table of the DataSet.
-        foreach (DataRow row in ResultSet.Tables[0].Rows)
+        catch (Exception ex)
         {
-
-            // Create the new node.
-            TreeNode NewNode = new TreeNode(row["ProductName"].ToString());
-
-            // Set the PopulateOnDemand property to false, because these are leaf nodes and
-            // do not need to be populated.
-            NewNode.PopulateOnDemand = false;
-
-            // Set additional properties for the node.
-            NewNode.SelectAction = TreeNodeSelectAction.None;
-
-            // Add the new node to the ChildNodes collection of the parent node.
-            node.ChildNodes.Add(NewNode);
-
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
-
     }
 
-}
+    //protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
+    //{
+    //    if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
+    //    {
+    //        DdlLedger = (DropDownList)e.Row.FindControl("DdlLedger");
+    //        FnBindingDropDownList(ObjLst, ViewState["ACC"] as DataTable, DdlLedger, "");
+    //        FnSetDropDownValue(DdlLedger, DataBinder.Eval(e.Row.DataItem, "AccLedgerId").ToString());
+    //        e.Row.Attributes.Add("onmouseover", "this.style.cursor=\'pointer\'");
+    //    }
+    //}
 
-
-
+    //protected void GrdVwRecordsMain_RowDataBound(object sender, GridViewRowEventArgs e)
+    //{
+    //    if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
+    //    {
+    //        ChkVal = (CheckBox)e.Row.FindControl("ChkVal");
+    //        ChkVal.Checked = (ObjCls.FnIsNumeric((ViewState["DT_CHILD"] as DataTable).Compute("Count(ID)", " FeeMasterId= " + ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID"))).ToString()) > 0 ? true : false);
+    //    }
+    //}
 }

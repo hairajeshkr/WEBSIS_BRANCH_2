@@ -26,7 +26,7 @@
 
                                                 <h3>Project Details</h3>
                                                 <hr />
-                                                <asp:TreeView ID="TreeView1" runat="server" >
+                                                <asp:TreeView ID="TreeView1" runat="server"  >
                                                 </asp:TreeView>
                                                 <asp:Label ID="Message" runat="server" />
 
@@ -41,7 +41,7 @@
 
 
 
-                                                <asp:GridView ID="GrdVwSummary" runat="server" SkinID="GrdVwMasterNoPageing" Width="604px" >
+                                                <asp:GridView ID="GrdVwRecordsMain" runat="server" SkinID="GrdVwMasterNoPageing" Width="604px" >
                                                     <Columns>
                                                         <asp:BoundField />
                                                         <asp:TemplateField HeaderText="Fine name">
@@ -80,8 +80,11 @@
                              <td class="odd" style="width: 90px; "></td>
                              <td class="odd" colspan="2">
                                  <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="Submit" />
+                                 
                              </td>
-                             <td class="odd" style="width: 319px;"></td>
+                             <td class="odd" style="width: 319px;">
+                                 <asp:Button ID="BtnFind" runat="server" OnClick="ManiPulateDataEvent_Clicked" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" />
+                             </td>
                              <td class="odd" style="width: 319px; height: 30px">&nbsp;</td>
                              </tr>
                     </table>

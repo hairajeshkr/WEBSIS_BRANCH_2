@@ -94,6 +94,23 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
         }
     }
 
+    private void treeView1_Click(object sender, EventArgs e)
+    {
+        //fillInstallment();
+    }
+
+
+    void treeView1_NodeMouseClick(object sender, System.Windows.Forms.TreeNodeMouseClickEventArgs e)
+    {
+        //fillInstallment();
+    }
+
+    private void treeView1_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
+    {
+       // fillInstallment();
+    }
+
+
 
     public override void FnInitializeForm()
     {
@@ -179,7 +196,7 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
         //fillInstallment();
     }
 
-    public void fillInstallment()
+    public void fillInstallment(string CLN)
     {
 
         DataTable ClsTGF = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
@@ -265,7 +282,7 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
     
     protected void GrdVwRecords_SelectedIndexChanged(object sender, EventArgs e)
     {
-         fillInstallment();
+         //fillInstallment();
         //fillInstallment2();
 
        // String Name1 = GrdVwRecords.SelectedRow.Cells[0].Text;
@@ -319,13 +336,13 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                 // txt.Attributes.Add("onclick", "Myfunction("+ INSId + "," + CLSId + "," + DIVId + ")");
                 //var DD = 
 
-               // String Name2 = GrdVwRecords.SelectedRow.Cells[0].Text;
+                // String Name2 = GrdVwRecords.SelectedRow.Cells[0].Text;
 
                 //GrdVwFee.Rows[i].Cells[8].Visible = false;
 
+               // var LLL = lblGrp.Text;
 
-
-                //txt.Attributes.Add("onkeyup", "Myfunction('" + txt.ClientID + "','" + DdlInstitute.ClientID + "','" + DdlClass.ClientID  + "','" + DdlDivision.ClientID + "','" + Name2 + "','" + txt1.ClientID + "')");
+                txt.Attributes.Add("onkeyup", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID  + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "')");
 
 
 
@@ -479,5 +496,50 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
             string value = Request.Form[Column1TextBoxes[i]]; // Textbox values
         }
 
+    }
+
+    protected void TreeView1_SelectedNodeChanged(object sender, EventArgs e)
+    {
+        var CLN = TreeView1.SelectedNode.Value;
+        int IH = TreeView1.SelectedNode.Depth;
+        string GRP, CLS, DIVN, STUD;
+        if (TreeView1.SelectedNode.Depth==0)
+        {
+            //group
+             GRP = TreeView1.SelectedNode.Value;
+        }
+        else if(TreeView1.SelectedNode.Depth == 1)
+            {
+            //Class
+            GRP = TreeView1.SelectedNode.Parent.Value;
+             CLS = TreeView1.SelectedNode.Value;
+        }
+        else if (TreeView1.SelectedNode.Depth == 2)
+        {
+            //Division
+            GRP = TreeView1.SelectedNode.Parent.Parent.Value;
+            CLS = TreeView1.SelectedNode.Parent.Value;
+             DIVN = TreeView1.SelectedNode.Value;
+        }
+        else if (TreeView1.SelectedNode.Depth == 3)
+        {
+            //Student
+            //GRP = TreeView1.SelectedNode.Parent.Parent.Parent.Value;
+           // lblGrp.Text = TreeView1.SelectedNode.Parent.Parent.Parent.Value;
+            TxtGrp.Text= TreeView1.SelectedNode.Parent.Parent.Parent.Value;
+            CLS = TreeView1.SelectedNode.Parent.Parent.Value;
+            lblCls.Text = TreeView1.SelectedNode.Parent.Parent.Value;
+            TxtCls.Text = TreeView1.SelectedNode.Parent.Parent.Value;
+            DIVN = TreeView1.SelectedNode.Parent.Value;
+            lblDiv.Text = TreeView1.SelectedNode.Parent.Value;
+            TxtDiv.Text = TreeView1.SelectedNode.Parent.Value;
+            STUD = TreeView1.SelectedNode.Value;
+            lblStd.Text = TreeView1.SelectedNode.Value;
+            TxtStd.Text = TreeView1.SelectedNode.Value;
+        }
+        
+
+        //if (TreeView1.SelectedNode)
+        fillInstallment(CLN);
     }
 }

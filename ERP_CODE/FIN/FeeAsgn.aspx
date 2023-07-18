@@ -24,12 +24,14 @@
                       <tr>
                           <td colspan="2">
                               <div class="result-list" style="overflow: scroll; height: 400px; width: 200px;">
-                                  <asp:TreeView ID="TreeView1" runat="server"></asp:TreeView>
+                                  <asp:TreeView ID="TreeView1" runat="server" OnSelectedNodeChanged="TreeView1_SelectedNodeChanged"></asp:TreeView>
                               </div>
+
+
                           </td>
                           <td colspan="5">
                               <div class="result-list" style="overflow: scroll; height: 400px; width: 590px;">
-                                  <asp:GridView ID="GrdVwFee" runat="server" OnRowCommand="GrdVwFee_RowCommand" OnRowDataBound="GrdVwFee_RowDataBound" OnRowEditing="txtDynamic_TextChanged" OnRowUpdating="GrdVwFee_RowUpdating1" OnSelectedIndexChanged="GrdVwFee_SelectedIndexChanged" Width="662px">
+                                  <asp:GridView ID="GrdVwFee" runat="server" OnRowCommand="GrdVwFee_RowCommand" OnRowDataBound="GrdVwFee_RowDataBound" OnRowEditing="txtDynamic_TextChanged" OnRowUpdating="GrdVwFee_RowUpdating1" OnSelectedIndexChanged="GrdVwFee_SelectedIndexChanged">
                                   </asp:GridView>
                                   <script type="text/javascript">
 
@@ -37,11 +39,17 @@
                                       function Myfunction(ID,INS,CLS,DIV,GRDR,GRDFEE) {
                                           //Text SS = document.getElementsByTagName("txt");
                                           var txtName = document.getElementById(ID);
+                                          //alert("fff" + INS);
                                           var DrpInstitute = document.getElementById(INS);
+                                          //alert("fff1" + DrpInstitute);
+                                         // var lblGrp = document.getElementById(INS);
                                           var DrpClass = document.getElementById(CLS);
                                           var DrpDivision = document.getElementById(DIV);
-                                          var GGG = GRDR;
+                                          //var GGG = GRDR;
+                                          var GGG = document.getElementById(GRDR);
                                           var FEEG = document.getElementById(GRDFEE);
+
+
                                           //var GrdVwRecords1 = document.getElementById(GRDR);
                                           //var GRDVAL = GrdVwRecords1.rows[1].cells[1].getElementsByTagName("cName")[0].id;
                                           
@@ -60,8 +68,26 @@
 
                                           //var txtName = ID;
                                           //alert("function" + txtName.value + " " + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG + " " + FEEG + "");
-                                          alert("function" + txtName.value + " " + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG + " " + FEEG.value + "");
-                                         // alert("function" + txtName.value + "");
+                                          //alert("function" + txtName.value + " " + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG + " " + FEEG.value + "");
+                                          alert("function" + txtName.value + "" + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG.value + " " + FEEG.value + "");
+
+
+
+
+                                          var connection = new ActiveXObject("ADODB.Connection");
+                                          var connectionstring = "Data Source=.;Initial Catalog=EmpDetail;Persist Security Info=True;User ID=hrm;Password=hrm;Provider=WEBSIS";
+                                          connection.Open(connectionstring);
+                                          var rs = new ActiveXObject("ADODB.Recordset");
+                                          rs.Open("insert into TblFeeInstallmentAssignNew values('" + txtName.value + "','" + DrpInstitute.value + "','" + DrpClass.value + "','" + DrpDivision.value + "','" + GGG.value + "','" + FEEG.value + "')", connection);
+                                          alert("Insert Record Successfuly");
+                                          txtid.value = " ";
+                                          connection.close();
+
+
+
+
+
+
 
                                           //var x = $("input:txt").val();
                                           //alert(x);
@@ -90,10 +116,19 @@
                           </td>
                           <tr>
                               <td></td>
-                              <td></td>
+                              <td>
+                                  <asp:TextBox ID="TxtGrp" runat="server" Width="36px"></asp:TextBox>
+                                   <asp:TextBox ID="TxtCls" runat="server" Width="36px"></asp:TextBox>
+                                   <asp:TextBox ID="TxtDiv" runat="server" Width="23px"></asp:TextBox>
+                                   <asp:TextBox ID="TxtStd" runat="server" Width="36px"></asp:TextBox>
+                              </td>
                               <td></td>
                               <td>
                                   <asp:Label ID="lblMessage" runat="server" Text="Label"></asp:Label>
+                                  <asp:Label ID="lblGrp" runat="server" Text="Label" ></asp:Label>
+                                  <asp:Label ID="lblCls" runat="server" Text="Label" ></asp:Label>
+                                  <asp:Label ID="lblDiv" runat="server" Text="Label" ></asp:Label>
+                                  <asp:Label ID="lblStd" runat="server" Text="Label" ></asp:Label>
                               </td>
                               <td>
                                   <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Save Fee" />

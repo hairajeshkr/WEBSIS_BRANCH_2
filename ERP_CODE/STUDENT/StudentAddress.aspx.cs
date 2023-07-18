@@ -30,6 +30,11 @@ public partial class STUDENT_StudentAddress : ClsPageEvents,IPageInterFace
             if (!IsPostBack)
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
+                ChkSame.Attributes.Add("onclick", "return CopyAddressAll();");
+                ChkSameFthr.Attributes.Add("onclick", "return CopyAddressAlll();");
+                ChkSameMthr.Attributes.Add("onclick", "return CopyAddressAll2();");
+                ChkSameGurdn.Attributes.Add("onclick", "return CopyAddressAll1();");
+
                 FnInitializeForm();
                 TxtHouseNamePerm.Focus();
             }
@@ -676,5 +681,10 @@ public partial class STUDENT_StudentAddress : ClsPageEvents,IPageInterFace
     public void FnPrintRecord()
     {
         throw new NotImplementedException();
+    }
+
+    protected void ChkSame_CheckedChanged(object sender, EventArgs e)
+    {
+
     }
 }

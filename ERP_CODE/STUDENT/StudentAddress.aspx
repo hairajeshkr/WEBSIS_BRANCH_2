@@ -6,8 +6,11 @@
 <%@ Register src="../CtrlGridSmallList.ascx" tagname="CtrlGridSmallList" tagprefix="uc4" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <script language="javascript" src="Script/StudentAddress.js" type="text/javascript"></script>
+    <script language="javascript" src="Script/FatherAddress.js" type="text/javascript"></script>
+    <script language="javascript" src="Script/GuardianAddress.js" type="text/javascript"></script>
+    <script language="javascript" src="Script/MotherAddress.js" type="text/javascript"></script>
     <div style="height:540px; width:880px">
-      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="3" Height="540px" Width="880px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="540px" Width="880px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
               <HeaderTemplate>Student Address
               </HeaderTemplate>
@@ -24,7 +27,7 @@
                                          <asp:Label ID="Label128" runat="server" SkinID="LblIHeaderText" Text="Temporary Address"></asp:Label>
                                      </td>
                                      <td>
-                                         <asp:CheckBox ID="ChkSame" runat="server" SkinID="ChkBox" Text="Same as permanent" Width="210px" />
+                                         <asp:CheckBox ID="ChkSame" runat="server" Text="Same as permanent" SkinID="ChkBox" Width="210px" />
                                      </td>
                                  </tr>
                              </table>
@@ -43,20 +46,20 @@
                              <asp:Label ID="Label126" runat="server" Text="House Name" Width="90px"></asp:Label>
                         </td>
                          <td class="odd" width="200px" >
-                              <asp:TextBox ID="TxtHouseNameTemp" runat="server" placeholder="House" Width="280px"></asp:TextBox>
+                              <asp:TextBox ID="TxtHouseNameTemp" runat="server" placeholder="House" Width="280px" TabIndex="13"></asp:TextBox>
                           </td>
                           <tr>
                               <td class="odd" style="width: 90px; height:30px">
-                                  <asp:Label ID="Label131" runat="server" Text="Street/City" Width="90px"></asp:Label>
+                                  <asp:Label ID="Label131" runat="server" Text="Street / City" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:30px" width="180px">
-                                  <asp:TextBox ID="TxtAddressPerm" runat="server" placeholder="Street" Width="280px" TabIndex="2"></asp:TextBox>
+                                  <asp:TextBox ID="TxtAddressPerm" runat="server" placeholder="Street" Width="280px" TabIndex="1"></asp:TextBox>
                               </td>
                               <td class="odd" style="width: 90px; height:30px">
-                                  <asp:Label ID="Label132" runat="server" Text="Street/City" Width="90px"></asp:Label>
+                                  <asp:Label ID="Label132" runat="server" Text="Street / City" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" width="180px">
-                                  <asp:TextBox ID="TxtAddressTemp" runat="server" placeholder="Street" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtAddressTemp" runat="server" placeholder="Street" Width="280px" TabIndex="14"></asp:TextBox>
                               </td>
                           </tr>
                           <tr>
@@ -64,13 +67,13 @@
                                   <asp:Label ID="Label1" runat="server" Text="Post Office" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:30px" width="180px">
-                                  <asp:TextBox ID="TxtPostOfficePerm" runat="server" placeholder="Post Office" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtPostOfficePerm" runat="server" placeholder="Post Office" Width="280px" TabIndex="2"></asp:TextBox>
                               </td>
                               <td class="odd" style="width: 90px; height:30px">
                                   <asp:Label ID="Label2" runat="server" Text="Post Office" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" width="180px">
-                                  <asp:TextBox ID="TxtPostOfficeTemp" runat="server" placeholder="Post Office" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtPostOfficeTemp" runat="server" placeholder="Post Office" Width="280px" TabIndex="15"></asp:TextBox>
                               </td>
                           </tr>
                           <tr>
@@ -78,13 +81,13 @@
                                   <asp:Label ID="Label3" runat="server" Text="Pin Code" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:30px" width="180px">
-                                  <asp:TextBox ID="TxtPinCodePerm" runat="server" placeholder="Pin Code" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtPinCodePerm" runat="server" placeholder="Pin Code" Width="280px" TabIndex="3"></asp:TextBox>
                               </td>
                               <td class="odd" style="width: 90px; height:30px">
                                   <asp:Label ID="Label4" runat="server" Text="Pin Code" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" width="180px">
-                                  <asp:TextBox ID="TxtPinCodeTemp" runat="server" placeholder="Pin Code" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtPinCodeTemp" runat="server" placeholder="Pin Code" Width="280px" TabIndex="16"></asp:TextBox>
                               </td>
                           </tr>
                           <tr>
@@ -92,13 +95,13 @@
                                   <asp:Label ID="Label5" runat="server" Text="Landmark" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:30px" width="180px">
-                                  <asp:TextBox ID="TxtCityPerm" runat="server" placeholder="Landmark" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtCityPerm" runat="server" placeholder="Landmark" Width="280px" TabIndex="4"></asp:TextBox>
                               </td>
                               <td class="odd" style="width: 90px; height:30px">
                                   <asp:Label ID="Label6" runat="server" Text="Landmark" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" width="180px">
-                                  <asp:TextBox ID="TxtCityTemp" runat="server" placeholder="Landmark" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtCityTemp" runat="server" placeholder="Landmark" Width="280px" TabIndex="17"></asp:TextBox>
                               </td>
                           </tr>
                           <tr>
@@ -106,13 +109,13 @@
                                   <asp:Label ID="Label7" runat="server" Text="Country" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:20px" width="180px">
-                                  <uc2:CtrlGridList ID="CtrlGrdCountryPer" runat="server" GridHeight="200" PlaceHoldr="Country" AccountType="Country" />
+                                  <uc2:CtrlGridList ID="CtrlGrdCountryPer" runat="server" GridHeight="200" PlaceHoldr="Country" AccountType="Country" TabIndex="5" />
                               </td>
                               <td class="odd" style="width: 90px; height:20px">
                                   <asp:Label ID="Label8" runat="server" Text="Country" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:20px" width="180px">
-                                  <uc2:CtrlGridList ID="CtrlGrdCountryTemp" runat="server" GridHeight="200" PlaceHoldr="Country" AccountType="Country" />
+                                  <uc2:CtrlGridList ID="CtrlGrdCountryTemp" runat="server" GridHeight="200" PlaceHoldr="Country" AccountType="Country" TabIndex="18" />
                               </td>
                           </tr>
                           <tr>
@@ -120,13 +123,13 @@
                                   <asp:Label ID="Label9" runat="server" Text="State" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:20px" width="180px">
-                                  <uc2:CtrlGridList ID="CtrlGrdStatePer" runat="server" GridHeight="200" PlaceHoldr="State" AccountType="State" />
+                                  <uc2:CtrlGridList ID="CtrlGrdStatePer" runat="server" GridHeight="200" PlaceHoldr="State" AccountType="State" TabIndex="6" />
                               </td>
                               <td class="odd" style="width: 90px; height:20px">
                                   <asp:Label ID="Label10" runat="server" Text="State" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:20px" width="180px">
-                                  <uc2:CtrlGridList ID="CtrlGrdStateTemp" runat="server" AccountType="State" PlaceHoldr="State" />
+                                  <uc2:CtrlGridList ID="CtrlGrdStateTemp" runat="server" AccountType="State" PlaceHoldr="State" TabIndex="19" />
                               </td>
                           </tr>
                           <tr>
@@ -134,13 +137,13 @@
                                   <asp:Label ID="Label129" runat="server" Text="District" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:20px" width="180px">
-                                  <uc2:CtrlGridList ID="CtrlGrdDistrictPer" runat="server" AccountType="District" GridHeight="200" PlaceHoldr="District" />
+                                  <uc2:CtrlGridList ID="CtrlGrdDistrictPer" runat="server" AccountType="District" GridHeight="200" PlaceHoldr="District" TabIndex="7" />
                               </td>
                               <td class="odd" style="width: 90px; height:20px">
                                   <asp:Label ID="Label130" runat="server" Text="District" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:20px" width="180px">
-                                  <uc2:CtrlGridList ID="CtrlGrdDistrictTemp" runat="server" AccountType="District" GridHeight="200" PlaceHoldr="District" />
+                                  <uc2:CtrlGridList ID="CtrlGrdDistrictTemp" runat="server" AccountType="District" GridHeight="200" PlaceHoldr="District" TabIndex="20" />
                               </td>
                           </tr>
                           <tr>
@@ -148,13 +151,13 @@
                                   <asp:Label ID="Label11" runat="server" Text="Phone no." Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:30px" width="180px">
-                                  <asp:TextBox ID="TxtPhoneNoPerm" runat="server" placeholder="Phone no." Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtPhoneNoPerm" runat="server" placeholder="Phone no." Width="280px" TabIndex="8"></asp:TextBox>
                               </td>
                               <td class="odd" style="width: 90px; height:30px">
                                   <asp:Label ID="Label12" runat="server" Text="Phone no." Width="90px"></asp:Label>
                               </td>
                               <td class="odd" width="180px">
-                                  <asp:TextBox ID="TxtPhoneNoTemp" runat="server" placeholder="Phone no." Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtPhoneNoTemp" runat="server" placeholder="Phone no." Width="280px" TabIndex="21"></asp:TextBox>
                               </td>
                           </tr>
                           <tr>
@@ -162,13 +165,13 @@
                                   <asp:Label ID="Label14" runat="server" Text="Email" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:30px" width="180px">
-                                  <asp:TextBox ID="TxtEmailPerm" runat="server" placeholder="Email" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtEmailPerm" runat="server" placeholder="Email" Width="280px" TabIndex="9"></asp:TextBox>
                               </td>
                               <td class="odd" style="width: 90px; height:30px">
                                   <asp:Label ID="Label15" runat="server" Text="Email" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" width="180px">
-                                  <asp:TextBox ID="TxtEmailTemp" runat="server" placeholder="Email" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtEmailTemp" runat="server" placeholder="Email" Width="280px" TabIndex="22"></asp:TextBox>
                               </td>
                           </tr>
                           <tr>
@@ -176,13 +179,13 @@
                                   <asp:Label ID="Label16" runat="server" Text="Mobile No." Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:30px" width="180px">
-                                  <asp:TextBox ID="TxtMobNoPerm" runat="server" placeholder="Mobile No." Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtMobNoPerm" runat="server" placeholder="Mobile No." Width="280px" TabIndex="10"></asp:TextBox>
                               </td>
                               <td class="odd" style="width: 90px; height:30px">
                                   <asp:Label ID="Label13" runat="server" Text="Mobile No." Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:30px" width="180px">
-                                  <asp:TextBox ID="TxtMobNoTemp" runat="server" placeholder="Mobile No." Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtMobNoTemp" runat="server" placeholder="Mobile No." Width="280px" TabIndex="23"></asp:TextBox>
                               </td>
                           </tr>
                           <tr>
@@ -190,18 +193,18 @@
                                   <asp:Label ID="Label133" runat="server" Text="Remarks" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" height="20px" style="width: 201px">
-                                  <asp:TextBox ID="TxtRemarksPerm" runat="server" placeholder="Remarks" SkinID="TxtMultiLine" TextMode="MultiLine" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtRemarksPerm" runat="server" placeholder="Remarks" SkinID="TxtMultiLine" TextMode="MultiLine" Width="280px" TabIndex="12"></asp:TextBox>
                               </td>
                               <td class="odd" height="20px" style="width: 90px; height:20px">
                                   <asp:Label ID="Label134" runat="server" Text="Remarks" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" height="20px" style="width: 180px">
-                                  <asp:TextBox ID="TxtRemarksTemp" runat="server" placeholder="Remarks" SkinID="TxtMultiLine" TextMode="MultiLine" Width="280px"></asp:TextBox>
+                                  <asp:TextBox ID="TxtRemarksTemp" runat="server" placeholder="Remarks" SkinID="TxtMultiLine" TextMode="MultiLine" Width="280px" TabIndex="24"></asp:TextBox>
                               </td>
                           </tr>
                           <tr>
                               <td align="center" class="FooterCommand" colspan="4" valign="middle">
-                                  <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="false" />
+                                  <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="false" ClearTabIndex="26" SaveTabIndex="25" />
                               </td>
                           </tr>
                       </tr>                            
@@ -214,7 +217,7 @@
               <HeaderTemplate>Father Address
               </HeaderTemplate>
                <ContentTemplate>
-                   <table class="auto-style1">
+                     <table class="auto-style1">
                         <tr>
                          <td colspan="2">
                              <asp:Label ID="Label17" runat="server" SkinID="LblIHeaderText" Text="Permanent Address"></asp:Label>
@@ -226,7 +229,7 @@
                                          <asp:Label ID="Label18" runat="server" SkinID="LblIHeaderText" Text="Temporary Address"></asp:Label>
                                      </td>
                                      <td>
-                                         <asp:CheckBox ID="ChkSameFthr" runat="server" SkinID="ChkBox" Text="Same as permanent" Width="210px" />
+                                         <asp:CheckBox ID="ChkSameFthr" runat="server" SkinID="ChkBox" Text="Same as permanent" Width="210px"  />
                                      </td>
                                  </tr>
                              </table>
@@ -403,7 +406,7 @@
                           </tr>
                           <tr>
                               <td align="center" class="FooterCommand" colspan="4" valign="middle">
-                                  <uc1:CtrlCommand ID="CtrlCommandFthr" runat="server" SaveCommandName="SAVE_FTHR" ClearCommandName="CLEAR_FTHR" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="false" />
+                                  <uc1:CtrlCommand ID="CtrlCommandFthr" runat="server" SaveCommandName="SAVE_FTHR" ClearCommandName="CLEAR_FTHR" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="false" ClearTabIndex="26" SaveTabIndex="25" />
                               </td>
                           </tr>
                       </tr>                            
@@ -414,7 +417,7 @@
               <HeaderTemplate>Mother Address
               </HeaderTemplate>
                <ContentTemplate>
-                      <table class="auto-style1">
+                    <table class="auto-style1">
                         <tr>
                          <td colspan="2">
                              <asp:Label ID="Label43" runat="server" SkinID="LblIHeaderText" Text="Permanent Address"></asp:Label>
@@ -449,13 +452,13 @@
                           </td>
                           <tr>
                               <td class="odd" style="width: 90px; height:30px">
-                                  <asp:Label ID="Label47" runat="server" Text="Street" Width="90px"></asp:Label>
+                                  <asp:Label ID="Label47" runat="server" Text="Street/City" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:30px" width="180px">
                                   <asp:TextBox ID="TxtMthrStreetPer" runat="server" placeholder="Street" Width="280px" TabIndex="2"></asp:TextBox>
                               </td>
                               <td class="odd" style="width: 90px; height:30px">
-                                  <asp:Label ID="Label48" runat="server" Text="Street" Width="90px"></asp:Label>
+                                  <asp:Label ID="Label48" runat="server" Text="Street/City" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" width="180px">
                                   <asp:TextBox ID="TxtMthrStreetTemp" runat="server" placeholder="Street" Width="280px" TabIndex="14"></asp:TextBox>
@@ -603,7 +606,7 @@
                           </tr>
                           <tr>
                               <td align="center" class="FooterCommand" colspan="4" valign="middle">
-                                <uc1:CtrlCommand ID="CtrlCommandMthr" runat="server" SaveCommandName="SAVE_MTHR" ClearCommandName="CLEAR_MTHR" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="false" />
+                                <uc1:CtrlCommand ID="CtrlCommandMthr" runat="server" SaveCommandName="SAVE_MTHR" ClearCommandName="CLEAR_MTHR" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="false" ClearTabIndex="26" SaveTabIndex="25" />
                               </td>
                           </tr>
                       </tr>                            
@@ -614,7 +617,7 @@
               <HeaderTemplate>Guardian Address
               </HeaderTemplate>
                <ContentTemplate>
-                     <table class="auto-style1">
+                 <table class="auto-style1">
                         <tr>
                          <td colspan="2">
                              <asp:Label ID="Label69" runat="server" SkinID="LblIHeaderText" Text="Permanent Address"></asp:Label>
@@ -649,13 +652,13 @@
                           </td>
                           <tr>
                               <td class="odd" style="width: 90px; height:30px">
-                                  <asp:Label ID="Label73" runat="server" Text="Street" Width="90px"></asp:Label>
+                                  <asp:Label ID="Label73" runat="server" Text="Street/City" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" style="width: 180px; height:30px" width="180px">
                                   <asp:TextBox ID="TxtGurdnStreetPer" runat="server" placeholder="Street" Width="280px" TabIndex="4"></asp:TextBox>
                               </td>
                               <td class="odd" style="width: 90px; height:30px">
-                                  <asp:Label ID="Label74" runat="server" Text="Street" Width="90px"></asp:Label>
+                                  <asp:Label ID="Label74" runat="server" Text="Street/City" Width="90px"></asp:Label>
                               </td>
                               <td class="odd" width="180px">
                                   <asp:TextBox ID="TxtGurdnStreetTemp" runat="server" placeholder="Street" Width="280px" TabIndex="16"></asp:TextBox>
@@ -803,15 +806,91 @@
                           </tr>
                           <tr>
                               <td align="center" class="FooterCommand" colspan="4" valign="middle">
-                                <uc1:CtrlCommand ID="CtrlCommandGurdn" runat="server" SaveCommandName="SAVE_GURDN" ClearCommandName="CLEAR_GURDN" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="false" />
+                                <uc1:CtrlCommand ID="CtrlCommandGurdn" runat="server" SaveCommandName="SAVE_GURDN" ClearCommandName="CLEAR_GURDN" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="false" ClearTabIndex="28" SaveTabIndex="27" />
                               </td>
                           </tr>
                       </tr>                            
              </table>
                </ContentTemplate>
+              
                 </ajaxToolkit:TabPanel>
       </ajaxToolkit:TabContainer>
         </div>  
+<script type="text/javascript">
+    function FillAddressInput() {
 
+        let checkBox = document.getElementById('ChkSame');
+
+        let TxtHouseNamePerm = document.getElementById("TxtHouseNamePerm");
+        let TxtAddressPerm = document.getElementById("TxtAddressPerm");
+        let TxtPostOfficePerm = document.getElementById("TxtPostOfficePerm");
+        let TxtPinCodePerm = document.getElementById("TxtPinCodePerm");
+        let TxtCityPerm = document.getElementById("TxtCityPerm");
+        let CtrlGrdCountryPer = document.getElementById("CtrlGrdCountryPer");
+        let CtrlGrdStatePer = document.getElementById("CtrlGrdStatePer");
+        let CtrlGrdDistrictPer = document.getElementById("CtrlGrdDistrictPer");
+        let TxtPhoneNoPerm = document.getElementById("TxtPhoneNoPerm");
+        let TxtEmailPerm = document.getElementById("TxtEmailPerm");
+        let TxtMobNoPerm = document.getElementById("TxtMobNoPerm");
+        let TxtRemarksPerm = document.getElementById("TxtRemarksPerm");
+
+        let TxtHouseNameTemp = document.getElementById("TxtHouseNameTemp");
+        let TxtAddressTemp = document.getElementById("TxtAddressTemp");
+        let TxtPostOfficeTemp = document.getElementById("TxtPostOfficeTemp");
+        let TxtPinCodeTemp = document.getElementById("TxtPinCodeTemp");
+        let TxtCityTemp = document.getElementById("TxtCityTemp");
+        let CtrlGrdCountryTemp = document.getElementById("CtrlGrdCountryTemp");
+        let CtrlGrdStateTemp = document.getElementById("CtrlGrdStateTemp");
+        let CtrlGrdDistrictTemp = document.getElementById("CtrlGrdDistrictTemp");
+        let TxtPhoneNoTemp = document.getElementById("TxtPhoneNoTemp");
+        let TxtEmailTemp = document.getElementById("TxtEmailTemp");
+        let TxtMobNoTemp = document.getElementById("TxtMobNoTemp");
+        let TxtRemarksTemp = document.getElementById("TxtRemarksTemp");
+
+        if (checkBox.checked == true) {
+            let TxtHouseNamePermValue = TxtHouseNamePerm.value;
+            let TxtAddressPermValue = TxtAddressPerm.value;
+            let TxtPostOfficePermValue = TxtPostOfficePerm.value;
+            let TxtPinCodePermValue = TxtPinCodePerm.value;
+            let TxtCityPermValue = TxtCityPerm.value;
+            let CtrlGrdCountryPerValue = CtrlGrdCountryPer.value;
+            let CtrlGrdStatePerValue = CtrlGrdStatePer.value;
+            let CtrlGrdDistrictPerValue = CtrlGrdDistrictPer.value;
+            let TxtPhoneNoPermValue = TxtPhoneNoPerm.value;
+            let TxtEmailPermValue = TxtEmailPerm.value;
+            let TxtMobNoPermValue = TxtMobNoPerm.value;
+            let TxtRemarksPermValue = TxtRemarksPerm.value;
+
+            TxtHouseNameTemp.value = TxtHouseNamePermValue;
+            TxtAddressTemp.value = TxtAddressPermValue;
+            TxtPostOfficeTemp.value = TxtPostOfficePermValue;
+            TxtPinCodeTemp.value = TxtPinCodePermValue;
+            TxtCityTemp.value = TxtCityPermValue;
+            CtrlGrdCountryTemp.value = CtrlGrdCountryPerValue;
+            CtrlGrdStateTemp.value = CtrlGrdStatePerValue;
+            CtrlGrdDistrictTemp.value = CtrlGrdDistrictPerValue;
+            TxtPhoneNoTemp.value = TxtPhoneNoPermValue;
+            TxtEmailTemp.value = TxtEmailPermValue;
+            TxtMobNoTemp.value = TxtMobNoPermValue;
+            TxtRemarksTemp.value = TxtRemarksPermValue;
+
+        }
+        else {
+            TxtHouseNameTemp.value = "";
+            TxtAddressTemp.value = "";
+            TxtPostOfficeTemp.value = "";
+            TxtPinCodeTemp.value = "";
+            TxtCityTemp.value = "";
+            CtrlGrdCountryTemp.value = "";
+            CtrlGrdStateTemp.value = "";
+            CtrlGrdDistrictTemp.value = "";
+            TxtPhoneNoTemp.value = "";
+            TxtEmailTemp.value = "";
+            TxtMobNoTemp.value = "";
+            TxtRemarksTemp.value = "";
+        }
+    }
+</script>
 </asp:Content>
+
 

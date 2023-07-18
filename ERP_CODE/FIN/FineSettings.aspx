@@ -35,11 +35,8 @@
                                         <td colspan="5"> 
                                             <div class="result-list" style="overflow: scroll; height: 420px; width: 700px;">
                                                 <asp:Label ID="Label1" runat="server" Text="Installment"></asp:Label>
-                                                <asp:DropDownList ID="DdlInslment" runat="server" Width="200px" SkinID="DdlList" Height="25px" ></asp:DropDownList>
-                                               
-
-
-
+                                                <asp:DropDownList ID="DdlInslment" runat="server" Width="200px" Height="25px" ></asp:DropDownList>
+                                              
 
                                                 <asp:GridView ID="GrdVwRecordsMain" runat="server" SkinID="GrdVwMasterNoPageing" Width="604px" >
                                                     <Columns>

@@ -30,7 +30,9 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
 
                 //ObjLst.FnGetUserAcYearList(DdlAcYear, "--- ACADEMIC YEAR ---");
                 // ObjLst.FnGetLanguageList(DdlAcYear, "---Sort by Language---");
+                
                 FnInitializeForm();
+                DrpInstallFill();
 
                 /////Tree View
                 DataTable ClsTD = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='INGRP'") as DataSet).Tables[0];
@@ -43,6 +45,14 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
+    }
+    public void DrpInstallFill()
+    {
+        DataTable ClsTD = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
+        DdlInslment.DataSource = ClsTD;
+        DdlInslment.DataValueField = "nId";
+        DdlInslment.DataTextField = "cName";
+        DdlInslment.DataBind();
     }
 
 

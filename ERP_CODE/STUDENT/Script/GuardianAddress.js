@@ -18,7 +18,7 @@ function ValidateAdd() {
         return false;
     }
 }
-function CopyAddressAll1() {
+function CopyGuardianAddress() {
 
     var checkBox = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel4_ChkSameGurdn');
 
@@ -55,40 +55,23 @@ function CopyAddressAll1() {
     var TxtGurdnRemarksTemp = document.getElementById("ContentPlaceHolder1_TabContainer1_TabPanel4_TxtGurdnRemarksTemp");
 
     if (checkBox.checked == true) {
-        var TxtHouseNamePermValue = TxtGurdnHousePer.value;
-        var TxtAddressPermValue = TxtGurdnStreetPer.value;
-        var TxtPostOfficePermValue = TxtGurdnPostPer.value;
-        var TxtPinCodePermValue = TxtGurdnPincodePer.value;
-        var TxtCityPermValue = TxtGurdnLandmarkPer.value;
+        TxtGurdnHouseTemp.value = TxtGurdnHousePer.value;
+        TxtGurdnStreetTemp.value = TxtGurdnStreetPer.value;
+        TxtGurdnPostTemp.value = TxtGurdnPostPer.value;
+        TxtGurdnPincodeTemp.value = TxtGurdnPincodePer.value;
+        TxtGurdnLandmarkTemp.value = TxtGurdnLandmarkPer.value;
 
-        var CtrlGrdCountryPerValue = CtrlGrdGurdnCntryPer.value;
-        var CtrlGrdCountryPerId = CtrlGrdGurdnCntryPerId.value;
-        var CtrlGrdStatePerValue = CtrlGrdGurdnStatePer.value;
-        var CtrlGrdStatePerId = CtrlGrdGurdnStatePerId.value;
-        var CtrlGrdDistrictPerValue = CtrlGrdGurdnDistPer.value;
-        var CtrlGrdDistrictPerId = CtrlGrdGurdnDistPerId.value;
-        var TxtPhoneNoPermValue = TxtGurdnPhNoPer.value;
-        var TxtEmailPermValue = TxtGurdnEmailPer.value;
-        var TxtMobNoPermValue = TxtGurdnMobPer.value;
-        var TxtRemarksPermValue = TxtGurdnRemarksPer.value;
+        CtrlGrdGurdnCntryTemp.value = CtrlGrdGurdnCntryPer.value;
+        CtrlGrdGurdnCntryTempId.value = CtrlGrdGurdnCntryPerId.value;
+        CtrlGrdGurdnStateTemp.value = CtrlGrdGurdnStatePer.value;
+        CtrlGrdGurdnStateTempId.value = CtrlGrdGurdnStatePerId.value;
+        CtrlGrdGurdnDistTEmp.value = CtrlGrdGurdnDistPer.value;
+        CtrlGrdGurdnDistTEmpId.value = CtrlGrdGurdnDistPerId.value;
 
-        TxtGurdnHouseTemp.value = TxtHouseNamePermValue;
-        TxtGurdnStreetTemp.value = TxtAddressPermValue;
-        TxtGurdnPostTemp.value = TxtPostOfficePermValue;
-        TxtGurdnPincodeTemp.value = TxtPinCodePermValue;
-        TxtGurdnLandmarkTemp.value = TxtCityPermValue;
-
-        CtrlGrdGurdnCntryTemp.value = CtrlGrdCountryPerValue;
-        CtrlGrdGurdnCntryTempId.value = CtrlGrdCountryPerId;
-        CtrlGrdGurdnStateTemp.value = CtrlGrdStatePerValue;
-        CtrlGrdGurdnStateTempId.value = CtrlGrdStatePerId;
-        CtrlGrdGurdnDistTEmp.value = CtrlGrdDistrictPerValue;
-        CtrlGrdGurdnDistTEmpId.value = CtrlGrdDistrictPerId;
-
-        TxtGurdnPhNoTemp.value = TxtPhoneNoPermValue;
-        TxtGurdnEmailTemp.value = TxtEmailPermValue;
-        TxtGurdnMobTemp.value = TxtMobNoPermValue;
-        TxtGurdnRemarksTemp.value = TxtRemarksPermValue;
+        TxtGurdnPhNoTemp.value = TxtGurdnPhNoPer.value;
+        TxtGurdnEmailTemp.value = TxtGurdnEmailPer.value;
+        TxtGurdnMobTemp.value = TxtGurdnMobPer.value;
+        TxtGurdnRemarksTemp.value = TxtGurdnRemarksPer.value;
 
     }
     else {

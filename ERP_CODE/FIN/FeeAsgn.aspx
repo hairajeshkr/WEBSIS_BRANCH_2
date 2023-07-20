@@ -29,85 +29,59 @@
 
 
                           </td>
-                          <td colspan="5">
+                          <td colspan="3">
                               <div class="result-list" style="overflow: scroll; height: 400px; width: 590px;">
                                   <asp:GridView ID="GrdVwFee" runat="server" OnRowCommand="GrdVwFee_RowCommand" OnRowDataBound="GrdVwFee_RowDataBound" OnRowEditing="txtDynamic_TextChanged" OnRowUpdating="GrdVwFee_RowUpdating1" OnSelectedIndexChanged="GrdVwFee_SelectedIndexChanged">
                                   </asp:GridView>
-                                  <script type="text/javascript">
+                                  <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+                                  <script type="text/javascript" >
 
 
-                                      function Myfunction(ID,INS,CLS,DIV,GRDR,GRDFEE) {
-                                          //Text SS = document.getElementsByTagName("txt");
+                                      function Myfunction(ID,INS,CLS,DIV,GRDR,GRDFEE,GRI) {
                                           var txtName = document.getElementById(ID);
-                                          //alert("fff" + INS);
                                           var DrpInstitute = document.getElementById(INS);
-                                          //alert("fff1" + DrpInstitute);
-                                         // var lblGrp = document.getElementById(INS);
                                           var DrpClass = document.getElementById(CLS);
                                           var DrpDivision = document.getElementById(DIV);
-                                          //var GGG = GRDR;
                                           var GGG = document.getElementById(GRDR);
                                           var FEEG = document.getElementById(GRDFEE);
 
+                                          ID.textContent = txtName.value;
+                                          //alert(ID.CellValue);
+                                          var grd = document.getElementById('<%= GrdVwFee.ClientID %>');
+                                          //alert(GRI);
+                                          var ri = GRI;
+                                          var CellValue = grd.rows[ri].cells[0].childNodes[0].textContent;
+                                          //var CDD = grd.rows[1].cells.count;
+                                          //alert(CDD);
 
-                                          //var GrdVwRecords1 = document.getElementById(GRDR);
-                                          //var GRDVAL = GrdVwRecords1.rows[1].cells[1].getElementsByTagName("cName")[0].id;
-                                          
+                                          alert("function" + txtName.value + "" + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG.value + " " + FEEG.value + " -" + CellValue + "");
+                                                                                  
+                                          $.ajax({
+                                              
+                                              type: "POST",
+                                              contentType: "application/json; charset=utf-8",
+                                              url: "FeeAsgn.aspx/InsertData",
+                                              data: "{'nFEEId':'" + FEEG.value + "','nINSSTALId':'" + CellValue + "','nINSTIId':'" + DrpInstitute.value + "','nCLSId':'" + DrpClass.value + "','nDIVId':'" + DrpDivision.value + "','nSTUDId':'" + GGG.value + "','nAmount':'" + txtName.value + "'}",
+                                              dataType: "json",
+                                              success: function (data) {
+                                                  var obj = data.d;
+                                                  if (obj == 'true') {
+                                                      $('#nFEEId').val('');
+                                                      $('#nINSSTALId').val('');
+                                                      $('#nINSTIId').val('');
+                                                      $('#nCLSId').val('');
+                                                      $('#nDIVId').val('');
+                                                      $('#nSTUDId').val('');
+                                                      $('#nAmount').val('');
+                                                      $('#lblmsg').html("Details Submitted Successfully");
+                                                      window.location.reload();
+                                                  }
+                                              },
+                                              error: function (result) {
+                                                  alert("Error");
+                                              }
+                                          });
 
-                                          //var strClientId = "";
-                                          //for (var i = 1; i < GrdVwRecords1.rows.length; i++) {
-                                          //    if (GrdVwRecords1.rows[i].cells[position] && GrdVwRecords1.rows[i].cells[position].childNodes[0] && GrdVwRecords1.rows[i].cells[position].childNodes[0].nodeName == 'INPUT' && GrdVwRecords1.rows[i].cells[position].childNodes[0].type == 'text') {
-                                          //        strClientId = GrdVwRecords1.rows[i].cells[position].childNodes[0].id;
-                                          //        if (strClientId.indexOf(parametrId) > 0) {
-                                          //            var GRDVAL=strClientId;
-                                          //        }
-                                          //    }
-                                          //}
-
-
-
-                                          //var txtName = ID;
-                                          //alert("function" + txtName.value + " " + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG + " " + FEEG + "");
-                                          //alert("function" + txtName.value + " " + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG + " " + FEEG.value + "");
-                                          alert("function" + txtName.value + "" + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG.value + " " + FEEG.value + "");
-
-
-
-
-                                          var connection = new ActiveXObject("ADODB.Connection");
-                                          var connectionstring = "Data Source=.;Initial Catalog=EmpDetail;Persist Security Info=True;User ID=hrm;Password=hrm;Provider=WEBSIS";
-                                          connection.Open(connectionstring);
-                                          var rs = new ActiveXObject("ADODB.Recordset");
-                                          rs.Open("insert into TblFeeInstallmentAssignNew values('" + txtName.value + "','" + DrpInstitute.value + "','" + DrpClass.value + "','" + DrpDivision.value + "','" + GGG.value + "','" + FEEG.value + "')", connection);
-                                          alert("Insert Record Successfuly");
-                                          txtid.value = " ";
-                                          connection.close();
-
-
-
-
-
-
-
-                                          //var x = $("input:txt").val();
-                                          //alert(x);
-
-                                          //var table = document.getElementById("GrdVwFee");
-
-                                          //document.getElementById();
-
-                                          ////////
-
-
-                                         // var GridView = chk.parentNode.parentNode.parentNode;
-                                          //for (var i = 1; i < GrdVwFee.rows.length; i++) {
-                                          //    for (var j = 1; j < GrdVwFee.Column.length; j++) {
-
-                                          //        var TextV = GrdVwFee.rows[i].cells[j].getElementsByTagName("T"+i+"");
-                                          //        document.write(TextV);
-                                          //        alert("function");
-                                          //    }
-                                          //}
 
 
                                       }
@@ -138,7 +112,7 @@
                               <td style="height: 20px"></td>
                           </tr>
                           <tr>
-                              <td align="center" class="FooterCommand" colspan="7" valign="middle">
+                              <td align="center" class="FooterCommand" colspan="5" valign="middle">
                                   <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />
                               </td>
                           </tr>

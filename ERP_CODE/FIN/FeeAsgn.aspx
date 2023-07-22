@@ -18,13 +18,38 @@
               <ContentTemplate>
                 <table>
                     <table style="width: 100%; height: 0px;">
-                      
-
-                    
+                        <tr>
+                            <td class="odd">
+                                <asp:Label ID="Label122" runat="server" Height="30px" Text="Student" ></asp:Label>
+                            </td>
+                            <td class="odd">
+                                <asp:DropDownList ID="DdlStudent" runat="server" SkinID="DdlList200" PlaceHoldr="Student"></asp:DropDownList>
+                            </td>
+                            <td></td>
+                             <td  colspan="2" style="width: 247px">
+                                  <asp:Label ID="lblMessage" runat="server"></asp:Label>
+                                  <asp:Label ID="lblGrp" runat="server" Font-Bold="True" Font-Size="Small" ForeColor="#FF99FF" ></asp:Label>
+                                  <asp:Label ID="lblCls" runat="server" Font-Bold="True" ForeColor="#9999FF" ></asp:Label>
+                                  <asp:Label ID="lblDiv" runat="server" Font-Bold="True" ForeColor="#CC99FF" ></asp:Label>
+                                  <asp:Label ID="lblGrpId" runat="server" ></asp:Label>
+                                  <asp:Label ID="lblClsId" runat="server" ></asp:Label>
+                                  <asp:Label ID="lblDivId" runat="server" ></asp:Label>
+                              </td>
+                        </tr>
                       <tr>
                           <td colspan="2">
-                              <div class="result-list" style="overflow: scroll; height: 400px; width: 200px;">
+                              <div class="result-list" style="overflow: scroll; height: 400px; width: 250px;">
                                   <asp:TreeView ID="TreeView1" runat="server" OnSelectedNodeChanged="TreeView1_SelectedNodeChanged"></asp:TreeView>
+                                  <script type="text/javascript" >
+                                      function FillGrid(INS, CLS, DIV, GRDR) {
+                                          alert("111");
+                                          var DrpInstitute = document.getElementById(INS);
+                                          var DrpClass = document.getElementById(CLS);
+                                          var DrpDivision = document.getElementById(DIV);
+                                          var GGG = document.getElementById(GRDR);
+                                          alert("function" + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG.value + "");
+                                      }
+                                  </script>
                               </div>
 
 
@@ -37,11 +62,17 @@
                                   <script type="text/javascript" >
 
 
+
+
+
                                       function Myfunction(ID,INS,CLS,DIV,GRDR,GRDFEE,GRI) {
                                           var txtName = document.getElementById(ID);
-                                          var DrpInstitute = document.getElementById(INS);
-                                          var DrpClass = document.getElementById(CLS);
-                                          var DrpDivision = document.getElementById(DIV);
+                                          //var DrpInstitute = document.getElementById(INS);
+                                          var DrpInstitute = INS;
+                                          //var DrpClass = document.getElementById(CLS);
+                                          var DrpClass = CLS;
+                                          //var DrpDivision = document.getElementById(DIV);
+                                          var DrpDivision = DIV;
                                           var GGG = document.getElementById(GRDR);
                                           var FEEG = document.getElementById(GRDFEE);
 
@@ -54,14 +85,14 @@
                                           //var CDD = grd.rows[1].cells.count;
                                           //alert(CDD);
 
-                                          alert("function" + txtName.value + "" + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG.value + " " + FEEG.value + " -" + CellValue + "");
+                                         alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG.value + " " + FEEG.value + " -" + CellValue + "");
                                                                                   
                                           $.ajax({
                                               
                                               type: "POST",
                                               contentType: "application/json; charset=utf-8",
                                               url: "FeeAsgn.aspx/InsertData",
-                                              data: "{'nFEEId':'" + FEEG.value + "','nINSSTALId':'" + CellValue + "','nINSTIId':'" + DrpInstitute.value + "','nCLSId':'" + DrpClass.value + "','nDIVId':'" + DrpDivision.value + "','nSTUDId':'" + GGG.value + "','nAmount':'" + txtName.value + "'}",
+                                              data: "{'nFEEId':'" + FEEG.value + "','nINSSTALId':'" + CellValue + "','nINSTIId':'" + DrpInstitute + "','nCLSId':'" + DrpClass + "','nDIVId':'" + DrpDivision + "','nSTUDId':'" + GGG.value + "','nAmount':'" + txtName.value + "'}",
                                               dataType: "json",
                                               success: function (data) {
                                                   var obj = data.d;
@@ -71,10 +102,10 @@
                                                       $('#nINSTIId').val('');
                                                       $('#nCLSId').val('');
                                                       $('#nDIVId').val('');
-                                                      $('#nSTUDId').val('');
+                                                      $('#nSTUDId').val(0);
                                                       $('#nAmount').val('');
                                                       $('#lblmsg').html("Details Submitted Successfully");
-                                                      window.location.reload();
+                                                      //window.location.reload();
                                                   }
                                               },
                                               error: function (result) {
@@ -83,33 +114,45 @@
                                           });
 
 
+                                          //$.ajax({
+
+                                          //    type: "POST",
+                                          //    contentType: "application/json; charset=utf-8",
+                                          //    url: "FeeAsgn.aspx/UpdateTble",
+                                          //    data: "{'nFEEId':'" + FEEG.value + "','nINSSTALId':'" + CellValue + "','nINSTIId':'" + DrpInstitute.value + "','nCLSId':'" + DrpClass.value + "','nDIVId':'" + DrpDivision.value + "','nSTUDId':'" + GGG.value + "','nAmount':'" + txtName.value + "'}",
+                                          //    dataType: "json",
+                                          //    success: function (data) {
+                                          //        var obj = data.d;
+                                          //        if (obj == 'true') {
+                                          //            $('#nFEEId').val('');
+                                          //            $('#nINSSTALId').val('');
+                                          //            $('#nINSTIId').val('');
+                                          //            $('#nCLSId').val('');
+                                          //            $('#nDIVId').val('');
+                                          //            $('#nSTUDId').val('');
+                                          //            $('#nAmount').val('');
+                                          //            $('#lblmsg').html("Details Submitted Successfully");
+                                          //            window.location.reload();
+                                          //        }
+                                          //    },
+                                          //    error: function (result) {
+                                          //        alert("Error");
+                                          //    }
+                                          //});
+
+
 
                                       }
+
                                   </script>
+                                  
                               </div>
                           </td>
                           <tr>
-                              <td></td>
-                              <td>
-                                  <asp:TextBox ID="TxtGrp" runat="server" Width="36px"></asp:TextBox>
-                                   <asp:TextBox ID="TxtCls" runat="server" Width="36px"></asp:TextBox>
-                                   <asp:TextBox ID="TxtDiv" runat="server" Width="23px"></asp:TextBox>
-                                   <asp:TextBox ID="TxtStd" runat="server" Width="36px"></asp:TextBox>
-                              </td>
-                              <td></td>
-                              <td>
-                                  <asp:Label ID="lblMessage" runat="server" Text="Label"></asp:Label>
-                                  <asp:Label ID="lblGrp" runat="server" Text="Label" ></asp:Label>
-                                  <asp:Label ID="lblCls" runat="server" Text="Label" ></asp:Label>
-                                  <asp:Label ID="lblDiv" runat="server" Text="Label" ></asp:Label>
-                                  <asp:Label ID="lblStd" runat="server" Text="Label" ></asp:Label>
-                              </td>
+                              
                               <td>
                                   <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Save Fee" />
                               </td>
-                          </tr>
-                          <tr>
-                              <td style="height: 20px"></td>
                           </tr>
                           <tr>
                               <td align="center" class="FooterCommand" colspan="5" valign="middle">

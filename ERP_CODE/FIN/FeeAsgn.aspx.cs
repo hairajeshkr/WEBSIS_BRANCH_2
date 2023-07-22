@@ -32,9 +32,9 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                 
                 DataTable ClsTD = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='INGRP'") as DataSet).Tables[0];
                 this.PopulateTreeView(ClsTD, icount, null);
-               
+               fillInstallment();
             }
-            fillInstallment();
+            
         }
         catch (Exception ex)
         {
@@ -70,13 +70,13 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                 VS = 2;
                 PopulateTreeView(dtChild1, VS, tnode);
             }
-            else if (ParentId == 2)
-            {
-                treeNode.ChildNodes.Add(tnode);
-                DataTable dtChild2 = (ObjCls.FnGetDataSet("select  TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId=SAD.nStudentId where SAD.nDivisionId= " + tnode.Value) as DataSet).Tables[0];
-                VS = 3;
-                PopulateTreeView(dtChild2, VS, tnode);
-            }
+            //else if (ParentId == 2)
+            //{
+            //    treeNode.ChildNodes.Add(tnode);
+            //    DataTable dtChild2 = (ObjCls.FnGetDataSet("select  TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId=SAD.nStudentId where SAD.nDivisionId= " + tnode.Value) as DataSet).Tables[0];
+            //    VS = 3;
+            //    PopulateTreeView(dtChild2, VS, tnode);
+            //}
             else
             {
                 treeNode.ChildNodes.Add(tnode);
@@ -126,6 +126,9 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
     //{
     //    string msg = string.Empty;
     //    string VV = TId;
+
+    //    //ViewState["DT2"] = GrdVwFee.DataSource;
+    //   // DataTable DDD = ViewState["DT2"] as DataTable;
 
     //    using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
     //    {
@@ -207,15 +210,27 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
     public void fillInstallment()
     {
         DataTable ClsTGF = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
-        DataTable ClsTGFM = (ObjCls.FnGetDataSet("SELECT cName + cast(nId as char)  FROM TblFeeMaster") as DataSet).Tables[0];
+        //DataTable ClsTGFM = (ObjCls.FnGetDataSet("SELECT cName + cast(nId as char)  FROM TblFeeMaster") as DataSet).Tables[0];
+        DataTable ClsTGFM = (ObjCls.FnGetDataSet("SELECT cName  FROM TblFeeMaster") as DataSet).Tables[0];
         DataTable ClsTGFMC = (ObjCls.FnGetDataSet("SELECT nId FROM TblFeeMaster") as DataSet).Tables[0];
+        
         GrdVwFee.DataSource = FlipDataTable(ClsTGFM, ClsTGF, ClsTGFMC);
         GrdVwFee.DataBind();
+        GrdVwFee.Rows[0].Visible = false;
 
-        //ViewState["DT1"] = GrdVwFee.DataSource;
+        ViewState["DT1"] = GrdVwFee.DataSource;
         DataTable DDD = ViewState["DT1"] as DataTable;
-
+        
     }
+
+
+
+
+    
+
+
+
+
 
 
     public static DataTable FlipDataTable(DataTable dt, DataTable dt1,DataTable dt2)
@@ -240,14 +255,34 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
         for (int j = 0; j <1; j++)
         {
             dr = table.NewRow();
+            //dr = table.NewRow();
+            table.Rows.Add(Convert.ToString(0));
             for (int k = 1; k <= dt1.Rows.Count; k++)
             {
-               table.Rows.Add(Convert.ToString(dt1.Rows[k - 1][j]));
-               var VD= (dt1.Rows[k - 1][j]).ToString();
+                //table.Rows.Add(Convert.ToString(0));
+                table.Rows.Add(Convert.ToString(dt1.Rows[k - 1][j]));
+                //table.Rows.Add(Convert.ToString(dt1.Rows[k][j]));
+                var VD= (dt1.Rows[k - 1][j]).ToString();
                 var VD1 = (dt1.Rows[k - 1][1]).ToString();
                 //get feecode from table and assign to next line
-                table.Rows[k - 1][1] = VD1;
+                //table.Rows[k - 1][1] = VD1;
+                table.Rows[k][1] = VD1;
             }
+
+
+
+            for (int h = 1; h <= dt2.Rows.Count; h++)
+            {
+                
+                //table.Rows.Add(Convert.ToString(dt1.Rows[k - 1][j]));
+               
+                var VD2 = (dt2.Rows[h - 1][j]).ToString();
+                //var VD1 = (dt1.Rows[k - 1][1]).ToString();
+               
+                table.Rows[0][h+1] = VD2;
+            }
+
+
         }
         return table;
     }
@@ -261,25 +296,48 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
             {
                 System.Web.UI.WebControls.TextBox txt = new System.Web.UI.WebControls.TextBox() { ID = "txtDynamic" + i };
                 e.Row.Cells[i].Controls.Add(txt);
+                txt.AutoPostBack = false;
 
                 System.Web.UI.WebControls.TextBox txt1 = new System.Web.UI.WebControls.TextBox() { ID = "T" + i };
                 e.Row.Cells[i].Controls.Add(txt1);
+                //txt1.Visible = false;
+               
+                    //string CCD = GrdVwFee.HeaderRow.Cells[i].Text.Trim();
+                   // string CCD = GrdVwFee.Rows[0].Cells[i].Text;
+                
+                //string CCD = GrdVwFee.HeaderRow.Cells[i].Text.Trim();
 
-                string CCD = GrdVwFee.HeaderRow.Cells[i].Text.Trim();
-                CCD = CCD.Substring(CCD.Length - 1);
-                txt1.Text = CCD;
+                //CCD = CCD.Substring(CCD.Length - 1);
+                //txt1.Text = CCD;
 
-                if (i== e.Row.Cells.Count)
-                {
-                    string CCD1 = CCD.Remove(CCD.Length - 1, 1);
-                    GrdVwFee.HeaderRow.Cells[i].Text = CCD1;
-                }
+                //if (i== e.Row.Cells.Count)
+                //{
+                //    string CCD1 = CCD.Remove(CCD.Length - 1, 1);
+                //    GrdVwFee.HeaderRow.Cells[i].Text = CCD1;
+                //}
+
                 int RR = (e.Row.RowIndex)+1;
                 var LLL = txt.Text;
                 ViewState["DT1"] = GrdVwFee.DataSource;
-                txt.Attributes.Add("onkeyup", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID  + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
+                DataTable DDD = ViewState["DT1"] as DataTable;
+                txt1.Text = Convert.ToString(DDD.Rows[0][i]);
+                //var INSSS = GrdVwFee.HeaderRow.Cells[1].Text;
+
+                var INSSS = e.Row.Cells[0].Text;
+                var INSSSN = e.Row.Cells[1].Text;
+                var GrpId = lblGrpId.Text;
+                var ClsId= lblClsId.Text;
+                var DivId = lblDivId.Text;
+                //txt.Attributes.Add("onkeyup", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID  + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
+                // GrdVwFee.Attributes.Add("onbind", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
+                // txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
+                txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + DdlStudent.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
             }
         }
+
+        //GrdVwFee.HeaderRow.Cells(0).Text
+
+
 
     }
 
@@ -393,44 +451,100 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
     {
         var CLN = TreeView1.SelectedNode.Value;
         int IH = TreeView1.SelectedNode.Depth;
-        string GRP, CLS, DIVN, STUD;
+        string GRP, CLS, DIVN;
         if (TreeView1.SelectedNode.Depth==0)
         {
             //group
              GRP = TreeView1.SelectedNode.Value;
+            //TxtGrp.Text = TreeView1.SelectedNode.Value;
+            lblGrp.Text = "-->" + TreeView1.SelectedNode.Text;
+            lblGrpId.Text = TreeView1.SelectedNode.Value;
+            lblGrpId.Visible = false;
+            lblCls.Text = "";
+            lblDiv.Text = "";
         }
         else if(TreeView1.SelectedNode.Depth == 1)
             {
             //Class
             GRP = TreeView1.SelectedNode.Parent.Value;
-             CLS = TreeView1.SelectedNode.Value;
+            //TxtGrp.Text = TreeView1.SelectedNode.Parent.Value;
+            lblGrp.Text = "-->" + TreeView1.SelectedNode.Parent.Text;
+            lblGrpId.Text = TreeView1.SelectedNode.Parent.Value;
+            lblGrpId.Visible = false;
+            CLS = TreeView1.SelectedNode.Value;
+           // TxtCls.Text = TreeView1.SelectedNode.Value;
+            lblCls.Text = "-->" + TreeView1.SelectedNode.Text;
+            lblClsId.Text = TreeView1.SelectedNode.Value;
+            lblClsId.Visible = false;
+            lblDiv.Text = "";
         }
         else if (TreeView1.SelectedNode.Depth == 2)
         {
             //Division
             GRP = TreeView1.SelectedNode.Parent.Parent.Value;
+            //TxtGrp.Text = TreeView1.SelectedNode.Parent.Parent.Value;
+            lblGrp.Text ="-->" + TreeView1.SelectedNode.Parent.Parent.Text;
+            lblGrpId.Text = TreeView1.SelectedNode.Parent.Parent.Value;
+            lblGrpId.Visible = false;
             CLS = TreeView1.SelectedNode.Parent.Value;
-             DIVN = TreeView1.SelectedNode.Value;
+           // TxtCls.Text = TreeView1.SelectedNode.Parent.Value;
+            lblCls.Text = "-->" + TreeView1.SelectedNode.Parent.Text;
+            lblClsId.Text= TreeView1.SelectedNode.Parent.Value;
+            lblClsId.Visible = false;
+            DIVN = TreeView1.SelectedNode.Value;
+            //TxtDiv.Text = TreeView1.SelectedNode.Value;
+            lblDiv.Text = "-->" + TreeView1.SelectedNode.Text;
+            lblDivId.Text= TreeView1.SelectedNode.Value;
+            lblDivId.Visible = false;
+            //DdlStudent.DataSource =
+
+            //objLst.FnGetStudentList(Convert.ToInt32(GRP), Convert.ToInt32(CLS), Convert.ToInt32(DIVN));
+
+
+            //DdlStudent.Enabled = true;
+            //DdlStudent.Items.Clear();
+
+            DdlStudent.Items.Add(new ListItem("Select", "0"));
+            DataTable ClsTC = (ObjCls.FnGetDataSet("select  TCD.nId nId, TCD.cName cName FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId = SAD.nStudentId where SAD.nDivisionId = " + DIVN) as DataSet).Tables[0];
+            DdlStudent.DataSource = ClsTC;
+            DdlStudent.DataValueField = "nId";
+            DdlStudent.DataTextField = "cName";
+            DdlStudent.DataBind();
+
         }
-        else if (TreeView1.SelectedNode.Depth == 3)
-        {
-            //Student
-            //GRP = TreeView1.SelectedNode.Parent.Parent.Parent.Value;
-           // lblGrp.Text = TreeView1.SelectedNode.Parent.Parent.Parent.Value;
-            TxtGrp.Text= TreeView1.SelectedNode.Parent.Parent.Parent.Value;
-            CLS = TreeView1.SelectedNode.Parent.Parent.Value;
-            lblCls.Text = TreeView1.SelectedNode.Parent.Parent.Value;
-            TxtCls.Text = TreeView1.SelectedNode.Parent.Parent.Value;
-            DIVN = TreeView1.SelectedNode.Parent.Value;
-            lblDiv.Text = TreeView1.SelectedNode.Parent.Value;
-            TxtDiv.Text = TreeView1.SelectedNode.Parent.Value;
-            STUD = TreeView1.SelectedNode.Value;
-            lblStd.Text = TreeView1.SelectedNode.Value;
-            TxtStd.Text = TreeView1.SelectedNode.Value;
-        }
+        //else if (TreeView1.SelectedNode.Depth == 3)
+        //{
+        //    //Student
+        //    //GRP = TreeView1.SelectedNode.Parent.Parent.Parent.Value;
+        //   // lblGrp.Text = TreeView1.SelectedNode.Parent.Parent.Parent.Value;
+        //    TxtGrp.Text= TreeView1.SelectedNode.Parent.Parent.Parent.Value;
+
+        //    CLS = TreeView1.SelectedNode.Parent.Parent.Value;
+        //    lblCls.Text = TreeView1.SelectedNode.Parent.Parent.Value;
+
+        //    lblCls.Text = TreeView1.SelectedNode.Parent.Parent.Text;
+
+
+        //    TxtCls.Text = TreeView1.SelectedNode.Parent.Parent.Value;
+        //    DIVN = TreeView1.SelectedNode.Parent.Value;
+        //    lblDiv.Text = TreeView1.SelectedNode.Parent.Value;
+        //    TxtDiv.Text = TreeView1.SelectedNode.Parent.Value;
+        //    STUD = TreeView1.SelectedNode.Value;
+        //    lblStd.Text = TreeView1.SelectedNode.Value;
+        //    TxtStd.Text = TreeView1.SelectedNode.Value;
+        //}
+
         
 
         //if (TreeView1.SelectedNode)
         fillInstallment();
+        //TreeView1.Attributes.Add("OnSelectedNodeChanged", "FillGrid('" + TxtGrp.ClientID + "','" + TxtCls.ClientID + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "')");
+
     }
+
+
+
+   
+
+
 }

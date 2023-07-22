@@ -19,68 +19,86 @@
                         <tr>
                             <td class="odd" colspan="7">
                                 <table class="upload-field-parent" style="width: 63%">
+                                   
                                     <tr>
-                                        <td>
+                                        <td rowspan="3">
                                             <div class="result-list" style="overflow: scroll; height: 420px; width: 256px;">
-
-
-                                                <h3>Project Details</h3>
-                                                <hr />
-                                                <asp:TreeView ID="TreeView1" runat="server"  >
+                                                <asp:TreeView ID="TreeView1" runat="server" OnSelectedNodeChanged="TreeView1_SelectedNodeChanged1" style="margin-left: 0px">
                                                 </asp:TreeView>
-                                                <asp:Label ID="Message" runat="server" />
-
+                                                <asp:Label ID="Message" runat="server"></asp:Label>
                                             </div>
                                         </td>
-                                        <td colspan="5"> 
-                                            <div class="result-list" style="overflow: scroll; height: 420px; width: 700px;">
-                                                <asp:Label ID="Label1" runat="server" Text="Installment"></asp:Label>
-                                                <asp:DropDownList ID="DdlInslment" runat="server" Width="200px" Height="25px" ></asp:DropDownList>
-                                              
+                                        <td>
+                                            <asp:Label ID="Label5" runat="server" Text="Student"></asp:Label>
+                                                <asp:DropDownList ID="DdlStudent" runat="server" Width="170px" Height="25px" ></asp:DropDownList>
+                                        </td>
+                                        <td>
+                                            <asp:Label ID="Label1" runat="server" Text="Installment"></asp:Label>
+                                                <asp:DropDownList ID="DdlInslment" runat="server" Width="170px" Height="25px" ></asp:DropDownList>
+                                        </td>
+                                         
+                                    </tr>
+                                     <tr>
+                                        <td>
+                                            <asp:Label ID="Label2" runat="server" Font-Bold="True" ForeColor="#FF6699" ></asp:Label>
+                                                <asp:Label ID="Label3" runat="server" Font-Bold="True" ForeColor="Fuchsia" ></asp:Label>
+                                                <asp:Label ID="Label4" runat="server" Font-Bold="True" ForeColor="#CC3399" ></asp:Label>
+                                            <asp:Label ID="Label6" runat="server" Text="Label" Visible="false"></asp:Label>
+                                            <asp:Label ID="Label7" runat="server" Text="Label" Visible="false"></asp:Label>
+                                            <asp:Label ID="Label8" runat="server" Text="Label" Visible="false"></asp:Label>
+                                            
 
-                                                <asp:GridView ID="GrdVwRecordsMain" runat="server" SkinID="GrdVwMasterNoPageing" Width="604px" >
+                                        </td>
+                                        </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="result-list" style="overflow: scroll; height: 420px; width: 700px;">
+                                                <asp:GridView ID="GrdVwRecordsMain" runat="server" OnRowDataBound="GrdVwRecordsMain_RowDataBound" SkinID="GrdVwMasterNoPageing" Width="604px">
                                                     <Columns>
                                                         <asp:BoundField />
                                                         <asp:TemplateField HeaderText="Fine name">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="LblDiv2" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Name") %>' Width="100px"></asp:Label>
+                                                                <asp:HiddenField ID="HdnAdId" runat="server" Value='<%# Eval("ID") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Due date">
-                                                              <ItemTemplate>
-                                                                  <%--<asp:TextBox ID="TextBox1" runat="server" placeholder="dd/MM/yyyy" SkinID="TxtCode"></asp:TextBox>--%>
-                                                                  <uc1:CtrlDate runat="server" ID="CtrlDate" />
+                                                            <ItemTemplate>
+                                                                <%--<asp:TextBox ID="TextBox1" runat="server" placeholder="dd/MM/yyyy" SkinID="TxtCode"></asp:TextBox>--%>
+                                                                <uc1:CtrlDate ID="CtrlDate" runat="server" />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Amount">
                                                             <ItemTemplate>
-                                                                <asp:TextBox ID="TextBox2" runat="server" placeholder="0.00" SkinID="TxtCode"></asp:TextBox>
+                                                                <asp:TextBox ID="TxtAmount" runat="server" placeholder="0.00" SkinID="TxtCode"></asp:TextBox>
                                                                 <%--<asp:Label ID="LblDiv22" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("DivisionName") %>' Width="100px"></asp:Label>--%>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Percentage">
-                                                              <ItemTemplate>
-                                                                  <asp:TextBox ID="TextBox31" runat="server" placeholder="0.00" SkinID="TxtCode"></asp:TextBox>
+                                                            <ItemTemplate>
+                                                                <asp:TextBox ID="TxtPercentage" runat="server" placeholder="0.00" SkinID="TxtCode"></asp:TextBox>
                                                                 <%--<asp:Label ID="LblCnt1" runat="server" SkinID="LblGrdIdentify" Text='<%# Eval("Count") %>' Width="50px"></asp:Label>--%>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        
                                                     </Columns>
                                                 </asp:GridView>
+                                                
+
                                             </div>
                                         </td>
                                     </tr>
+
                                 </table>
                             </td>
                         </tr>
                          <tr class="result-headTop">
                              <td class="odd" style="width: 90px; "></td>
                              <td class="odd" colspan="2">
-                                 <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="Submit" />
+                                 
                                  
                              </td>
                              <td class="odd" style="width: 319px;">
-                                 <asp:Button ID="BtnFind" runat="server" OnClick="ManiPulateDataEvent_Clicked" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" />
+                                 <asp:Button ID="BtnSubmit" runat="server" Text="Submit" SkinID="BtnAddSub" OnClick="Button1_Click" />
                              </td>
                              <td class="odd" style="width: 319px; height: 30px">&nbsp;</td>
                              </tr>

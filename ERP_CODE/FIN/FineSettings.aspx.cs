@@ -22,7 +22,8 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
         {
 
             base.Page_Load(sender, e);
-            CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            //CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
+
             //CtrlCommand2.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
@@ -83,14 +84,6 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
                 DataTable dtChild1 = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nDivisionId  where TCD.cttype='DIVN' and SAD.nClassId= " + tnode.Value) as DataSet).Tables[0];
                 VS = 2;
                 PopulateTreeView(dtChild1, VS, tnode);
-
-            }
-            else if (ParentId == 2)
-            {
-                treeNode.ChildNodes.Add(tnode);
-                DataTable dtChild2 = (ObjCls.FnGetDataSet("select  TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId=SAD.nStudentId where SAD.nDivisionId= " + tnode.Value) as DataSet).Tables[0];
-                VS = 3;
-                PopulateTreeView(dtChild2, VS, tnode);
 
             }
             else
@@ -161,47 +154,9 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
                     {
                         case "NEW":
                             FnAssignProperty();
-                            int iCnt = 0;
-                            //for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
-                            //{
-                            //    HdnFeeMstId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnFeeMstId");
-                            //    HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
-                            //    DdlLedger = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlLedger");
-
-                            //    ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
-                            //    ObjCls.FeeMasterId = ObjCls.FnIsNumeric(HdnFeeMstId.Value);
-                            //    ObjCls.AccLedgerId = ObjCls.FnIsNumeric(DdlLedger.SelectedValue);
-                            //    _strMsg = ObjCls.UpdateRecord() as string;
-                            //    iCnt = iCnt + 1;
-                            //}
-                            //if (iCnt > 0)
-                            //{
-                            //    FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + "Records updated successfully"));
-                            //}
                             break;
                     }
                     break;
-                //case "ADD":
-                //    FnAssignProperty();
-                //    int nCnt = 0;
-                //    string strId = "";
-                //    for (int i = 0; i <= GrdVwRecordsMain.Rows.Count - 1; i++)
-                //    {
-                //        ChkVal = (CheckBox)GrdVwRecordsMain.Rows[i].FindControl("ChkVal");
-                //        if (ChkVal.Checked == true)
-                //        {
-                //            HdnId = (HiddenField)GrdVwRecordsMain.Rows[i].FindControl("HdnId");
-                //            strId = strId + HdnId.Value + ",";
-                //            nCnt++;
-                //        }
-                //    }
-                //    if (nCnt > 0)
-                //    {
-                //        ObjCls.Remarks = FnRemoveLastValue(strId);
-                //        ViewState["DT_CHILD"] = (ObjCls.SaveChildRecord() as DataSet).Tables[0];
-                //        FnGridViewBinding("");
-                //    }
-                //    break;
                 case "FIND":
                     FnFindRecord();
                     break;
@@ -220,23 +175,128 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
         }
     }
 
-    //protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
-    //{
-    //    if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
-    //    {
-    //        DdlLedger = (DropDownList)e.Row.FindControl("DdlLedger");
-    //        FnBindingDropDownList(ObjLst, ViewState["ACC"] as DataTable, DdlLedger, "");
-    //        FnSetDropDownValue(DdlLedger, DataBinder.Eval(e.Row.DataItem, "AccLedgerId").ToString());
-    //        e.Row.Attributes.Add("onmouseover", "this.style.cursor=\'pointer\'");
-    //    }
-    //}
 
-    //protected void GrdVwRecordsMain_RowDataBound(object sender, GridViewRowEventArgs e)
-    //{
-    //    if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
-    //    {
-    //        ChkVal = (CheckBox)e.Row.FindControl("ChkVal");
-    //        ChkVal.Checked = (ObjCls.FnIsNumeric((ViewState["DT_CHILD"] as DataTable).Compute("Count(ID)", " FeeMasterId= " + ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID"))).ToString()) > 0 ? true : false);
-    //    }
-    //}
+
+    protected void TreeView1_SelectedNodeChanged1(object sender, EventArgs e)
+    {
+       
+        var CLN = TreeView1.SelectedNode.Value;
+        int IH = TreeView1.SelectedNode.Depth;
+        string GRP, CLS, DIVN;
+        if (TreeView1.SelectedNode.Depth == 0)
+        {
+            //group
+            GRP = TreeView1.SelectedNode.Value;
+            Label2.Text = TreeView1.SelectedNode.Text;
+            Label3.Text = "";
+            Label4.Text = "";
+
+            Label6.Text = GRP;
+            Label7.Text = "";
+            Label8.Text = "";
+        }
+        else if (TreeView1.SelectedNode.Depth == 1)
+        {
+            //Class
+            GRP = TreeView1.SelectedNode.Parent.Value;
+            Label2.Text = (TreeView1.SelectedNode.Parent.Text)+"->";
+
+            Label6.Text = GRP;
+
+            CLS = TreeView1.SelectedNode.Value;
+            Label3.Text = (TreeView1.SelectedNode.Text);
+            Label4.Text = "";
+
+            Label7.Text = CLS;
+            Label8.Text = "";
+
+        }
+        else if (TreeView1.SelectedNode.Depth == 2)
+        {
+            //Division
+            GRP = TreeView1.SelectedNode.Parent.Parent.Value;
+            Label2.Text = (TreeView1.SelectedNode.Parent.Parent.Text)+"->";
+            Label6.Text = GRP;
+
+            CLS = TreeView1.SelectedNode.Parent.Value;
+            Label3.Text = (TreeView1.SelectedNode.Parent.Text) + "->";
+            Label7.Text = CLS;
+
+            DIVN = TreeView1.SelectedNode.Value;
+            Label4.Text = TreeView1.SelectedNode.Text;
+            Label8.Text = DIVN;
+
+            DdlStudent.Items.Add(new ListItem("Select", "0"));
+            DataTable ClsTC = (ObjCls.FnGetDataSet("select  TCD.nId nId, TCD.cName cName FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId = SAD.nStudentId where SAD.nDivisionId = " + DIVN) as DataSet).Tables[0];
+            DdlStudent.DataSource = ClsTC;
+            DdlStudent.DataValueField = "nId";
+            DdlStudent.DataTextField = "cName";
+            DdlStudent.DataBind();
+
+        }
+        
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
+
+        for (int i = 0; i <= GrdVwRecordsMain.Rows.Count - 1; i++)
+        {
+            Label LblDiv2 = (Label)GrdVwRecordsMain.Rows[i].FindControl("LblDiv2");
+            string fname = LblDiv2.Text;
+
+            TextBox tdate =(TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtDate");
+            DateTime a = ObjCls.FnDateTime(tdate);
+
+            TextBox TxtAmt = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
+            string amt = TxtAmt.Text;
+            TextBox TxtPer = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtPercentage");
+            string per = TxtPer.Text;
+            int dins = ObjCls.FnIsNumeric(DdlInslment.SelectedValue);
+            int stuid = ObjCls.FnIsNumeric(DdlStudent.SelectedValue);
+            
+            int insti = Convert.ToInt32(Label6.Text);
+            int cls = Convert.ToInt32(Label7.Text);
+            int div = Convert.ToInt32(Label8.Text);
+
+           
+
+
+            SqlCommand cmd = new SqlCommand("Insert into TblFineSettings(nStudentId, nClassId, nDivisionId, nInstitutionId, nInstallmentId, cName, dDuedate, cAmount, cPercentage) VALUES("+ stuid + ","+ cls + ","+ div + ","+ insti + ","+ dins + ",'"+fname+"','" + a +"',"+ amt +","+ per +")", con);
+            con.Open();
+            //cmd.Parameters.AddWithValue("@nStudentId", nStudentId);
+            //cmd.Parameters.AddWithValue("@nClassId", nClassId);
+            //cmd.Parameters.AddWithValue("@nDivisionId", nDivisionId);
+            //cmd.Parameters.AddWithValue("@nInstitutionId", insti);
+            //cmd.Parameters.AddWithValue("@nInstallmentId", dins);
+            //cmd.Parameters.AddWithValue("@cName", fname);
+            //cmd.Parameters.AddWithValue("@dDuedate", a);
+            //cmd.Parameters.AddWithValue("@cAmount", amt);
+            //cmd.Parameters.AddWithValue("@cPercentage", per);
+
+            int k = cmd.ExecuteNonQuery();
+            con.Close();
+            if (k == 1)
+            {
+                Response.Write("success");
+            }
+            else
+            {
+                Response.Write("failed");
+            }
+            //cmd.ExecuteNonQuery();
+            //con.Close();
+            
+            
+
+        }
+
+
+    }
+
+    protected void GrdVwRecordsMain_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        
+    }
 }

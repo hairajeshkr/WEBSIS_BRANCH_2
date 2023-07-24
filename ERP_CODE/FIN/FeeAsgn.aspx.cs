@@ -301,10 +301,10 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                 System.Web.UI.WebControls.TextBox txt1 = new System.Web.UI.WebControls.TextBox() { ID = "T" + i };
                 e.Row.Cells[i].Controls.Add(txt1);
                 //txt1.Visible = false;
-               
-                    //string CCD = GrdVwFee.HeaderRow.Cells[i].Text.Trim();
-                   // string CCD = GrdVwFee.Rows[0].Cells[i].Text;
-                
+
+                //string CCD = GrdVwFee.HeaderRow.Cells[i].Text.Trim();
+                // string CCD = GrdVwFee.Rows[0].Cells[i].Text;
+
                 //string CCD = GrdVwFee.HeaderRow.Cells[i].Text.Trim();
 
                 //CCD = CCD.Substring(CCD.Length - 1);
@@ -316,12 +316,17 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                 //    GrdVwFee.HeaderRow.Cells[i].Text = CCD1;
                 //}
 
+                DataTable DDDR = ViewState["DT2"] as DataTable;
+                //txt.Text = Convert.ToString(DDDR.Rows[i][i]);
+
                 int RR = (e.Row.RowIndex)+1;
                 var LLL = txt.Text;
                 ViewState["DT1"] = GrdVwFee.DataSource;
                 DataTable DDD = ViewState["DT1"] as DataTable;
                 txt1.Text = Convert.ToString(DDD.Rows[0][i]);
                 //var INSSS = GrdVwFee.HeaderRow.Cells[1].Text;
+
+
 
                 var INSSS = e.Row.Cells[0].Text;
                 var INSSSN = e.Row.Cells[1].Text;
@@ -540,11 +545,46 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
         fillInstallment();
         //TreeView1.Attributes.Add("OnSelectedNodeChanged", "FillGrid('" + TxtGrp.ClientID + "','" + TxtCls.ClientID + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "')");
 
+        //string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount
+        DataTable DDD = ViewState["DT1"] as DataTable;
+        FillGrd(DDD, lblGrpId.Text, lblClsId.Text, lblDivId.Text);
+    }
+
+    public void FillGrd(DataTable DDD, string nINSTIId, string nCLSId, string nDIVId)
+    {
+        string msg = string.Empty;
+        //string VV = TId;
+        DataTable DDT = new DataTable();
+
+        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+        {
+            using (SqlCommand cmd = new SqlCommand("SPTestT", con))
+            {
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EmptableT", DDD);
+                cmd.Parameters.AddWithValue("@nINSTIId", nINSTIId);
+                cmd.Parameters.AddWithValue("@nCLSId", nCLSId);
+                cmd.Parameters.AddWithValue("@nDIVId", nDIVId);
+                //int i = cmd.ExecuteNonQuery();
+                con.Close();
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    da.Fill(DDT);
+                }
+            }
+
+
+
+            //GrdVwFee.DataSource = DDT;
+           // GrdVwFee.DataBind();
+            ViewState["DT2"] = DDT;
+        }
+
+
     }
 
 
 
-   
 
-
-}
+    }

@@ -4,6 +4,8 @@
 <%@ Register Src="../CtrlGridList.ascx" TagName="CtrlGridList" TagPrefix="uc2" %>
 <%@ Register Src="~/CtrlGridList.ascx" TagPrefix="uc1" TagName="CtrlGridList" %>
 <%@ Register Src="~/CtrlDate.ascx" TagPrefix="uc1" TagName="CtrlDate" %>
+<%@ Register Src="~/CtrlDateTime.ascx" TagPrefix="uc1" TagName="CtrlDateTime" %>
+
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -53,7 +55,7 @@
                                     <tr>
                                         <td colspan="2">
                                             <div class="result-list" style="overflow: scroll; height: 420px; width: 700px;">
-                                                <asp:GridView ID="GrdVwRecordsMain" runat="server" OnRowDataBound="GrdVwRecordsMain_RowDataBound" SkinID="GrdVwMasterNoPageing" Width="604px">
+                                                <asp:GridView ID="GrdVwRecordsMain" runat="server" SkinID="GrdVwMasterNoPageing" Width="604px">
                                                     <Columns>
                                                         <asp:BoundField />
                                                         <asp:TemplateField HeaderText="Fine name">
@@ -65,7 +67,8 @@
                                                         <asp:TemplateField HeaderText="Due date">
                                                             <ItemTemplate>
                                                                 <%--<asp:TextBox ID="TextBox1" runat="server" placeholder="dd/MM/yyyy" SkinID="TxtCode"></asp:TextBox>--%>
-                                                                <uc1:CtrlDate ID="CtrlDate" runat="server" />
+                                                                <uc1:CtrlDate ID="CtrldueDate" runat="server" />
+                                                               
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Amount">

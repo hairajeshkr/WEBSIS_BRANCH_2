@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
+using System.Web.UI.WebControls;
 
 public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
 {
@@ -31,7 +26,7 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
 
                 //ObjLst.FnGetUserAcYearList(DdlAcYear, "--- ACADEMIC YEAR ---");
                 // ObjLst.FnGetLanguageList(DdlAcYear, "---Sort by Language---");
-                
+
                 FnInitializeForm();
                 DrpInstallFill();
 
@@ -49,6 +44,7 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
     }
     public void DrpInstallFill()
     {
+        
         DataTable ClsTD = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
         DdlInslment.DataSource = ClsTD;
         DdlInslment.DataValueField = "nId";
@@ -72,7 +68,7 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             if (ParentId == 0)
             {
                 TreeView1.Nodes.Add(tnode);
-                DataTable dtChild = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nClassId  where TCD.cttype='CLS' and TCD.nParentId="+ tnode.Value) as DataSet).Tables[0];
+                DataTable dtChild = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nClassId  where TCD.cttype='CLS' and TCD.nParentId=" + tnode.Value) as DataSet).Tables[0];
                 VS = 1;
                 this.PopulateTreeView(dtChild, VS, tnode);
 
@@ -132,12 +128,12 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
     }
     public void FnGridViewBinding(string PrmFlag)
     {
-        
-            GrdVwRecordsMain.DataSource = ViewState["DT"] as DataTable;
-            GrdVwRecordsMain.DataKeyNames = new String[] { ObjCls1.KeyName };
-            GrdVwRecordsMain.DataBind();
-            GrdVwRecordsMain.SelectedIndex = -1;
-        
+
+        GrdVwRecordsMain.DataSource = ViewState["DT"] as DataTable;
+        GrdVwRecordsMain.DataKeyNames = new String[] { ObjCls1.KeyName };
+        GrdVwRecordsMain.DataBind();
+        GrdVwRecordsMain.SelectedIndex = -1;
+
     }
     public void FnPrintRecord()
     {
@@ -179,7 +175,7 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
 
     protected void TreeView1_SelectedNodeChanged1(object sender, EventArgs e)
     {
-       
+
         var CLN = TreeView1.SelectedNode.Value;
         int IH = TreeView1.SelectedNode.Depth;
         string GRP, CLS, DIVN;
@@ -194,12 +190,13 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             Label6.Text = GRP;
             Label7.Text = "";
             Label8.Text = "";
+            viewgrid();
         }
         else if (TreeView1.SelectedNode.Depth == 1)
         {
             //Class
             GRP = TreeView1.SelectedNode.Parent.Value;
-            Label2.Text = (TreeView1.SelectedNode.Parent.Text)+"->";
+            Label2.Text = (TreeView1.SelectedNode.Parent.Text) + "->";
 
             Label6.Text = GRP;
 
@@ -215,7 +212,7 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
         {
             //Division
             GRP = TreeView1.SelectedNode.Parent.Parent.Value;
-            Label2.Text = (TreeView1.SelectedNode.Parent.Parent.Text)+"->";
+            Label2.Text = (TreeView1.SelectedNode.Parent.Parent.Text) + "->";
             Label6.Text = GRP;
 
             CLS = TreeView1.SelectedNode.Parent.Value;
@@ -234,20 +231,23 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             DdlStudent.DataBind();
 
         }
-        
+
     }
 
     protected void Button1_Click(object sender, EventArgs e)
     {
         SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
-
+        int insti, cls, div;
         for (int i = 0; i <= GrdVwRecordsMain.Rows.Count - 1; i++)
         {
             Label LblDiv2 = (Label)GrdVwRecordsMain.Rows[i].FindControl("LblDiv2");
             string fname = LblDiv2.Text;
 
-            TextBox tdate =(TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtDate");
-            DateTime a = ObjCls.FnDateTime(tdate);
+            //CtrlDate tdate = (CtrlDate)GrdVwRecordsMain.Rows[i].FindControl("CtrlDate");
+            //DateTime a = ObjCls.FnDateTime(tdate);
+
+
+            DateTime a = DateTime.Now;
 
             TextBox TxtAmt = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
             string amt = TxtAmt.Text;
@@ -255,25 +255,33 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             string per = TxtPer.Text;
             int dins = ObjCls.FnIsNumeric(DdlInslment.SelectedValue);
             int stuid = ObjCls.FnIsNumeric(DdlStudent.SelectedValue);
-            
-            int insti = Convert.ToInt32(Label6.Text);
-            int cls = Convert.ToInt32(Label7.Text);
-            int div = Convert.ToInt32(Label8.Text);
+            if(((Label6.Text)!="")&& ((Label7.Text)=="")&& ((Label8.Text) == ""))
+            {
+                insti = Convert.ToInt32(Label6.Text);
+                cls = 0;
+                div = 0;
+            }
+            else if (((Label6.Text) != "") && ((Label7.Text) != "") && ((Label8.Text) == ""))
+            {
+                insti = Convert.ToInt32(Label6.Text);
+                cls = Convert.ToInt32(Label7.Text);
+                div = 0;
+            }
+            else
+            {
+                insti = Convert.ToInt32(Label6.Text);
+                cls = Convert.ToInt32(Label7.Text);
+                div = Convert.ToInt32(Label8.Text);
 
-           
+            }
 
 
-            SqlCommand cmd = new SqlCommand("Insert into TblFineSettings(nStudentId, nClassId, nDivisionId, nInstitutionId, nInstallmentId, cName, dDuedate, cAmount, cPercentage) VALUES("+ stuid + ","+ cls + ","+ div + ","+ insti + ","+ dins + ",'"+fname+"','" + a +"',"+ amt +","+ per +")", con);
+            viewgrid();
+
+
+
+            SqlCommand cmd = new SqlCommand("Insert into TblFineSettings(nStudentId, nClassId, nDivisionId, nInstitutionId, nInstallmentId, cName, dDuedate, cAmount, cPercentage) VALUES(" + stuid + "," + cls + "," + div + "," + insti + "," + dins + ",'" + fname + "','" + a + "', " + amt + "," + per + ")", con);
             con.Open();
-            //cmd.Parameters.AddWithValue("@nStudentId", nStudentId);
-            //cmd.Parameters.AddWithValue("@nClassId", nClassId);
-            //cmd.Parameters.AddWithValue("@nDivisionId", nDivisionId);
-            //cmd.Parameters.AddWithValue("@nInstitutionId", insti);
-            //cmd.Parameters.AddWithValue("@nInstallmentId", dins);
-            //cmd.Parameters.AddWithValue("@cName", fname);
-            //cmd.Parameters.AddWithValue("@dDuedate", a);
-            //cmd.Parameters.AddWithValue("@cAmount", amt);
-            //cmd.Parameters.AddWithValue("@cPercentage", per);
 
             int k = cmd.ExecuteNonQuery();
             con.Close();
@@ -285,18 +293,43 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             {
                 Response.Write("failed");
             }
-            //cmd.ExecuteNonQuery();
-            //con.Close();
-            
-            
 
         }
 
 
     }
 
-    protected void GrdVwRecordsMain_RowDataBound(object sender, GridViewRowEventArgs e)
+    protected void viewgrid()
     {
-        
+        DataTable dt = new DataTable();
+        int Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Value);
+        SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
+        SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId="+Dinsti,con);
+        con.Open();
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        da.Fill(dt);
+
+        //dt = ViewState["DT"] as DataTable;
+        //TextBox marks = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
+
+        for (int i = 1; i < dt.Rows.Count ; i++)
+        {
+            TextBox marks = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
+            //SqlDataAdapter dad = new SqlDataAdapter(cmd);
+            //DataTable dtt = new DataTable();
+            //dad.Fill(dtt);
+            
+            var Mark = dt.Rows[i]["cAmount"];
+            marks.Text= Mark.ToString();
+
+
+        }
+
+        TextBox marks1 = (TextBox)GrdVwRecordsMain.Rows[0].FindControl("TxtAmount");
+        var Mark1 = dt.Rows[0]["cAmount"];
+        marks1.Text = Mark1.ToString();
+        GrdVwRecordsMain.DataSource = dt;
+        GrdVwRecordsMain.DataBind();
+        con.Close();
     }
 }

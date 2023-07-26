@@ -8,6 +8,7 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
     ClsStudentAdmissionDetails ObjCls = new ClsStudentAdmissionDetails();
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     ClsFeeMaster ObjCls1 = new ClsFeeMaster();
+    SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
     static int icount = 0;
     TreeNode tnode;
     protected override void Page_Load(object sender, EventArgs e)
@@ -35,6 +36,9 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
                 this.PopulateTreeView(ClsTD, icount, null);
 
             }
+            //CtrlGridClass.ParentControl = CtrlGridInstitution.IdControl;
+            CtrlGridDivision.ParentControl = CtrlGridClass.IdControl;
+            CtrlGridStudent.ParentControl = CtrlGridDivision.IdControl;
 
         }
         catch (Exception ex)
@@ -44,7 +48,7 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
     }
     public void DrpInstallFill()
     {
-        
+
         DataTable ClsTD = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
         DdlInslment.DataSource = ClsTD;
         DdlInslment.DataValueField = "nId";
@@ -190,7 +194,22 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             Label6.Text = GRP;
             Label7.Text = "";
             Label8.Text = "";
-            viewgrid();
+            CtrlGridInstitution.SelectedValue = GRP;
+            CtrlGridInstitution.SelectedText = Label2.Text;
+
+
+
+            int Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Value);
+            int Dcls = Convert.ToInt32(CtrlGridClass.SelectedValue);
+            int Ddiv= Convert.ToInt32(CtrlGridDivision.SelectedValue);
+            int DStudent= Convert.ToInt32(CtrlGridStudent.SelectedValue);
+
+            int Dinstallment = Convert.ToInt32(DdlInslment.SelectedValue);
+            SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti + "and nClassId=" + Dcls +"and nDivisionId="+Ddiv+ "and nStudentId=" + DStudent + "and nInstallmentId=" + Dinstallment , con);
+
+
+            viewgrid(cmd);
+
         }
         else if (TreeView1.SelectedNode.Depth == 1)
         {
@@ -207,6 +226,23 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             Label7.Text = CLS;
             Label8.Text = "";
 
+            CtrlGridInstitution.SelectedValue = GRP;
+            CtrlGridInstitution.SelectedText = TreeView1.SelectedNode.Parent.Text;
+
+            CtrlGridClass.SelectedValue = CLS;
+            CtrlGridClass.SelectedText = TreeView1.SelectedNode.Text;
+
+            int Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Parent.Value);
+            int Dcls= Convert.ToInt32(TreeView1.SelectedNode.Value);
+            int Ddiv = Convert.ToInt32(CtrlGridDivision.SelectedValue);
+            int DStudent = Convert.ToInt32(CtrlGridStudent.SelectedValue);
+
+            int Dinstallment = Convert.ToInt32(DdlInslment.SelectedValue);
+
+            SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti + "and nClassId=" + Dcls + "and nDivisionId=" + Ddiv + "and nStudentId=" + DStudent + "and nInstallmentId=" + Dinstallment, con);
+            //SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId="+Dinsti+"and nClassId="+Dcls+ "and nInstallmentId=" + Dinstallment, con);
+
+            viewgrid(cmd);
         }
         else if (TreeView1.SelectedNode.Depth == 2)
         {
@@ -223,12 +259,33 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             Label4.Text = TreeView1.SelectedNode.Text;
             Label8.Text = DIVN;
 
-            DdlStudent.Items.Add(new ListItem("Select", "0"));
-            DataTable ClsTC = (ObjCls.FnGetDataSet("select  TCD.nId nId, TCD.cName cName FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId = SAD.nStudentId where SAD.nDivisionId = " + DIVN) as DataSet).Tables[0];
-            DdlStudent.DataSource = ClsTC;
-            DdlStudent.DataValueField = "nId";
-            DdlStudent.DataTextField = "cName";
-            DdlStudent.DataBind();
+            CtrlGridInstitution.SelectedValue = GRP;
+            CtrlGridInstitution.SelectedText = TreeView1.SelectedNode.Parent.Parent.Text;
+
+            CtrlGridClass.SelectedValue = CLS;
+            CtrlGridClass.SelectedText = TreeView1.SelectedNode.Parent.Text;
+
+            CtrlGridDivision.SelectedValue = DIVN;
+            CtrlGridDivision.SelectedText = TreeView1.SelectedNode.Text;
+
+            int Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Parent.Parent.Value);
+            int Dcls = Convert.ToInt32(TreeView1.SelectedNode.Parent.Value);
+            int Ddiv= Convert.ToInt32(TreeView1.SelectedNode.Value);
+            int DStudent = Convert.ToInt32(CtrlGridStudent.SelectedValue);
+
+            int Dinstallment = Convert.ToInt32(DdlInslment.SelectedValue);
+
+            SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti + "and nClassId=" + Dcls + "and nDivisionId=" + Ddiv + "and nStudentId=" + DStudent + "and nInstallmentId=" + Dinstallment, con);
+
+            //SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti + "and nClassId=" + Dcls + "and nDivisionId=" + Ddiv+ "and nInstallmentId=" + Dinstallment, con);
+            viewgrid(cmd);
+
+            //DdlStudent.Items.Add(new ListItem("Select", "0"));
+            //DataTable ClsTC = (ObjCls.FnGetDataSet("select  TCD.nId nId, TCD.cName cName FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId = SAD.nStudentId where SAD.nDivisionId = " + DIVN) as DataSet).Tables[0];
+            //DdlStudent.DataSource = ClsTC;
+            //DdlStudent.DataValueField = "nId";
+            //DdlStudent.DataTextField = "cName";
+            //DdlStudent.DataBind();
 
         }
 
@@ -243,19 +300,28 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             Label LblDiv2 = (Label)GrdVwRecordsMain.Rows[i].FindControl("LblDiv2");
             string fname = LblDiv2.Text;
 
-            //CtrlDate tdate = (CtrlDate)GrdVwRecordsMain.Rows[i].FindControl("CtrlDate");
+            CtrlDate tdate = (CtrlDate)GrdVwRecordsMain.Rows[i].FindControl("CtrlDate");
             //DateTime a = ObjCls.FnDateTime(tdate);
 
 
             DateTime a = DateTime.Now;
+            
+            
+           
+
+            //TextBox DueDate= (TextBox)GrdVwRecordsMain.Rows[i].FindControl("CtrldueDate");
+            //FnDateTime(CtrldueDate.DateText);
+            
 
             TextBox TxtAmt = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
             string amt = TxtAmt.Text;
             TextBox TxtPer = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtPercentage");
             string per = TxtPer.Text;
             int dins = ObjCls.FnIsNumeric(DdlInslment.SelectedValue);
-            int stuid = ObjCls.FnIsNumeric(DdlStudent.SelectedValue);
-            if(((Label6.Text)!="")&& ((Label7.Text)=="")&& ((Label8.Text) == ""))
+            //int stuid = ObjCls.FnIsNumeric(DdlStudent.SelectedValue);
+            //int dins = ObjCls.FnIsNumeric(CtrlGridInstallment.SelectedValue);
+            int stuid= ObjCls.FnIsNumeric(CtrlGridStudent.SelectedValue);     //kmn@federalbank.co.in
+            if (((Label6.Text) != "") && ((Label7.Text) == "") && ((Label8.Text) == ""))
             {
                 insti = Convert.ToInt32(Label6.Text);
                 cls = 0;
@@ -276,11 +342,13 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             }
 
 
-            viewgrid();
+            //viewgrid();
 
 
 
-            SqlCommand cmd = new SqlCommand("Insert into TblFineSettings(nStudentId, nClassId, nDivisionId, nInstitutionId, nInstallmentId, cName, dDuedate, cAmount, cPercentage) VALUES(" + stuid + "," + cls + "," + div + "," + insti + "," + dins + ",'" + fname + "','" + a + "', " + amt + "," + per + ")", con);
+             SqlCommand cmd = new SqlCommand("Insert into TblFineSettings(nStudentId, nClassId, nDivisionId, nInstitutionId, nInstallmentId, cName, dDuedate, cAmount, cPercentage) VALUES(" + stuid + "," + cls + "," + div + "," + insti + "," + dins + ",'" + fname + "','" + a + "', " + amt + "," + per + ")", con);
+
+            //SqlCommand cmd = new SqlCommand("Insert into TblFineSettings( nStudentId, nClassId, nDivisionId, nInstitutionId, cName, dDuedate, cAmount, cPercentage) VALUES(" + stuid + "," + cls + "," + div + "," + insti + ",'" + fname + "','" + a + "', " + amt + "," + per + ")", con);
             con.Open();
 
             int k = cmd.ExecuteNonQuery();
@@ -299,37 +367,54 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
 
     }
 
-    protected void viewgrid()
+    protected void viewgrid(SqlCommand cmd)
     {
         DataTable dt = new DataTable();
-        int Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Value);
-        SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
-        SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId="+Dinsti,con);
+        //int Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Value);
+        //SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
+        //SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti, con);
         con.Open();
         SqlDataAdapter da = new SqlDataAdapter(cmd);
         da.Fill(dt);
 
         //dt = ViewState["DT"] as DataTable;
         //TextBox marks = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
-
-        for (int i = 1; i < dt.Rows.Count ; i++)
+        int count = dt.Rows.Count;
+        if (count > 1)
         {
-            TextBox marks = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
-            //SqlDataAdapter dad = new SqlDataAdapter(cmd);
-            //DataTable dtt = new DataTable();
-            //dad.Fill(dtt);
-            
-            var Mark = dt.Rows[i]["cAmount"];
-            marks.Text= Mark.ToString();
 
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                GrdVwRecordsMain.DataSource = dt;
+                GrdVwRecordsMain.DataBind();
+                TextBox amount2 = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
+                TextBox per2 = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtPercentage");
+                var amount3 = dt.Rows[i]["cAmount"];
+                var per3 = dt.Rows[i]["cPercentage"];
+                amount2.Text = amount3.ToString();
+                per2.Text = per3.ToString();
+
+
+            }
+            GrdVwRecordsMain.DataSource = dt;
+            GrdVwRecordsMain.DataBind();
+
+
+            for (int j = 0; j < dt.Rows.Count; j++)
+            {
+                TextBox amount = (TextBox)GrdVwRecordsMain.Rows[j].FindControl("TxtAmount");
+                TextBox per = (TextBox)GrdVwRecordsMain.Rows[j].FindControl("TxtPercentage");
+                var amount1 = dt.Rows[j]["cAmount"];
+                var per1 = dt.Rows[j]["cPercentage"];
+                amount.Text = amount1.ToString();
+                per.Text = per1.ToString();
+            }
 
         }
-
-        TextBox marks1 = (TextBox)GrdVwRecordsMain.Rows[0].FindControl("TxtAmount");
-        var Mark1 = dt.Rows[0]["cAmount"];
-        marks1.Text = Mark1.ToString();
-        GrdVwRecordsMain.DataSource = dt;
-        GrdVwRecordsMain.DataBind();
+        else
+        {
+            FnGridViewBinding("");
+        }
         con.Close();
     }
 }

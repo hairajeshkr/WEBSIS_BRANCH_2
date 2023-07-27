@@ -13,8 +13,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script language="javascript" src="Script/ClassDivAsgn.js" type="text/javascript"></script>
-    <div style="height: 550px; width: 1100px">
-        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="540px" Width="1100px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
+    <div style="height: 550px; width: 1050px">
+        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="500px" Width="1050px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
                     Fine Settings
@@ -35,12 +35,12 @@
                                             </div>
                                         </td>
                                         <td style="width: 207px">
-                                            <asp:Label ID="Label9" runat="server" Text="Institution" Width="95px"></asp:Label>
+                                            <asp:Label ID="Label9" runat="server" Text="Group" Width="95px"></asp:Label>
                                         </td>
                                         <td style="width: 547px">
-                                            <uc1:CtrlGridList runat="server" ID="CtrlGridInstitution" AccountType="InstituteGroup" PlaceHoldr="Institution"  />
+                                            <uc1:CtrlGridList runat="server" ID="CtrlGridInstitution" AccountType="InstituteGroup" PlaceHoldr="Group"  />
                                         </td>
-                                        <td style="width: 110px">
+                                        <td style="width: 63px">
                                             <asp:Label ID="Label1" runat="server" style="margin-left: 31px" Text="Class" Width="100px"></asp:Label>
                                         </td>
                                         <td style="width: 324px">
@@ -57,7 +57,7 @@
                                             <uc1:CtrlGridList runat="server" ID="CtrlGridDivision" AccountType="DivisionList" PlaceHoldr="Division" />
                                         </td>
                                         
-                                        <td style="width: 110px">
+                                        <td style="width: 63px">
                                             <asp:Label ID="Label11" runat="server" style="margin-left: 31px" Text="Student" Width="100px"></asp:Label>
                                         </td>
                                         <td style="width: 324px">
@@ -83,15 +83,15 @@
                                             <asp:Label ID="Label12" runat="server" Text="Installment"></asp:Label>
                                         </td>
                                         <td style="width: 547px">
-                                            <%--<uc1:CtrlGridList ID="CtrlGridInstallment" runat="server"/>--%>
                                             <asp:DropDownList ID="DdlInslment" runat="server" Width="300px" Height="30px" placeholder="installment"></asp:DropDownList>
                                         </td>
-                                        <td style="width: 110px">
+                                        <td style="width: 63px">
                                             &nbsp;</td>
                                         <td style="width: 324px">
                                             <asp:Label ID="Label2" runat="server" Font-Bold="True" ForeColor="#FF6699"></asp:Label>
                                             <asp:Label ID="Label3" runat="server" Font-Bold="True" ForeColor="Fuchsia"></asp:Label>
                                             <asp:Label ID="Label4" runat="server" Font-Bold="True" ForeColor="#CC3399"></asp:Label>
+                                            <asp:Button ID="BtnFind" runat="server" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" />
                                         </td>
                                         <td style="width:150px;">&nbsp;</td>
                                     </tr>
@@ -100,7 +100,7 @@
                                     
                                     <tr>
                                         <td colspan="7">
-                                            <div class="result-list" style="overflow: scroll;">
+                                            <div class="result-list" style="overflow: scroll;height: 350px; width:650px">
                                                 <asp:GridView ID="GrdVwRecordsMain" runat="server" SkinID="GrdVwMasterNoPageing" Width="604px" >
                                                     <Columns>
                                                         <asp:BoundField />

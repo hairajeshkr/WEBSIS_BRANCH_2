@@ -183,6 +183,7 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
         var CLN = TreeView1.SelectedNode.Value;
         int IH = TreeView1.SelectedNode.Depth;
         string GRP, CLS, DIVN;
+        int Dinsti=0, Dcls=0, Ddiv=0, DStudent=0, Dinstallment=0;
         if (TreeView1.SelectedNode.Depth == 0)
         {
             //group
@@ -199,13 +200,13 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
 
 
 
-            int Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Value);
-            int Dcls = Convert.ToInt32(CtrlGridClass.SelectedValue);
-            int Ddiv= Convert.ToInt32(CtrlGridDivision.SelectedValue);
-            int DStudent= Convert.ToInt32(CtrlGridStudent.SelectedValue);
+             Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Value);
+             Dcls = Convert.ToInt32(CtrlGridClass.SelectedValue);
+             Ddiv= Convert.ToInt32(CtrlGridDivision.SelectedValue);
+             DStudent= Convert.ToInt32(CtrlGridStudent.SelectedValue);
 
-            int Dinstallment = Convert.ToInt32(DdlInslment.SelectedValue);
-            SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti + "and nClassId=" + Dcls +"and nDivisionId="+Ddiv+ "and nStudentId=" + DStudent + "and nInstallmentId=" + Dinstallment , con);
+             Dinstallment = Convert.ToInt32(DdlInslment.SelectedValue);
+             SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti + "and nClassId=" + Dcls +"and nDivisionId="+Ddiv+ "and nStudentId=" + DStudent + "and nInstallmentId=" + Dinstallment , con);
 
 
             viewgrid(cmd);
@@ -232,15 +233,15 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             CtrlGridClass.SelectedValue = CLS;
             CtrlGridClass.SelectedText = TreeView1.SelectedNode.Text;
 
-            int Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Parent.Value);
-            int Dcls= Convert.ToInt32(TreeView1.SelectedNode.Value);
-            int Ddiv = Convert.ToInt32(CtrlGridDivision.SelectedValue);
-            int DStudent = Convert.ToInt32(CtrlGridStudent.SelectedValue);
+            Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Parent.Value);
+            Dcls= Convert.ToInt32(TreeView1.SelectedNode.Value);
+            Ddiv = Convert.ToInt32(CtrlGridDivision.SelectedValue);
+            DStudent = Convert.ToInt32(CtrlGridStudent.SelectedValue);
 
-            int Dinstallment = Convert.ToInt32(DdlInslment.SelectedValue);
+            Dinstallment = Convert.ToInt32(DdlInslment.SelectedValue);
 
             SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti + "and nClassId=" + Dcls + "and nDivisionId=" + Ddiv + "and nStudentId=" + DStudent + "and nInstallmentId=" + Dinstallment, con);
-            //SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId="+Dinsti+"and nClassId="+Dcls+ "and nInstallmentId=" + Dinstallment, con);
+            
 
             viewgrid(cmd);
         }
@@ -268,16 +269,16 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             CtrlGridDivision.SelectedValue = DIVN;
             CtrlGridDivision.SelectedText = TreeView1.SelectedNode.Text;
 
-            int Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Parent.Parent.Value);
-            int Dcls = Convert.ToInt32(TreeView1.SelectedNode.Parent.Value);
-            int Ddiv= Convert.ToInt32(TreeView1.SelectedNode.Value);
-            int DStudent = Convert.ToInt32(CtrlGridStudent.SelectedValue);
+            Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Parent.Parent.Value);
+            Dcls = Convert.ToInt32(TreeView1.SelectedNode.Parent.Value);
+            Ddiv= Convert.ToInt32(TreeView1.SelectedNode.Value);
+            DStudent = Convert.ToInt32(CtrlGridStudent.SelectedValue);
 
-            int Dinstallment = Convert.ToInt32(DdlInslment.SelectedValue);
+            Dinstallment = Convert.ToInt32(DdlInslment.SelectedValue);
 
             SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti + "and nClassId=" + Dcls + "and nDivisionId=" + Ddiv + "and nStudentId=" + DStudent + "and nInstallmentId=" + Dinstallment, con);
 
-            //SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti + "and nClassId=" + Dcls + "and nDivisionId=" + Ddiv+ "and nInstallmentId=" + Dinstallment, con);
+            
             viewgrid(cmd);
 
             //DdlStudent.Items.Add(new ListItem("Select", "0"));
@@ -295,32 +296,26 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
     {
         SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
         int insti, cls, div;
+        string cFineName = "", dDueDate="", nAmount="", nPercentage="";
         for (int i = 0; i <= GrdVwRecordsMain.Rows.Count - 1; i++)
         {
             Label LblDiv2 = (Label)GrdVwRecordsMain.Rows[i].FindControl("LblDiv2");
-            string fname = LblDiv2.Text;
+            cFineName = LblDiv2.Text;
 
             CtrlDate tdate = (CtrlDate)GrdVwRecordsMain.Rows[i].FindControl("CtrlDate");
-            //DateTime a = ObjCls.FnDateTime(tdate);
-
-
-            DateTime a = DateTime.Now;
+            dDueDate=tdate.DateText;
             
-            
-           
-
-            //TextBox DueDate= (TextBox)GrdVwRecordsMain.Rows[i].FindControl("CtrldueDate");
-            //FnDateTime(CtrldueDate.DateText);
-            
-
             TextBox TxtAmt = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
-            string amt = TxtAmt.Text;
+            nAmount = TxtAmt.Text;
+
             TextBox TxtPer = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtPercentage");
-            string per = TxtPer.Text;
+            nPercentage = TxtPer.Text;
+
             int dins = ObjCls.FnIsNumeric(DdlInslment.SelectedValue);
             //int stuid = ObjCls.FnIsNumeric(DdlStudent.SelectedValue);
             //int dins = ObjCls.FnIsNumeric(CtrlGridInstallment.SelectedValue);
             int stuid= ObjCls.FnIsNumeric(CtrlGridStudent.SelectedValue);     //kmn@federalbank.co.in
+
             if (((Label6.Text) != "") && ((Label7.Text) == "") && ((Label8.Text) == ""))
             {
                 insti = Convert.ToInt32(Label6.Text);
@@ -346,9 +341,8 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
 
 
 
-             SqlCommand cmd = new SqlCommand("Insert into TblFineSettings(nStudentId, nClassId, nDivisionId, nInstitutionId, nInstallmentId, cName, dDuedate, cAmount, cPercentage) VALUES(" + stuid + "," + cls + "," + div + "," + insti + "," + dins + ",'" + fname + "','" + a + "', " + amt + "," + per + ")", con);
+             SqlCommand cmd = new SqlCommand("Insert into TblFineSettings(nStudentId, nClassId, nDivisionId, nInstitutionId, nInstallmentId, cName, dDuedate, cAmount, cPercentage) VALUES(" + stuid + "," + cls + "," + div + "," + insti + "," + dins + ",'" + cFineName + "','" + dDueDate + "', " + nAmount + "," + nPercentage + ")", con);
 
-            //SqlCommand cmd = new SqlCommand("Insert into TblFineSettings( nStudentId, nClassId, nDivisionId, nInstitutionId, cName, dDuedate, cAmount, cPercentage) VALUES(" + stuid + "," + cls + "," + div + "," + insti + ",'" + fname + "','" + a + "', " + amt + "," + per + ")", con);
             con.Open();
 
             int k = cmd.ExecuteNonQuery();
@@ -370,32 +364,35 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
     protected void viewgrid(SqlCommand cmd)
     {
         DataTable dt = new DataTable();
-        //int Dinsti = Convert.ToInt32(TreeView1.SelectedNode.Value);
-        //SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
-        //SqlCommand cmd = new SqlCommand("select distinct nId Id, cName Name,dDuedate,cAmount,cPercentage from TblFineSettings where nInstitutionId=" + Dinsti, con);
         con.Open();
         SqlDataAdapter da = new SqlDataAdapter(cmd);
         da.Fill(dt);
 
-        //dt = ViewState["DT"] as DataTable;
-        //TextBox marks = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
         int count = dt.Rows.Count;
-        if (count > 1)
+        if (count >= 1)
         {
 
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                GrdVwRecordsMain.DataSource = dt;
-                GrdVwRecordsMain.DataBind();
-                TextBox amount2 = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
-                TextBox per2 = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtPercentage");
-                var amount3 = dt.Rows[i]["cAmount"];
-                var per3 = dt.Rows[i]["cPercentage"];
-                amount2.Text = amount3.ToString();
-                per2.Text = per3.ToString();
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    GrdVwRecordsMain.DataSource = dt;
+            //    GrdVwRecordsMain.DataBind();
+            //    TextBox amount2 = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtAmount");
+            //    TextBox per2 = (TextBox)GrdVwRecordsMain.Rows[i].FindControl("TxtPercentage");
+            //    //TextBox date2=(TextBox)GrdVwRecordsMain.Rows[i].FindControl("CtrlDate");
+
+            //    CtrlDate tdate = (CtrlDate)GrdVwRecordsMain.Rows[i].FindControl("CtrlDate");
+            //    //string a = tdate.DateText;
+
+            //    var amount3 = dt.Rows[i]["cAmount"];
+            //    var per3 = dt.Rows[i]["cPercentage"];
+            //    var date3 = dt.Rows[i]["dDuedate"];
+
+            //    amount2.Text = amount3.ToString();
+            //    per2.Text = per3.ToString();
+            //    tdate.DateText = date3.ToString();
 
 
-            }
+            //}
             GrdVwRecordsMain.DataSource = dt;
             GrdVwRecordsMain.DataBind();
 
@@ -404,10 +401,14 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
             {
                 TextBox amount = (TextBox)GrdVwRecordsMain.Rows[j].FindControl("TxtAmount");
                 TextBox per = (TextBox)GrdVwRecordsMain.Rows[j].FindControl("TxtPercentage");
+                CtrlDate tdate1 = (CtrlDate)GrdVwRecordsMain.Rows[j].FindControl("CtrlDate");
+
                 var amount1 = dt.Rows[j]["cAmount"];
                 var per1 = dt.Rows[j]["cPercentage"];
+                var date1 = dt.Rows[j]["dDuedate"];
                 amount.Text = amount1.ToString();
                 per.Text = per1.ToString();
+                tdate1.DateText = date1.ToString();
             }
 
         }

@@ -91,7 +91,8 @@
                                             <asp:Label ID="Label2" runat="server" Font-Bold="True" ForeColor="#FF6699"></asp:Label>
                                             <asp:Label ID="Label3" runat="server" Font-Bold="True" ForeColor="Fuchsia"></asp:Label>
                                             <asp:Label ID="Label4" runat="server" Font-Bold="True" ForeColor="#CC3399"></asp:Label>
-                                            <asp:Button ID="BtnFind" runat="server" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" />
+
+                                            <asp:Button ID="BtnFind" runat="server" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="BtnFind_Click" />
                                         </td>
                                         <td style="width:150px;">&nbsp;</td>
                                     </tr>
@@ -144,7 +145,7 @@
                             <td class="odd" style="width: 90px;"></td>
                             <td class="odd" colspan="2"></td>
                             <td class="odd" style="width: 319px;">
-                                <asp:Button ID="BtnSubmit" runat="server" Text="Submit" SkinID="BtnAddSub" OnClick="Button1_Click" />
+                                <asp:Button ID="BtnSubmit" runat="server" Text="Submit" SkinID="BtnAddSub" OnClick="BtnSubmit_Click" />
                             </td>
                             <td class="odd" style="width: 319px; height: 30px">&nbsp;</td>
                         </tr>

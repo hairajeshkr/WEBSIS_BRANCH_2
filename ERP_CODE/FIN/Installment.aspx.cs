@@ -9,7 +9,7 @@ public partial class FIN_Installment : ClsPageEvents,IPageInterFace
 {
     ClsFeeInstallmentMaster ObjCls = new ClsFeeInstallmentMaster();
 
-    protected override void Page_Load(object sender, EventArgs e)
+    protected override void Page_Load(object sender, EventArgs e) 
     {
         try
         {

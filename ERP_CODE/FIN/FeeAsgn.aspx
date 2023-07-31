@@ -106,6 +106,7 @@
 
 
                                             function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI) {
+                                               /* function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI, CtrlFDate, CtrlDuDate, cov) {*/
                                                 var txtName = document.getElementById(ID);
                                                 //var DrpInstitute = document.getElementById(INS);
                                                 var DrpInstitute = INS;
@@ -124,9 +125,18 @@
                                                 var ri = GRI;
                                                 var CellValue = grd.rows[ri].cells[0].childNodes[0].textContent;
                                                 //var CDD = grd.rows[1].cells.count;
-                                                //alert(CDD);
 
+                                                //alert(CtrlFDate);
+
+                                               // var FromDate = document.getElementsByTagName(CtrlFDate);
+                                               //var FromDate = document.getElementsById(CtrlFDate);
+                                               //var DueDate = document.getElementById(CtrlDuDate);
+                                                //alert(FromDate);
+                                               //alert(FromDate.value);
+
+                                               // alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG + " " + FEEG.value + " -" + CellValue + "" + CtrlFDate.value + "" + CtrlDuDate + "");
                                                 alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG + " " + FEEG.value + " -" + CellValue + "");
+
 
                                                 $.ajax({
 
@@ -153,6 +163,40 @@
                                                         alert("Error");
                                                     }
                                                 });
+
+
+                                                $.ajax({
+
+                                                    type: "POST",
+                                                    contentType: "application/json; charset=utf-8",
+                                                    url: "FeeAsgn.aspx/UpdateGridcell",
+                                                    data: "{'RowG':'" + GRI + "','ColumnG':'" + cov + "','amount':'" + txtName.value + "'}",
+                                                    dataType: "json",
+                                                    success: function (data) {
+                                                        var obj = data.d;
+                                                        if (obj == 'true') {
+                                                            $('#RowG').val('');
+                                                            $('#ColumnG').val('');
+                                                            $('#nAmount').val('');
+                                                            $('#lblmsg').html("Details Submitted Successfully");
+                                                            //window.location.reload();
+                                                        }
+                                                    },
+                                                    error: function (result) {
+                                                        alert("Error");
+                                                    }
+                                                });
+
+
+                                               
+
+                                                function DateGetF(CtrlFDate) {
+                                                    alert(1);
+                                                    alert(CtrlFDate);
+                                                                                                      
+                                                    var FromDate = document.getElementsById(CtrlFDate);
+                                                }
+
 
 
                                                 //$.ajax({
@@ -190,6 +234,10 @@
                                 </td>
 
                                 <tr>
+
+                                    <td>
+                                    <asp:Button ID="CmdSave" runat="server" Text="Save Data" OnClick="CmdSave_Click" />
+                                </td>
                                     <td align="center" class="FooterCommand" colspan="5" valign="middle">
                                         <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />
                                     </td>

@@ -301,38 +301,32 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            for (int i = 2; i < 4; i++)
+           
+            CtrlDate CtrlFromDate = (CtrlDate)LoadControl("~/CtrlDate.ascx");
+            e.Row.Cells[2].Controls.Add(CtrlFromDate);
+            CtrlFromDate.ID = "C";
+
+            CtrlDate CtrlDueDate = (CtrlDate)LoadControl("~/CtrlDate.ascx");
+            e.Row.Cells[3].Controls.Add(CtrlDueDate);
+
+            var FromD = CtrlFromDate.DateText;
+            var DueD = CtrlDueDate.DateText;
+
+            CtrlDate FromDC = (CtrlDate)e.Row.FindControl("CtrlFromDate");
+            CtrlDate FromDD = (CtrlDate)e.Row.FindControl("CtrlDueDate");
+
+            
+            for (int i = 4; i < e.Row.Cells.Count; i++)
             {
-                //--Adding Date User Control 
-                CtrlDate DTTF = new CtrlDate();
-                CtrlDate D1 = (CtrlDate)LoadControl("~/CtrlDate.ascx");
-                e.Row.Cells[i].Controls.Add(D1);
 
-                //CtrlDate tdate = (CtrlDate)GrdVwFee.Rows[i].FindControl("CtrlDate");
-                //CtrlDate tdate = (CtrlDate)GrdVwFee.Rows[i].FindControl("CtrlDate");
-
-               // DataTable DDD = ViewState["DT1"] as DataTable;
-               
-                //  txt1.Text = Convert.ToString(DDD.Rows[0][i]);
-                //var amount1 = DDD.Rows[i]["FromDate"];
-               // tdate.DateText = amount1.ToString();
-
-                //var FromDate= Convert.ToString(DDD.Rows[2][i]);
-                //var DueDate = Convert.ToString(DDD.Rows[3][i]);
-
-               // D1.DateText = tdate.DateText;
-            }
-
-                for (int i = 4; i < e.Row.Cells.Count; i++)
-            {
-                
-                System.Web.UI.WebControls.TextBox txt = new System.Web.UI.WebControls.TextBox() { ID = "txtDynamic" + i };
+               System.Web.UI.WebControls.TextBox txt = new System.Web.UI.WebControls.TextBox() { ID = "txtDynamic" + i };
                 e.Row.Cells[i].Controls.Add(txt);
-                txt.AutoPostBack = false;
+                //txt.AutoPostBack = false;
+               
 
                 System.Web.UI.WebControls.TextBox txt1 = new System.Web.UI.WebControls.TextBox() { ID = "T" + i };
                 e.Row.Cells[i].Controls.Add(txt1);
-                
+                //txt1.Visible = false;
 
                 DataTable DDDR = ViewState["DT2"] as DataTable;
                 //txt.Text = Convert.ToString(DDDR.Rows[i][i]);
@@ -352,23 +346,41 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                 var ClsId= lblClsId.Text;
                 var DivId = lblDivId.Text;
 
+                var FDT = lblMessage.Text;
                // var StudId = String.IsNullOrEmpty(CtrlGrdStudent.SelectedValue);
                 var StudId = CtrlGrdStudent.SelectedValue;
+                var Cov = e.Row.Cells[i].Text;
+
+
                 //txt.Attributes.Add("onkeyup", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID  + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
                 // GrdVwFee.Attributes.Add("onbind", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
                 // txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
 
                 // txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + CtrlGrdStudent.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
+               
                 txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "')");
+
+                //txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.ClientID + "','" + CtrlDueDate.ClientID + "','" + Cov + "')");
+                
+                CtrlFromDate.Attributes.Add("onclick", "DateGetF('"+ CtrlFromDate.ClientID  + "')");
+                // txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + FromDC.ClientID + "','" + FromDD.ClientID + "')");
+
+                //txt.Attributes.Add("onchange", UpdateGridcell(Convert.ToInt32(txt.Text),e.Row.RowIndex, Convert.ToInt32(e.Row.Cells[i])));
+
+                //txt.Attributes.Add("onchange", UpdateGridcell(txt.Text, e.Row.RowIndex, e.Row.Cells[i].Text));
+                ////txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.DateText + "','" + CtrlDueDate.DateText + "')");
             }
+           // CmdSave.Attributes.Add("onclick", InsertData(txt.ClientID, GrpId, ClsId, DivId, StudId, txt1.ClientID, ));
         }
 
-        //GrdVwFee.HeaderRow.Cells(0).Text
-
-
-
+      
     }
 
+    private EventHandler txtDynamic_TextChanged()
+    {
+        throw new NotImplementedException();
+
+    }
 
     protected void txtDynamic_TextChanged(object sender, EventArgs e)
     {
@@ -393,7 +405,7 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
     {
                
         var item = GrdVwFee.SelectedRow.Cells[1].Text;
-        lblMessage.Text = item.ToString();
+        ///lblMessage.Text = item.ToString();
 
     }
 
@@ -403,36 +415,32 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
         string commandName = e.CommandName;
         int rowIndex = Convert.ToInt32(e.CommandName);
         GridViewRow row = GrdVwFee.Rows[rowIndex];
-        System.Web.UI.WebControls.TextBox txt = row.FindControl("TextBox1") as System.Web.UI.WebControls.TextBox;
+        
 
-        if (txt != null)
-        {
-
-        }
-        string value = Request.Form[rowIndex];
+        string Cat_name = (GrdVwFee.Rows[rowIndex].FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1") as TextBox).Text;
 
     }
 
 
 
-    protected override void Render(HtmlTextWriter writer)
-    {
-        foreach (GridViewRow r in GrdVwFee.Rows)
-        {
-            if (r.RowType == DataControlRowType.DataRow)
-            {
-                for (int columnIndex = 0; columnIndex <
-                    r.Cells.Count; columnIndex++)
-                {
-                    Page.ClientScript.RegisterForEventValidation(
-                        r.UniqueID + "$ctl00", columnIndex.ToString());
-                }
-            }
-        }
+    //protected override void Render(HtmlTextWriter writer)
+    //{
+    //    foreach (GridViewRow r in GrdVwFee.Rows)
+    //    {
+    //        if (r.RowType == DataControlRowType.DataRow)
+    //        {
+    //            for (int columnIndex = 0; columnIndex <
+    //                r.Cells.Count; columnIndex++)
+    //            {
+    //                Page.ClientScript.RegisterForEventValidation(
+    //                    r.UniqueID + "$ctl00", columnIndex.ToString());
+    //            }
+    //        }
+    //    }
 
-        base.Render(writer);
+    //    base.Render(writer);
 
-    }
+    //}
 
 
     protected void GrdVwFee_RowUpdated(object sender, GridViewUpdatedEventArgs e)
@@ -630,4 +638,115 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
 
 
 
+
+    protected void CmdSave_Click(object sender, EventArgs e)
+    {
+        DataTable DD1D = ViewState["DT1"] as DataTable;
+
+               
+
+        foreach (GridViewRow row in GrdVwFee.Rows)
+        {
+            for (int j = 4; j <= GrdVwFee.Rows[0].Cells.Count - 1; j++)
+            {
+                //TextBox AmountT = (TextBox)GrdVwFee.Rows.Cells[j].FindControl("txtD");
+            }
+
+        }
+
+            TextBox AmountTv = null;
+
+        for (int i = 1; i <= GrdVwFee.Rows.Count - 1; i++)
+                {
+                    for (int j = 4; j <= GrdVwFee.Rows[0].Cells.Count - 1; j++)
+                    {
+
+                       // txt1.Text = Convert.ToString(DDD.Rows[0][i]);
+                        var FFEID = GrdVwFee.Rows[0].Cells[j].Text;
+                        var INSTLID = GrdVwFee.Rows[i].Cells[0].Text;
+                        var INSTIId = CtrlGrdInstitute.SelectedValue;
+                        var CLSId = CtrlGrdClass.SelectedValue;
+                        var DIVId = CtrlGrdDiv.SelectedValue;
+                        var STUDId = CtrlGrdStudent.SelectedValue;
+                //cmd.Parameters.AddWithValue("@nAmount", 1);
+
+               
+                //TestControl objTestControl = (TestControl)Page.FindControl("TestControl");
+                //TextBox objTextBox = objTestControl.FindControl("txtFirstName");
+                //string strFirstName = objTextBox.Text;
+
+                //System.Web.UI.WebControls.TextBox txt = new System.Web.UI.WebControls.TextBox() { ID = "txtDynamic" + j };
+
+                //TextBox AmountT  = (TextBox)GrdVwFee.Rows[i].FindControl("txtDynamic"+ j);
+
+                //TextBox AmountT = (TextBox)GrdVwFee.Rows[i].FindControl("txt");
+              
+                object value = this.GrdVwFee.Rows[i].Cells[j].Text;
+                ///  string text = (string)TextBox.text(value);
+
+                TextBox messageT = GrdVwFee.NamingContainer.FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1") as TextBox;
+
+                //CtrlDate CtrlFromDate = (CtrlDate)LoadControl("~/CtrlDate.ascx");
+                //CtrlDate CTDDS = (CtrlDate)GrdVwFee.Rows[i].Cells[2].FindControl("CtrlFromDate");
+                CtrlDate CTDDS = (CtrlDate)GrdVwFee.Rows[i].FindControl("CtrlFromDate");
+                
+                TextBox AmountT = (TextBox)GrdVwFee.Rows[i].Cells[j].FindControl("txtD");
+               // TextBox AmountT = (TextBox)GrdVwFee.Rows[i].Cells[j].FindControl("txtDynamic" + j + "_" + i);
+                //TextBox AmountT = (TextBox)GrdVwFee.Rows[i].Cells[j].FindControl("txtDynamic"+ j );
+
+                TextBox AmountT1 = (TextBox)GrdVwFee.Rows[i].Cells[j].FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1");
+
+                TextBox AmountT2 = (TextBox)GrdVwFee.Rows[i].FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1");
+                //string temp1 = AmountT.Text;
+                               
+                // InsertDataRow(FFEID, INSTLID, INSTIId, CLSId, DIVId, STUDId, Amount);
+
+            }
+        }
+
+              
     }
+
+
+    public static string InsertDataRow(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, int nAmount)
+    {
+        string msg = string.Empty;
+        //string VV = TId;
+
+        
+
+        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+        {
+            using (SqlCommand cmd = new SqlCommand("Insert into TblFeeInstallmentAssignT(nFEEId, nINSSTALId, nINSTIId, nCLSId, nDIVId, nSTUDId, nAmount) VALUES(@nFEEId,@nINSSTALId,@nINSTIId,@nCLSId,@nDIVId,@nSTUDId,@nAmount)", con))
+            {
+                con.Open();
+                cmd.Parameters.AddWithValue("@nFEEId", nFEEId);
+                cmd.Parameters.AddWithValue("@nINSSTALId", nINSSTALId);
+                cmd.Parameters.AddWithValue("@nINSTIId", nINSTIId);
+                cmd.Parameters.AddWithValue("@nCLSId", nCLSId);
+                cmd.Parameters.AddWithValue("@nDIVId", nDIVId);
+                cmd.Parameters.AddWithValue("@nSTUDId", nSTUDId);
+                cmd.Parameters.AddWithValue("@nAmount", nAmount);
+                int i = cmd.ExecuteNonQuery();
+                con.Close();
+                if (i == 1)
+                {
+                    msg = "true";
+                }
+                else
+                {
+                    msg = "false";
+                }
+            }
+        }
+        return msg;
+    }
+
+    public void UpdateGridcell(string amount,int RowG,string ColumnG)
+    {
+        GrdVwFee.Rows[Convert.ToInt32(RowG)].Cells[Convert.ToInt32(ColumnG)].Text = amount.ToString();
+        var CDSA = GrdVwFee.Rows[Convert.ToInt32(RowG)].Cells[Convert.ToInt32(ColumnG)].Text;
+    }
+
+
+}

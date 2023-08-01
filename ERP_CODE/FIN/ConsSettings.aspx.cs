@@ -95,7 +95,7 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
         using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
         {
-            using (SqlCommand cmd = new SqlCommand("Insert into TblFeeInstallmentAssignT(nFEEId, nINSSTALId, nINSTIId, nCLSId, nDIVId, nSTUDId, nAmount) VALUES(@nFEEId,@nINSSTALId,@nINSTIId,@nCLSId,@nDIVId,@nSTUDId,@nAmount)", con))
+            using (SqlCommand cmd = new SqlCommand("Insert into TblFeeInstallmentAssignT(nFeeMasterId, nINSSTALId, nINSTIId, nCLSId, nDIVId, nSTUDId, nAmount) VALUES(@nFEEId,@nINSSTALId,@nINSTIId,@nCLSId,@nDIVId,@nSTUDId,@nAmount)", con))
             {
                 con.Open();
                 cmd.Parameters.AddWithValue("@nFEEId", nFEEId);
@@ -304,36 +304,21 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
             CtrlDate CtrlFromDate = (CtrlDate)LoadControl("~/CtrlDate.ascx");
             e.Row.Cells[2].Controls.Add(CtrlFromDate);
+            CtrlFromDate.ID = "txtdate";
 
 
             CtrlDate CtrlDueDate = (CtrlDate)LoadControl("~/CtrlDate.ascx");
             e.Row.Cells[3].Controls.Add(CtrlDueDate);
-
-            var FromD = CtrlFromDate.DateText;
-            var DueD = CtrlDueDate.DateText;
-
-            CtrlDate FromDC = (CtrlDate)e.Row.FindControl("~/CtrlDate.ascx");
-            CtrlDate FromDD = (CtrlDate)e.Row.FindControl("~/CtrlDate.ascx");
-
-            //for (int i = 1; i < GrdVwFee.Rows.Count; i++)
-            //{
-            //    CtrlDate objTestControl = (CtrlDate)GrdVwFee.Rows[i].FindControl("CtrlFromDate");
-            //    TextBox objTextBox = (TextBox)objTestControl.FindControl("TxtDate");
-            //    lblMessage.Text = objTextBox.Text;
-            //    // string strFirstName = objTextBox.Text;
-            //}
-
 
 
             for (int i = 4; i < e.Row.Cells.Count; i++)
             {
 
                 System.Web.UI.WebControls.TextBox txt = new System.Web.UI.WebControls.TextBox() { ID = "txtDynamic" + i };
-                //System.Web.UI.WebControls.TextBox txt = new System.Web.UI.WebControls.TextBox();
-                //txt.ID = "txtD";
                 e.Row.Cells[i].Controls.Add(txt);
-                //txt.AutoPostBack = false;
-                // txt.TextChanged += txtDynamic_TextChanged();
+
+
+
 
                 System.Web.UI.WebControls.TextBox txt1 = new System.Web.UI.WebControls.TextBox() { ID = "T" + i };
                 e.Row.Cells[i].Controls.Add(txt1);
@@ -361,9 +346,11 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
                 // var StudId = String.IsNullOrEmpty(CtrlGrdStudent.SelectedValue);
                 var StudId = CtrlGrdStudent.SelectedValue;
 
+                //var date1 = CtrlFromDate.ClientID;
+
                 //txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "')");
 
-                txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.ClientID + "','" + CtrlDueDate.ClientID + "')");
+                txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.ID+ "','" + CtrlDueDate.ID+ "')");
                 
             }
             

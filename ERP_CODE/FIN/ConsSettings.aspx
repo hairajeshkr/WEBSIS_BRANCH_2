@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ConsSettings.aspx.cs" Inherits="FIN_ConsSettings" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ConsSettings.aspx.cs" Inherits="FIN_ConsSettings" StylesheetTheme="SkinFile" %>
 
     <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Src="../CtrlCommand.ascx" TagName="CtrlCommand" TagPrefix="uc1" %>
@@ -6,7 +6,7 @@
 <%@ Register Src="../CtrlDate.ascx" TagName="CtrlDate" TagPrefix="uc3" %>
 <%@ Register Src="~/CtrlGridList.ascx" TagPrefix="uc1" TagName="CtrlGridList" %>
 <%@ Register Src="../CtrlGridSmallList.ascx" TagName="CtrlGridSmallList" TagPrefix="uc4" %>
-<%@ Register Src="~/CtrlDate.ascx" TagPrefix="uc1" TagName="CtrlDate" %>
+
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -106,35 +106,34 @@
 
 
                                             function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI, CtrlFDate, CtrlDuDate) {
+
                                                 var txtName = document.getElementById(ID);
-                                                //var DrpInstitute = document.getElementById(INS);
+
+                                                alert(CtrlFDate);
+                                                //var DATEFROM = document.getElementById(CtrlFDate).value;
+
+                                                var DATEFROM = document.getElementsByName(CtrlFDate).values;
+
+                                                alert(DATEFROM);
+
+
                                                 var DrpInstitute = INS;
-                                                //var DrpClass = document.getElementById(CLS);
                                                 var DrpClass = CLS;
-                                                //var DrpDivision = document.getElementById(DIV);
                                                 var DrpDivision = DIV;
-                                                //var GGG = document.getElementById(GRDR);
                                                 var GGG = GRDR;
                                                 var FEEG = document.getElementById(GRDFEE);
 
-                                                ID.textContent = txtName.value;
-                                                //alert(ID.CellValue);
+                                                //ID.textContent = txtName.value;
+                                                
                                                 var grd = document.getElementById('<%= GrdVwFee.ClientID %>');
-                                                //alert(GRI);
+                                                
                                                 var ri = GRI;
-                                                var CellValue = grd.rows[ri].cells[0].childNodes[0].textContent;
-                                                //var CDD = grd.rows[1].cells.count;
+                                                var CellValue = grd.rows[ri].cells[0].childNodes[0].textContent;                                              
+                                                
 
-                                                alert(CtrlFDate);
-
-                                               // var FromDate = document.getElementsByTagName(CtrlFDate);
-                                               var FromDate = document.getElementsById(CtrlFDate);
-                                               //var DueDate = document.getElementById(CtrlDuDate);
-                                                alert(FromDate);
-                                               alert(FromDate.value);
-
-                                               // alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG + " " + FEEG.value + " -" + CellValue + "" + CtrlFDate.value + "" + CtrlDuDate + "");
-                                                alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG + " " + FEEG.value + " -" + CellValue + "");
+                                               
+                                               
+                                                //alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG + " " + FEEG.value + " -" + CellValue + "");
 
                                                 $.ajax({
 

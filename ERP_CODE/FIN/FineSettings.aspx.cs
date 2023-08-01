@@ -188,15 +188,15 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
         {
             //group
             GRP = TreeView1.SelectedNode.Value;
-            Label2.Text = TreeView1.SelectedNode.Text;
-            Label3.Text = "";
-            Label4.Text = "";
+            //Label2.Text = TreeView1.SelectedNode.Text;
+            //Label3.Text = "";
+            //Label4.Text = "";
 
-            Label6.Text = GRP;
-            Label7.Text = "";
-            Label8.Text = "";
+            LblInsGroup.Text = GRP;
+            LblClass.Text = "";
+            LblDivision.Text = "";
             CtrlGridInstitution.SelectedValue = GRP;
-            CtrlGridInstitution.SelectedText = Label2.Text;
+            CtrlGridInstitution.SelectedText = TreeView1.SelectedNode.Text;
 
 
 
@@ -217,16 +217,16 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
         {
             //Class
             GRP = TreeView1.SelectedNode.Parent.Value;
-            Label2.Text = (TreeView1.SelectedNode.Parent.Text) + "->";
+           // Label2.Text = (TreeView1.SelectedNode.Parent.Text) + "->";
 
-            Label6.Text = GRP;
+            LblInsGroup.Text = GRP;
 
             CLS = TreeView1.SelectedNode.Value;
-            Label3.Text = (TreeView1.SelectedNode.Text);
-            Label4.Text = "";
+            //Label3.Text = (TreeView1.SelectedNode.Text);
+            //Label4.Text = "";
 
-            Label7.Text = CLS;
-            Label8.Text = "";
+            LblClass.Text = CLS;
+            LblDivision.Text = "";
 
             CtrlGridInstitution.SelectedValue = GRP;
             CtrlGridInstitution.SelectedText = TreeView1.SelectedNode.Parent.Text;
@@ -250,16 +250,16 @@ public partial class FIN_FineSettings : ClsPageEvents, IPageInterFace
         {
             //Division
             GRP = TreeView1.SelectedNode.Parent.Parent.Value;
-            Label2.Text = (TreeView1.SelectedNode.Parent.Parent.Text) + "->";
-            Label6.Text = GRP;
+            //Label2.Text = (TreeView1.SelectedNode.Parent.Parent.Text) + "->";
+            LblInsGroup.Text = GRP;
 
             CLS = TreeView1.SelectedNode.Parent.Value;
-            Label3.Text = (TreeView1.SelectedNode.Parent.Text) + "->";
-            Label7.Text = CLS;
+            //Label3.Text = (TreeView1.SelectedNode.Parent.Text) + "->";
+            LblClass.Text = CLS;
 
             DIVN = TreeView1.SelectedNode.Value;
-            Label4.Text = TreeView1.SelectedNode.Text;
-            Label8.Text = DIVN;
+           // Label4.Text = TreeView1.SelectedNode.Text;
+            LblDivision.Text = DIVN;
 
             CtrlGridInstitution.SelectedValue = GRP;
             CtrlGridInstitution.SelectedText = TreeView1.SelectedNode.Parent.Parent.Text;

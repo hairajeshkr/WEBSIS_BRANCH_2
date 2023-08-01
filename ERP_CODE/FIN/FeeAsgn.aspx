@@ -65,7 +65,7 @@
                                     <asp:Label ID="Label3" runat="server" Height="30px" SkinID="LblBold" Text="Student" Width="60px"></asp:Label>
                                 </td>
                                 <td class="odd" style="height: 39px">
-                                    <uc2:CtrlGridList ID="CtrlGrdStudent" runat="server" AccountType="StudentList" PlaceHoldr="Student" />
+                                    <uc2:CtrlGridList ID="CtrlGrdStudent" runat="server" AccountType="StudentList" PlaceHoldr="Student" onSelectedValueChanged="CtrlGrdStudent_SelectedValueChanged" />
                                 </td>
 
                             </tr>
@@ -105,19 +105,29 @@
 
 
 
-                                            function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI) {
-                                               /* function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI, CtrlFDate, CtrlDuDate, cov) {*/
-                                                var txtName = document.getElementById(ID);
+                                            //function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI) {
+                                                function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI, CtrlFDate, CtrlDuDate) {
+
+                                                    //alert(CtrlFDate);
+                                                    ////var FromDate = document.getElementById(CtrlFDate).value;
+                                                    ////var FromDate = document.getElementsByName(CtrlFDate).value;
+                                                    ////var FromDate = document.getElementsByTagName(CtrlFDate);
+                                                    //var FromDate = document.getElementsById(CtrlFDate);
+                                                    //alert(FromDate.value);
+
+                                                    var txtName = document.getElementById(ID);
                                                 //var DrpInstitute = document.getElementById(INS);
                                                 var DrpInstitute = INS;
                                                 //var DrpClass = document.getElementById(CLS);
                                                 var DrpClass = CLS;
                                                 //var DrpDivision = document.getElementById(DIV);
-                                                var DrpDivision = DIV;
-                                                //var GGG = document.getElementById(GRDR);
-                                                var GGG = GRDR;
+                                                    var DrpDivision = DIV;
+                                                    alert(GRDR);
+                                                    //var GGG = document.getElementsById(GRDR);
+                                                    var GGG = GRDR;
+                                                   // var GGG = document.getElementById('<%= CtrlGrdStudent.ClientID %>');
                                                 var FEEG = document.getElementById(GRDFEE);
-
+                                                    alert(GGG);
                                                 ID.textContent = txtName.value;
                                                 //alert(ID.CellValue);
                                                 var grd = document.getElementById('<%= GrdVwFee.ClientID %>');
@@ -126,16 +136,16 @@
                                                 var CellValue = grd.rows[ri].cells[0].childNodes[0].textContent;
                                                 //var CDD = grd.rows[1].cells.count;
 
-                                                //alert(CtrlFDate);
+                                               // alert(CtrlFDate);
 
-                                               // var FromDate = document.getElementsByTagName(CtrlFDate);
+                                                //var FromDate = document.getElementById(CtrlFDate);
                                                //var FromDate = document.getElementsById(CtrlFDate);
                                                //var DueDate = document.getElementById(CtrlDuDate);
                                                 //alert(FromDate);
                                                //alert(FromDate.value);
 
                                                // alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG + " " + FEEG.value + " -" + CellValue + "" + CtrlFDate.value + "" + CtrlDuDate + "");
-                                                alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG + " " + FEEG.value + " -" + CellValue + "");
+                                                alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG.value + " " + FEEG.value + " -" + CellValue + "");
 
 
                                                 $.ajax({

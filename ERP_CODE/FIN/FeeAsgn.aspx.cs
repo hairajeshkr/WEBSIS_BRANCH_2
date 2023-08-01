@@ -92,18 +92,18 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
     {
         string msg = string.Empty;
         //string VV = TId;
-        
+        //String STDDI = CtrlGrdStudent.SelectedValue;
         using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
         {
-            using (SqlCommand cmd = new SqlCommand("Insert into TblFeeInstallmentAssignT(nFEEId, nINSSTALId, nINSTIId, nCLSId, nDIVId, nSTUDId, nAmount) VALUES(@nFEEId,@nINSSTALId,@nINSTIId,@nCLSId,@nDIVId,@nSTUDId,@nAmount)", con))
+            using (SqlCommand cmd = new SqlCommand("Insert into TblFeeAssignTemp(nFeeMasterId, nInstalmentId, nInstituteGrpId, nClassId, nDivisionId, nStudentId, nAmount) VALUES(@nFeeMasterId,@nInstalmentId,@nInstituteGrpId,@nClassId,@nDivisionId,@nStudentId,@nAmount)", con))
             {
                 con.Open();
-                cmd.Parameters.AddWithValue("@nFEEId", nFEEId);
-                cmd.Parameters.AddWithValue("@nINSSTALId", nINSSTALId);
-                cmd.Parameters.AddWithValue("@nINSTIId", nINSTIId);
-                cmd.Parameters.AddWithValue("@nCLSId", nCLSId);
-                cmd.Parameters.AddWithValue("@nDIVId", nDIVId);
-                cmd.Parameters.AddWithValue("@nSTUDId", nSTUDId);
+                cmd.Parameters.AddWithValue("@nFeeMasterId", nFEEId);
+                cmd.Parameters.AddWithValue("@nInstalmentId", nINSSTALId);
+                cmd.Parameters.AddWithValue("@nInstituteGrpId", nINSTIId);
+                cmd.Parameters.AddWithValue("@nClassId", nCLSId);
+                cmd.Parameters.AddWithValue("@nDivisionId", nDIVId);
+                cmd.Parameters.AddWithValue("@nStudentId", nSTUDId);
                 cmd.Parameters.AddWithValue("@nAmount", nAmount);
                 int i = cmd.ExecuteNonQuery();
                 con.Close();
@@ -348,7 +348,7 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
 
                 var FDT = lblMessage.Text;
                // var StudId = String.IsNullOrEmpty(CtrlGrdStudent.SelectedValue);
-                var StudId = CtrlGrdStudent.SelectedValue;
+                var StudId = CtrlGrdStudent.SelectedValue.ToString();
                 var Cov = e.Row.Cells[i].Text;
 
 
@@ -358,9 +358,9 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
 
                 // txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + CtrlGrdStudent.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
                
-                txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "')");
+                //txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "')");
 
-                //txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.ClientID + "','" + CtrlDueDate.ClientID + "','" + Cov + "')");
+                txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.ClientID + "','" + CtrlDueDate.ClientID + "')");
                 
                 CtrlFromDate.Attributes.Add("onclick", "DateGetF('"+ CtrlFromDate.ClientID  + "')");
                 // txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + FromDC.ClientID + "','" + FromDD.ClientID + "')");
@@ -453,7 +453,11 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
     }
 
 
-
+    protected void CtrlGrdStudent_SelectedValueChanged(object sender, EventArgs e)
+    {
+        var StdII = CtrlGrdStudent.SelectedValue;
+    }
+    
 
     protected void Button1_Click(object sender, EventArgs e)
     {
@@ -609,7 +613,7 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
 
         using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
         {
-            using (SqlCommand cmd = new SqlCommand("SPTestT", con))
+            using (SqlCommand cmd = new SqlCommand("SPTestT2", con))
             {
                 con.Open();
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -747,6 +751,8 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
         GrdVwFee.Rows[Convert.ToInt32(RowG)].Cells[Convert.ToInt32(ColumnG)].Text = amount.ToString();
         var CDSA = GrdVwFee.Rows[Convert.ToInt32(RowG)].Cells[Convert.ToInt32(ColumnG)].Text;
     }
+
+
 
 
 }

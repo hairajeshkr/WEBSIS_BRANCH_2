@@ -87,41 +87,73 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
     }
 
    
+
     [WebMethod]
-    public static string InsertData(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount)
+    public static string InsertData(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount, string iCmpId, string iBrId, string iFaId, string iAcId,string nAccLedgerId,string nOrderIndex)
     {
         string msg = string.Empty;
         //string VV = TId;
         //String STDDI = CtrlGrdStudent.SelectedValue;
-        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
-        {
-            using (SqlCommand cmd = new SqlCommand("Insert into TblFeeAssignTemp(nFeeMasterId, nInstalmentId, nInstituteGrpId, nClassId, nDivisionId, nStudentId, nAmount) VALUES(@nFeeMasterId,@nInstalmentId,@nInstituteGrpId,@nClassId,@nDivisionId,@nStudentId,@nAmount)", con))
-            {
+
+       
+
+        SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
+        
+           SqlCommand cmd = new SqlCommand("Insert into TblFeeAssignTemp(nFeeMasterId, nInstalmentId, nInstituteGrpId, nClassId, nDivisionId, nStudentId, nAmount,nCompanyId, nBranchId, nFaId,nAcId,nAccLedgerId,nOrderIndex) VALUES(" + nFEEId + ","+ nINSSTALId + ","+ nINSTIId + ","+ nCLSId + ","+ nDIVId + ","+ nSTUDId + ","+ nAmount + "," + iCmpId + "," + iBrId + "," + iFaId + "," + iAcId + "," + nAccLedgerId + "," + nOrderIndex + ")", con);
+            
                 con.Open();
-                cmd.Parameters.AddWithValue("@nFeeMasterId", nFEEId);
-                cmd.Parameters.AddWithValue("@nInstalmentId", nINSSTALId);
-                cmd.Parameters.AddWithValue("@nInstituteGrpId", nINSTIId);
-                cmd.Parameters.AddWithValue("@nClassId", nCLSId);
-                cmd.Parameters.AddWithValue("@nDivisionId", nDIVId);
-                cmd.Parameters.AddWithValue("@nStudentId", nSTUDId);
-                cmd.Parameters.AddWithValue("@nAmount", nAmount);
+                //cmd.Parameters.AddWithValue("@nFeeMasterId", nFEEId);
+                //cmd.Parameters.AddWithValue("@nInstalmentId", nINSSTALId);
+                //cmd.Parameters.AddWithValue("@nInstituteGrpId", nINSTIId);
+                //cmd.Parameters.AddWithValue("@nClassId", nCLSId);
+                //cmd.Parameters.AddWithValue("@nDivisionId", nDIVId);
+                //cmd.Parameters.AddWithValue("@nStudentId", nSTUDId);
+                //cmd.Parameters.AddWithValue("@nAmount", nAmount);
                 int i = cmd.ExecuteNonQuery();
                 con.Close();
-                if (i == 1)
-                {
-                    msg = "true";
-                }
-                else
-                {
-                    msg = "false";
-                }
-            }
+        if (i == 1)
+        {
+            msg = "true";
+        }
+        else
+        {
+            msg = "false";
         }
         return msg;
     }
 
 
-
+    //public static string InsertData(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount)
+    //{
+    //    string msg = string.Empty;
+    //    //string VV = TId;
+    //    //String STDDI = CtrlGrdStudent.SelectedValue;
+    //    using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+    //    {
+    //        using (SqlCommand cmd = new SqlCommand("Insert into TblFeeAssignTemp(nFeeMasterId, nInstalmentId, nInstituteGrpId, nClassId, nDivisionId, nStudentId, nAmount) VALUES(@nFeeMasterId,@nInstalmentId,@nInstituteGrpId,@nClassId,@nDivisionId,@nStudentId,@nAmount)", con))
+    //        {
+    //            con.Open();
+    //            cmd.Parameters.AddWithValue("@nFeeMasterId", nFEEId);
+    //            cmd.Parameters.AddWithValue("@nInstalmentId", nINSSTALId);
+    //            cmd.Parameters.AddWithValue("@nInstituteGrpId", nINSTIId);
+    //            cmd.Parameters.AddWithValue("@nClassId", nCLSId);
+    //            cmd.Parameters.AddWithValue("@nDivisionId", nDIVId);
+    //            cmd.Parameters.AddWithValue("@nStudentId", nSTUDId);
+    //            cmd.Parameters.AddWithValue("@nAmount", nAmount);
+    //            int i = cmd.ExecuteNonQuery();
+    //            con.Close();
+    //            if (i == 1)
+    //            {
+    //                msg = "true";
+    //            }
+    //            else
+    //            {
+    //                msg = "false";
+    //            }
+    //        }
+    //    }
+    //    return msg;
+    //}
 
 
     //public static string UpdateTble(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount, string TId)
@@ -198,7 +230,40 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
 
     public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        try
+        {
+            switch (((Button)sender).CommandName.ToString().ToUpper())
+            {
+                case "SAVE":
+                    switch (((Button)sender).CommandArgument.ToString().ToUpper())
+                    {
+                        case "NEW":
+                            using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+                            {
+                                using (SqlCommand cmd = new SqlCommand("ProInsertMainGrd", con))
+                                {
+                                    con.Open();
+                                    cmd.CommandType = CommandType.StoredProcedure;
+
+                                    int i = cmd.ExecuteNonQuery();
+                                    con.Close();
+
+                                }
+
+                            }
+                            break;
+                    }
+                    break;
+                case "FIND":
+                    FnFindRecord();
+                    break;
+                
+            }
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
     }
 
 
@@ -315,7 +380,10 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
             CtrlDate FromDC = (CtrlDate)e.Row.FindControl("CtrlFromDate");
             CtrlDate FromDD = (CtrlDate)e.Row.FindControl("CtrlDueDate");
 
+            int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
+
             
+
             for (int i = 4; i < e.Row.Cells.Count; i++)
             {
 
@@ -331,14 +399,19 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                 DataTable DDDR = ViewState["DT2"] as DataTable;
                 //txt.Text = Convert.ToString(DDDR.Rows[i][i]);
 
-                int RR = (e.Row.RowIndex)+1;
+               // int RR = (e.Row.RowIndex)+1;
+                int RR = (e.Row.RowIndex) ;
                 var LLL = txt.Text;
                 ViewState["DT1"] = GrdVwFee.DataSource;
                 DataTable DDD = ViewState["DT1"] as DataTable;
                 txt1.Text = Convert.ToString(DDD.Rows[0][i]);
                 //var INSSS = GrdVwFee.HeaderRow.Cells[1].Text;
 
+                string strsqlAc = "SELECT nAccLedgerId FROM TblFeeMaster WHERE nId=" + txt1.Text;
+                var nAccLedgerId = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(strsqlAc).ToString());
 
+                string strsqlOi = "SELECT nOrderIndex FROM TblFeeMaster WHERE nId=" + txt1.Text;
+                var nOrderIndex = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(strsqlOi).ToString());
 
                 var INSSS = e.Row.Cells[0].Text;
                 var INSSSN = e.Row.Cells[1].Text;
@@ -351,16 +424,17 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                 var StudId = CtrlGrdStudent.SelectedValue.ToString();
                 var Cov = e.Row.Cells[i].Text;
 
+               
 
                 //txt.Attributes.Add("onkeyup", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID  + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
                 // GrdVwFee.Attributes.Add("onbind", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
                 // txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + TxtGrp.ClientID + "','" + TxtCls.ClientID + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
 
                 // txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + CtrlGrdStudent.ClientID + "','" + txt1.ClientID + "','" + RR + "')");
-               
+
                 //txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "')");
 
-                txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.ClientID + "','" + CtrlDueDate.ClientID + "')");
+                txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.ClientID + "','" + CtrlDueDate.ClientID + "','" + iCmpId + "','" + iBrId + "','" + iFaId + "','" + iAcId + "','" + nAccLedgerId + "','" + nOrderIndex + "')");
                 
                 CtrlFromDate.Attributes.Add("onclick", "DateGetF('"+ CtrlFromDate.ClientID  + "')");
                 // txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + FromDC.ClientID + "','" + FromDD.ClientID + "')");
@@ -641,22 +715,47 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
 
 
 
+    public void InsertMainGrd()
+    {
+        string msg = string.Empty;
+        //string VV = TId;
+        DataTable DDT = new DataTable();
 
+        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+        {
+            using (SqlCommand cmd = new SqlCommand("ProInsertMainGrd", con))
+            {
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@EmptableT", DDD);
+                //cmd.Parameters.AddWithValue("@nINSTIId", nINSTIId);
+                //cmd.Parameters.AddWithValue("@nCLSId", nCLSId);
+                //cmd.Parameters.AddWithValue("@nDIVId", nDIVId);
+                int i = cmd.ExecuteNonQuery();
+                con.Close();
+                //using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                //{
+                //    da.Fill(DDT);
+                //}
+            }
+
+
+
+            //GrdVwFee.DataSource = DDT;
+            //GrdVwFee.DataBind();
+            //ViewState["DT2"] = DDT;
+        }
+
+
+    }
 
     protected void CmdSave_Click(object sender, EventArgs e)
     {
         DataTable DD1D = ViewState["DT1"] as DataTable;
 
-               
 
-        foreach (GridViewRow row in GrdVwFee.Rows)
-        {
-            for (int j = 4; j <= GrdVwFee.Rows[0].Cells.Count - 1; j++)
-            {
-                //TextBox AmountT = (TextBox)GrdVwFee.Rows.Cells[j].FindControl("txtD");
-            }
+        InsertMainGrd();
 
-        }
 
             TextBox AmountTv = null;
 
@@ -751,6 +850,18 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
         GrdVwFee.Rows[Convert.ToInt32(RowG)].Cells[Convert.ToInt32(ColumnG)].Text = amount.ToString();
         var CDSA = GrdVwFee.Rows[Convert.ToInt32(RowG)].Cells[Convert.ToInt32(ColumnG)].Text;
     }
+
+
+
+
+
+    protected void CmdSave_Click1(object sender, EventArgs e)
+    {
+        InsertMainGrd();
+    }
+
+
+
 
 
 

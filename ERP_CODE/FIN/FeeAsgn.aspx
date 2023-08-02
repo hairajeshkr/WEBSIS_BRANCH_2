@@ -104,9 +104,9 @@
 
 
 
-
+                                            //'" + iCmpId + "', '" + iBrId + "', '" + iFaId + "', '" + iAcId + "'
                                             //function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI) {
-                                                function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI, CtrlFDate, CtrlDuDate) {
+                                            function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI, CtrlFDate, CtrlDuDate, iCmpId, iBrId, iFaId, iAcId, nAccLedgerId, nOrderIndex) {
 
                                                     //alert(CtrlFDate);
                                                     ////var FromDate = document.getElementById(CtrlFDate).value;
@@ -115,6 +115,8 @@
                                                     //var FromDate = document.getElementsById(CtrlFDate);
                                                     //alert(FromDate.value);
 
+                                               // alert(ACCH);
+                                                alert(GRI);
                                                     var txtName = document.getElementById(ID);
                                                 //var DrpInstitute = document.getElementById(INS);
                                                 var DrpInstitute = INS;
@@ -122,12 +124,12 @@
                                                 var DrpClass = CLS;
                                                 //var DrpDivision = document.getElementById(DIV);
                                                     var DrpDivision = DIV;
-                                                    alert(GRDR);
+                                                    //alert(GRDR);
                                                     //var GGG = document.getElementsById(GRDR);
                                                     var GGG = GRDR;
                                                    // var GGG = document.getElementById('<%= CtrlGrdStudent.ClientID %>');
                                                 var FEEG = document.getElementById(GRDFEE);
-                                                    alert(GGG);
+                                                    //alert(GGG);
                                                 ID.textContent = txtName.value;
                                                 //alert(ID.CellValue);
                                                 var grd = document.getElementById('<%= GrdVwFee.ClientID %>');
@@ -135,7 +137,7 @@
                                                 var ri = GRI;
                                                 var CellValue = grd.rows[ri].cells[0].childNodes[0].textContent;
                                                 //var CDD = grd.rows[1].cells.count;
-
+                                                alert(CellValue);
                                                // alert(CtrlFDate);
 
                                                 //var FromDate = document.getElementById(CtrlFDate);
@@ -153,7 +155,7 @@
                                                     type: "POST",
                                                     contentType: "application/json; charset=utf-8",
                                                     url: "FeeAsgn.aspx/InsertData",
-                                                    data: "{'nFEEId':'" + FEEG.value + "','nINSSTALId':'" + CellValue + "','nINSTIId':'" + DrpInstitute + "','nCLSId':'" + DrpClass + "','nDIVId':'" + DrpDivision + "','nSTUDId':'" + GGG + "','nAmount':'" + txtName.value + "'}",
+                                                    data: "{'nFEEId':'" + FEEG.value + "','nINSSTALId':'" + CellValue + "','nINSTIId':'" + DrpInstitute + "','nCLSId':'" + DrpClass + "','nDIVId':'" + DrpDivision + "','nSTUDId':'" + GGG + "','nAmount':'" + txtName.value + "','iCmpId':'" + iCmpId + "','iBrId':'" + iBrId + "','iFaId':'" + iFaId + "','iAcId':'" + iAcId + "','nAccLedgerId':'" + nAccLedgerId + "','nOrderIndex':'" + nOrderIndex + "'}",
                                                     dataType: "json",
                                                     success: function (data) {
                                                         var obj = data.d;
@@ -163,8 +165,14 @@
                                                             $('#nINSTIId').val('');
                                                             $('#nCLSId').val('');
                                                             $('#nDIVId').val('');
-                                                            $('#nSTUDId').val(0);
+                                                            $('#nSTUDId').val('');
                                                             $('#nAmount').val('');
+                                                            $('#iCmpId').val('');
+                                                            $('#iBrId').val('');
+                                                            $('#iFaId').val('');
+                                                            $('#iAcId').val('');
+                                                            $('#nAccLedgerId').val('');
+                                                            $('#nOrderIndex').val('');
                                                             $('#lblmsg').html("Details Submitted Successfully");
                                                             //window.location.reload();
                                                         }
@@ -246,7 +254,7 @@
                                 <tr>
 
                                     <td>
-                                    <asp:Button ID="CmdSave" runat="server" Text="Save Data" OnClick="CmdSave_Click" />
+                                    <asp:Button ID="CmdSave" runat="server" Text="Save Data" onclick="CmdSave_Click1"/>
                                 </td>
                                     <td align="center" class="FooterCommand" colspan="5" valign="middle">
                                         <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />

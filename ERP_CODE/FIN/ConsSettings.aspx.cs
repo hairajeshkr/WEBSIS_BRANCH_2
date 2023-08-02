@@ -13,7 +13,7 @@ using System.Web.Services;
 
 public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 {
-    ClsFeeInstallmentMaster ObjCls = new ClsFeeInstallmentMaster();
+    ClsFeeMaster ObjCls = new ClsFeeMaster();
     ClsDropdownRecordList objLst = new ClsDropdownRecordList();
 
     public String GRDS;
@@ -88,23 +88,14 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
 
     [WebMethod]
-    public static string InsertData(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount)
+    public static string InsertData(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount,int AcId,int BrId,int CmpId,int FaId,int AccLedgerId,int OrderIndex)
     {
         string msg = string.Empty;
-        //string VV = TId;
-
-        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
-        {
-            using (SqlCommand cmd = new SqlCommand("Insert into TblFeeInstallmentAssignT(nFeeMasterId, nINSSTALId, nINSTIId, nCLSId, nDIVId, nSTUDId, nAmount) VALUES(@nFEEId,@nINSSTALId,@nINSTIId,@nCLSId,@nDIVId,@nSTUDId,@nAmount)", con))
-            {
+            
+            SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
+            SqlCommand cmd = new SqlCommand("Insert into TblFeeConcessionAssignTemp(nFeeMasterId, nInstalmentId, nInstituteGrpId, nClassId, nDivisionId, nStudentId, nAmount,nAcId,nBranchId,nAccCmpId,nFaId,nAccLedgerId,nOrderIndex) VALUES(" + nFEEId + "," + nINSSTALId + "," + nINSTIId + "," + nCLSId + "," + nDIVId + "," + nSTUDId + "," + nAmount + ","+AcId+","+BrId+","+CmpId+","+FaId+","+AccLedgerId+ "," + OrderIndex + ")", con);
+            
                 con.Open();
-                cmd.Parameters.AddWithValue("@nFEEId", nFEEId);
-                cmd.Parameters.AddWithValue("@nINSSTALId", nINSSTALId);
-                cmd.Parameters.AddWithValue("@nINSTIId", nINSTIId);
-                cmd.Parameters.AddWithValue("@nCLSId", nCLSId);
-                cmd.Parameters.AddWithValue("@nDIVId", nDIVId);
-                cmd.Parameters.AddWithValue("@nSTUDId", nSTUDId);
-                cmd.Parameters.AddWithValue("@nAmount", nAmount);
                 int i = cmd.ExecuteNonQuery();
                 con.Close();
                 if (i == 1)
@@ -115,37 +106,11 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
                 {
                     msg = "false";
                 }
-            }
-        }
+            
+        
         return msg;
     }
 
-
-
-
-
-    //public static string UpdateTble(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount, string TId)
-    //{
-    //    string msg = string.Empty;
-    //    string VV = TId;
-
-    //    //ViewState["DT2"] = GrdVwFee.DataSource;
-    //   // DataTable DDD = ViewState["DT2"] as DataTable;
-
-    //    using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
-    //    {
-    //        using (SqlCommand cmd = new SqlCommand("Insert_Customers"))
-    //        {
-    //            cmd.CommandType = CommandType.StoredProcedure;
-    //            cmd.Connection = con;
-    //            cmd.Parameters.AddWithValue("@tblCustomers", dt);
-    //            con.Open();
-    //            cmd.ExecuteNonQuery();
-    //            con.Close();
-    //        }
-    //    }
-    //    return msg;
-    //}
 
 
 
@@ -196,19 +161,55 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
         throw new NotImplementedException();
     }
 
+    //public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
+    //{
+    //    throw new NotImplementedException();
+    //}
+
+
+    //protected void BtnFind_Click(object sender, EventArgs e)
+    //{
+    //    //FnFindRecord();
+    //    // GrdVwRecords.Focus()
+    //    //fillInstallment();
+    //}
     public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        try
+        {
+            switch (((Button)sender).CommandName.ToString().ToUpper())
+            {
+                case "SAVE":
+                    switch (((Button)sender).CommandArgument.ToString().ToUpper())
+                    {
+                        case "NEW":
+                            using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+                            {
+                                using (SqlCommand cmd = new SqlCommand("ProInsertMainGrd", con))
+                                {
+                                    con.Open();
+                                    cmd.CommandType = CommandType.StoredProcedure;
+
+                                    int i = cmd.ExecuteNonQuery();
+                                    con.Close();
+
+                                }
+
+                            }
+                            break;
+                    }
+                    break;
+                case "FIND":
+                    FnFindRecord();
+                    break;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
     }
-
-
-    protected void BtnFind_Click(object sender, EventArgs e)
-    {
-        //FnFindRecord();
-        // GrdVwRecords.Focus()
-        //fillInstallment();
-    }
-
     public void fillInstallment()
     {
         //DataTable ClsTGF = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
@@ -310,6 +311,8 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
             CtrlDate CtrlDueDate = (CtrlDate)LoadControl("~/CtrlDate.ascx");
             e.Row.Cells[3].Controls.Add(CtrlDueDate);
 
+            int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
+
 
             for (int i = 4; i < e.Row.Cells.Count; i++)
             {
@@ -317,23 +320,25 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
                 System.Web.UI.WebControls.TextBox txt = new System.Web.UI.WebControls.TextBox() { ID = "txtDynamic" + i };
                 e.Row.Cells[i].Controls.Add(txt);
 
-
-
-
                 System.Web.UI.WebControls.TextBox txt1 = new System.Web.UI.WebControls.TextBox() { ID = "T" + i };
                 e.Row.Cells[i].Controls.Add(txt1);
-
 
                 DataTable DDDR = ViewState["DT2"] as DataTable;
                 //txt.Text = Convert.ToString(DDDR.Rows[i][i]);
 
-                int RR = (e.Row.RowIndex) + 1;
+                int RR = e.Row.RowIndex;
                 var LLL = txt.Text;
                 ViewState["DT1"] = GrdVwFee.DataSource;
                 DataTable DDD = ViewState["DT1"] as DataTable;
                 txt1.Text = Convert.ToString(DDD.Rows[0][i]);
                 //var INSSS = GrdVwFee.HeaderRow.Cells[1].Text;
 
+                string sqlquery = "select nAccLedgerId from TblFeeMaster where nId=" + txt1.Text;
+                int accledgerid = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery).ToString());
+
+
+                string sqlquery2= "select nOrderIndex from TblFeeMaster where nId=" + txt1.Text;
+                int OrderIndex = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery2).ToString());
 
 
                 var INSSS = e.Row.Cells[0].Text;
@@ -348,9 +353,9 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
                 //var date1 = CtrlFromDate.ClientID;
 
-                //txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "')");
+                txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','"+ iAcId +"','"+ iBrId +"','" +iCmpId+ "','"+ iFaId+ "','"+accledgerid+ "','" + OrderIndex + "')");
 
-                txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.ID+ "','" + CtrlDueDate.ID+ "')");
+                //txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.ID+ "','" + CtrlDueDate.ID+ "')");
                 
             }
             
@@ -362,119 +367,7 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
     }
 
-    private EventHandler txtDynamic_TextChanged()
-    {
-        throw new NotImplementedException();
 
-    }
-
-    protected void txtDynamic_TextChanged(object sender, EventArgs e)
-    {
-        var Column1TextBoxes = Request.Form.AllKeys.Where(k => k.Contains("txtDynamic")).ToList();
-        for (int i = 0; i < Column1TextBoxes.Count; i++)
-        {
-            string value = Request.Form[Column1TextBoxes[i]]; // Textbox values
-        }
-    }
-
-    protected void GrdVwFee_RowUpdating(object sender, GridViewUpdatedEventArgs e)
-    {
-        var Column1TextBoxes = Request.Form.AllKeys.Where(k => k.Contains("txtDynamic")).ToList();
-        for (int i = 0; i < Column1TextBoxes.Count; i++)
-        {
-            string value = Request.Form[Column1TextBoxes[i]]; // Textbox values
-        }
-
-    }
-
-    protected void GrdVwFee_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
-    {
-
-        var item = GrdVwFee.SelectedRow.Cells[1].Text;
-        ///lblMessage.Text = item.ToString();
-
-    }
-
-    protected void GrdVwFee_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-
-        string commandName = e.CommandName;
-        int rowIndex = Convert.ToInt32(e.CommandName);
-        GridViewRow row = GrdVwFee.Rows[rowIndex];
-        //System.Web.UI.WebControls.TextBox txt = row.FindControl("TextBox1") as System.Web.UI.WebControls.TextBox;
-
-        //if (txt != null)
-        //{
-
-        //}
-        //string value = Request.Form[rowIndex];
-
-
-        string Cat_name = (GrdVwFee.Rows[rowIndex].FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1") as TextBox).Text;
-
-    }
-
-
-
-    protected override void Render(HtmlTextWriter writer)
-    {
-        foreach (GridViewRow r in GrdVwFee.Rows)
-        {
-            if (r.RowType == DataControlRowType.DataRow)
-            {
-                for (int columnIndex = 0; columnIndex <
-                    r.Cells.Count; columnIndex++)
-                {
-                    Page.ClientScript.RegisterForEventValidation(
-                        r.UniqueID + "$ctl00", columnIndex.ToString());
-                }
-            }
-        }
-
-        base.Render(writer);
-
-    }
-
-
-    protected void GrdVwFee_RowUpdated(object sender, GridViewUpdatedEventArgs e)
-    {
-        if (e.AffectedRows < 1)
-        {
-            e.KeepInEditMode = true;
-        }
-
-    }
-
-
-
-
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        var Column1TextBoxes = Request.Form.AllKeys.Where(k => k.Contains("txtDynamic")).ToList();
-        for (int i = 0; i < Column1TextBoxes.Count; i++)
-        {
-            string value = Request.Form[Column1TextBoxes[i]]; // Textbox values
-        }
-    }
-
-    protected void GrdVwFee_RowUpdating1(object sender, GridViewUpdateEventArgs e)
-    {
-        var Column1TextBoxes = Request.Form.AllKeys.Where(k => k.Contains("txtDynamic")).ToList();
-        for (int i = 0; i < Column1TextBoxes.Count; i++)
-        {
-            string value = Request.Form[Column1TextBoxes[i]]; // Textbox values
-        }
-    }
-
-    protected void GrdVwFee_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        var Column1TextBoxes = Request.Form.AllKeys.Where(k => k.Contains("txtDynamic")).ToList();
-        for (int i = 0; i < Column1TextBoxes.Count; i++)
-        {
-            string value = Request.Form[Column1TextBoxes[i]]; // Textbox values
-        }
-
-    }
 
     protected void TreeView1_SelectedNodeChanged(object sender, EventArgs e)
     {
@@ -632,172 +525,7 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
 
 
-    protected void CmdSave_Click(object sender, EventArgs e)
-    {
-        DataTable DD1D = ViewState["DT1"] as DataTable;
-
-
-
-        //foreach (GridViewRow row in GrdVwFee.Rows)
-
-        //{
-
-        //    // Selects the text from the TextBox which is inside the GridView control
-
-        //    string textBoxText = ((TextBox)row.FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1")).Text;
-
-        //    //Response.Write(textBoxText);
-
-
-
-        //}
-
-
-
-        //    foreach (GridViewRow row in GrdVwFee.Rows)
-        //    {
-
-        //    TextBox tb = row.FindControl("txtDynamic4_1") as TextBox;
-
-        //    //string textBoxText = ((TextBox)row.FindControl("txt")).Text;
-        //    //string textBoxText1 = ((TextBox)row.FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1")).Text;
-
-
-        //    //foreach (Control c in row.Cells[4].Controls)
-        //    //{
-        //    //    TextBox txtDate = c as TextBox;
-        //    //    if (txtDate != null)
-        //    //    {
-        //    //        string data = txtDate.Text;
-        //    //    }
-        //    //}
-
-
-        //}
-
-
-        foreach (GridViewRow row in GrdVwFee.Rows)
-        {
-            for (int j = 4; j <= GrdVwFee.Rows[0].Cells.Count - 1; j++)
-            {
-                //TextBox AmountT = (TextBox)GrdVwFee.Rows.Cells[j].FindControl("txtD");
-            }
-
-        }
-
-
-
-
-
-
-        TextBox AmountTv = null;
-
-        for (int i = 1; i <= GrdVwFee.Rows.Count - 1; i++)
-        {
-            for (int j = 4; j <= GrdVwFee.Rows[0].Cells.Count - 1; j++)
-            {
-
-                // txt1.Text = Convert.ToString(DDD.Rows[0][i]);
-                var FFEID = GrdVwFee.Rows[0].Cells[j].Text;
-                var INSTLID = GrdVwFee.Rows[i].Cells[0].Text;
-                var INSTIId = CtrlGrdInstitute.SelectedValue;
-                var CLSId = CtrlGrdClass.SelectedValue;
-                var DIVId = CtrlGrdDiv.SelectedValue;
-                var STUDId = CtrlGrdStudent.SelectedValue;
-                //cmd.Parameters.AddWithValue("@nAmount", 1);
-
-                var TTTv = GrdVwFee.Rows[i].Cells[j].Text;
-                //TestControl objTestControl = (TestControl)Page.FindControl("TestControl");
-                //TextBox objTextBox = objTestControl.FindControl("txtFirstName");
-                //string strFirstName = objTextBox.Text;
-
-                //System.Web.UI.WebControls.TextBox txt = new System.Web.UI.WebControls.TextBox() { ID = "txtDynamic" + j };
-
-                //TextBox AmountT  = (TextBox)GrdVwFee.Rows[i].FindControl("txtDynamic"+ j);
-
-                //TextBox AmountT = (TextBox)GrdVwFee.Rows[i].FindControl("txt");
-
-
-                //object value = this.GrdVwFee.
-
-                object value = this.GrdVwFee.Rows[i].Cells[j].Text;
-                ///  string text = (string)TextBox.text(value);
-
-
-
-                TextBox messageT = GrdVwFee.NamingContainer.FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1") as TextBox;
-
-                // string message = (GrdVwFee.NamingContainer.FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1") as TextBox).Text.Trim();
-
-
-                //CtrlDate CtrlFromDate = (CtrlDate)LoadControl("~/CtrlDate.ascx");
-                //CtrlDate CTDDS = (CtrlDate)GrdVwFee.Rows[i].Cells[2].FindControl("CtrlFromDate");
-                CtrlDate CTDDS = (CtrlDate)GrdVwFee.Rows[i].FindControl("CtrlFromDate");
-                //txtDynamic
-                TextBox AmountT = (TextBox)GrdVwFee.Rows[i].Cells[j].FindControl("txtD");
-                // TextBox AmountT = (TextBox)GrdVwFee.Rows[i].Cells[j].FindControl("txtDynamic" + j + "_" + i);
-                //TextBox AmountT = (TextBox)GrdVwFee.Rows[i].Cells[j].FindControl("txtDynamic"+ j );
-
-                AmountTv = (TextBox)GrdVwFee.Rows[i].Cells[j].FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1");
-
-                TextBox AmountT1 = (TextBox)GrdVwFee.Rows[i].Cells[j].FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1");
-
-                TextBox AmountT2 = (TextBox)GrdVwFee.Rows[i].FindControl("ContentPlaceHolder1_TabContainer1_TabPanel2_GrdVwFee_txtDynamic4_1");
-                //string temp1 = AmountT.Text;
-
-                //int Amount = Convert.ToInt32(((GrdVwFee.Rows[i].Cells[j].Text) != null) ? (GrdVwFee.Rows[i].Cells[j].Text) : 0);
-
-                //string empName = ((GrdVwFee.Rows[i].Cells[j].Text) != null) ? (GrdVwFee.Rows[i].Cells[j].Text) : 0;
-                // InsertDataRow(FFEID, INSTLID, INSTIId, CLSId, DIVId, STUDId, Amount);
-
-            }
-        }
-
-
-
-
-    }
-
-
-    public static string InsertDataRow(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, int nAmount)
-    {
-        string msg = string.Empty;
-        //string VV = TId;
-
-
-
-        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
-        {
-            using (SqlCommand cmd = new SqlCommand("Insert into TblFeeInstallmentAssignT(nFEEId, nINSSTALId, nINSTIId, nCLSId, nDIVId, nSTUDId, nAmount) VALUES(@nFEEId,@nINSSTALId,@nINSTIId,@nCLSId,@nDIVId,@nSTUDId,@nAmount)", con))
-            {
-                con.Open();
-                cmd.Parameters.AddWithValue("@nFEEId", nFEEId);
-                cmd.Parameters.AddWithValue("@nINSSTALId", nINSSTALId);
-                cmd.Parameters.AddWithValue("@nINSTIId", nINSTIId);
-                cmd.Parameters.AddWithValue("@nCLSId", nCLSId);
-                cmd.Parameters.AddWithValue("@nDIVId", nDIVId);
-                cmd.Parameters.AddWithValue("@nSTUDId", nSTUDId);
-                cmd.Parameters.AddWithValue("@nAmount", nAmount);
-                int i = cmd.ExecuteNonQuery();
-                con.Close();
-                if (i == 1)
-                {
-                    msg = "true";
-                }
-                else
-                {
-                    msg = "false";
-                }
-            }
-        }
-        return msg;
-    }
-
-    public void UpdateGridcell(string amount, int RowG, string ColumnG)
-    {
-        GrdVwFee.Rows[Convert.ToInt32(RowG)].Cells[Convert.ToInt32(ColumnG)].Text = amount.ToString();
-        var CDSA = GrdVwFee.Rows[Convert.ToInt32(RowG)].Cells[Convert.ToInt32(ColumnG)].Text;
-    }
-
+    
+   
 
 }

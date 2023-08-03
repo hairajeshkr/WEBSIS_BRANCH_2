@@ -32,7 +32,7 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
                 DataTable ClsTD = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='INGRP'") as DataSet).Tables[0];
                 this.PopulateTreeView(ClsTD, icount, null);
-                fillInstallment();
+                FnFillInstallment();
             }
             CtrlGrdClass.ParentControl = CtrlGrdInstitute.IdControl;
             CtrlGrdDiv.ParentControl = CtrlGrdClass.IdControl;
@@ -60,7 +60,7 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
             if (ParentId == 0)
             {
-                TreeView1.Nodes.Add(tnode);
+                TreVwLst.Nodes.Add(tnode);
                 DataTable dtChild = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nClassId  where TCD.cttype='CLS' and TCD.nParentId= " + tnode.Value) as DataSet).Tables[0];
                 VS = 1;
                 this.PopulateTreeView(dtChild, VS, tnode);
@@ -72,13 +72,6 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
                 VS = 2;
                 PopulateTreeView(dtChild1, VS, tnode);
             }
-            //else if (ParentId == 2)
-            //{
-            //    treeNode.ChildNodes.Add(tnode);
-            //    DataTable dtChild2 = (ObjCls.FnGetDataSet("select  TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId=SAD.nStudentId where SAD.nDivisionId= " + tnode.Value) as DataSet).Tables[0];
-            //    VS = 3;
-            //    PopulateTreeView(dtChild2, VS, tnode);
-            //}
             else
             {
                 treeNode.ChildNodes.Add(tnode);
@@ -119,7 +112,7 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
     {
         TabContainer1.ActiveTabIndex = 0;
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
-        FnGridViewBinding("");
+        //FnGridViewBinding("");
         // fillInstallment();
     }
 
@@ -137,10 +130,10 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
     public void FnFindRecord()
     {
-        base.FnAssignProperty(ObjCls);
-        FnFindRecord(ObjCls);
-        FnGridViewBinding("");
-        TabContainer1.ActiveTabIndex = 1;
+       // base.FnAssignProperty(ObjCls);
+       // FnFindRecord(ObjCls);
+        //FnGridViewBinding("");
+        //TabContainer1.ActiveTabIndex = 1;
     }
 
     public object FnGetGridRowCount(string PrmFlag)
@@ -150,29 +143,16 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
     public void FnGridViewBinding(string PrmFlag)
     {
-        //GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
-        //GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
-        //GrdVwRecords.DataBind();
-        //GrdVwRecords.SelectedIndex = -1;
+        GrdVwFee.DataSource = ViewState["DT"] as DataTable;
+        GrdVwFee.DataKeyNames = new String[] { ObjCls.KeyName };
+        GrdVwFee.DataBind();
+        GrdVwFee.SelectedIndex = -1;
     }
 
     public void FnPrintRecord()
     {
         throw new NotImplementedException();
     }
-
-    //public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
-    //{
-    //    throw new NotImplementedException();
-    //}
-
-
-    //protected void BtnFind_Click(object sender, EventArgs e)
-    //{
-    //    //FnFindRecord();
-    //    // GrdVwRecords.Focus()
-    //    //fillInstallment();
-    //}
     public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
     {
         try
@@ -198,6 +178,7 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
                             }
                             break;
                     }
+                    FnFillInstallment();
                     break;
                 case "FIND":
                     FnFindRecord();
@@ -210,15 +191,15 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-    public void fillInstallment()
+    public void FnFillInstallment()
     {
         //DataTable ClsTGF = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
-        DataTable ClsTGF = (ObjCls.FnGetDataSet("SELECT nId,cName, CONVERT(varchar,GETDATE(),106) FromDate, CONVERT(varchar,GETDATE(),106) DueDate  FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
+        DataTable DTInstallment = (ObjCls.FnGetDataSet("SELECT nId,cName, CONVERT(varchar,GETDATE(),106) FromDate, CONVERT(varchar,GETDATE(),106) DueDate  FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
         //DataTable ClsTGFM = (ObjCls.FnGetDataSet("SELECT cName + cast(nId as char)  FROM TblFeeMaster") as DataSet).Tables[0];
-        DataTable ClsTGFM = (ObjCls.FnGetDataSet("SELECT cName  FROM TblFeeMaster") as DataSet).Tables[0];
-        DataTable ClsTGFMC = (ObjCls.FnGetDataSet("SELECT nId FROM TblFeeMaster") as DataSet).Tables[0];
+        DataTable DTFeeName = (ObjCls.FnGetDataSet("SELECT cName  FROM TblFeeMaster") as DataSet).Tables[0];
+        DataTable DTFeeId = (ObjCls.FnGetDataSet("SELECT nId FROM TblFeeMaster") as DataSet).Tables[0];
 
-        GrdVwFee.DataSource = FlipDataTable(ClsTGFM, ClsTGF, ClsTGFMC);
+        GrdVwFee.DataSource = FnFlipDataTable(DTFeeName, DTInstallment, DTFeeId);
         GrdVwFee.DataBind();
         GrdVwFee.Rows[0].Visible = false;
 
@@ -229,17 +210,10 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
 
 
-
-
-
-
-
-
-
-
-    public static DataTable FlipDataTable(DataTable dt, DataTable dt1, DataTable dt2)
+    public static DataTable FnFlipDataTable(DataTable DTFeeName, DataTable DTInstallment, DataTable DTFeeId)
 
     {
+        int j = 0, i = 0, k = 0,h=0;
         DataRow dr;
         DataTable table = new DataTable();
         table.Columns.Add(Convert.ToString("nId"));
@@ -247,32 +221,27 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
         table.Columns.Add(Convert.ToString("FromDate"));
         table.Columns.Add(Convert.ToString("DueDate"));
         //Get all the rows and change into columns
-        for (int j = 0; j < dt.Columns.Count; j++)
+        for (j = 0; j < DTFeeName.Columns.Count; j++)
         {
             dr = table.NewRow();
-            for (int i = 0; i <= (dt.Rows.Count - 1); i++)
+            for (i = 0; i <= (DTFeeName.Rows.Count - 1); i++)
             {
-                table.Columns.Add(Convert.ToString(dt.Rows[i][j]));
+                table.Columns.Add(Convert.ToString(DTFeeName.Rows[i][j]));
             }
         }
 
         //get all the columns and make it as rows
-        for (int j = 0; j < 1; j++)
+        for (j = 0; j < 1; j++)
         {
             dr = table.NewRow();
-            //dr = table.NewRow();
             table.Rows.Add(Convert.ToString(0));
-            for (int k = 1; k <= dt1.Rows.Count; k++)
+            for (k = 1; k <= DTInstallment.Rows.Count; k++)
             {
-                //table.Rows.Add(Convert.ToString(0));
-                table.Rows.Add(Convert.ToString(dt1.Rows[k - 1][j]));
-                //table.Rows.Add(Convert.ToString(dt1.Rows[k][j]));
-                var VD = (dt1.Rows[k - 1][j]).ToString();
-                var VD1 = (dt1.Rows[k - 1][1]).ToString();
-                var VD2 = (dt1.Rows[k - 1][2]).ToString();
-                var VD3 = (dt1.Rows[k - 1][3]).ToString();
-                //get feecode from table and assign to next line
-                //table.Rows[k - 1][1] = VD1;
+                table.Rows.Add(Convert.ToString(DTInstallment.Rows[k - 1][j]));
+                var VD = (DTInstallment.Rows[k - 1][j]).ToString();
+                var VD1 = (DTInstallment.Rows[k - 1][1]).ToString();
+                var VD2 = (DTInstallment.Rows[k - 1][2]).ToString();
+                var VD3 = (DTInstallment.Rows[k - 1][3]).ToString();
                 table.Rows[k][1] = VD1;
                 table.Rows[k][2] = VD2;
                 table.Rows[k][3] = VD3;
@@ -280,15 +249,10 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
 
 
-            for (int h = 1; h <= dt2.Rows.Count; h++)
+            for (h = 1; h <= DTFeeId.Rows.Count; h++)
             {
 
-                //table.Rows.Add(Convert.ToString(dt1.Rows[k - 1][j]));
-
-                var VD2 = (dt2.Rows[h - 1][j]).ToString();
-                //var VD1 = (dt1.Rows[k - 1][1]).ToString();
-
-                // table.Rows[0][h+1] = VD2;
+                var VD2 = (DTFeeId.Rows[h - 1][j]).ToString();
                 table.Rows[0][h + 3] = VD2;
             }
 
@@ -313,49 +277,41 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
             int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
 
+            var InsGrpId = lblGrpId.Text;
+            var ClsId = lblClsId.Text;
+            var DivId = lblDivId.Text;
+
+            var StudId = CtrlGrdStudent.SelectedValue;
+
+            ViewState["DT1"] = GrdVwFee.DataSource;
+            DataTable DDD = ViewState["DT1"] as DataTable;
+
+
 
             for (int i = 4; i < e.Row.Cells.Count; i++)
             {
 
-                System.Web.UI.WebControls.TextBox txt = new System.Web.UI.WebControls.TextBox() { ID = "txtDynamic" + i };
-                e.Row.Cells[i].Controls.Add(txt);
-
-                System.Web.UI.WebControls.TextBox txt1 = new System.Web.UI.WebControls.TextBox() { ID = "T" + i };
-                e.Row.Cells[i].Controls.Add(txt1);
-
-                DataTable DDDR = ViewState["DT2"] as DataTable;
-                //txt.Text = Convert.ToString(DDDR.Rows[i][i]);
-
-                int RR = e.Row.RowIndex;
-                var LLL = txt.Text;
-                ViewState["DT1"] = GrdVwFee.DataSource;
-                DataTable DDD = ViewState["DT1"] as DataTable;
-                txt1.Text = Convert.ToString(DDD.Rows[0][i]);
-                //var INSSS = GrdVwFee.HeaderRow.Cells[1].Text;
-
-                string sqlquery = "select nAccLedgerId from TblFeeMaster where nId=" + txt1.Text;
-                int accledgerid = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery).ToString());
+                System.Web.UI.WebControls.TextBox TxtAmount = new System.Web.UI.WebControls.TextBox() { ID = "txtDynamic" + i };
+                e.Row.Cells[i].Controls.Add(TxtAmount);
 
 
-                string sqlquery2= "select nOrderIndex from TblFeeMaster where nId=" + txt1.Text;
+                int RowIndx = e.Row.RowIndex;
+                
+                
+                var FeeId = Convert.ToString(DDD.Rows[0][i]);
+               
+
+                string sqlquery = "select nAccLedgerId from TblFeeMaster where nId=" + FeeId;
+                int AccLedgerId = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery).ToString());
+
+
+                string sqlquery2= "select nOrderIndex from TblFeeMaster where nId=" + FeeId;
                 int OrderIndex = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery2).ToString());
 
 
-                var INSSS = e.Row.Cells[0].Text;
-                var INSSSN = e.Row.Cells[1].Text;
-                var GrpId = lblGrpId.Text;
-                var ClsId = lblClsId.Text;
-                var DivId = lblDivId.Text;
+                TxtAmount.Attributes.Add("onchange", "Myfunction('" + TxtAmount.ClientID + "','" + InsGrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + FeeId + "','" + RowIndx + "','"+ iAcId +"','"+ iBrId +"','" +iCmpId+ "','"+ iFaId+ "','"+ AccLedgerId + "','" + OrderIndex + "')");
 
-                var FDT = lblMessage.Text;
-                // var StudId = String.IsNullOrEmpty(CtrlGrdStudent.SelectedValue);
-                var StudId = CtrlGrdStudent.SelectedValue;
-
-                //var date1 = CtrlFromDate.ClientID;
-
-                txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','"+ iAcId +"','"+ iBrId +"','" +iCmpId+ "','"+ iFaId+ "','"+accledgerid+ "','" + OrderIndex + "')");
-
-                //txt.Attributes.Add("onchange", "Myfunction('" + txt.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + txt1.ClientID + "','" + RR + "','" + CtrlFromDate.ID+ "','" + CtrlDueDate.ID+ "')");
+                
                 
             }
             
@@ -369,125 +325,61 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
 
 
-    protected void TreeView1_SelectedNodeChanged(object sender, EventArgs e)
+    protected void TreVwLst_SelectedNodeChanged(object sender, EventArgs e)
     {
-        var CLN = TreeView1.SelectedNode.Value;
-        int IH = TreeView1.SelectedNode.Depth;
-        string GRP, CLS, DIVN;
-        if (TreeView1.SelectedNode.Depth == 0)
+        //var CLN = TreVwLst.SelectedNode.Value;
+        //int IH = TreVwLst.SelectedNode.Depth;
+        if (TreVwLst.SelectedNode.Depth == 0)
         {
-            //group
-            GRP = TreeView1.SelectedNode.Value;
-            //TxtGrp.Text = TreeView1.SelectedNode.Value;
-            lblGrp.Text = "-->" + TreeView1.SelectedNode.Text;
-            lblGrpId.Text = TreeView1.SelectedNode.Value;
+            
+            lblGrpId.Text = TreVwLst.SelectedNode.Value;
             lblGrpId.Visible = false;
-            lblCls.Text = "";
-            lblDiv.Text = "";
-            CtrlGrdInstitute.SelectedValue = TreeView1.SelectedNode.Value;
-            CtrlGrdInstitute.SelectedText = TreeView1.SelectedNode.Text;
+            CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Value;
+            CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Text;
 
             CtrlGrdClass.SelectedValue = "";
             CtrlGrdClass.SelectedText = "";
             CtrlGrdDiv.SelectedValue = "";
             CtrlGrdDiv.SelectedText = "";
         }
-        else if (TreeView1.SelectedNode.Depth == 1)
+        else if (TreVwLst.SelectedNode.Depth == 1)
         {
-            //Class
-            GRP = TreeView1.SelectedNode.Parent.Value;
-            //TxtGrp.Text = TreeView1.SelectedNode.Parent.Value;
-            lblGrp.Text = "-->" + TreeView1.SelectedNode.Parent.Text;
-            lblGrpId.Text = TreeView1.SelectedNode.Parent.Value;
+            lblGrpId.Text = TreVwLst.SelectedNode.Parent.Value;
             lblGrpId.Visible = false;
-            CtrlGrdInstitute.SelectedValue = TreeView1.SelectedNode.Parent.Value;
-            CtrlGrdInstitute.SelectedText = TreeView1.SelectedNode.Parent.Text;
-            CLS = TreeView1.SelectedNode.Value;
-            // TxtCls.Text = TreeView1.SelectedNode.Value;
-            lblCls.Text = "-->" + TreeView1.SelectedNode.Text;
-            lblClsId.Text = TreeView1.SelectedNode.Value;
+            CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
+            CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Parent.Text;
+            lblClsId.Text = TreVwLst.SelectedNode.Value;
             lblClsId.Visible = false;
-            lblDiv.Text = "";
-            CtrlGrdClass.SelectedValue = TreeView1.SelectedNode.Value;
-            CtrlGrdClass.SelectedText = TreeView1.SelectedNode.Text;
+            CtrlGrdClass.SelectedValue = TreVwLst.SelectedNode.Value;
+            CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Text;
             CtrlGrdDiv.SelectedValue = "";
             CtrlGrdDiv.SelectedText = "";
         }
-        else if (TreeView1.SelectedNode.Depth == 2)
+        else if (TreVwLst.SelectedNode.Depth == 2)
         {
-            //Division
-            GRP = TreeView1.SelectedNode.Parent.Parent.Value;
-            //TxtGrp.Text = TreeView1.SelectedNode.Parent.Parent.Value;
-            lblGrp.Text = "-->" + TreeView1.SelectedNode.Parent.Parent.Text;
-            lblGrpId.Text = TreeView1.SelectedNode.Parent.Parent.Value;
+            lblGrpId.Text = TreVwLst.SelectedNode.Parent.Parent.Value;
             lblGrpId.Visible = false;
-            CtrlGrdInstitute.SelectedValue = TreeView1.SelectedNode.Parent.Parent.Value;
-            CtrlGrdInstitute.SelectedText = TreeView1.SelectedNode.Parent.Parent.Text;
-            CLS = TreeView1.SelectedNode.Parent.Value;
-            // TxtCls.Text = TreeView1.SelectedNode.Parent.Value;
-            lblCls.Text = "-->" + TreeView1.SelectedNode.Parent.Text;
-            lblClsId.Text = TreeView1.SelectedNode.Parent.Value;
+            CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Parent.Parent.Value;
+            CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Parent.Parent.Text;
+            lblClsId.Text = TreVwLst.SelectedNode.Parent.Value;
             lblClsId.Visible = false;
-            CtrlGrdClass.SelectedValue = TreeView1.SelectedNode.Parent.Value;
-            CtrlGrdClass.SelectedText = TreeView1.SelectedNode.Parent.Text;
-            DIVN = TreeView1.SelectedNode.Value;
-            //TxtDiv.Text = TreeView1.SelectedNode.Value;
-            lblDiv.Text = "-->" + TreeView1.SelectedNode.Text;
-            lblDivId.Text = TreeView1.SelectedNode.Value;
+            CtrlGrdClass.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
+            CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Parent.Text;
+            lblDivId.Text = TreVwLst.SelectedNode.Value;
             lblDivId.Visible = false;
-            CtrlGrdDiv.SelectedValue = TreeView1.SelectedNode.Value;
-            CtrlGrdDiv.SelectedText = TreeView1.SelectedNode.Text;
-
-            //DdlStudent.DataSource =
-
-            //objLst.FnGetStudentList(Convert.ToInt32(GRP), Convert.ToInt32(CLS), Convert.ToInt32(DIVN));
-
-
-            //DdlStudent.Enabled = true;
-            //DdlStudent.Items.Clear();
-
-            //DdlStudent.Items.Add(new ListItem("Select", "0"));
-            //DataTable ClsTC = (ObjCls.FnGetDataSet("select  TCD.nId nId, TCD.cName cName FROM TblStudentAdmissionDetails SAD inner join TblRegistrationStudent  TCD on TCD.nId = SAD.nStudentId where SAD.nDivisionId = " + DIVN) as DataSet).Tables[0];
-            //DdlStudent.DataSource = ClsTC;
-            //DdlStudent.DataValueField = "nId";
-            //DdlStudent.DataTextField = "cName";
-            //DdlStudent.DataBind();
+            CtrlGrdDiv.SelectedValue = TreVwLst.SelectedNode.Value;
+            CtrlGrdDiv.SelectedText = TreVwLst.SelectedNode.Text;
 
         }
-        //else if (TreeView1.SelectedNode.Depth == 3)
-        //{
-        //    //Student
-        //    //GRP = TreeView1.SelectedNode.Parent.Parent.Parent.Value;
-        //   // lblGrp.Text = TreeView1.SelectedNode.Parent.Parent.Parent.Value;
-        //    TxtGrp.Text= TreeView1.SelectedNode.Parent.Parent.Parent.Value;
-
-        //    CLS = TreeView1.SelectedNode.Parent.Parent.Value;
-        //    lblCls.Text = TreeView1.SelectedNode.Parent.Parent.Value;
-
-        //    lblCls.Text = TreeView1.SelectedNode.Parent.Parent.Text;
-
-
-        //    TxtCls.Text = TreeView1.SelectedNode.Parent.Parent.Value;
-        //    DIVN = TreeView1.SelectedNode.Parent.Value;
-        //    lblDiv.Text = TreeView1.SelectedNode.Parent.Value;
-        //    TxtDiv.Text = TreeView1.SelectedNode.Parent.Value;
-        //    STUD = TreeView1.SelectedNode.Value;
-        //    lblStd.Text = TreeView1.SelectedNode.Value;
-        //    TxtStd.Text = TreeView1.SelectedNode.Value;
-        //}
-
 
 
         //if (TreeView1.SelectedNode)
-        fillInstallment();
-        //TreeView1.Attributes.Add("OnSelectedNodeChanged", "FillGrid('" + TxtGrp.ClientID + "','" + TxtCls.ClientID + "','" + TxtDiv.ClientID + "','" + TxtStd.ClientID + "')");
-
-        //string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount
+        FnFillInstallment();
         DataTable DDD = ViewState["DT1"] as DataTable;
         //FillGrd(DDD, lblGrpId.Text, lblClsId.Text, lblDivId.Text);
     }
 
-    public void FillGrd(DataTable DDD, string nINSTIId, string nCLSId, string nDIVId)
+    public void FnFillGrd(DataTable DDD, string nINSTIId, string nCLSId, string nDIVId)
     {
         string msg = string.Empty;
         //string VV = TId;

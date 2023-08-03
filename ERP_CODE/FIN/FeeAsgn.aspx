@@ -25,16 +25,9 @@
                         <tr>
                             <td rowspan="4">
                                 <div class="result-list" style="overflow: scroll; height: 420px; width: 220px;">
-                                    <asp:TreeView ID="TreeView1" runat="server" OnSelectedNodeChanged="TreeView1_SelectedNodeChanged"></asp:TreeView>
+                                    <asp:TreeView ID="TreVwLst" runat="server" OnSelectedNodeChanged="TreVwLst_SelectedNodeChanged"></asp:TreeView>
                                     <script type="text/javascript">
-                                        function FillGrid(INS, CLS, DIV, GRDR) {
-                                            alert("111");
-                                            var DrpInstitute = document.getElementById(INS);
-                                            var DrpClass = document.getElementById(CLS);
-                                            var DrpDivision = document.getElementById(DIV);
-                                            var GGG = document.getElementById(GRDR);
-                                            alert("function" + DrpInstitute.value + "" + DrpClass.value + " " + DrpDivision.value + "" + GGG.value + "");
-                                        }
+                                      
                                     </script>
                                 </div>
 
@@ -65,19 +58,17 @@
                                     <asp:Label ID="Label3" runat="server" Height="30px" SkinID="LblBold" Text="Student" Width="60px"></asp:Label>
                                 </td>
                                 <td class="odd" style="height: 39px">
-                                    <uc2:CtrlGridList ID="CtrlGrdStudent" runat="server" AccountType="StudentList" PlaceHoldr="Student" onSelectedValueChanged="CtrlGrdStudent_SelectedValueChanged" />
+                                    <uc2:CtrlGridList ID="CtrlGrdStudent" runat="server" AccountType="StudentList" PlaceHoldr="Student"  />
                                 </td>
 
                             </tr>
                             <tr>
                                 <td>
-                                    <asp:Button ID="cmdFill" runat="server" OnClick="Button1_Click" Text="Fill Data" />
+                                    <asp:Button ID="cmdFill" runat="server" OnClick="cmdFill_Click" Text="Fill Data" />
                                 </td>
                                 <td colspan="2">
                                     <asp:Label ID="lblMessage" runat="server"></asp:Label>
-                                    <asp:Label ID="lblGrp" runat="server" Font-Bold="True" Font-Size="Small" ForeColor="#FF99FF"></asp:Label>
-                                    <asp:Label ID="lblCls" runat="server" Font-Bold="True" ForeColor="#9999FF"></asp:Label>
-                                    <asp:Label ID="lblDiv" runat="server" Font-Bold="True" ForeColor="#CC99FF"></asp:Label>
+                                   
                                     <asp:Label ID="lblGrpId" runat="server"></asp:Label>
                                     <asp:Label ID="lblClsId" runat="server"></asp:Label>
                                     <asp:Label ID="lblDivId" runat="server"></asp:Label>
@@ -89,65 +80,26 @@
                             <tr>
                                 <td colspan="4">
                                     <div class="result-list" style="overflow: scroll; height: 360px; width: 780px;">
-                                        <asp:GridView ID="GrdVwFee" runat="server" OnRowCommand="GrdVwFee_RowCommand" OnRowDataBound="GrdVwFee_RowDataBound" OnRowEditing="txtDynamic_TextChanged" OnRowUpdating="GrdVwFee_RowUpdating1" OnSelectedIndexChanged="GrdVwFee_SelectedIndexChanged">
+                                        <asp:GridView ID="GrdVwFee" runat="server"  OnRowDataBound="GrdVwFee_RowDataBound"  OnRowUpdating="GrdVwFee_RowUpdating1" OnSelectedIndexChanged="GrdVwFee_SelectedIndexChanged">
                                         
                                         </asp:GridView>
                                         <script src="http://code.jquery.com/jquery-1.8.2.js" type="text/javascript">
 
-
                                         </script>
                                         <script type="text/javascript">
 
+                                            function Myfunction(Amt, DrpInstitute, DrpClass, DrpDivision, StudId, GRDFEE, GRI, CtrlFDate, CtrlDuDate, iCmpId, iBrId, iFaId, iAcId, nAccLedgerId, nOrderIndex) {
 
-
-
-
-
-
-                                            //'" + iCmpId + "', '" + iBrId + "', '" + iFaId + "', '" + iAcId + "'
-                                            //function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI) {
-                                            function Myfunction(ID, INS, CLS, DIV, GRDR, GRDFEE, GRI, CtrlFDate, CtrlDuDate, iCmpId, iBrId, iFaId, iAcId, nAccLedgerId, nOrderIndex) {
-
-                                                    //alert(CtrlFDate);
-                                                    ////var FromDate = document.getElementById(CtrlFDate).value;
-                                                    ////var FromDate = document.getElementsByName(CtrlFDate).value;
-                                                    ////var FromDate = document.getElementsByTagName(CtrlFDate);
-                                                    //var FromDate = document.getElementsById(CtrlFDate);
-                                                    //alert(FromDate.value);
-
-                                               // alert(ACCH);
-                                                alert(GRI);
-                                                    var txtName = document.getElementById(ID);
-                                                //var DrpInstitute = document.getElementById(INS);
-                                                var DrpInstitute = INS;
-                                                //var DrpClass = document.getElementById(CLS);
-                                                var DrpClass = CLS;
-                                                //var DrpDivision = document.getElementById(DIV);
-                                                    var DrpDivision = DIV;
-                                                    //alert(GRDR);
-                                                    //var GGG = document.getElementsById(GRDR);
-                                                    var GGG = GRDR;
-                                                   // var GGG = document.getElementById('<%= CtrlGrdStudent.ClientID %>');
-                                                var FEEG = document.getElementById(GRDFEE);
-                                                    //alert(GGG);
-                                                ID.textContent = txtName.value;
-                                                //alert(ID.CellValue);
+                                                alert(GRDFEE);
+                                                var txtAmt = document.getElementById(Amt);
+                                              
                                                 var grd = document.getElementById('<%= GrdVwFee.ClientID %>');
-                                                //alert(GRI);
                                                 var ri = GRI;
-                                                var CellValue = grd.rows[ri].cells[0].childNodes[0].textContent;
-                                                //var CDD = grd.rows[1].cells.count;
-                                                alert(CellValue);
-                                               // alert(CtrlFDate);
-
-                                                //var FromDate = document.getElementById(CtrlFDate);
-                                               //var FromDate = document.getElementsById(CtrlFDate);
-                                               //var DueDate = document.getElementById(CtrlDuDate);
-                                                //alert(FromDate);
-                                               //alert(FromDate.value);
-
-                                               // alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG + " " + FEEG.value + " -" + CellValue + "" + CtrlFDate.value + "" + CtrlDuDate + "");
-                                                alert("function" + txtName.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + GGG.value + " " + FEEG.value + " -" + CellValue + "");
+                                                var InstallID = grd.rows[ri].cells[0].childNodes[0].textContent;
+                                                alert(InstallID);
+ 
+                                              
+                                                alert("function" + txtAmt.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + StudId + " " + GRDFEE + " -" + InstallID + "");
 
 
                                                 $.ajax({
@@ -155,7 +107,7 @@
                                                     type: "POST",
                                                     contentType: "application/json; charset=utf-8",
                                                     url: "FeeAsgn.aspx/InsertData",
-                                                    data: "{'nFEEId':'" + FEEG.value + "','nINSSTALId':'" + CellValue + "','nINSTIId':'" + DrpInstitute + "','nCLSId':'" + DrpClass + "','nDIVId':'" + DrpDivision + "','nSTUDId':'" + GGG + "','nAmount':'" + txtName.value + "','iCmpId':'" + iCmpId + "','iBrId':'" + iBrId + "','iFaId':'" + iFaId + "','iAcId':'" + iAcId + "','nAccLedgerId':'" + nAccLedgerId + "','nOrderIndex':'" + nOrderIndex + "'}",
+                                                    data: "{'nFEEId':'" + GRDFEE + "','nINSSTALId':'" + InstallID + "','nINSTIId':'" + DrpInstitute + "','nCLSId':'" + DrpClass + "','nDIVId':'" + DrpDivision + "','nSTUDId':'" + StudId + "','nAmount':'" + txtAmt.value + "','iCmpId':'" + iCmpId + "','iBrId':'" + iBrId + "','iFaId':'" + iFaId + "','iAcId':'" + iAcId + "','nAccLedgerId':'" + nAccLedgerId + "','nOrderIndex':'" + nOrderIndex + "'}",
                                                     dataType: "json",
                                                     success: function (data) {
                                                         var obj = data.d;
@@ -217,34 +169,6 @@
 
 
 
-                                                //$.ajax({
-
-                                                //    type: "POST",
-                                                //    contentType: "application/json; charset=utf-8",
-                                                //    url: "FeeAsgn.aspx/UpdateTble",
-                                                //    data: "{'nFEEId':'" + FEEG.value + "','nINSSTALId':'" + CellValue + "','nINSTIId':'" + DrpInstitute.value + "','nCLSId':'" + DrpClass.value + "','nDIVId':'" + DrpDivision.value + "','nSTUDId':'" + GGG.value + "','nAmount':'" + txtName.value + "'}",
-                                                //    dataType: "json",
-                                                //    success: function (data) {
-                                                //        var obj = data.d;
-                                                //        if (obj == 'true') {
-                                                //            $('#nFEEId').val('');
-                                                //            $('#nINSSTALId').val('');
-                                                //            $('#nINSTIId').val('');
-                                                //            $('#nCLSId').val('');
-                                                //            $('#nDIVId').val('');
-                                                //            $('#nSTUDId').val('');
-                                                //            $('#nAmount').val('');
-                                                //            $('#lblmsg').html("Details Submitted Successfully");
-                                                //            window.location.reload();
-                                                //        }
-                                                //    },
-                                                //    error: function (result) {
-                                                //        alert("Error");
-                                                //    }
-                                                //});
-
-
-
                                             }
 
                                         </script>
@@ -253,9 +177,7 @@
 
                                 <tr>
 
-                                    <td>
-                                    <asp:Button ID="CmdSave" runat="server" Text="Save Data" onclick="CmdSave_Click1"/>
-                                </td>
+                                   
                                     <td align="center" class="FooterCommand" colspan="5" valign="middle">
                                         <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />
                                     </td>
@@ -263,16 +185,7 @@
                             </tr>
 
                         </tr>
-                       
-
-                                                            
-                      
-
-                     
-
-                                                            
-                      
-
+                
                     </table>
                 </ContentTemplate>
             </ajaxToolkit:TabPanel>

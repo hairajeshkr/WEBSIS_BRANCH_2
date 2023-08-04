@@ -74,13 +74,13 @@
                                 <td></td>
                                 <td>
                                     <%--<asp:Button ID="BtnFind" runat="server" OnClick="ManiPulateDataEvent_Clicked" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" />  --%>
-                                    <asp:Button ID="BtnFind" runat="server" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="ManiPulateDataEvent_Clicked" /> 
+                                    <asp:Button ID="BtnFind" runat="server" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="BtnFind_Click" /> 
                                 </td>
                                 <td colspan="2">
                                     <asp:Label ID="lblMessage" runat="server"></asp:Label>
-                                    <asp:Label ID="lblGrpId" runat="server"></asp:Label>
-                                    <asp:Label ID="lblClsId" runat="server"></asp:Label>
-                                    <asp:Label ID="lblDivId" runat="server"></asp:Label>
+                                    <asp:Label ID="lblGrpId" runat="server" Visible="false"></asp:Label>
+                                    <asp:Label ID="lblClsId" runat="server" Visible="false"></asp:Label>
+                                    <asp:Label ID="lblDivId" runat="server" Visible="false"></asp:Label>
                                 </td>
                             </tr>
 
@@ -117,7 +117,10 @@
                                                 alert("FeeId" + FeeId);
 
                                                 var grd = document.getElementById('<%= GrdVwFee.ClientID %>');
-                                                
+
+                                                //var stuidd = document.getElementById('<%= CtrlGrdStudent.ClientID %>').textContent;
+                                                //alert(stuidd.value);
+
                                                 var RowIndx = RowIndxx;
 
                                                 var InstallmentId = grd.rows[RowIndx].cells[0].childNodes[0].textContent;

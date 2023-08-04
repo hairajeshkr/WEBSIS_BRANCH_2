@@ -18,6 +18,7 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
     public String GRDS;
     static int icount = 0;
+    
     protected override void Page_Load(object sender, EventArgs e)
     {
 
@@ -28,6 +29,9 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
             if (!IsPostBack)
             {
+                lblGrpId.Text = "0";
+                lblDivId.Text = "0";
+                lblClsId.Text = "0";
                 FnInitializeForm();
 
                 DataTable ClsTD = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='INGRP'") as DataSet).Tables[0];
@@ -193,79 +197,89 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
     }
     public void FnFillInstallment()
     {
-        //DataTable ClsTGF = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
+       
         DataTable DTInstallment = (ObjCls.FnGetDataSet("SELECT nId,cName, CONVERT(varchar,GETDATE(),106) FromDate, CONVERT(varchar,GETDATE(),106) DueDate  FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
-        //DataTable ClsTGFM = (ObjCls.FnGetDataSet("SELECT cName + cast(nId as char)  FROM TblFeeMaster") as DataSet).Tables[0];
-        DataTable DTFeeName = (ObjCls.FnGetDataSet("SELECT cName  FROM TblFeeMaster") as DataSet).Tables[0];
-        DataTable DTFeeId = (ObjCls.FnGetDataSet("SELECT nId FROM TblFeeMaster") as DataSet).Tables[0];
+        DataTable DTFeeName = (ObjCls.FnGetDataSet("SELECT cName,nId  FROM TblFeeMaster") as DataSet).Tables[0];
 
-        GrdVwFee.DataSource = FnFlipDataTable(DTFeeName, DTInstallment, DTFeeId);
+        GrdVwFee.DataSource = FnFlipDataTable(DTFeeName, DTInstallment);
+        //ViewState["DT1"] = GrdVwFee.DataSource;
+        //DataTable DDD = ViewState["DT1"] as DataTable;
         GrdVwFee.DataBind();
-        GrdVwFee.Rows[0].Visible = false;
-
-        ViewState["DT1"] = GrdVwFee.DataSource;
-        DataTable DDD = ViewState["DT1"] as DataTable;
+              
+        
 
     }
 
 
 
-    public static DataTable FnFlipDataTable(DataTable DTFeeName, DataTable DTInstallment, DataTable DTFeeId)
+    public static DataTable FnFlipDataTable(DataTable DTFeeName, DataTable DTInstallment)
 
     {
-        int j = 0, i = 0, k = 0,h=0;
-        DataRow dr;
         DataTable table = new DataTable();
-        table.Columns.Add(Convert.ToString("nId"));
-        table.Columns.Add(Convert.ToString("cName"));
-        table.Columns.Add(Convert.ToString("FromDate"));
-        table.Columns.Add(Convert.ToString("DueDate"));
-        //Get all the rows and change into columns
-        for (j = 0; j < DTFeeName.Columns.Count; j++)
+        int j = 0, i = 0, k = 0,h=0;
+        for (i = 0; i <= (DTFeeName.Rows.Count - 1); i++)
         {
-            dr = table.NewRow();
-            for (i = 0; i <= (DTFeeName.Rows.Count - 1); i++)
+            //dr = table.NewRow();
+
+            for (j = 0; j < DTFeeName.Columns.Count; j++)
             {
-                table.Columns.Add(Convert.ToString(DTFeeName.Rows[i][j]));
+                DTInstallment.Columns.Add(Convert.ToString(DTFeeName.Rows[i][j]));
+                // dtInstll.Columns.Add(Convert.ToString(dtFeeName.Rows[1][i]));
             }
         }
 
-        //get all the columns and make it as rows
-        for (j = 0; j < 1; j++)
-        {
-            dr = table.NewRow();
-            table.Rows.Add(Convert.ToString(0));
-            for (k = 1; k <= DTInstallment.Rows.Count; k++)
-            {
-                table.Rows.Add(Convert.ToString(DTInstallment.Rows[k - 1][j]));
-                var VD = (DTInstallment.Rows[k - 1][j]).ToString();
-                var VD1 = (DTInstallment.Rows[k - 1][1]).ToString();
-                var VD2 = (DTInstallment.Rows[k - 1][2]).ToString();
-                var VD3 = (DTInstallment.Rows[k - 1][3]).ToString();
-                table.Rows[k][1] = VD1;
-                table.Rows[k][2] = VD2;
-                table.Rows[k][3] = VD3;
-            }
-
-
-
-            for (h = 1; h <= DTFeeId.Rows.Count; h++)
-            {
-
-                var VD2 = (DTFeeId.Rows[h - 1][j]).ToString();
-                table.Rows[0][h + 3] = VD2;
-            }
-
-
-        }
+        table = DTInstallment;
         return table;
+
+
+       // DataRow dr;
+       // DataTable table = new DataTable();
+       // table.Columns.Add(Convert.ToString("nId"));
+       // table.Columns.Add(Convert.ToString("cName"));
+       // table.Columns.Add(Convert.ToString("FromDate"));
+       // table.Columns.Add(Convert.ToString("DueDate"));
+       // //Get all the rows and change into columns
+        
+       //for (i = 0; i <= (DTFeeName.Rows.Count - 1); i++)
+       //{
+       //     //dr = table.NewRow();
+       //     for (j = 0; j < DTFeeName.Columns.Count; j++)
+       //     {
+       //         table.Columns.Add(Convert.ToString(DTFeeName.Rows[i][j]));
+                
+       //     }
+       // }
+
+       // //get all the columns and make it as rows
+       // for (j = 0; j < 1; j++)
+       // {
+       // //    dr = table.NewRow();
+           
+       //     for (k = 0; k <= DTInstallment.Rows.Count-1; k++)
+       //     {
+       //         table.Rows.Add(Convert.ToString(DTInstallment.Rows[k][j]));
+       //         var VD = (DTInstallment.Rows[k][j]).ToString();
+       //         var VD1 = (DTInstallment.Rows[k][1]).ToString();
+       //         var VD2 = (DTInstallment.Rows[k][2]).ToString();
+       //         var VD3 = (DTInstallment.Rows[k][3]).ToString();
+       //         table.Rows[k][1] = VD1;
+       //         table.Rows[k][2] = VD2;
+       //         table.Rows[k][3] = VD3;
+       //     }
+
+
+       // }
+       // return table;
     }
 
 
     protected void GrdVwFee_RowDataBound(object sender, GridViewRowEventArgs e)
     {
+        SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
+           
+           
 
             CtrlDate CtrlFromDate = (CtrlDate)LoadControl("~/CtrlDate.ascx");
             e.Row.Cells[2].Controls.Add(CtrlFromDate);
@@ -288,36 +302,61 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
 
 
-            for (int i = 4; i < e.Row.Cells.Count; i++)
+            for (int i = 4; i < e.Row.Cells.Count; i+=2)
             {
 
                 System.Web.UI.WebControls.TextBox TxtAmount = new System.Web.UI.WebControls.TextBox() { ID = "txtDynamic" + i };
                 e.Row.Cells[i].Controls.Add(TxtAmount);
 
 
-                int RowIndx = e.Row.RowIndex;
+                //e.Row.Cells[i - 1].Visible = false;
+
+                HiddenField tmp = new HiddenField();
+                e.Row.Cells[i + 1].Controls.Add(tmp);
+                tmp.Value = GrdVwFee.HeaderRow.Cells[i + 1].Text;
+
+                GrdVwFee.HeaderRow.Cells[i+1].Visible = false;
+
+                e.Row.Cells[i + 1].Visible = false;
+
+                var FeeId = tmp.Value;
+
+                SqlCommand cmd = new SqlCommand("select  isnull(nAmount,0) from TblFeeConcessionAssign where nInstituteGrpId=" + InsGrpId + " and nClassId=" + ClsId + " and nDivisionId=" + DivId + " and nStudentId=" + StudId + " and nInstalmentId =" + e.Row.Cells[0].Text + " and nFeeMasterId = " + FeeId + "", con);
+                con.Open();
+                var VV = cmd.ExecuteScalar();
+                con.Close();
+                if (VV == null)
+                {
+                    TxtAmount.Text = "0";
+                }
+                else
+                {
+                    TxtAmount.Text = VV.ToString();
+                }
+                int RowIndx = (e.Row.RowIndex)+1;
                 
+
                 
-                var FeeId = Convert.ToString(DDD.Rows[0][i]);
-               
-
-                string sqlquery = "select nAccLedgerId from TblFeeMaster where nId=" + FeeId;
-                int AccLedgerId = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery).ToString());
+               //Convert.ToString(DDD.Rows[0][i]);
 
 
-                string sqlquery2= "select nOrderIndex from TblFeeMaster where nId=" + FeeId;
-                int OrderIndex = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery2).ToString());
+                //string sqlquery = "select nAccLedgerId from TblFeeMaster where nId=" + FeeId;
+                //int AccLedgerId = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery).ToString());
+                int AccLedgerId = 1;
 
+                //string sqlquery2= "select nOrderIndex from TblFeeMaster where nId=" + FeeId;
+                //int OrderIndex = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery2).ToString());
+                int OrderIndex = 1;
 
                 TxtAmount.Attributes.Add("onchange", "Myfunction('" + TxtAmount.ClientID + "','" + InsGrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + FeeId + "','" + RowIndx + "','"+ iAcId +"','"+ iBrId +"','" +iCmpId+ "','"+ iFaId+ "','"+ AccLedgerId + "','" + OrderIndex + "')");
 
-                
-                
+
+
             }
             
         }
 
-        
+           
 
 
 
@@ -341,6 +380,9 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
             CtrlGrdClass.SelectedText = "";
             CtrlGrdDiv.SelectedValue = "";
             CtrlGrdDiv.SelectedText = "";
+            lblClsId.Text = "0";
+            lblDivId.Text = "0";
+            //FnFillInstallment();
         }
         else if (TreVwLst.SelectedNode.Depth == 1)
         {
@@ -354,6 +396,8 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
             CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Text;
             CtrlGrdDiv.SelectedValue = "";
             CtrlGrdDiv.SelectedText = "";
+            lblDivId.Text = "0";
+            //FnFillInstallment();
         }
         else if (TreVwLst.SelectedNode.Depth == 2)
         {
@@ -369,55 +413,21 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
             lblDivId.Visible = false;
             CtrlGrdDiv.SelectedValue = TreVwLst.SelectedNode.Value;
             CtrlGrdDiv.SelectedText = TreVwLst.SelectedNode.Text;
-
+            //FnFillInstallment();
         }
 
-
-        //if (TreeView1.SelectedNode)
         FnFillInstallment();
-        DataTable DDD = ViewState["DT1"] as DataTable;
-        //FillGrd(DDD, lblGrpId.Text, lblClsId.Text, lblDivId.Text);
+        
     }
 
-    public void FnFillGrd(DataTable DDD, string nINSTIId, string nCLSId, string nDIVId)
+
+
+
+
+
+
+    protected void BtnFind_Click(object sender, EventArgs e)
     {
-        string msg = string.Empty;
-        //string VV = TId;
-        DataTable DDT = new DataTable();
-
-        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
-        {
-            using (SqlCommand cmd = new SqlCommand("SPTestT", con))
-            {
-                con.Open();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@EmptableT", DDD);
-                cmd.Parameters.AddWithValue("@nINSTIId", nINSTIId);
-                cmd.Parameters.AddWithValue("@nCLSId", nCLSId);
-                cmd.Parameters.AddWithValue("@nDIVId", nDIVId);
-                //int i = cmd.ExecuteNonQuery();
-                con.Close();
-                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                {
-                    da.Fill(DDT);
-                }
-            }
-
-
-
-            //GrdVwFee.DataSource = DDT;
-            //GrdVwFee.DataBind();
-            ViewState["DT2"] = DDT;
-        }
-
-
+        FnFillInstallment();
     }
-
-
-
-
-
-    
-   
-
 }

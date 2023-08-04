@@ -96,9 +96,11 @@
                                                 var grd = document.getElementById('<%= GrdVwFee.ClientID %>');
                                                 var ri = GRI;
                                                 var InstallID = grd.rows[ri].cells[0].childNodes[0].textContent;
-                                                alert(InstallID);
- 
-                                              
+                                                //alert(CtrlGrdStudent.ClientID);
+
+                                                //var StudId1 = document.getElementById(CtrlGrdStudent.ClientID);
+                                                //alert(StudId1);
+
                                                 alert("function" + txtAmt.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + StudId + " " + GRDFEE + " -" + InstallID + "");
 
 

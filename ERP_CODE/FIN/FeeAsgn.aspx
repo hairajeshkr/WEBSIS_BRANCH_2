@@ -64,7 +64,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <asp:Button ID="cmdFill" runat="server" OnClick="cmdFill_Click" Text="Fill Data" />
+                                    <asp:Button ID="cmdFill" runat="server" OnClick="cmdFill_Click" Text="Fill Data" SkinID="BtnCommandFindNew" CommandName="FIND" />
                                 </td>
                                 <td colspan="2">
                                     <asp:Label ID="lblMessage" runat="server"></asp:Label>
@@ -88,7 +88,7 @@
                                         </script>
                                         <script type="text/javascript">
 
-                                            function Myfunction(Amt, DrpInstitute, DrpClass, DrpDivision, StudId, GRDFEE, GRI, CtrlFDate, CtrlDuDate, iCmpId, iBrId, iFaId, iAcId, nAccLedgerId, nOrderIndex) {
+                                            function Myfunction(Amt, DrpInstitute, DrpClass, DrpDivision, DrpStudId, GRDFEE, GRI, CtrlFDate, CtrlDuDate, iCmpId, iBrId, iFaId, iAcId, nAccLedgerId, nOrderIndex) {
 
                                                 alert(GRDFEE);
                                                 var txtAmt = document.getElementById(Amt);
@@ -98,10 +98,13 @@
                                                 var InstallID = grd.rows[ri].cells[0].childNodes[0].textContent;
                                                 //alert(CtrlGrdStudent.ClientID);
 
-                                                //var StudId1 = document.getElementById(CtrlGrdStudent.ClientID);
+                                                var nStudId = document.getElementById(DrpStudId).value;
+                                                var Division = document.getElementById(DrpDivision).value;
+                                                var Class = document.getElementById(DrpClass).value;
+                                                var Institute = document.getElementById(DrpInstitute).value;
                                                 //alert(StudId1);
 
-                                                alert("function" + txtAmt.value + "" + DrpInstitute + "" + DrpClass + " " + DrpDivision + "" + StudId + " " + GRDFEE + " -" + InstallID + "");
+                                                alert("function" + txtAmt.value + "" + Institute + "" + Class + " " + Division + "" + nStudId + " " + GRDFEE + " -" + InstallID + "");
 
 
                                                 $.ajax({
@@ -109,17 +112,17 @@
                                                     type: "POST",
                                                     contentType: "application/json; charset=utf-8",
                                                     url: "FeeAsgn.aspx/InsertData",
-                                                    data: "{'nFEEId':'" + GRDFEE + "','nINSSTALId':'" + InstallID + "','nINSTIId':'" + DrpInstitute + "','nCLSId':'" + DrpClass + "','nDIVId':'" + DrpDivision + "','nSTUDId':'" + StudId + "','nAmount':'" + txtAmt.value + "','iCmpId':'" + iCmpId + "','iBrId':'" + iBrId + "','iFaId':'" + iFaId + "','iAcId':'" + iAcId + "','nAccLedgerId':'" + nAccLedgerId + "','nOrderIndex':'" + nOrderIndex + "'}",
+                                                    data: "{'nFEEId':'" + GRDFEE + "','nINSSTALId':'" + InstallID + "','nINSTIId':'" + Institute + "','nCLSId':'" + Class + "','nDIVId':'" + Division + "','nSTUDId':'" + nStudId + "','nAmount':'" + txtAmt.value + "','iCmpId':'" + iCmpId + "','iBrId':'" + iBrId + "','iFaId':'" + iFaId + "','iAcId':'" + iAcId + "','nAccLedgerId':'" + nAccLedgerId + "','nOrderIndex':'" + nOrderIndex + "'}",
                                                     dataType: "json",
                                                     success: function (data) {
                                                         var obj = data.d;
                                                         if (obj == 'true') {
                                                             $('#nFEEId').val('');
                                                             $('#nINSSTALId').val('');
-                                                            $('#nINSTIId').val('');
-                                                            $('#nCLSId').val('');
-                                                            $('#nDIVId').val('');
-                                                            $('#nSTUDId').val('');
+                                                            $('#nINSTIId').val('0');
+                                                            $('#nCLSId').val('0');
+                                                            $('#nDIVId').val('0');
+                                                            $('#nSTUDId').val('0');
                                                             $('#nAmount').val('');
                                                             $('#iCmpId').val('');
                                                             $('#iBrId').val('');

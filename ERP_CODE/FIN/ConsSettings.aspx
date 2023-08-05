@@ -76,12 +76,7 @@
                                     <%--<asp:Button ID="BtnFind" runat="server" OnClick="ManiPulateDataEvent_Clicked" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" />  --%>
                                     <asp:Button ID="BtnFind" runat="server" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="BtnFind_Click" /> 
                                 </td>
-                                <td colspan="2">
-                                    <asp:Label ID="lblMessage" runat="server"></asp:Label>
-                                    <asp:Label ID="lblGrpId" runat="server" Visible="false"></asp:Label>
-                                    <asp:Label ID="lblClsId" runat="server" Visible="false"></asp:Label>
-                                    <asp:Label ID="lblDivId" runat="server" Visible="false"></asp:Label>
-                                </td>
+                                
                             </tr>
 
 
@@ -115,13 +110,17 @@
                                                 //alert("DivId" + DivId);
                                                 //alert("StuId" + StuId);
                                                 alert("FeeId" + FeeId);
-
+                                                alert("stuid" + StuId);
                                                 var grd = document.getElementById('<%= GrdVwFee.ClientID %>');
 
-                                                //var stuidd = document.getElementById('<%= CtrlGrdStudent.ClientID %>').textContent;
-                                                //alert(stuidd.value);
+                                                var InsGrpIdd = document.getElementById(InsGrpId).value;
+                                                var ClsIdd = document.getElementById(ClsId).value;
+                                                var DivIdd = document.getElementById(DivId).value;
+                                                var StuIdd = document.getElementById(StuId).value;
+                                                //alert(stuidd);
 
                                                 var RowIndx = RowIndxx;
+                                                
 
                                                 var InstallmentId = grd.rows[RowIndx].cells[0].childNodes[0].textContent;
                                                 
@@ -134,7 +133,7 @@
                                                     type: "POST",
                                                     contentType: "application/json; charset=utf-8",
                                                     url: "ConsSettings.aspx/InsertData",
-                                                    data: "{'nFEEId':'" + FeeId + "','nINSSTALId':'" + InstallmentId + "','nINSTIId':'" + InsGrpId + "','nCLSId':'" + ClsId + "','nDIVId':'" + DivId + "','nSTUDId':'" + StuId + "','nAmount':'" + txtName.value + "','AcId':'" + AcId + "','BrId':'" + BrId + "','CmpId':'" + CmpId + "','FaId':'" + FaId + "','AccLedgerId':'" + AccLedgerId + "','OrderIndex':'" + OrderIndex + "'}",
+                                                    data: "{'nFEEId':'" + FeeId + "','nINSSTALId':'" + InstallmentId + "','nINSTIId':'" + InsGrpIdd + "','nCLSId':'" + ClsIdd + "','nDIVId':'" + DivIdd + "','nSTUDId':'" + StuIdd + "','nAmount':'" + txtName.value + "','AcId':'" + AcId + "','BrId':'" + BrId + "','CmpId':'" + CmpId + "','FaId':'" + FaId + "','AccLedgerId':'" + AccLedgerId + "','OrderIndex':'" + OrderIndex + "'}",
                                                     dataType: "json",
                                                     success: function (data) {
                                                         var obj = data.d;

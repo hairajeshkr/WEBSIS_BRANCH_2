@@ -18,7 +18,9 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
     public String GRDS;
     static int icount = 0;
-    
+   
+
+
     protected override void Page_Load(object sender, EventArgs e)
     {
 
@@ -29,9 +31,6 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
             if (!IsPostBack)
             {
-                lblGrpId.Text = "0";
-                lblDivId.Text = "0";
-                lblClsId.Text = "0";
                 FnInitializeForm();
 
                 DataTable ClsTD = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='INGRP'") as DataSet).Tables[0];
@@ -85,7 +84,7 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
 
     [WebMethod]
-    public static string InsertData(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount,int AcId,int BrId,int CmpId,int FaId,int AccLedgerId,int OrderIndex)
+    public static string InsertData(int nFEEId, int nINSSTALId, int nINSTIId, int nCLSId, int nDIVId, int nSTUDId, int nAmount,int AcId,int BrId,int CmpId,int FaId,int AccLedgerId,int OrderIndex)
     {
         string msg = string.Empty;
             
@@ -106,6 +105,25 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
             
         
         return msg;
+    }
+    public override void FnCancel()
+    {
+        base.FnCancel();
+
+        //DdlInslment.SelectedIndex = 0;
+        CtrlGrdInstitute.SelectedValue = "0";
+        CtrlGrdInstitute.SelectedText = "";
+
+        CtrlGrdClass.SelectedValue = "0";
+        CtrlGrdClass.SelectedText = "";
+
+        CtrlGrdStudent.SelectedValue = "0";
+        CtrlGrdStudent.SelectedText = "";
+
+        CtrlGrdDiv.SelectedValue = "0";
+        CtrlGrdDiv.SelectedText = "";
+
+        FnFocus(CtrlGrdInstitute.ControlTextBox);
     }
 
 
@@ -230,46 +248,6 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
         table = DTInstallment;
         return table;
-
-
-       // DataRow dr;
-       // DataTable table = new DataTable();
-       // table.Columns.Add(Convert.ToString("nId"));
-       // table.Columns.Add(Convert.ToString("cName"));
-       // table.Columns.Add(Convert.ToString("FromDate"));
-       // table.Columns.Add(Convert.ToString("DueDate"));
-       // //Get all the rows and change into columns
-        
-       //for (i = 0; i <= (DTFeeName.Rows.Count - 1); i++)
-       //{
-       //     //dr = table.NewRow();
-       //     for (j = 0; j < DTFeeName.Columns.Count; j++)
-       //     {
-       //         table.Columns.Add(Convert.ToString(DTFeeName.Rows[i][j]));
-                
-       //     }
-       // }
-
-       // //get all the columns and make it as rows
-       // for (j = 0; j < 1; j++)
-       // {
-       // //    dr = table.NewRow();
-           
-       //     for (k = 0; k <= DTInstallment.Rows.Count-1; k++)
-       //     {
-       //         table.Rows.Add(Convert.ToString(DTInstallment.Rows[k][j]));
-       //         var VD = (DTInstallment.Rows[k][j]).ToString();
-       //         var VD1 = (DTInstallment.Rows[k][1]).ToString();
-       //         var VD2 = (DTInstallment.Rows[k][2]).ToString();
-       //         var VD3 = (DTInstallment.Rows[k][3]).ToString();
-       //         table.Rows[k][1] = VD1;
-       //         table.Rows[k][2] = VD2;
-       //         table.Rows[k][3] = VD3;
-       //     }
-
-
-       // }
-       // return table;
     }
 
 
@@ -291,11 +269,20 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
             int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
 
-            var InsGrpId = lblGrpId.Text;
-            var ClsId = lblClsId.Text;
-            var DivId = lblDivId.Text;
+            //var InsGrpId = lblGrpId.Text;
+            //var ClsId = lblClsId.Text;
+            //var DivId = lblDivId.Text;
+            var InsGrpId = CtrlGrdInstitute.IdControl;
+            var ClsId = CtrlGrdClass.IdControl;
+            var DivId = CtrlGrdDiv.IdControl;
+            var StudId = CtrlGrdStudent.IdControl;
+            
 
-            var StudId = CtrlGrdStudent.SelectedValue;
+            var InsgrpIdd = CtrlGrdInstitute.SelectedValue;
+            var ClsIdd = CtrlGrdClass.SelectedValue;
+            var DivIdd = CtrlGrdDiv.SelectedValue;
+            var StuIdd = CtrlGrdStudent.SelectedValue;
+
 
             ViewState["DT1"] = GrdVwFee.DataSource;
             DataTable DDD = ViewState["DT1"] as DataTable;
@@ -321,7 +308,8 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
                 var FeeId = tmp.Value;
 
-                SqlCommand cmd = new SqlCommand("select  isnull(nAmount,0) from TblFeeConcessionAssign where nInstituteGrpId=" + InsGrpId + " and nClassId=" + ClsId + " and nDivisionId=" + DivId + " and nStudentId=" + StudId + " and nInstalmentId =" + e.Row.Cells[0].Text + " and nFeeMasterId = " + FeeId + "", con);
+                SqlCommand cmd = new SqlCommand("select  isnull(nAmount,0) from TblFeeConcessionAssign where nInstituteGrpId=" + InsgrpIdd + " and nClassId=" + ClsIdd + " and nDivisionId=" + DivIdd + " and nStudentId=" + StuIdd + " and nInstalmentId =" + e.Row.Cells[0].Text + " and nFeeMasterId = " + FeeId + "", con);
+
                 con.Open();
                 var VV = cmd.ExecuteScalar();
                 con.Close();
@@ -340,13 +328,13 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
                //Convert.ToString(DDD.Rows[0][i]);
 
 
-                //string sqlquery = "select nAccLedgerId from TblFeeMaster where nId=" + FeeId;
-                //int AccLedgerId = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery).ToString());
-                int AccLedgerId = 1;
+                string sqlquery = "select nAccLedgerId from TblFeeMaster where nId=" + FeeId;
+                int AccLedgerId = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery).ToString());
+                //int AccLedgerId = 1;
 
-                //string sqlquery2= "select nOrderIndex from TblFeeMaster where nId=" + FeeId;
-                //int OrderIndex = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery2).ToString());
-                int OrderIndex = 1;
+                string sqlquery2= "select nOrderIndex from TblFeeMaster where nId=" + FeeId;
+                int OrderIndex = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(sqlquery2).ToString());
+                //int OrderIndex = 1;
 
                 TxtAmount.Attributes.Add("onchange", "Myfunction('" + TxtAmount.ClientID + "','" + InsGrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + FeeId + "','" + RowIndx + "','"+ iAcId +"','"+ iBrId +"','" +iCmpId+ "','"+ iFaId+ "','"+ AccLedgerId + "','" + OrderIndex + "')");
 
@@ -367,57 +355,43 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
     protected void TreVwLst_SelectedNodeChanged(object sender, EventArgs e)
     {
         //var CLN = TreVwLst.SelectedNode.Value;
-        //int IH = TreVwLst.SelectedNode.Depth;
-        if (TreVwLst.SelectedNode.Depth == 0)
+        //int IH = TreVwLst.SelectedNode.Depth
+        try
         {
-            
-            lblGrpId.Text = TreVwLst.SelectedNode.Value;
-            lblGrpId.Visible = false;
-            CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Value;
-            CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Text;
+            FnCancel();
+            if (TreVwLst.SelectedNode.Depth == 0)
+            {
+                CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Value;
+                CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Text;
 
-            CtrlGrdClass.SelectedValue = "";
-            CtrlGrdClass.SelectedText = "";
-            CtrlGrdDiv.SelectedValue = "";
-            CtrlGrdDiv.SelectedText = "";
-            lblClsId.Text = "0";
-            lblDivId.Text = "0";
-            //FnFillInstallment();
-        }
-        else if (TreVwLst.SelectedNode.Depth == 1)
-        {
-            lblGrpId.Text = TreVwLst.SelectedNode.Parent.Value;
-            lblGrpId.Visible = false;
-            CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
-            CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Parent.Text;
-            lblClsId.Text = TreVwLst.SelectedNode.Value;
-            lblClsId.Visible = false;
-            CtrlGrdClass.SelectedValue = TreVwLst.SelectedNode.Value;
-            CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Text;
-            CtrlGrdDiv.SelectedValue = "";
-            CtrlGrdDiv.SelectedText = "";
-            lblDivId.Text = "0";
-            //FnFillInstallment();
-        }
-        else if (TreVwLst.SelectedNode.Depth == 2)
-        {
-            lblGrpId.Text = TreVwLst.SelectedNode.Parent.Parent.Value;
-            lblGrpId.Visible = false;
-            CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Parent.Parent.Value;
-            CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Parent.Parent.Text;
-            lblClsId.Text = TreVwLst.SelectedNode.Parent.Value;
-            lblClsId.Visible = false;
-            CtrlGrdClass.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
-            CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Parent.Text;
-            lblDivId.Text = TreVwLst.SelectedNode.Value;
-            lblDivId.Visible = false;
-            CtrlGrdDiv.SelectedValue = TreVwLst.SelectedNode.Value;
-            CtrlGrdDiv.SelectedText = TreVwLst.SelectedNode.Text;
-            //FnFillInstallment();
-        }
+            }
+            else if (TreVwLst.SelectedNode.Depth == 1)
+            {
+                CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
+                CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Parent.Text;
+                CtrlGrdClass.SelectedValue = TreVwLst.SelectedNode.Value;
+                CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Text;
+            }
+            else if (TreVwLst.SelectedNode.Depth == 2)
+            {
 
-        FnFillInstallment();
-        
+                CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Parent.Parent.Value;
+                CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Parent.Parent.Text;
+                CtrlGrdClass.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
+                CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Parent.Text;
+                CtrlGrdDiv.SelectedValue = TreVwLst.SelectedNode.Value;
+                CtrlGrdDiv.SelectedText = TreVwLst.SelectedNode.Text;
+
+            }
+
+           FnFillInstallment();
+
+
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
     }
 
 
@@ -426,8 +400,9 @@ public partial class FIN_ConsSettings : ClsPageEvents, IPageInterFace
 
 
 
-    protected void BtnFind_Click(object sender, EventArgs e)
+        protected void BtnFind_Click(object sender, EventArgs e)
     {
+        
         FnFillInstallment();
     }
 }

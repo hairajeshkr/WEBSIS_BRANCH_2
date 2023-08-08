@@ -1,11 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ConsSettings.aspx.cs" Inherits="FIN_ConsSettings" StylesheetTheme="SkinFile" %>
 
-    <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Src="../CtrlCommand.ascx" TagName="CtrlCommand" TagPrefix="uc1" %>
 <%@ Register Src="../CtrlGridList.ascx" TagName="CtrlGridList" TagPrefix="uc2" %>
 <%@ Register Src="../CtrlDate.ascx" TagName="CtrlDate" TagPrefix="uc3" %>
 <%@ Register Src="~/CtrlGridList.ascx" TagPrefix="uc1" TagName="CtrlGridList" %>
 <%@ Register Src="../CtrlGridSmallList.ascx" TagName="CtrlGridSmallList" TagPrefix="uc4" %>
+<%@ Register Src="~/CtrlDate.ascx" TagPrefix="uc1" TagName="CtrlDate" %>
+
 
 
 
@@ -74,9 +76,9 @@
                                 <td></td>
                                 <td>
                                     <%--<asp:Button ID="BtnFind" runat="server" OnClick="ManiPulateDataEvent_Clicked" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" />  --%>
-                                    <asp:Button ID="BtnFind" runat="server" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="BtnFind_Click" /> 
+                                    <asp:Button ID="BtnFind" runat="server" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="BtnFind_Click" />
                                 </td>
-                                
+
                             </tr>
 
 
@@ -84,9 +86,101 @@
                             <tr>
                                 <td colspan="4">
                                     <div class="result-list" style="overflow: scroll; height: 360px; width: 780px;">
-                                        <asp:GridView ID="GrdVwFee" runat="server"  OnRowDataBound="GrdVwFee_RowDataBound" >
-                                        
+                                        <asp:GridView ID="GrdVwInstallment" runat="server" AutoGenerateColumns="false" OnRowDataBound="GrdVwInstallment_RowDataBound" SkinID="GrdVwMaster">
+                                            <Columns>
+
+                                                <asp:TemplateField ItemStyle-Width="20px">
+                                                    <ItemTemplate>
+                                                        <a href="JavaScript:divexpandcollapse('div<%# Eval("ID") %>');"></a>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="LblId" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("ID") %>' Width="280px"></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Installment">
+                                                    <ItemTemplate>
+                                                        
+                                                        <asp:Label ID="LblInstallment" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("cName") %>' Width="280px"></asp:Label>
+                                                        
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Start Date">
+                                                    <ItemTemplate>
+                                                        <uc1:CtrlDate runat="server" ID="CtrlFromDate" />
+                                                        <%--<asp:Label ID="LblFine" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("dStartDate") %>' Width="280px"></asp:Label>--%>
+                                                        <%--<asp:LinkButton ID="LnkCode" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Value='<%# Eval("dStartDate") %>' Width="120px"></asp:LinkButton>--%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Due date">
+                                                    <ItemTemplate>
+                                                        <uc1:CtrlDate runat="server" ID="CtrlToDate" />
+                                                        <%--asp:Label ID="LblFine" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("dEndDate") %>' Width="280px"></asp:Label>
+                                                       <asp:LinkButton ID="LnkAdmissionNo" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Value='<%# Eval("dEndDate") %>' Width="120px"></asp:LinkButton>--%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <tr>
+                                                            <td colspan="100%">
+                                                                <div id="div<%# Eval("ID") %>" style="position: relative; left: 15px; overflow: auto">
+
+                                                                    <asp:GridView ID="GrdVwFee" runat="server" AutoGenerateColumns="false" SkinID="GrdVwMaster" Width="780px" OnRowDataBound="GrdVwFee_RowDataBound">
+                                                                        <Columns>
+                                                                            <asp:TemplateField>
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="LblFeeId" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("ID") %>' Width="280px"></asp:Label>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Fees Name" >
+                                                                                <ItemTemplate>
+                                                                                    
+                                                                                    <asp:Label ID="LblFee" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Name") %>' Width="280px"></asp:Label>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField>
+                                                                                <ItemTemplate></ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField>
+                                                                                <ItemTemplate></ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Amount">
+                                                                                <ItemTemplate>
+                                                                                    <asp:TextBox ID="TxtAmount" runat="server" placeholder="0.00"></asp:TextBox>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+
+
+                                                                        </Columns>
+                                                                    </asp:GridView>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
                                         </asp:GridView>
+
+                                        <script language="javascript" type="text/javascript">
+                                            function divexpandcollapse(divname) {
+                                                var div = document.getElementById(divname);
+
+                                                if (div.style.display == "none") {
+                                                    div.style.display = "inline";
+
+                                                }
+                                                else {
+                                                    div.style.display = "none";
+                                                }
+                                            }
+                                        </script>
+
+
+
                                         <script src="http://code.jquery.com/jquery-1.8.2.js" type="text/javascript">
 
 
@@ -100,18 +194,20 @@
 
 
 
-                                            function Myfunction(Amount, InsGrpId, ClsId, DivId, StuId, FeeId, RowIndxx, AcId, BrId, CmpId, FaId,AccLedgerId,OrderIndex) {
+                                            function Myfunction(Amount, InsGrpId, ClsId, DivId, StuId, FeeId, InstallmentId, AcId, BrId, CmpId, FaId, AccLedgerId, OrderIndex,Fromdate,DueDate) {
 
                                                 var txtName = document.getElementById(Amount);
 
+
+                                                var Fromdate = document.getElementById(Fromdate).value;
+                                                var Duedate = document.getElementById(DueDate).value;
                                                 //alert("amount" + Amount);
                                                 //alert("institution id" + InsGrpId);
                                                 //alert("ClsId" + ClsId);
                                                 //alert("DivId" + DivId);
                                                 //alert("StuId" + StuId);
-                                                alert("FeeId" + FeeId);
-                                                alert("stuid" + StuId);
-                                                var grd = document.getElementById('<%= GrdVwFee.ClientID %>');
+                                                alert("fromdate" + Fromdate.value);
+                                                alert("duedate" + Duedate.value);
 
                                                 var InsGrpIdd = document.getElementById(InsGrpId).value;
                                                 var ClsIdd = document.getElementById(ClsId).value;
@@ -119,13 +215,8 @@
                                                 var StuIdd = document.getElementById(StuId).value;
                                                 //alert(stuidd);
 
-                                                var RowIndx = RowIndxx;
-                                                
 
-                                                var InstallmentId = grd.rows[RowIndx].cells[0].childNodes[0].textContent;
-                                                
-
-                                                //alert("function" + txtName.value + "" + InsGrpId + "" + ClsId + " " + DivId + "" + StuId + " " + FeeId + " -" + InstallmentId + "");
+                                                alert("function" + txtName.value + "" + InsGrpId + "" + ClsId + " " + DivId + "" + StuId + " " + FeeId + " -" + InstallmentId + "");
 
 
                                                 $.ajax({
@@ -161,7 +252,7 @@
                                                 });
 
 
-                                                
+
 
 
                                             }
@@ -172,17 +263,15 @@
 
                                 <tr>
 
-                                    <td>
-                                   
-                                </td>
+                                    <td></td>
                                     <td align="center" class="FooterCommand" colspan="5" valign="middle">
                                         <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />
                                     </td>
                                 </tr>
                             </tr>
 
-                        </tr>             
-                     </table>
+                        </tr>
+                    </table>
                 </ContentTemplate>
             </ajaxToolkit:TabPanel>
             <ajaxToolkit:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1">

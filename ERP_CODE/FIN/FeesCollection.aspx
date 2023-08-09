@@ -4,12 +4,12 @@
 <%@ Register Src="../CtrlCommand.ascx" TagName="CtrlCommand" TagPrefix="uc1" %>
 <%@ Register Src="../CtrlGridList.ascx" TagName="CtrlGridList" TagPrefix="uc2" %>
 <%@ Register Src="../CtrlDate.ascx" TagName="CtrlDate" TagPrefix="uc3" %>
-<%@ Register Src="~/CtrlDate.ascx" TagPrefix="uc1" TagName="CtrlDate" %>
-<%@ Register Src="~/CtrlGridList.ascx" TagPrefix="uc1" TagName="CtrlGridList" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <div style="height: 394px; width: 872px; margin-bottom: 28px;">
-        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="540px" Width="840px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div style="height: 394px; width: 950px; margin-bottom: 28px;">
+        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="750px" Width="1000px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
                     Fee Receipt
@@ -19,131 +19,302 @@
                 <ContentTemplate>
                     <table class="auto-style1">
                         <tr>
-                            <td class="odd" style="width: 93px; height: 39px">
-                                <asp:Label ID="Label1" runat="server" Text="Admission No."></asp:Label>
+                            <td class="odd" style="width: 180px">
+                                <asp:Label ID="LblRptDate" runat="server" Text="Receipt No." Width="100px"></asp:Label>
                             </td>
-                            <td class="odd" style="width: 206px; height: 39px">
-                                <asp:TextBox ID="TextBox1" runat="server" Width="173px"></asp:TextBox>
+                            <td class="odd" style="width: 30px" colspan="2">
+                                <asp:TextBox ID="TxtRptNo" runat="server" Width="210px"></asp:TextBox>
                             </td>
-                            <td class="odd" style="width: 90px; height: 39px">
-                                <asp:Label ID="Label2" runat="server" Text="Name"></asp:Label>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">
+                                <asp:Label ID="LblRptNo" runat="server" Text="Receipt Date"></asp:Label>
                             </td>
-                            <td class="odd" style="height: 39px" colspan="2">
-                                <asp:TextBox ID="TextBox2" runat="server" style="margin-right: 27px" Width="213px"></asp:TextBox>
-                                <asp:Button ID="Button1" runat="server" Height="25px" Text="...." Width="39px" />
-                                <asp:Label ID="Label3" runat="server" Text="Details"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 95px">&nbsp;
-                                <asp:Label ID="Label4" runat="server" Text="Receipt Date"></asp:Label>
-                            </td>
-                            <td style="width: 206px">
-                                <uc1:CtrlDate ID="CtrlDate1" runat="server" />
-                            </td>
-                            <td style="width: 90px">
-                                <asp:Label ID="Label5" runat="server" Text=" Group/Section"></asp:Label>
-                            </td>
-                            <td colspan="2">
-                                <asp:TextBox ID="TextBox3" runat="server" Width="213px"></asp:TextBox>
-                                <asp:CheckBox ID="CheckBox1" runat="server" Text="Show Payable" />
+                            <td class="odd" colspan="2">
+                                <uc3:CtrlDate ID="CtrlRptDate" runat="server" />
                             </td>
                         </tr>
                         <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td class="odd" style="width: 180px">
+                                <asp:Label ID="LblAdmNo" runat="server" Text="Admission No." Width="150px"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="2" style="width: 30px">
+                                <asp:TextBox ID="TxtAdmNo" runat="server" Width="210px"></asp:TextBox>
+                            </td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">
+                                <asp:Label ID="LblName" runat="server" Text="Name"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="2">
+                               
+                                <uc2:CtrlGridList ID="CtrlGrdStudent" runat="server" AccountType="StudentList" PlaceHoldr="Student"  OnInit="CtrlGrdStudent_Init" />
+                                <asp:Button ID="BtnStud" runat="server" Text="Show" OnClick="BtnStud_Click"/>
+                            </td>
                         </tr>
                         <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td class="odd" style="width: 180px">
+                                <asp:Label ID="LblInsDate" runat="server" Text="Installment Date" Width="100px"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="2">
+                                <uc3:CtrlDate ID="CtrlInsDate" runat="server" />
+                            </td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">
+                                <asp:Label ID="LblGpSec" runat="server" Text=" Group/Section"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="2">
+                                <asp:TextBox ID="TxtGrpSec" runat="server" Width="150px"></asp:TextBox>
+                                <asp:CheckBox ID="ChkSwPay" runat="server" Text="Show Payable" />
+                            </td>
                         </tr>
                         <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td class="odd" style="width: 180px" >
+                                <asp:Label ID="LblHdAc" runat="server" Text="Head of Account" Width="100px"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="2">
+                                <uc2:CtrlGridList runat="server" ID="CtrlGridHdOfAcc" AccountType="AccountLedger" />
+                            </td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">
+                                <asp:Label ID="LblFType" runat="server" Text="Fee Type"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="2">
+                                <asp:DropDownList ID="DdlFeeType" runat="server" Width="210px">
+                                    <asp:ListItem Text="--select--" Value="0"></asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:Button ID="Button2" runat="server" Text="Show" OnClick="Button2_Click" />
+                            </td>
                         </tr>
                         <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td colspan="6" rowspan="4">
+                                <div class="result-list" style="overflow: scroll; height: 300px; width: 607px;">
+                                    <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster" Width="600px" >
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="Fees Name">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Feename") %>' Width="175px"></asp:LinkButton>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Total fees">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("TotalFee") %>' Width="100px"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Concession">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblAbbrevation" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Concession") %>' Width="100px"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Paid">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblPaid" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Paid") %>' Width="100px"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Excess">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblExcess" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Excess") %>' Width="150px"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Payable">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblPayable" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Payable")  %>' Width="150px"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+
+                                        </Columns>
+                                    </asp:GridView>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <asp:Label ID="LblFine" runat="server" Text="Fine"></asp:Label>
+                                <asp:CheckBox ID="ChkCumulative" runat="server" Text="Cumulative" />
+                                <asp:TextBox ID="TxtCumAmount" runat="server" Width="210px" placeholder="0.00"></asp:TextBox>
+                            </td>
                         </tr>
                         <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td>
+                                <asp:Label ID="LblAmPay" runat="server" Text="Total Amount Payable"></asp:Label>
+                                <asp:TextBox ID="TxtAmntPayable" runat="server" Width="210px" placeholder="0.00"></asp:TextBox>
+                            </td>
                         </tr>
                         <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td>
+                                <asp:Label ID="LblAmount" runat="server" Text="Amount"></asp:Label>
+                                <asp:TextBox ID="TxtTotAmnt" runat="server" Width="210px" placeholder="0.00"></asp:TextBox>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="odd" >
+                                <asp:Label ID="Label12" runat="server" Text="Concession" Width="100px"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="2">
+                                <asp:DropDownList ID="DdlConcession" runat="server" Width="320px">
+                                    <asp:ListItem Text="--select--" Value="0"></asp:ListItem>
+                                </asp:DropDownList>
+                            </td>
+                            <td class="odd">
+                                &nbsp;</td>
+                            <td class="odd" >
+                                <asp:TextBox ID="TxtConcPerAmnt" runat="server" SkinID="TxtCode" ></asp:TextBox>
+                            </td>
+                            <td class="odd" colspan="2">
+                                <asp:Label ID="Label13" runat="server" Text="Concession Amount"></asp:Label>
+                                <asp:TextBox ID="TxtConcssnAmount" runat="server" SkinID="TxtCode" ></asp:TextBox>
+                            </td>
                         </tr>
                         <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td class="odd" >
+                                <asp:Label ID="Label14" runat="server" Text="Con.History" Width="100px"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="2">
+                                <asp:DropDownList ID="DdlConcHis" runat="server" Width="320px">
+                                    <asp:ListItem Text="--select--" Value="0"></asp:ListItem>
+                                </asp:DropDownList>
+                            </td>
+                            <td class="odd">
+                                &nbsp;</td>
+                            <td class="odd" >
+                                <asp:Button ID="BtnConDtls" runat="server" Height="25px" Text="Con.Details" Width="90px" />
+                            </td>
+                            <td class="odd" colspan="2">
+                                <asp:Label ID="Label15" runat="server" Text="Net Payable" ></asp:Label>
+                                <asp:TextBox ID="TxtNtPayable" runat="server" SkinID="TxtCode" Width="190px" ></asp:TextBox>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="odd" >
+                                <asp:Label ID="Label18" runat="server" Text="Cheque/DD No." Width="115px"></asp:Label>
+                            </td>
+                            <td class="odd">
+                                <asp:TextBox ID="TxtCheqDDNo" runat="server" SkinID="TxtCode"></asp:TextBox>
+                            </td>
+                            <td class="odd">
+                                <asp:Label ID="Label20" runat="server" Text="Cheque/DD Date" Width="100px"></asp:Label>
+                            </td>
+                            <td class="odd">
+                                &nbsp;</td>
+                            <td class="odd" >
+                                <uc3:CtrlDate ID="CtrlChqDDDate" runat="server" />
+                            </td>
+                            <td>
+                                <asp:Button ID="BtnArrBal" runat="server" Height="25px" Text="Arrear Balance" Width="110px" />
+                            </td>
+                            <td>
+                                &nbsp;</td>
                         </tr>
                         <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td class="odd">
+                                <asp:Label ID="Label19" runat="server" Text="Payable At" Width="100px"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="4">
+                                <asp:TextBox ID="TxtPayAt" runat="server" Width="500px"></asp:TextBox>
+                            </td>
+
+                            <td class="odd">
+                                &nbsp;</td>
+                            <td class="odd">
+                                &nbsp;</td>
                         </tr>
                         <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td class="odd" style="height: 39px">
+                                <asp:Label ID="Label21" runat="server" Text="Remarks" Width="100px"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="6" style="height: 39px">
+                                <asp:TextBox ID="TxtRemarks" runat="server" Width="700px"></asp:TextBox>
+                            </td>                       
+                        </tr>
+
+                        <tr>
+                            <td class="odd" colspan="7" style="height: 39px">
+                                <asp:CheckBox ID="ChkPrInsname" runat="server" Text="Print Installment Names" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:CheckBox ID="ChkUseAbbr" runat="server" Text="Use Abbreviation" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:CheckBox ID="ChkSendSMS" runat="server" Text="send SMS to Parents" />
+                            </td>
                         </tr>
                         <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td class="odd" colspan="7" style="height: 39px">
+                                <asp:CheckBox ID="ChkUseDftCase" runat="server" Text="Use Default Case" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:CheckBox ID="ChkPrntSumm" runat="server" Text="Use Fee PrintName Summary" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                
+                            </td>
                         </tr>
-                        <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
+                       
+                       <tr>
+                            <td align="center" class="FooterCommand" valign="middle" colspan="3">
+                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />
+                            </td>
                         </tr>
-                        <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td style="width: 93px">&nbsp;</td>
-                            <td style="width: 206px">&nbsp;</td>
-                            <td style="width: 90px">&nbsp;</td>
-                            <td class="modal-sm" style="width: 190px">&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
+
+
                     </table>
-                    </ContentTemplate>
-                </ajaxToolkit:TabPanel>
-            </ajaxToolkit:TabContainer>
-        </div>
+                </ContentTemplate>
+            </ajaxToolkit:TabPanel>
+
+            <ajaxToolkit:TabPanel ID="TabPanel2" runat="server" HeaderText="TabPanel2">
+                <HeaderTemplate>Student Details</HeaderTemplate>
+
+                <ContentTemplate>
+                    <table style="width: 100%; height: 0px;">
+                        <tr>
+                            
+                           <td class="odd">
+                                <asp:Label ID="Label4" runat="server" Height="18px" Text="Group" Width="60px" SkinID="LblBold"></asp:Label>
+                            </td>
+                            <td class="odd">
+                                <uc2:CtrlGridList ID="CtrlGrdInstitute" runat="server" AccountType="InstituteGroup" PlaceHoldr="Group" />
+                            </td>
+                            <td class="odd" style="width: 60px">
+                                <asp:Label ID="Label1" runat="server" Height="30px" Text="Class" Width="60px" SkinID="LblBold"></asp:Label>
+                            </td>
+                            <td class="odd">
+                                <uc2:CtrlGridList ID="CtrlGrdClass" runat="server" AccountType="ClassList" PlaceHoldr="Class" />
+                            </td>
+                        </tr>
+                        <tr class="result-head">
+                           
+                            <td class="odd" style="height: 39px">
+                                    <asp:Label ID="Label5" runat="server" Height="30px" SkinID="LblBold" Text="Division" Width="60px"></asp:Label>
+                                </td>
+                                <td class="odd" style="height: 39px">
+                                    <uc2:CtrlGridList ID="CtrlGrdDiv" runat="server" AccountType="DivisionList" PlaceHoldr="Division" />
+                                </td>
+                                <td class="odd" style="width: 60px; height: 39px;">
+                                    <asp:Label ID="Label3" runat="server" Height="30px" SkinID="LblBold" Text="Student" Width="60px"></asp:Label>
+                                </td>
+                                <td class="odd" style="height: 39px">
+                                    <uc2:CtrlGridList ID="CtrlGrdStudent_Scr" runat="server" AccountType="StudentList" PlaceHoldr="Student"  />
+                                </td>
+                        </tr>
+                         <tr>
+                                <td>
+                                    <asp:Button ID="cmdFill" runat="server" Text="Find" SkinID="BtnCommandFindNew" CommandName="FIND" OnClick="cmdFill_Click" />
+                                </td>
+                               
+                            </tr>
+
+                    </table>
+                </ContentTemplate>
+
+
+
+
+            </ajaxToolkit:TabPanel>
+
+        </ajaxToolkit:TabContainer>
+    </div>
 </asp:Content>
 

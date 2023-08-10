@@ -12,6 +12,10 @@ public partial class FIN_FeesCollection : ClsPageEvents, IPageInterFace
 {
     ClsFeeInstallmentMaster ObjCls = new ClsFeeInstallmentMaster();
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
+    HiddenField HdnId = null;
+    TextBox Paid = null;
+    Label TotalFee = null, Concession = null, Excess = null, Payable = null;
+
 
     protected override void Page_Load(object sender, EventArgs e)
     {
@@ -24,9 +28,19 @@ public partial class FIN_FeesCollection : ClsPageEvents, IPageInterFace
             {
                 FnInitializeForm();
                 ObjLst.FnGetFeeTypeList(DdlFeeType, "");
+                //DdlFeeType.Items.Add(new ListItem("All", "0"));
+                //DdlFeeType.SelectedValue = "0";
                 //ObjCls = new ClsUser(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
                 CtrlRptDate.DateText = DateTime.Now.ToString("dd/MMM/yyyy");
                 CtrlInsDate.DateText = DateTime.Now.ToString("dd/MMM/yyyy");
+
+                //DdlFeeType.Items.Add(new ListItem("All", "0"));
+                //DataTable ClsTC = (ObjCls.FnGetDataSet("select  TCD.nId nId, TCD.cName cName FROM TblGeneral where cTType ='FETYPE' ") as DataSet).Tables[0];
+                //DdlFeeType.DataSource = ClsTC;
+                //DdlFeeType.DataValueField = "nId";
+                //DdlFeeType.DataTextField = "cName";
+                //DdlFeeType.DataBind();
+
             }
             //CtrlGrdClass.ParentControl = CtrlGrdInstitute.IdControl;
             CtrlGrdDiv.ParentControl = CtrlGrdClass.IdControl;
@@ -145,25 +159,26 @@ public partial class FIN_FeesCollection : ClsPageEvents, IPageInterFace
         {
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
-                //case "SAVE":
-                //    if (TxtName.Text.Trim().Length <= 0)
-                //    {
-                //        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the name"));
-                //        FnFocus(TxtName);
-                //        return;
-                //    }
+                case "SAVE":
+                    //    if (TxtName.Text.Trim().Length <= 0)
+                    //    {
+                    //        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the name"));
+                    //        FnFocus(TxtName);
+                    //        return;
+                    //    }
 
-                //    FnAssignProperty();
-                //    switch (((Button)sender).CommandArgument.ToString().ToUpper())
-                //    {
-                //        case "NEW":
-                //            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
-                //            break;
-                //        case "UPDATE":
-                //            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
-                //            break;
-                //    }
-                //    break;
+                    //    FnAssignProperty();
+                    //    switch (((Button)sender).CommandArgument.ToString().ToUpper())
+                    //    {
+                    //        case "NEW":
+                    //            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
+                    //            break;
+                    //        case "UPDATE":
+                    //            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
+                    //            break;
+                    //    }
+                    Insert();
+                   break;
                 //case "DELETE":
                 //    FnAssignProperty();
                 //    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
@@ -287,7 +302,7 @@ public partial class FIN_FeesCollection : ClsPageEvents, IPageInterFace
         float CD = (float) GTotalP;
         float GTotalC = float.Parse(TxtCumAmount.Text);
 
-        TxtTotAmnt.Text = (CD - GTotalC).ToString();
+        TxtTotAmnt.Text = (CD + GTotalC).ToString();
 
     }
 
@@ -299,8 +314,10 @@ public partial class FIN_FeesCollection : ClsPageEvents, IPageInterFace
         {
             String total = (GrdVwRecords.Rows[i].FindControl("LblPayable") as Label).Text;
             GTotal += Convert.ToSingle(total);
+            
         }
         TxtAmntPayable.Text = GTotal.ToString();
+
     }
 
 
@@ -350,7 +367,7 @@ public partial class FIN_FeesCollection : ClsPageEvents, IPageInterFace
         DataTable ClsTGFI1 = (ObjCls.FnGetDataSet("select * from TblRegistrationStudent   ") as DataSet).Tables[0];
         DataTable ClsTGFI2 = (ObjCls.FnGetDataSet("select * from TblStudentAdmissionDetails   ") as DataSet).Tables[0];
 
-        DataTable ClsTGFI3 = (ObjCls.FnGetDataSet("select * from TblFineSettings   ") as DataSet).Tables[0];
+        DataTable ClsTGFI3 = (ObjCls.FnGetDataSet("select  * from TblFeeAssign   ") as DataSet).Tables[0];
 
         string strAIsql = "SELECT TCD.nId FROM TblRegistrationStudent S inner join TblClassDetails TCD on S.nInstituteId=4 and TCD.cttype='INGRP'    WHERE   S.nId=" + StudIID;
         var INSTID = ObjCls.FnExecuteScalar(strAIsql).ToString();
@@ -400,6 +417,134 @@ public partial class FIN_FeesCollection : ClsPageEvents, IPageInterFace
 
 
 
+    }
+
+
+    public void Insert()
+    {
+
+
+        int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
+
+        string ReceiptNo = TxtRptNo.Text;
+        DateTime ReceptDate = ObjCls.FnDateTime(CtrlRptDate.DateText);
+        int AdmissionNo = ObjCls.FnIsNumeric(TxtAdmNo.Text);
+        int StudIID = ObjCls.FnIsNumeric(CtrlGrdStudent.SelectedValue);
+        DateTime InstDate = ObjCls.FnDateTime(CtrlInsDate.DateText);
+        string GroupSection = TxtGrpSec.Text;
+        Boolean ShowPayable = (ChkSwPay.Checked == true ? true : false);
+        int AccLedger = ObjCls.FnIsNumeric(CtrlGridHdOfAcc.SelectedValue);
+        int FeeType = ObjCls.FnIsNumeric(DdlFeeType.SelectedValue);
+        Boolean FineCumeStatus= (ChkCumulative.Checked == true ? true : false);
+        var FineAmount = TxtCumAmount.Text;
+        float TotalAmtPayable = ObjCls.FnIsNumeric(TxtAmntPayable.Text);
+        float AmountIncludingFine = ObjCls.FnIsNumeric(TxtTotAmnt.Text);
+        float NetPayable = ObjCls.FnIsNumeric(TxtNtPayable.Text);
+        string ChequeDDNo = TxtCheqDDNo.Text;
+        DateTime ChequeDDDate= ObjCls.FnDateTime(CtrlChqDDDate.DateText);
+        string PayableAt = TxtPayAt.Text;
+        string Remarks = TxtRemarks.Text;
+        Boolean PrInsname = (ChkPrInsname.Checked == true ? true : false);
+        Boolean UseAbbrevation = (ChkUseAbbr.Checked == true ? true : false);
+        Boolean SendSMS = (ChkSendSMS.Checked == true ? true : false);
+        Boolean UseDefault = (ChkUseDftCase.Checked == true ? true : false);
+        Boolean PrFeeNameSummary = (ChkPrntSumm.Checked == true ? true : false);
+
+
+        SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
+        SqlCommand cmd = new SqlCommand("Insert into TblFeeCollection(nReciptNo, nReciptDate, nAdmissionNo, nStudentId, nInstallmentDate, nGroupSection, nShowPayable, nAccLedgerId, nFeeTypeId, nFineCumulative, nFineAmount, nTotalAmountPayable, nAmountPayableIncludeFine, nNetAmountPayable, nChequeDDNo, nChequeDDDate,  cPayableAt, cRemarks, nPrintInstallmentName, nUseAbbrevation, nSendSMS, nUseDefault, nFeePrintNameSummary, nCompanyId, nBranchId, nFaId, nAcId) VALUES('" + ReceiptNo + "','" + ReceptDate + "','" + AdmissionNo + "'," + StudIID + ",'" + InstDate + "','" + GroupSection + "','" + ShowPayable + "'," + AccLedger + "," + FeeType + ",'" + FineCumeStatus + "','" + FineAmount + "','" + TotalAmtPayable + "','" + AmountIncludingFine + "','" + NetPayable + "','" + ChequeDDNo + "','" + ChequeDDDate + "','" + PayableAt + "','" + Remarks + "','" + PrInsname + "','" + UseAbbrevation + "','" + SendSMS + "','" + UseDefault + "','" + PrFeeNameSummary + "'," + iCmpId + "," + iBrId + "," + iFaId + "," + iAcId + ")", con);
+        con.Open();
+        int i = cmd.ExecuteNonQuery();
+
+
+        Int32 newProdID = 0;
+
+        SqlCommand cmd2 = new SqlCommand("SELECT nId FROM TblFeeCollection    WHERE  nReciptNo=" + ReceiptNo, con);
+        // newProdID = (Int32)cmd2.ExecuteScalar();
+        object result = cmd2.ExecuteScalar();
+        var RR = result.ToString();
+
+        for (int k = 0; k < GrdVwRecords.Rows.Count; k++)
+        {
+
+            HdnId = (HiddenField)GrdVwRecords.Rows[k].FindControl("HdnId");
+            String total = (GrdVwRecords.Rows[k].FindControl("LblPayable") as Label).Text;
+
+            TotalFee = (Label)GrdVwRecords.Rows[k].FindControl("LblTotalFee");
+            Concession = (Label)GrdVwRecords.Rows[k].FindControl("LblAbbrevation");
+            Paid = (TextBox)GrdVwRecords.Rows[k].FindControl("TxtPaid");
+            Excess = (Label)GrdVwRecords.Rows[k].FindControl("LblExcess");
+            Payable = (Label)GrdVwRecords.Rows[k].FindControl("LblPayable");
+
+            SqlCommand cmd1 = new SqlCommand("Insert into TblFeeCollectionDT(nHId, nFeeId, nTotalFee, nConcession, nPaid, nExcess, nPayable) VALUES('" + result + "'," + HdnId.Value + ",'" + TotalFee.Text + "','" + Concession.Text + "','" + Paid.Text + "','" + Excess.Text + "','" + Payable.Text + "')", con);
+            
+            cmd1.ExecuteNonQuery();
+           
+
+
+
+        }
+        con.Close();
+
+        //[nTotalFee] [numeric](18, 3) NULL,
+        //[nConcession] [numeric](18, 3) NULL,
+        //[nPaid] [numeric](18, 3) NULL,
+        //[nExcess] [numeric](18, 3) NULL,
+        //[nPayable] [numeric](18, 3) NULL
+
+
+
+        //SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
+        //SqlCommand cmd = new SqlCommand("Insert into TblFeeAssignTemp(nFeeMasterId, nInstalmentId, nInstituteGrpId, nClassId, nDivisionId, nStudentId, nAmount,nCompanyId, nBranchId, nFaId,nAcId,nAccLedgerId,nOrderIndex) VALUES(" + nFEEId + "," + nINSSTALId + "," + nINSTIId + "," + nCLSId + "," + nDIVId + "," + nSTUDId + "," + nAmount + "," + iCmpId + "," + iBrId + "," + iFaId + "," + iAcId + "," + nAccLedgerId + "," + nOrderIndex + ")", con);
+        //con.Open();
+        //int i = cmd.ExecuteNonQuery();
+        //con.Close();
+
+
+
+
+        //using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+        //{
+        //    using (SqlCommand cmd = new SqlCommand("SPTestT4", con))
+        //    {
+        //        con.Open();
+        //        cmd.CommandType = CommandType.StoredProcedure;
+
+
+        //        cmd.Parameters.AddWithValue("@nStudIID", StudIID);
+        //        cmd.Parameters.AddWithValue("@nFeeType", FeeType);
+        //        cmd.Parameters.AddWithValue("@nInstDate", InstDate);
+        //        cmd.Parameters.AddWithValue("@nInstID", INSTID);
+        //        cmd.Parameters.AddWithValue("@nClassID", CLSID);
+        //        cmd.Parameters.AddWithValue("@nDivID", DIVID);
+        //        int i = cmd.ExecuteNonQuery();
+        //        con.Close();
+        //        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+        //        {
+        //            da.Fill(DDT);
+        //        }
+        //    }
+
+
+        //    ViewState["DT2"] = DDT;
+        //}
+
+
+
+
+    }
+
+    protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
+
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            string INSID = ((Label)e.Row.FindControl("LblPayable")).Text;
+
+            ((TextBox)e.Row.FindControl("TxtPaid")).Text = INSID;
+
+        }
     }
 
 

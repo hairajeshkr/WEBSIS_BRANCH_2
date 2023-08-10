@@ -8,8 +8,8 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <div style="height: 394px; width: 950px; margin-bottom: 28px;">
-        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="750px" Width="1000px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
+    <div style="height: 800px; width: 1018px; margin-bottom: 28px;">
+        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="800px" Width="1005px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
                     Fee Receipt
@@ -79,24 +79,25 @@
                             </td>
                             <td class="odd" colspan="2">
                                 <asp:DropDownList ID="DdlFeeType" runat="server" Width="210px">
-                                    <asp:ListItem Text="--select--" Value="0"></asp:ListItem>
+                                   
                                 </asp:DropDownList>
                                 <asp:Button ID="Button2" runat="server" Text="Show" OnClick="Button2_Click" />
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="6" rowspan="4">
+                            <td colspan="5" rowspan="4">
                                 <div class="result-list" style="overflow: scroll; height: 300px; width: 607px;">
-                                    <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster" Width="600px" >
+                                    <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster" Width="600px" OnRowDataBound="GrdVwRecords_RowDataBound" >
                                         <Columns>
                                             <asp:TemplateField HeaderText="Fees Name">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Feename") %>' Width="175px"></asp:LinkButton>
+                                                     <asp:HiddenField ID="HdnId" runat="server" Value='<%# Eval("ID") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Total fees">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("TotalFee") %>' Width="100px"></asp:Label>
+                                                    <asp:Label ID="LblTotalFee" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("TotalFee") %>' Width="100px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -108,7 +109,8 @@
 
                                             <asp:TemplateField HeaderText="Paid">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblPaid" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Paid") %>' Width="100px"></asp:Label>
+                                                   
+                                                    <asp:TextBox ID="TxtPaid" runat="server" SkinID="TxtCode" ></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -129,7 +131,6 @@
                                     </asp:GridView>
                                 </div>
                             </td>
-
                         </tr>
 
                         <tr>

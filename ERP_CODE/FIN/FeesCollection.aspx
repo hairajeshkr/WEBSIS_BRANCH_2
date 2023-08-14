@@ -103,14 +103,14 @@
 
                                             <asp:TemplateField HeaderText="Concession">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblAbbrevation" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Concession") %>' Width="100px"></asp:Label>
+                                                    <asp:Label ID="LblConcession" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Concession") %>' Width="100px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="Paid">
                                                 <ItemTemplate>
-                                                   
-                                                    <asp:TextBox ID="TxtPaid" runat="server" SkinID="TxtCode" ></asp:TextBox>
+                                                    <asp:Label ID="LblPaid" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Paid")  %>' Width="150px"></asp:Label>
+                                                    
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -122,13 +122,90 @@
 
                                             <asp:TemplateField HeaderText="Payable">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblPayable" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Payable")  %>' Width="150px"></asp:Label>
+                                                   
+                                                    <asp:TextBox ID="TxtPayable" runat="server" SkinID="TxtCode" ></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
 
                                         </Columns>
                                     </asp:GridView>
+
+                                      <script src="http://code.jquery.com/jquery-1.8.2.js" type="text/javascript">
+                                        </script>
+                                        <script type="text/javascript">
+
+                                            //function call() {
+                                            //    alert(AA);
+                                            //    $.ajax({
+                                            //        type: "POST",
+                                            //        contentType: "application/json; charset=utf-8",
+                                            //        url: "FeesCollection.aspx/GrandTotal1",
+                                            //        dataType: "json",
+                                            //    }).done(function () {
+                                            //        alert('called');
+                                            //    });
+                                            //}
+
+
+                                            function Myfunction(TxtG, TxtP) {
+                                                
+                                                var TOT = 0;
+                                                var grid = document.getElementById("<%= GrdVwRecords.ClientID%>");
+                                                for (var i = 0; i < grid.rows.length - 1; i++) {
+                                                    var txtAmountReceive = $("input[id*=TxtPayable]")
+                                                    if (txtAmountReceive[i].value != '') {
+                                                        const T = txtAmountReceive[i].value;
+                                                        TOT += parseFloat(txtAmountReceive[i].value);
+                                                    }
+                                                }
+                                                document.getElementById("<%= TxtAmntPayable.ClientID %>").innerHTML = TOT.toFixed(2);
+
+                                            }
+
+
+
+                                            //function myfunc   {
+                                            //    var b = document.getElementById("GridView1");
+                                            //    var c = document.getElementById("TextBox1");
+                                            //    var d = document.getElementById("TextBox2");
+                                            //    dd = dd + 1;
+                                            //    c.value = document.getElementById("GridView1").rows[dd].cells[2].innerHTML;
+                                            //    d.value = document.getElementById("GridView1").rows[dd].cells[3].innerHTML;
+                                            //}
+
+
+
+                                            //function Myfunction(AA) {
+                                            //    alert("111");
+                                               
+
+                                            //    $.ajax({
+
+                                            //        type: "POST",
+                                            //        url: "FeesCollection.aspx/GrandTotal1",
+                                            //        data: "",
+                                            //        contentType: "application/json; charset=utf-8",
+                                            //        dataType: "json",
+                                            //        success: function (data) {
+                                            //            alert("SS");
+                                            //            var obj = data.d;
+                                            //            if (obj == 'true') {
+                                            //                $('#nFEEId').val('');
+                                                           
+                                            //            }
+                                            //        },
+                                            //        error: function (result) {
+                                            //            alert("Error");
+                                            //        }
+                                            //    });
+
+
+
+
+                                           // }
+                                        </script>
+
                                 </div>
                             </td>
                         </tr>

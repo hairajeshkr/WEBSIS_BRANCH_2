@@ -20,17 +20,17 @@
                     <table class="auto-style1">
                         <tr>
                             <td class="odd" style="width: 180px">
-                                <asp:Label ID="LblRptDate" runat="server" Text="Receipt No." Width="100px"></asp:Label>
+                                <asp:Label ID="LblRptNo" runat="server" Text="Receipt No." Width="100px"></asp:Label>
                             </td>
                             <td class="odd" style="width: 30px" colspan="2">
                                 <asp:TextBox ID="TxtRptNo" runat="server" Width="210px"></asp:TextBox>
                             </td>
                             <td class="odd">&nbsp;</td>
                             <td class="odd">
-                                <asp:Label ID="LblRptNo" runat="server" Text="Receipt Date"></asp:Label>
+                                <asp:Label ID="LblRptDate" runat="server" Text="Receipt Date"></asp:Label>
                             </td>
                             <td class="odd" colspan="2">
-                                <uc3:CtrlDate ID="CtrlRptDate" runat="server" />
+                                <uc3:CtrlDate ID="CtrlRptDate" runat="server" DateText="dd/MMM/yyyy" />
                             </td>
                         </tr>
                         <tr>
@@ -46,7 +46,7 @@
                             </td>
                             <td class="odd" colspan="2">
                                
-                                <uc2:CtrlGridList ID="CtrlGrdStudent" runat="server" AccountType="StudentList" PlaceHoldr="Student"  OnInit="CtrlGrdStudent_Init" />
+                                <uc2:CtrlGridList ID="CtrlGrdStudent" runat="server" AccountType="StudentList" PlaceHoldr="Student"  />
                                 <asp:Button ID="BtnStud" runat="server" Text="Show" OnClick="BtnStud_Click"/>
                             </td>
                         </tr>
@@ -81,7 +81,7 @@
                                 <asp:DropDownList ID="DdlFeeType" runat="server" Width="210px">
                                    
                                 </asp:DropDownList>
-                                <asp:Button ID="Button2" runat="server" Text="Show" OnClick="Button2_Click" />
+                                <asp:Button ID="BtnShow" runat="server" Text="Show" OnClick="BtnShow_Click" />
                             </td>
                         </tr>
                         <tr>
@@ -91,32 +91,32 @@
                                         <Columns>
                                             <asp:TemplateField HeaderText="Fees Name">
                                                 <ItemTemplate>
-                                                    <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Feename") %>' Width="175px"></asp:LinkButton>
+                                                    <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Feename") %>' ></asp:LinkButton>
                                                      <asp:HiddenField ID="HdnId" runat="server" Value='<%# Eval("ID") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Total fees">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblTotalFee" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("TotalFee") %>' Width="100px"></asp:Label>
+                                                    <asp:Label ID="LblTotalFee" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("TotalFee") %>' ></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="Concession">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblConcession" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Concession") %>' Width="100px"></asp:Label>
+                                                    <asp:Label ID="LblConcession" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Concession") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="Paid">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblPaid" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Paid")  %>' Width="150px"></asp:Label>
+                                                    <asp:Label ID="LblPaid" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Paid")  %>' ></asp:Label>
                                                     
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
                                             <asp:TemplateField HeaderText="Excess">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblExcess" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Excess") %>' Width="150px"></asp:Label>
+                                                    <asp:Label ID="LblExcess" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Excess") %>' ></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -135,20 +135,7 @@
                                         </script>
                                         <script type="text/javascript">
 
-                                            //function call() {
-                                            //    alert(AA);
-                                            //    $.ajax({
-                                            //        type: "POST",
-                                            //        contentType: "application/json; charset=utf-8",
-                                            //        url: "FeesCollection.aspx/GrandTotal1",
-                                            //        dataType: "json",
-                                            //    }).done(function () {
-                                            //        alert('called');
-                                            //    });
-                                            //}
-
-
-                                            function Myfunction(TxtG, TxtP) {
+                                            function Myfunction(TxtGPayable, TxtTotPayableAmt, TxtCumAmount, TxtTotAmnt, TxtNtPayable) {
                                                 
                                                 var TOT = 0;
                                                 var grid = document.getElementById("<%= GrdVwRecords.ClientID%>");
@@ -159,51 +146,35 @@
                                                         TOT += parseFloat(txtAmountReceive[i].value);
                                                     }
                                                 }
-                                                document.getElementById("<%= TxtAmntPayable.ClientID %>").innerHTML = TOT.toFixed(2);
+                                                document.getElementById(TxtTotPayableAmt).value = TOT;
+                                                var FineAmt = document.getElementById(TxtCumAmount).value;
+                                               // alert(FineAmt);
+                                                document.getElementById(TxtTotAmnt).value = parseFloat(TOT) + parseFloat(FineAmt);
+                                                document.getElementById(TxtNtPayable).value = parseFloat(TOT) + parseFloat(FineAmt);
+                                            }
 
+
+                                            function FineAmt(TxtGPayable, TxtTotPayableAmt, TxtCumAmount, TxtTotAmnt) {
+
+                                                <%--var TOT = 0;
+                                                var grid = document.getElementById("<%= GrdVwRecords.ClientID%>");
+                                                for (var i = 0; i < grid.rows.length - 1; i++) {
+                                                    var txtAmountReceive = $("input[id*=TxtPayable]")
+                                                    if (txtAmountReceive[i].value != '') {
+                                                        const T = txtAmountReceive[i].value;
+                                                        TOT += parseFloat(txtAmountReceive[i].value);
+                                                    }
+                                                }
+                                                document.getElementById(TxtTotPayableAmt).value = TOT;
+                                                var FineAmt = document.getElementById(TxtCumAmount).value;
+                                                
+                                                document.getElementById(TxtTotAmnt).value = parseFloat(TOT) + parseFloat(FineAmt);--%>
+
+                                                alert("Hai");
                                             }
 
 
 
-                                            //function myfunc   {
-                                            //    var b = document.getElementById("GridView1");
-                                            //    var c = document.getElementById("TextBox1");
-                                            //    var d = document.getElementById("TextBox2");
-                                            //    dd = dd + 1;
-                                            //    c.value = document.getElementById("GridView1").rows[dd].cells[2].innerHTML;
-                                            //    d.value = document.getElementById("GridView1").rows[dd].cells[3].innerHTML;
-                                            //}
-
-
-
-                                            //function Myfunction(AA) {
-                                            //    alert("111");
-                                               
-
-                                            //    $.ajax({
-
-                                            //        type: "POST",
-                                            //        url: "FeesCollection.aspx/GrandTotal1",
-                                            //        data: "",
-                                            //        contentType: "application/json; charset=utf-8",
-                                            //        dataType: "json",
-                                            //        success: function (data) {
-                                            //            alert("SS");
-                                            //            var obj = data.d;
-                                            //            if (obj == 'true') {
-                                            //                $('#nFEEId').val('');
-                                                           
-                                            //            }
-                                            //        },
-                                            //        error: function (result) {
-                                            //            alert("Error");
-                                            //        }
-                                            //    });
-
-
-
-
-                                           // }
                                         </script>
 
                                 </div>
@@ -214,7 +185,7 @@
                             <td>
                                 <asp:Label ID="LblFine" runat="server" Text="Fine"></asp:Label>
                                 <asp:CheckBox ID="ChkCumulative" runat="server" Text="Cumulative" />
-                                <asp:TextBox ID="TxtCumAmount" runat="server" Width="210px" placeholder="0.00"></asp:TextBox>
+                                <asp:TextBox ID="TxtCumAmount" runat="server" Width="210px" placeholder="0.00" OnTextChanged="TxtCumAmount_TextChanged" AutoPostBack="True" ></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
@@ -299,7 +270,8 @@
                             </td>
 
                             <td class="odd">
-                                &nbsp;</td>
+                                <asp:Label ID="LblnId" runat="server"  Width="100px" Visible="False"></asp:Label>
+                            </td>
                             <td class="odd">
                                 &nbsp;</td>
                         </tr>
@@ -383,6 +355,64 @@
                                 </td>
                                
                             </tr>
+
+
+                         <tr>
+                            <td colspan="5" rowspan="4">
+                                <div class="result-list" style="overflow: scroll; height: 300px; width: 900px;">
+                                    <asp:GridView ID="GrdReceiptList" runat="server"  SkinID="GrdVwMaster" Width="600px" OnSelectedIndexChanging="GrdReceiptList_SelectedIndexChanging" >
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="Receipt No">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("ReciptNo") %>' Width="100px"></asp:LinkButton>
+                                                     <asp:HiddenField ID="HdnId" runat="server" Value='<%# Eval("ID") %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Receipt Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblReceiptDate" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("ReciptDate") %>' Width="150px" ></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Admission No">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblAdmissionNo" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("AdmissionNo") %>' Width="100px"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Student">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblStudent" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Student")  %>' Width="100px" ></asp:Label>
+                                                    
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="GroupSection">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblGroupSection" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("GroupSection") %>' Width="100px"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="NetAmountPayable">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblNetAmountPayable" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("NetAmountPayable") %>' Width="100px"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:Button ID="BtnPrint" runat="server" Text="Print" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                    </asp:GridView>
+
+                                </div>
+                            </td>
+                        </tr>
+
+
+
 
                     </table>
                 </ContentTemplate>

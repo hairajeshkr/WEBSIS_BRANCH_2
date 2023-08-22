@@ -40,12 +40,15 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                 DataTable ClsTD = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='INGRP'") as DataSet).Tables[0];
                 this.PopulateTreeView(ClsTD, icount, null);
               FnfillInstallment();
+
+                
+
             }
             CtrlGrdClass.ParentControl = CtrlGrdInstitute.IdControl;
             CtrlGrdDiv.ParentControl = CtrlGrdClass.IdControl;
             CtrlGrdStudent.ParentControl = CtrlGrdDiv.IdControl;
+            CtrlCommand1.IsVisibleDelete = false;
 
-           
 
         }
         catch (Exception ex)
@@ -205,12 +208,15 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                             }
                             FnfillInstallment();
                             break;
+                       
                     }
                     break;
                 case "FIND":
                     FnFindRecord();
                     break;
-                
+                case "DELETE":
+                    DeleteData();
+                    break;
             }
         }
         catch (Exception ex)
@@ -368,7 +374,7 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
 
     protected void cmdFill_Click(object sender, EventArgs e)
     {
-
+        CtrlCommand1.IsVisibleDelete = true;
         FnfillInstallment();
        
        // FillGrd( lblGrpId.Text, lblClsId.Text, lblDivId.Text);
@@ -451,4 +457,38 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
     }
 
 
+
+
+    public void DeleteData()
+    {
+        string msg = string.Empty;
+        //string VV = TId;
+        DataTable DDT = new DataTable();
+        var StudIIDD = CtrlGrdStudent.SelectedValue;
+        var nINSTIIdD = CtrlGrdInstitute.SelectedValue;
+        var nCLSIdD = CtrlGrdClass.SelectedValue;
+        var nDIVIdD = CtrlGrdDiv.SelectedValue;
+
+        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+        {
+            using (SqlCommand cmd = new SqlCommand("SPDeleteData", con))
+            {
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@EmptableT", DDD);
+                cmd.Parameters.AddWithValue("@nINSTIId", nINSTIIdD);
+                cmd.Parameters.AddWithValue("@nCLSId", nCLSIdD);
+                cmd.Parameters.AddWithValue("@nDIVId", nDIVIdD);
+                cmd.Parameters.AddWithValue("@nStudIID", StudIIDD);
+                int i = cmd.ExecuteNonQuery();
+                con.Close();
+               
+            }
+
+        }
+
+
     }
+
+
+}

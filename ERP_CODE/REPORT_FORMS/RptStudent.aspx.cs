@@ -22,9 +22,19 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             {
                 FnInitializeForm();
                 FnDdlgrpfilterfill();
-                FnGrdVwSummaryFill();
+
                 
+
+                //TemplateField tfield = new TemplateField();
+                //tfield.HeaderText = "Country";
+                //GrdVwRecords.Columns.Add(tfield);
+
+                //tfield = new TemplateField();
+                //tfield.HeaderText = "View";
+                //GrdVwRecords.Columns.Add(tfield);
+
             }
+            //FnBindGrid();
 
         }
         catch (Exception ex)
@@ -32,26 +42,19 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-    public void FnGrdVwSummaryFill()
+
+    private void FnBindGrid()
     {
-        DataTable DTClass = (ObjCls.FnGetDataSet("SELECT nId,cName Name FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
-        //GrdVwSummary.DataSource = DTClass;
-        //GrdVwSummary.DataBind();
-
-        DataTable DTDivision = (ObjCls.FnGetDataSet("SELECT nId,cName Name FROM TblclassDetails where cttype='DIVN' ") as DataSet).Tables[0];
-        //GrdVwSummary.DataSource = DTDivision;
-        //GrdVwSummary.DataBind();
-
-        
-
-        DataTable DTMerge = new DataTable();
-
-        DTMerge.Merge(DTClass);
-        DTMerge.Merge(DTDivision);
-
-        GrdVwSummary.DataSource = DTMerge;
-        GrdVwSummary.DataBind();
-
+        DataTable dt = new DataTable();
+        dt.Columns.AddRange(new DataColumn[3] { new DataColumn("Id", typeof(int)),
+                       new DataColumn("Name", typeof(string)),
+                        new DataColumn("Country",typeof(string)) });
+        dt.Rows.Add(1, "John Hammond", "United States");
+        //dt.Rows.Add(2, "Mudassar Khan", "India");
+        //dt.Rows.Add(3, "Suzanne Mathews", "France");
+        //dt.Rows.Add(4, "Robert Schidner", "Russia");
+        GrdVwRecords.DataSource = dt;
+        GrdVwRecords.DataBind();
     }
     public void FnDdlgrpfilterfill() 
     {
@@ -79,6 +82,25 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         DdlReligion.DataValueField = "nId";
         DdlReligion.DataTextField = "cName";
         DdlReligion.DataBind();
+
+
+       
+        ChkClassDivList.DataSource = DTReligion;
+        ChkClassDivList.DataValueField = "nId";
+        ChkClassDivList.DataTextField = "cName";
+        ChkClassDivList.DataBind();
+
+        DataTable DTChkClassDiv = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='DIVN' ") as DataSet).Tables[0];
+        ChkDivList.DataSource = DTChkClassDiv;
+        ChkDivList.DataValueField = "nId";
+        ChkDivList.DataTextField = "cName";
+        ChkDivList.DataBind();
+
+
+
+
+
+
     }
     public override void FnInitializeForm()
     {
@@ -147,11 +169,11 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         GrdVwRecords.DataBind();
         GrdVwRecords.SelectedIndex = -1;
 
-        GrdVwSummary.DataSource = ViewState["DT"] as DataTable;
-        GrdVwSummary.DataBind();
+        //GrdVwSummary.DataSource = ViewState["DT"] as DataTable;
+        //GrdVwSummary.DataBind();
 
-        GrdVwList.DataSource = ViewState["DT"] as DataTable;
-        GrdVwList.DataBind();
+        //GrdVwList.DataSource = ViewState["DT"] as DataTable;
+        //GrdVwList.DataBind();
 
     }
 
@@ -235,6 +257,9 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
 
             lBLGRP2.Visible = false;
             Ddlgrpfilter.Visible = false;
+
+            lblreligion.Visible = false;
+            DdlReligion.Visible = false;
         }
         else if (DdlFilter.SelectedValue == "2")
         {
@@ -270,7 +295,22 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
        
     }
 
+    protected void ChkSelect_SelectedIndexChanged2(object sender, EventArgs e)
+    {
+        string selectedItems = "";
+        for (int i = 0; i < ChkSelect.Items.Count; i++)
+        {
+            if (ChkSelect.Items[i].Selected)
+                selectedItems = ChkSelect.Items[i].ToString();
+        }
 
+        BoundField bfield = new BoundField();
+        bfield.HeaderText = selectedItems;
+        //bfield.DataField = "Name";
+        GrdVwRecords.Columns.Add(bfield);
+        
+        FnBindGrid();
 
-
+        
+    }
 }

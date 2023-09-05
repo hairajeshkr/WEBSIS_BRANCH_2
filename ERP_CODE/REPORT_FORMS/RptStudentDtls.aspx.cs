@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 
-public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
+public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
 {
     ClsStudentClassDivisionAssign ObjCls = new ClsStudentClassDivisionAssign();
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
@@ -21,9 +21,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             if (!IsPostBack)
             {
                 FnInitializeForm();
-                FnDdlgrpfilterfill();
-                FnGrdVwSummaryFill();
-                
             }
 
         }
@@ -31,54 +28,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
-    }
-    public void FnGrdVwSummaryFill()
-    {
-        DataTable DTClass = (ObjCls.FnGetDataSet("SELECT nId,cName Name FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
-        //GrdVwSummary.DataSource = DTClass;
-        //GrdVwSummary.DataBind();
-
-        DataTable DTDivision = (ObjCls.FnGetDataSet("SELECT nId,cName Name FROM TblclassDetails where cttype='DIVN' ") as DataSet).Tables[0];
-        //GrdVwSummary.DataSource = DTDivision;
-        //GrdVwSummary.DataBind();
-
-        
-
-        DataTable DTMerge = new DataTable();
-
-        DTMerge.Merge(DTClass);
-        DTMerge.Merge(DTDivision);
-
-        GrdVwSummary.DataSource = DTMerge;
-        GrdVwSummary.DataBind();
-
-    }
-    public void FnDdlgrpfilterfill() 
-    {
-        Ddlgrpfilter.Enabled = true;
-
-        Ddlgrpfilter.Items.Clear();
-
-        Ddlgrpfilter.Items.Add(new ListItem("Select", "0"));
-        DataTable DTClass = (ObjCls.FnGetDataSet("SELECT nId,cName  FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
-        Ddlgrpfilter.DataSource = DTClass;
-        Ddlgrpfilter.DataValueField = "nId";
-        Ddlgrpfilter.DataTextField = "cName";
-        Ddlgrpfilter.DataBind();
-
-
-
-        DdlReligion.Enabled = true;
-        
-        DdlReligion.Items.Clear();
-
-        DdlReligion.Items.Add(new ListItem("Select", "0"));
-         //DataTable DTReligion = (ObjCls.FnGetDataSet("SELECT distinct  * FROM TblCustomHead ") as DataSet).Tables[0];
-        DataTable DTReligion = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
-        DdlReligion.DataSource = DTReligion;
-        DdlReligion.DataValueField = "nId";
-        DdlReligion.DataTextField = "cName";
-        DdlReligion.DataBind();
     }
     public override void FnInitializeForm()
     {
@@ -145,13 +94,13 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
         GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
         GrdVwRecords.DataBind();
-        GrdVwRecords.SelectedIndex = -1;
+        //GrdVwRecords.SelectedIndex = -1;
 
         GrdVwSummary.DataSource = ViewState["DT"] as DataTable;
         GrdVwSummary.DataBind();
 
-        GrdVwList.DataSource = ViewState["DT"] as DataTable;
-        GrdVwList.DataBind();
+        //GrdVwList.DataSource = ViewState["DT"] as DataTable;
+        //GrdVwList.DataBind();
 
     }
 
@@ -222,55 +171,4 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
     //        FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
     //    }
     //}
-
-    protected void DdlFilter_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        
-        if (DdlFilter.SelectedValue == "1")
-        {
-            lblFromdate.Visible = true;
-            lblduedate.Visible = true;
-            CtrlFromDate.Visible = true;
-            CtrlDueDate.Visible = true;
-
-            lBLGRP2.Visible = false;
-            Ddlgrpfilter.Visible = false;
-        }
-        else if (DdlFilter.SelectedValue == "2")
-        {
-            lblgroup.Visible = false;
-            TxtGroup.Visible = false;
-            BtnGroup.Visible = false;
-
-            lBLGRP2.Visible = true;
-            Ddlgrpfilter.Visible = true;
-
-            lblFromdate.Visible = false;
-            lblduedate.Visible = false;
-            CtrlFromDate.Visible = false;
-            CtrlDueDate.Visible = false;
-        }
-        else if (DdlFilter.SelectedValue == "3")
-        {
-            lblreligion.Visible = true;
-            DdlReligion.Visible = true;
-
-            lBLGRP2.Visible = false;
-            Ddlgrpfilter.Visible = false;
-
-            lblFromdate.Visible = false;
-            lblduedate.Visible = false;
-            CtrlFromDate.Visible = false;
-            CtrlDueDate.Visible = false;
-
-            lblgroup.Visible = true;
-            TxtGroup.Visible = true;
-            BtnGroup.Visible = true;
-        }
-       
-    }
-
-
-
-
 }

@@ -4,6 +4,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Src="../CtrlCommand.ascx" TagName="CtrlCommand" TagPrefix="uc1" %>
 <%@ Register Src="../CtrlGridList.ascx" TagName="CtrlGridList" TagPrefix="uc2" %>
+<%@ Register src="../CtrlDate.ascx" tagname="CtrlDate" tagprefix="uc3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script language="javascript" src="Script/ClassDivAsgn.js" type="text/javascript"></script>
     <div style="height: 550px; width: 1090px">
@@ -19,19 +20,27 @@
                                 <asp:Label ID="Label122" runat="server" Text="Filter Criteria" Width="100px" SkinID="LblBold"></asp:Label>
                             </td>
                             <td class="odd">
-                                <asp:DropDownList ID="DdlFilter" runat="server" Width="198px"></asp:DropDownList>
+                                <asp:DropDownList ID="DdlFilter" runat="server" Width="198px" AppendDataBoundItems="True" OnSelectedIndexChanged="DdlFilter_SelectedIndexChanged" AutoPostBack="True"  >
+                                    <asp:ListItem Text="select" Value="0"></asp:ListItem>
+                                    <asp:ListItem Text="Admission Date" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="Group Wise" Value="2"></asp:ListItem>
+                                    <asp:ListItem Text="Religion search" Value="3"></asp:ListItem>
+                                    <asp:ListItem Text="Community" Value="4"></asp:ListItem>
+                                    <asp:ListItem Text="Category Filter" Value="5"></asp:ListItem>
+                                    <asp:ListItem Text="House Wise" Value="6"></asp:ListItem>
+                                </asp:DropDownList>
                             </td>
 
-                            <td class="odd" style="width: 60px">
-                                <asp:Label ID="Label3" runat="server" SkinID="LblBold" Text="Group" Width="75px"></asp:Label>
+                            <td class="odd" style="width: 60px" colspan="2">
+                                <asp:Label ID="lblgroup" runat="server" SkinID="LblBold" Text="Group" Width="75px"></asp:Label>
                             </td>
                             <td class="odd">
                                 <asp:TextBox ID="TxtGroup" runat="server" Width="167px"></asp:TextBox>
-                                <asp:Button ID="BtnGroup" runat="server" Text="...." Width="28px" />
+                                <asp:Button ID="BtnGroup" runat="server" Text="...." Width="28px"  />
                             </td>
 
                             <td class="odd" style="width: 152px">
-                                <asp:CheckBox ID="CheckBox1" runat="server" Text="selected group" />
+                                <asp:CheckBox ID="ChkSelGroup" runat="server" Text="selected group" />
                             </td>
                             <td class="odd">
                                 &nbsp;</td>
@@ -42,12 +51,14 @@
                         </tr>
                         <tr>
                             <td class="odd">
-                                <asp:Label ID="Label1" runat="server" SkinID="LblBold" Text="Religion" Width="100px"></asp:Label>
+                                <asp:Label ID="lblreligion" runat="server" SkinID="LblBold" Text="Religion" Width="100px" Visible="False"></asp:Label>
                             </td>
-                            <td class="odd" colspan="3">
-                                <asp:DropDownList ID="DdlReligion" runat="server" Width="198px">
+                            <td class="odd" colspan="4">
+                                <asp:DropDownList ID="DdlReligion" runat="server" Width="198px" Visible="False" >
                                 </asp:DropDownList>
-                            </td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                               
+                                </td>
                             <td class="odd">
 
                                 &nbsp;</td>
@@ -63,7 +74,38 @@
                            
                         </tr>
                         <tr>
-                            <td class="odd" colspan="4" rowspan="3">
+                            <td class="odd">
+                                <asp:Label ID="lBLGRP2" runat="server" SkinID="LblBold" Text="Group" Visible="False" Width="100px"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="4">
+                                <asp:DropDownList ID="Ddlgrpfilter" runat="server" Visible="False" Width="198px"  >
+                                </asp:DropDownList>
+                            </td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="odd">
+                                <asp:Label ID="lblFromdate" runat="server" Text="From date" SkinID="LblBold" Visible="False"></asp:Label>
+                            </td>
+                            <td class="odd" colspan="2">
+                                <uc3:CtrlDate ID="CtrlFromDate" runat="server" Visible="False" />
+                            </td>
+                            <td class="odd">
+                                <asp:Label ID="lblduedate" runat="server" Text="Due Date" SkinID="LblBold" Visible="False"></asp:Label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                            <td class="odd">
+                                <uc3:CtrlDate ID="CtrlDueDate" runat="server" Visible="False" />
+                            </td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="odd" colspan="5" rowspan="3">
                                 <div class="result-list" style="overflow: scroll; height: 268px; width: 800px;">
                                     <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing">
                                         <Columns>
@@ -85,14 +127,19 @@
                                                 <asp:GridView ID="GrdVwSummary" runat="server" SkinID="GrdVwMaster" Height="61px">
                                                     <Columns>
                                                         <asp:BoundField />
-                                                        <asp:TemplateField HeaderText="Division">
+                                                        <asp:TemplateField>
                                                             <ItemTemplate>
-                                                                
+                                                                <asp:CheckBox ID="CheckBox1" runat="server" />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField HeaderText="Count">
-                                                              <ItemTemplate>
-                                                               
+                                                        <asp:TemplateField HeaderText="Class">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="Lblclass" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Name") %>' Width="280px"></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Division">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="Lbldivision" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Name") %>' Width="280px"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         
@@ -106,7 +153,7 @@
                         </tr>
                         <tr>
                             <td class="odd" colspan="4">
-                                <asp:CheckBox ID="CheckBox2" runat="server" Text="Select All" />
+                                <asp:CheckBox ID="ChkSelctAll" runat="server" Text="Select All" />
                             </td>
                         </tr>
                        
@@ -117,24 +164,21 @@
                                 <asp:GridView ID="GrdVwList" runat="server" SkinID="GrdVwMaster">
                                     <Columns>
                                         <asp:BoundField />
-                                        <asp:TemplateField HeaderText="Division">
-                                            <ItemTemplate>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Count">
-                                            <ItemTemplate>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                                                        <asp:TemplateField>
+                                                            <ItemTemplate>
+                                                                <asp:CheckBox ID="CheckBox1" runat="server" />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                     </Columns>
                                 </asp:GridView>
                                     </div>
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd" colspan="4" rowspan="2">
+                            <td class="odd" colspan="5" rowspan="2">
                                 &nbsp;</td>
                             <td class="odd" colspan="4">
-                                <asp:CheckBox ID="CheckBox3" runat="server" Text="Select All" />
+                                <asp:CheckBox ID="ChkSelectAll" runat="server" Text="Select All" />
                             </td>
                         </tr>
                        
@@ -149,17 +193,17 @@
 
                             </td>
                             <td>
-                                <asp:DropDownList ID="DropDownList1" runat="server" Width="200px"></asp:DropDownList>
+                                <asp:DropDownList ID="DdlSortOrder" runat="server" Width="200px"></asp:DropDownList>
                             </td>
-                            <td>
+                            <td colspan="2">
                                 <asp:Label ID="Label4" runat="server" SkinID="LblBold" Text="Based On" Width="100px"></asp:Label>
                             </td>
                             <td>
-                                <asp:DropDownList ID="DropDownList2" runat="server" Width="200px"></asp:DropDownList>
+                                <asp:DropDownList ID="DdlBasedOn" runat="server" Width="200px"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr class="result-headTop">
-                            <td class="Footercommand" colspan="7" align="center" valign="middle">
+                            <td class="Footercommand" colspan="8" align="center" valign="middle">
                                 <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="Submit" />
                              </td>
                              </tr>

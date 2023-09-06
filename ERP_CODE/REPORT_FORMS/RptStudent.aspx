@@ -51,6 +51,8 @@
                             </td>
                             <td class="odd" colspan="4">
                                 <asp:DropDownList ID="DdlReligion" runat="server" Width="198px" Visible="False">
+                                    <asp:ListItem Text="select" Value="0"></asp:ListItem>
+                                    <asp:ListItem Text="christian" Value="8"></asp:ListItem>
                                 </asp:DropDownList>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                
@@ -88,9 +90,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd" colspan="5" rowspan="4">
+                            <td class="odd" colspan="5" rowspan="5">
                                 <div class="result-list" style="overflow: scroll; height: 268px; width: 800px;">
-                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" AutoGenerateColumns="False" >
+                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" >
                                     </asp:GridView>
 
                                 </div>
@@ -98,7 +100,7 @@
                         </tr>
                         <tr>
                             <td class="odd" colspan="4">
-                                <asp:CheckBox ID="ChkSelctAll" runat="server" Text="Select All" />
+                                <asp:CheckBox ID="ChkSelctAllClass" runat="server" Text="Select All" OnCheckedChanged="ChkSelctAllClass_CheckedChanged" AutoPostBack="True"  />
                             </td>
                         </tr>
 
@@ -113,11 +115,24 @@
                         </tr>
                         <tr>
                             <td class="odd" colspan="4">
+                                <asp:CheckBox ID="ChkSelectAllDiv" runat="server" Text="Select All" OnCheckedChanged="ChkSelectAllDiv_CheckedChanged" AutoPostBack="True"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="odd" colspan="4">
                                 <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
-                                    <asp:CheckBoxList ID="ChkSelect" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ChkSelect_SelectedIndexChanged2">
-                                        <asp:ListItem Text="PinCode" Value="1"></asp:ListItem>
-                                        <asp:ListItem Text="State" Value="2"></asp:ListItem>
-                                         <asp:ListItem Text="City" Value="3"></asp:ListItem>
+                                    <asp:CheckBoxList ID="ChkSelectColumns" runat="server" AutoPostBack="True"  >
+                                        <asp:ListItem Text="Student Name" Value="cName"></asp:ListItem>
+                                        <asp:ListItem Text="Admission No" Value="cAdmissionNo"></asp:ListItem>
+                                         <asp:ListItem Text="Reg.No" Value="cRegNo"></asp:ListItem>
+                                        <asp:ListItem Text="Adhar No" Value="cAdharNo"></asp:ListItem>
+                                        <asp:ListItem Text="Dob" Value="dDob"></asp:ListItem>
+                                         <asp:ListItem Text="PhoneNo" Value="cPhoneNo"></asp:ListItem>
+                                        <asp:ListItem Text="PinCode" Value="cPincode"></asp:ListItem>
+                                        <asp:ListItem Text="PlaceofBirth" Value="cPlaceofBirth"></asp:ListItem>
+                                         <asp:ListItem Text="BloodGroup" Value="cBloodGroup"></asp:ListItem>
+                                        <asp:ListItem Text="Admission Date" Value="dJoinDate"></asp:ListItem>
+
                                     </asp:CheckBoxList>
                                 </div>
                            </td>
@@ -125,7 +140,7 @@
                         <tr>
                             <td class="odd" colspan="5" rowspan="2">&nbsp;</td>
                             <td class="odd" colspan="4">
-                                <asp:CheckBox ID="ChkSelectAll" runat="server" Text="Select All" />
+                                <asp:CheckBox ID="ChkSelectAllFields" runat="server" Text="Select All" AutoPostBack="True" OnCheckedChanged="ChkSelectAllFields_CheckedChanged"/>
                             </td>
                         </tr>
 
@@ -140,13 +155,18 @@
 
                             </td>
                             <td>
-                                <asp:DropDownList ID="DdlSortOrder" runat="server" Width="200px"></asp:DropDownList>
+                                <asp:DropDownList ID="DdlSortOrder" runat="server" Width="200px">
+                                    <asp:ListItem Text="select" Value="0"></asp:ListItem>
+                                    <asp:ListItem Text="ASC" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="DESC" Value="2"></asp:ListItem>
+                                </asp:DropDownList>
                             </td>
                             <td colspan="2">
                                 <asp:Label ID="Label4" runat="server" SkinID="LblBold" Text="Based On" Width="100px"></asp:Label>
                             </td>
                             <td>
                                 <asp:DropDownList ID="DdlBasedOn" runat="server" Width="200px"></asp:DropDownList>
+                                <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="List" />
                             </td>
                         </tr>
                         <tr class="result-headTop">

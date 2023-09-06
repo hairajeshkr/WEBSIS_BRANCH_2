@@ -23,19 +23,10 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
                 FnInitializeForm();
                 FnDdlgrpfilterfill();
 
-                
-
-                //TemplateField tfield = new TemplateField();
-                //tfield.HeaderText = "Country";
-                //GrdVwRecords.Columns.Add(tfield);
-
-                //tfield = new TemplateField();
-                //tfield.HeaderText = "View";
-                //GrdVwRecords.Columns.Add(tfield);
-
             }
-            //FnBindGrid();
 
+            DataTable ClsTGFI = (ObjCls.FnGetDataSet("SELECT * FROM TblRegistrationStudent where nReligionId=8 order by cName asc") as DataSet).Tables[0];
+            DataTable ClsTGFI1 = (ObjCls.FnGetDataSet("SELECT * FROM TblStudentAdmissionDetails") as DataSet).Tables[0];
         }
         catch (Exception ex)
         {
@@ -43,19 +34,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         }
     }
 
-    private void FnBindGrid()
-    {
-        DataTable dt = new DataTable();
-        dt.Columns.AddRange(new DataColumn[3] { new DataColumn("Id", typeof(int)),
-                       new DataColumn("Name", typeof(string)),
-                        new DataColumn("Country",typeof(string)) });
-        dt.Rows.Add(1, "John Hammond", "United States");
-        //dt.Rows.Add(2, "Mudassar Khan", "India");
-        //dt.Rows.Add(3, "Suzanne Mathews", "France");
-        //dt.Rows.Add(4, "Robert Schidner", "Russia");
-        GrdVwRecords.DataSource = dt;
-        GrdVwRecords.DataBind();
-    }
     public void FnDdlgrpfilterfill() 
     {
         Ddlgrpfilter.Enabled = true;
@@ -71,21 +49,19 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
 
 
 
-        DdlReligion.Enabled = true;
-        
-        DdlReligion.Items.Clear();
-
-        DdlReligion.Items.Add(new ListItem("Select", "0"));
-         //DataTable DTReligion = (ObjCls.FnGetDataSet("SELECT distinct  * FROM TblCustomHead ") as DataSet).Tables[0];
-        DataTable DTReligion = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
-        DdlReligion.DataSource = DTReligion;
-        DdlReligion.DataValueField = "nId";
-        DdlReligion.DataTextField = "cName";
-        DdlReligion.DataBind();
+        //DdlReligion.Enabled = true;       
+        //DdlReligion.Items.Clear();
+        //DdlReligion.Items.Add(new ListItem("Select", "0"));
+        //DdlReligion.Items.Add(new ListItem("Christian", "1"));
+        //DataTable DTReligion = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
+        //DdlReligion.DataSource = DTReligion;
+        //DdlReligion.DataValueField = "nId";
+        //DdlReligion.DataTextField = "cName";
+        //DdlReligion.DataBind();
 
 
-       
-        ChkClassDivList.DataSource = DTReligion;
+        DataTable DTClasses = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
+        ChkClassDivList.DataSource = DTClasses;
         ChkClassDivList.DataValueField = "nId";
         ChkClassDivList.DataTextField = "cName";
         ChkClassDivList.DataBind();
@@ -110,8 +86,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         ViewState["DT_CHILD"] = FnGetGeneralTable(ObjCls);
         ViewState["DIV"] = FnGetGeneralTable(ObjCls);
-        FnGridViewBinding("");
-        FnGridViewBinding("SRCH");
     }
     public void FnAssignProperty()
     {
@@ -130,24 +104,13 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
     public override void FnCancel()
     {
         base.FnCancel();
-        //CtrlGrdClass.SelectedValue = "0";
-        //CtrlGrdClass.SelectedText = "";
-        //CtrlGrdDivision.SelectedValue = "0";
-        //CtrlGrdDivision.SelectedText = "";
-        //CtrlCommand1.SaveText = "Save";
-        //CtrlCommand1.SaveCommandArgument = "NEW";
-        //FnFocus(CtrlGrdClass.ControlTextBox);
         TabContainer1.ActiveTabIndex = 0;
     }
 
     public void FnFindRecord()
     {
         FnAssignProperty();
-        //FnGetDivisionList();
         FnFindRecord(ObjCls);
-        FnGridViewBinding("");
-
-        //ObjLst.FnGetDivisionList(DdlToDivision, "", ObjCls.FnIsNumeric(CtrlGrdClass.SelectedValue), ObjCls.FnIsNumeric(CtrlGrdDivision.SelectedValue));
         TabContainer1.ActiveTabIndex = 0;
     }
     public void FnFindRecord_Srch()
@@ -168,12 +131,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
         GrdVwRecords.DataBind();
         GrdVwRecords.SelectedIndex = -1;
-
-        //GrdVwSummary.DataSource = ViewState["DT"] as DataTable;
-        //GrdVwSummary.DataBind();
-
-        //GrdVwList.DataSource = ViewState["DT"] as DataTable;
-        //GrdVwList.DataBind();
 
     }
 
@@ -202,7 +159,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
                     FnCancel();
                     break;
                 case "CLEAR_SRCH":
-                    //FnCancel_Srch();
                     break;
                 case "PRINT":
                     FnAssignProperty_Srch();
@@ -216,34 +172,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         }
     }
 
-
-    //protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
-    //{
-    //    try
-    //    {
-    //        if (e.Row.RowType == DataControlRowType.DataRow)
-    //        {
-    //            DropDownList DdlDiv = (DropDownList)e.Row.FindControl("DdlDiv");
-    //            HiddenField HdnDivId = (HiddenField)e.Row.FindControl("HdnDivId");
-    //            if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
-    //            {
-    //                FnBindingDropDownList(ObjLst, ViewState["DIV"] as DataTable, DdlDiv, "");
-    //                FnSetDropDownValue(DdlDiv, DataBinder.Eval(e.Row.DataItem, "DivisionId").ToString());
-    //                _strDestControl = HdnDivId.ClientID + "," + GrdVwSummary.ClientID;
-
-    //                DdlDiv.Attributes.Add("onchange", "return FnUpdateStudentDivision('" + FnGetRights().COMPANYID + "','" + FnGetRights().BRANCHID + "','" + FnGetRights().ACYEARID + "','" + FnGetRights().USERID + "','" + DataBinder.Eval(e.Row.DataItem, "StudentId").ToString() + "','" + DataBinder.Eval(e.Row.DataItem, "ClassId").ToString() + "','" + HdnDivId.ClientID + "','" + DdlDiv.ClientID + "','" + _strDestControl + "');");
-    //            }
-    //            else
-    //            {
-    //                ObjLst.FnNullDropDownList(DdlDiv);
-    //            }
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-    //    }
-    //}
 
     protected void DdlFilter_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -274,6 +202,9 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             lblduedate.Visible = false;
             CtrlFromDate.Visible = false;
             CtrlDueDate.Visible = false;
+
+            lblreligion.Visible = false;
+            DdlReligion.Visible = false;
         }
         else if (DdlFilter.SelectedValue == "3")
         {
@@ -295,22 +226,108 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
        
     }
 
-    protected void ChkSelect_SelectedIndexChanged2(object sender, EventArgs e)
+
+    protected void Button1_Click(object sender, EventArgs e)
     {
-        string selectedItems = "";
-        for (int i = 0; i < ChkSelect.Items.Count; i++)
+       
+
+        if (GrdVwRecords.Rows.Count > 0)
         {
-            if (ChkSelect.Items[i].Selected)
-                selectedItems = ChkSelect.Items[i].ToString();
+            GrdVwRecords.Columns.Clear();
+            GrdVwRecords.DataBind();
+        }
+        DataTable DTList = new DataTable();
+        string selectedItemsC = "";
+        for (int i = 0; i < ChkClassDivList.Items.Count; i++)
+        {
+            if (ChkClassDivList.Items[i].Selected)
+                selectedItemsC += ChkClassDivList.Items[i].Value.ToString() + ",";
+        }
+        selectedItemsC = selectedItemsC.TrimEnd(',');
+        string selectedItemsD = "";
+        for (int i = 0; i < ChkDivList.Items.Count; i++)
+        {
+            if (ChkDivList.Items[i].Selected)
+                selectedItemsD += ChkDivList.Items[i].Value.ToString() + ",";
+        }
+        selectedItemsD = selectedItemsD.TrimEnd(',');
+
+        
+        string query = "SELECT TOP 10 ";
+        bool isSelected = ChkSelectColumns.Items.Cast<ListItem>().Count(i => i.Selected == true) > 0;
+        if (!isSelected)
+        {
+            ChkSelectColumns.Items[0].Selected = true;
+        }
+        foreach (ListItem item in ChkSelectColumns.Items)
+        {
+            if (item.Selected)
+            {
+                query += item.Value + ",";
+                isSelected = true;
+                BoundField bfield = new BoundField();
+                bfield.HeaderText = item.Text;
+                bfield.DataField = item.Value;
+                GrdVwRecords.Columns.Add(bfield);
+            }
         }
 
-        BoundField bfield = new BoundField();
-        bfield.HeaderText = selectedItems;
-        //bfield.DataField = "Name";
-        GrdVwRecords.Columns.Add(bfield);
-        
-        FnBindGrid();
+
+        query = query.Substring(0, query.Length - 1);
+        if (DdlFilter.SelectedValue == "3")
+        {
+            if (DdlReligion.SelectedValue == "8")
+            {
+                query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") and STDR.nReligionId=8 order by STDR.cName asc";
+                DataTable DTCC1 = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
+                GrdVwRecords.DataSource = DTCC1;
+                GrdVwRecords.DataBind();
+            }
+        }
+        else if(DdlFilter.SelectedValue=="1")
+        {
+            DateTime fdate= ObjCls.FnDateTime(CtrlFromDate.DateText);
+            DateTime tdate= ObjCls.FnDateTime(CtrlDueDate.DateText);
+            query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") and STDR.dJoindate>='" + fdate + "' and STDR.dJoindate<= '"+ tdate+ "' order by STDR.cName asc";
+
+            DataTable DTCC1 = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
+            GrdVwRecords.DataSource = DTCC1;
+            GrdVwRecords.DataBind();
+        }
+
+
+          
 
         
+
+    }
+
+    protected void ChkSelctAllClass_CheckedChanged(object sender, EventArgs e)
+    {
+        foreach (ListItem item in ChkClassDivList.Items)
+        {
+            item.Selected = true;
+            item.Enabled = true;
+        }
+    }
+
+
+
+    protected void ChkSelectAllDiv_CheckedChanged(object sender, EventArgs e)
+    {
+        foreach (ListItem item in ChkDivList.Items)
+        {
+            item.Selected = true;
+            item.Enabled = true;
+        }
+    }
+
+    protected void ChkSelectAllFields_CheckedChanged(object sender, EventArgs e)
+    {
+        foreach (ListItem item in ChkSelectColumns.Items)
+        {
+            item.Selected = true;
+            item.Enabled = true;
+        }
     }
 }

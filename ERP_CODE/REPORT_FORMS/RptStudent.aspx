@@ -47,10 +47,10 @@
                         </tr>
                         <tr>
                             <td class="odd">
-                                <asp:Label ID="lblreligion" runat="server" SkinID="LblBold" Text="Religion" Width="100px" Visible="False"></asp:Label>
+                                <asp:Label ID="lblreligion" runat="server" SkinID="LblBold" Text="Religion" Width="100px"></asp:Label>
                             </td>
                             <td class="odd" colspan="4">
-                                <asp:DropDownList ID="DdlReligion" runat="server" Width="198px" Visible="False">
+                                <asp:DropDownList ID="DdlReligion" runat="server" Width="198px">
                                     <asp:ListItem Text="select" Value="0"></asp:ListItem>
                                     <asp:ListItem Text="christian" Value="8"></asp:ListItem>
                                 </asp:DropDownList>
@@ -68,25 +68,25 @@
                         </tr>
                         <tr>
                             <td class="odd">
-                                <asp:Label ID="lBLGRP2" runat="server" SkinID="LblBold" Text="Group" Visible="False" Width="100px"></asp:Label>
+                                <asp:Label ID="lBLGRP2" runat="server" SkinID="LblBold" Text="Group" Width="100px"></asp:Label>
                             </td>
                             <td class="odd" colspan="4">
-                                <asp:DropDownList ID="Ddlgrpfilter" runat="server" Visible="False" Width="198px">
+                                <asp:DropDownList ID="Ddlgrpfilter" runat="server" Width="198px">
                                 </asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
                             <td class="odd">
-                                <asp:Label ID="lblFromdate" runat="server" Text="From date" SkinID="LblBold" Visible="False"></asp:Label>
+                                <asp:Label ID="lblFromdate" runat="server" Text="From date" SkinID="LblBold"></asp:Label>
                             </td>
                             <td class="odd" colspan="2">
-                                <uc3:CtrlDate ID="CtrlFromDate" runat="server" Visible="False" />
+                                <uc3:CtrlDate ID="CtrlFromDate" runat="server" />
                             </td>
                             <td class="odd">
-                                <asp:Label ID="lblduedate" runat="server" Text="Due Date" SkinID="LblBold" Visible="False"></asp:Label>
+                                <asp:Label ID="lblduedate" runat="server" Text="Due Date" SkinID="LblBold"></asp:Label>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
                             <td class="odd">
-                                <uc3:CtrlDate ID="CtrlDueDate" runat="server" Visible="False" />
+                                <uc3:CtrlDate ID="CtrlDueDate" runat="server" />
                             </td>
                         </tr>
                         <tr>
@@ -171,7 +171,7 @@
                         </tr>
                         <tr class="result-headTop">
                             <td class="Footercommand" colspan="8" align="center" valign="middle">
-                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="Submit" />
+                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="List" />
                             </td>
                         </tr>
 

@@ -21,6 +21,19 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
             if (!IsPostBack)
             {
                 FnInitializeForm();
+
+                DataTable DTClasses = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
+                ChkClassDivList.DataSource = DTClasses;
+                ChkClassDivList.DataValueField = "nId";
+                ChkClassDivList.DataTextField = "cName";
+                ChkClassDivList.DataBind();
+
+                DataTable DTChkClassDiv = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='DIVN' ") as DataSet).Tables[0];
+                ChkDivList.DataSource = DTChkClassDiv;
+                ChkDivList.DataValueField = "nId";
+                ChkDivList.DataTextField = "cName";
+                ChkDivList.DataBind();
+
             }
 
         }
@@ -28,6 +41,14 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
+    }
+    public string FnCountDetails(object PrmDivId)
+    {
+        return (ObjCls.FnIsNumeric((ViewState["DT"] as DataTable).Rows[0]["ID"].ToString()) > 0 ? (ViewState["DT"] as DataTable).Compute("Count(ID)", " DivisionId=" + ObjCls.FnIsNumeric(PrmDivId.ToString())).ToString() : "");
+    }
+    public string FnGenderCntDetails(object PrmDivId)
+    {
+        return (ObjCls.FnIsNumeric((ViewState["DT"] as DataTable).Rows[0]["ID"].ToString()) > 0 ? "B-" + (ViewState["DT"] as DataTable).Compute("Count(ID)", " Sex= 'Male' AND DivisionId=" + ObjCls.FnIsNumeric(PrmDivId)).ToString() + ", G-" + (ViewState["DT"] as DataTable).Compute("Count(ID)", " Sex= 'Female' AND DivisionId=" + ObjCls.FnIsNumeric(PrmDivId)).ToString() : "");
     }
     public override void FnInitializeForm()
     {
@@ -37,8 +58,8 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         ViewState["DT_CHILD"] = FnGetGeneralTable(ObjCls);
         ViewState["DIV"] = FnGetGeneralTable(ObjCls);
-        FnGridViewBinding("");
-        FnGridViewBinding("SRCH");
+        //FnGridViewBinding("");
+        //FnGridViewBinding("SRCH");
     }
     public void FnAssignProperty()
     {
@@ -72,7 +93,7 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
         FnAssignProperty();
         //FnGetDivisionList();
         FnFindRecord(ObjCls);
-        FnGridViewBinding("");
+       // FnGridViewBinding("");
 
         //ObjLst.FnGetDivisionList(DdlToDivision, "", ObjCls.FnIsNumeric(CtrlGrdClass.SelectedValue), ObjCls.FnIsNumeric(CtrlGrdDivision.SelectedValue));
         TabContainer1.ActiveTabIndex = 0;
@@ -94,14 +115,7 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
         GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
         GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
         GrdVwRecords.DataBind();
-        //GrdVwRecords.SelectedIndex = -1;
-
-        GrdVwSummary.DataSource = ViewState["DT"] as DataTable;
-        GrdVwSummary.DataBind();
-
-        //GrdVwList.DataSource = ViewState["DT"] as DataTable;
-        //GrdVwList.DataBind();
-
+        
     }
 
 
@@ -117,7 +131,33 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    FnPopUpAlert(ObjCls.FnAlertMessage("Record saved successfully"));
+
+
+                    DataTable DTList = new DataTable();
+                    string selectedItemsC = "";
+                    for (int i = 0; i < ChkClassDivList.Items.Count; i++)
+                    {
+                        if (ChkClassDivList.Items[i].Selected)
+                            selectedItemsC += ChkClassDivList.Items[i].Value.ToString() + ",";
+                    }
+                    selectedItemsC = selectedItemsC.TrimEnd(',');
+                    string selectedItemsD = "";
+                    for (int i = 0; i < ChkDivList.Items.Count; i++)
+                    {
+                        if (ChkDivList.Items[i].Selected)
+                            selectedItemsD += ChkDivList.Items[i].Value.ToString() + ",";
+                    }
+                    selectedItemsD = selectedItemsD.TrimEnd(',');
+
+
+                    //string query = "select count(case when cSex='Male' then 1 end) as Male,count(case when cSex='Female' then 1 end) as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") ";
+
+                    string query = "select count(case when cSex='Male' then 1 end) as Male,count(case when cSex='Female' then 1 end) as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") ";
+                    DataTable DTMale = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
+                    GrdVwRecords.DataSource = DTMale;
+                    GrdVwRecords.DataBind();
+
+                    
                     break;
                 case "FIND":
                     FnFindRecord();
@@ -144,31 +184,23 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
     }
 
 
-    //protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
-    //{
-    //    try
-    //    {
-    //        if (e.Row.RowType == DataControlRowType.DataRow)
-    //        {
-    //            DropDownList DdlDiv = (DropDownList)e.Row.FindControl("DdlDiv");
-    //            HiddenField HdnDivId = (HiddenField)e.Row.FindControl("HdnDivId");
-    //            if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
-    //            {
-    //                FnBindingDropDownList(ObjLst, ViewState["DIV"] as DataTable, DdlDiv, "");
-    //                FnSetDropDownValue(DdlDiv, DataBinder.Eval(e.Row.DataItem, "DivisionId").ToString());
-    //                _strDestControl = HdnDivId.ClientID + "," + GrdVwSummary.ClientID;
+    protected void ChkSelctAllClass_CheckedChanged(object sender, EventArgs e)
+    {
+        foreach (ListItem item in ChkClassDivList.Items)
+        {
+            item.Selected = true;
+            item.Enabled = true;
+        }
+    }
 
-    //                DdlDiv.Attributes.Add("onchange", "return FnUpdateStudentDivision('" + FnGetRights().COMPANYID + "','" + FnGetRights().BRANCHID + "','" + FnGetRights().ACYEARID + "','" + FnGetRights().USERID + "','" + DataBinder.Eval(e.Row.DataItem, "StudentId").ToString() + "','" + DataBinder.Eval(e.Row.DataItem, "ClassId").ToString() + "','" + HdnDivId.ClientID + "','" + DdlDiv.ClientID + "','" + _strDestControl + "');");
-    //            }
-    //            else
-    //            {
-    //                ObjLst.FnNullDropDownList(DdlDiv);
-    //            }
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-    //    }
-    //}
+
+
+    protected void ChkSelectAllDiv_CheckedChanged(object sender, EventArgs e)
+    {
+        foreach (ListItem item in ChkDivList.Items)
+        {
+            item.Selected = true;
+            item.Enabled = true;
+        }
+    }
 }

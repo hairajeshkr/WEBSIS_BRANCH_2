@@ -21,7 +21,7 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             if (!IsPostBack)
             {
                 FnInitializeForm();
-                FnDdlgrpfilterfill();
+                FnGrpClassDivChkFill();
 
             }
 
@@ -34,7 +34,7 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         }
     }
 
-    public void FnDdlgrpfilterfill() 
+    public void FnGrpClassDivChkFill() 
     {
         Ddlgrpfilter.Enabled = true;
 
@@ -46,18 +46,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         Ddlgrpfilter.DataValueField = "nId";
         Ddlgrpfilter.DataTextField = "cName";
         Ddlgrpfilter.DataBind();
-
-
-
-        //DdlReligion.Enabled = true;       
-        //DdlReligion.Items.Clear();
-        //DdlReligion.Items.Add(new ListItem("Select", "0"));
-        //DdlReligion.Items.Add(new ListItem("Christian", "1"));
-        //DataTable DTReligion = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
-        //DdlReligion.DataSource = DTReligion;
-        //DdlReligion.DataValueField = "nId";
-        //DdlReligion.DataTextField = "cName";
-        //DdlReligion.DataBind();
 
 
         DataTable DTClasses = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
@@ -290,7 +278,7 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             DateTime tdate= ObjCls.FnDateTime(CtrlDueDate.DateText);
             query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") and STDR.dJoindate>='" + fdate + "' and STDR.dJoindate<= '"+ tdate+ "' order by STDR.cName asc";
 
-            DataTable DTCC1 = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
+            DataTable DTCC1 = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0]; 
             GrdVwRecords.DataSource = DTCC1;
             GrdVwRecords.DataBind();
         }

@@ -27,7 +27,7 @@
                                 <asp:TextBox ID="TxtGroup" runat="server" Width="167px"></asp:TextBox>
                                 <asp:Button ID="BtnGroup" runat="server" Text="...." Width="28px"  />
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <asp:Button ID="Button1" runat="server" Text="Show" />
+                                <asp:Button ID="BtnShow" runat="server" Text="Show" />
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </td>
                            
@@ -40,28 +40,33 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd" rowspan="10">
+                            <td class="odd" rowspan="2">
                                 <div class="result-list" style="overflow: scroll; height: 327px; width: 800px;">
                                     <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="770px">
                                         <Columns>
                                             <asp:TemplateField HeaderText="Group">
                                                 <ItemTemplate>
+
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Sub Group">
+                                            <asp:TemplateField HeaderText="SubGroup">
                                                 <ItemTemplate>
+
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Boys">
                                                 <ItemTemplate>
+                                                     <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Male") %>' Width="100px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Girls">
                                                 <ItemTemplate>
+                                                     <asp:Label ID="lblfemale" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Female") %>' Width="100px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Sub. Total">
                                                 <ItemTemplate>
+
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Group Total">
@@ -69,8 +74,11 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Grant Total">
-                                                <ItemTemplate>
-                                                </ItemTemplate>
+                                                
+                                                    <ItemTemplate>
+                                                        
+                                                    </ItemTemplate>
+                                                
                                             </asp:TemplateField>
                                             
                                         </Columns>
@@ -79,47 +87,60 @@
                             </td>
                             <td class="odd">
                                 <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
-                                                <asp:GridView ID="GrdVwSummary" runat="server" SkinID="GrdVwMaster" Height="61px">
-                                                    <Columns>
-                                                        <asp:BoundField />
-                                                        <asp:TemplateField>
-                                                            <ItemTemplate>
-                                                                <asp:CheckBox ID="CheckBox1" runat="server" />
-                                                            </ItemTemplate>
-                                                        </asp:TemplateField>
-                                                       
-                                                        
-                                                    </Columns>
-
-                                                </asp:GridView>
+                                                 <asp:CheckBoxList ID="ChkClassDivList" runat="server" >
+                                    </asp:CheckBoxList>
                                                
                                             </div>
+
+                                <asp:CheckBox ID="ChkSelctAllClass" runat="server" AutoPostBack="True" OnCheckedChanged="ChkSelctAllClass_CheckedChanged" Text="Select All" />
 
                             </td>
                         </tr>
                        
                         <tr>
+                            <td class="odd">
+                                <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
+                                    <asp:CheckBoxList ID="ChkDivList" runat="server">
+                                    </asp:CheckBoxList>
+                                </div>
+                                <asp:CheckBox ID="ChkSelectAllDiv" runat="server" AutoPostBack="True" OnCheckedChanged="ChkSelectAllDiv_CheckedChanged" Text="Select All" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="odd" rowspan="2">
+                                &nbsp;</td>
+                            <td class="odd">
+                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="List" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="odd">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="odd" rowspan="2">&nbsp;</td>
                             <td class="odd">&nbsp;</td>
                         </tr>
                         <tr>
                             <td class="odd">&nbsp;</td>
                         </tr>
                         <tr>
+                            <td class="odd">
+                                &nbsp;</td>
+                            <td class="odd" rowspan="2">
+                                </td>
+                        </tr>
+                        <tr>
+                            <td class="odd">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="odd" rowspan="2">&nbsp;</td>
                             <td class="odd">&nbsp;</td>
                         </tr>
                         <tr>
                             <td class="odd">&nbsp;</td>
                         </tr>
                         <tr>
-                            <td class="odd">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="odd">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="odd">&nbsp;</td>
-                        </tr>
-                        <tr>
+                            <td class="odd" rowspan="2">&nbsp;</td>
                             <td class="odd">&nbsp;</td>
                         </tr>
                         <tr>
@@ -128,9 +149,7 @@
                        
                         <tr class="result-headTop">
                             <td align="center" class="Footercommand" colspan="2" valign="middle">
-                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="Submit" />
-
-                            </td>
+                                &nbsp;</td>
                         </tr>
                        
                         </table>

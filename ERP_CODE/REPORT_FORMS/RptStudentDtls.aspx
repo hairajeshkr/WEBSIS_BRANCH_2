@@ -46,27 +46,27 @@
                                         <Columns>
                                             <asp:TemplateField HeaderText="Group">
                                                 <ItemTemplate>
-
+                                                    <asp:Label ID="LblClass" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("class") %>' Width="100px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="SubGroup">
                                                 <ItemTemplate>
-
+                                                    <asp:Label ID="Lbldiv" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("division") %>' Width="100px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Boys">
                                                 <ItemTemplate>
-                                                     <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Male") %>' Width="100px"></asp:Label>
+                                                     <asp:Label ID="Lblboys" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Male") %>' Width="100px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Girls">
                                                 <ItemTemplate>
-                                                     <asp:Label ID="lblfemale" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Female") %>' Width="100px"></asp:Label>
+                                                    <asp:Label ID="lblfemale" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Female") %>' Width="100px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Sub. Total">
                                                 <ItemTemplate>
-
+                                                     <%--<asp:Label ID="lblsubtot" runat="server" SkinID="LblGrdMaster" Text='<%# FnGenderCntDetails(Eval("Male"))%>' Width="100px"></asp:Label>--%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Group Total">

@@ -11,6 +11,7 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
 {
     ClsStudentClassDivisionAssign ObjCls = new ClsStudentClassDivisionAssign();
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
+    DataTable DTMale = new DataTable();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -42,14 +43,7 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-    public string FnCountDetails(object PrmDivId)
-    {
-        return (ObjCls.FnIsNumeric((ViewState["DT"] as DataTable).Rows[0]["ID"].ToString()) > 0 ? (ViewState["DT"] as DataTable).Compute("Count(ID)", " DivisionId=" + ObjCls.FnIsNumeric(PrmDivId.ToString())).ToString() : "");
-    }
-    public string FnGenderCntDetails(object PrmDivId)
-    {
-        return (ObjCls.FnIsNumeric((ViewState["DT"] as DataTable).Rows[0]["ID"].ToString()) > 0 ? "B-" + (ViewState["DT"] as DataTable).Compute("Count(ID)", " Sex= 'Male' AND DivisionId=" + ObjCls.FnIsNumeric(PrmDivId)).ToString() + ", G-" + (ViewState["DT"] as DataTable).Compute("Count(ID)", " Sex= 'Female' AND DivisionId=" + ObjCls.FnIsNumeric(PrmDivId)).ToString() : "");
-    }
+    
     public override void FnInitializeForm()
     {
         TabContainer1.ActiveTabIndex = 0;
@@ -78,24 +72,13 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
     public override void FnCancel()
     {
         base.FnCancel();
-        //CtrlGrdClass.SelectedValue = "0";
-        //CtrlGrdClass.SelectedText = "";
-        //CtrlGrdDivision.SelectedValue = "0";
-        //CtrlGrdDivision.SelectedText = "";
-        //CtrlCommand1.SaveText = "Save";
-        //CtrlCommand1.SaveCommandArgument = "NEW";
-        //FnFocus(CtrlGrdClass.ControlTextBox);
         TabContainer1.ActiveTabIndex = 0;
     }
 
     public void FnFindRecord()
     {
         FnAssignProperty();
-        //FnGetDivisionList();
         FnFindRecord(ObjCls);
-       // FnGridViewBinding("");
-
-        //ObjLst.FnGetDivisionList(DdlToDivision, "", ObjCls.FnIsNumeric(CtrlGrdClass.SelectedValue), ObjCls.FnIsNumeric(CtrlGrdDivision.SelectedValue));
         TabContainer1.ActiveTabIndex = 0;
     }
     public void FnFindRecord_Srch()
@@ -117,9 +100,6 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
         GrdVwRecords.DataBind();
         
     }
-
-
-
     public void FnPrintRecord()
     {
         throw new NotImplementedException();
@@ -132,32 +112,84 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
             {
                 case "SAVE":
 
-
-                    DataTable DTList = new DataTable();
-                    string selectedItemsC = "";
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add(new DataColumn("Group", typeof(string)));
+                    //dt.Columns.Add(new DataColumn("SubGroup", typeof(string)));
+                   
+                    string selectedItemsC = "", selectedclass="";
                     for (int i = 0; i < ChkClassDivList.Items.Count; i++)
                     {
                         if (ChkClassDivList.Items[i].Selected)
+                        { 
                             selectedItemsC += ChkClassDivList.Items[i].Value.ToString() + ",";
+                            selectedclass = ChkClassDivList.Items[i].Text;
+                            DataRow row = dt.NewRow();
+                            row["Group"] = selectedclass.TrimEnd(',');
+                            dt.Rows.Add(row);
+                        }
+                        
                     }
+
                     selectedItemsC = selectedItemsC.TrimEnd(',');
-                    string selectedItemsD = "";
+                    selectedclass = selectedclass.TrimEnd(',');
+
+                    DataTable dclass = new DataTable();
+                    dclass.Columns.Add(new DataColumn("SubGroup", typeof(string)));
+                    string selectedItemsD = "",selecteddiv="";
                     for (int i = 0; i < ChkDivList.Items.Count; i++)
                     {
+                       
                         if (ChkDivList.Items[i].Selected)
+                        {
                             selectedItemsD += ChkDivList.Items[i].Value.ToString() + ",";
+                            selecteddiv = ChkDivList.Items[i].Text;
+                            DataRow drow = dclass.NewRow();
+                            drow["SubGroup"] = selecteddiv;
+                            dclass.Rows.Add(drow);
+                            
+                            
+                        }
+
                     }
+
+                    //for (int k = 0; k < dt.Rows.Count; k++)
+                    //{
+                    //    GrdVwRecords.Rows[k].Cells[1].Text = dt.Rows[k].ItemArray.ToString();
+                    //}
+                    
+
+
+                    //GrdVwRecords.DataSource = dt;
+                    //GrdVwRecords.DataBind();
+                    
                     selectedItemsD = selectedItemsD.TrimEnd(',');
+                    selecteddiv = selecteddiv.TrimEnd(',');
+
 
 
                     //string query = "select count(case when cSex='Male' then 1 end) as Male,count(case when cSex='Female' then 1 end) as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") ";
 
-                    string query = "select count(case when cSex='Male' then 1 end) as Male,count(case when cSex='Female' then 1 end) as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") ";
-                    DataTable DTMale = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
+                    string query = "select CLS.cName class,DIV.cName division ,count(case when cSex= 'Male' then 1 end) as Male,count(case when cSex= 'Female' then 1 end)as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId inner join tblclassdetails CLS on STDA.nClassId = CLS.nId inner join  tblclassdetails DIV on STDA.nDivisionId = DIV.nId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ")  group by CLS.cName,DIV.cName";
+
+
+                    DTMale = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
                     GrdVwRecords.DataSource = DTMale;
                     GrdVwRecords.DataBind();
 
-                    
+                    // kl = GrdVwRecords.Rows[1].Cells[3].Text;
+
+                    for (int i = 0; i < GrdVwRecords.Rows.Count; i++)
+                    {
+                        Label k = (Label)GrdVwRecords.Rows[i].Cells[3].FindControl("Lblboys");
+
+                        Label h = (Label)GrdVwRecords.Rows[i].Cells[4].FindControl("lblfemale");
+                        int j = Convert.ToInt32(k.Text);
+                        int m = Convert.ToInt32(h.Text);
+                        int n = j + m;
+                        GrdVwRecords.Rows[i].Cells[4].Text = n.ToString();
+                    }
+
+                   
                     break;
                 case "FIND":
                     FnFindRecord();
@@ -169,7 +201,6 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
                     FnCancel();
                     break;
                 case "CLEAR_SRCH":
-                    //FnCancel_Srch();
                     break;
                 case "PRINT":
                     FnAssignProperty_Srch();
@@ -186,10 +217,21 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
 
     protected void ChkSelctAllClass_CheckedChanged(object sender, EventArgs e)
     {
-        foreach (ListItem item in ChkClassDivList.Items)
+        if (ChkSelctAllClass.Checked == true)
         {
-            item.Selected = true;
-            item.Enabled = true;
+            foreach (ListItem item in ChkClassDivList.Items)
+            {
+                item.Selected = true;
+                item.Enabled = true;
+            }
+        }
+        else
+        {
+            foreach (ListItem item in ChkClassDivList.Items)
+            {
+                item.Selected = false;
+                item.Enabled = true;
+            }
         }
     }
 
@@ -197,10 +239,22 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
 
     protected void ChkSelectAllDiv_CheckedChanged(object sender, EventArgs e)
     {
-        foreach (ListItem item in ChkDivList.Items)
+        if (ChkSelectAllDiv.Checked == true)
         {
-            item.Selected = true;
-            item.Enabled = true;
+            foreach (ListItem item in ChkDivList.Items)
+            {
+                item.Selected = true;
+                item.Enabled = true;
+            }
+        }
+        else
+        {
+            foreach (ListItem item in ChkDivList.Items)
+            {
+                item.Selected = false;
+                item.Enabled = true;
+            }
+
         }
     }
 }

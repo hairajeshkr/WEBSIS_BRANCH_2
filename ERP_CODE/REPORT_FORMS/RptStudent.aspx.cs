@@ -24,9 +24,14 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
                 FnGrpClassDivChkFill();
 
             }
+            DataTable ClsTGFI3 = (ObjCls.FnGetDataSet("SELECT * FROM TblStudentCategory") as DataSet).Tables[0];
 
-            DataTable ClsTGFI = (ObjCls.FnGetDataSet("SELECT * FROM TblRegistrationStudent where nReligionId=8 order by cName asc") as DataSet).Tables[0];
+
+            DataTable ClsTGFI = (ObjCls.FnGetDataSet("SELECT * FROM TblRegistrationStudent order by cName asc") as DataSet).Tables[0];
             DataTable ClsTGFI1 = (ObjCls.FnGetDataSet("SELECT * FROM TblStudentAdmissionDetails") as DataSet).Tables[0];
+            DataTable ClsTGFI2 = (ObjCls.FnGetDataSet("SELECT * FROM TblClassDetails") as DataSet).Tables[0];
+
+
         }
         catch (Exception ex)
         {
@@ -229,14 +234,18 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         for (int i = 0; i < ChkClassDivList.Items.Count; i++)
         {
             if (ChkClassDivList.Items[i].Selected)
+            {
                 selectedItemsC += ChkClassDivList.Items[i].Value.ToString() + ",";
+            }
         }
         selectedItemsC = selectedItemsC.TrimEnd(',');
         string selectedItemsD = "";
         for (int i = 0; i < ChkDivList.Items.Count; i++)
         {
             if (ChkDivList.Items[i].Selected)
+            {
                 selectedItemsD += ChkDivList.Items[i].Value.ToString() + ",";
+            }
         }
         selectedItemsD = selectedItemsD.TrimEnd(',');
 

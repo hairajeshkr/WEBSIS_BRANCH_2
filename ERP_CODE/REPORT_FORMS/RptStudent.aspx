@@ -16,10 +16,10 @@
                 <ContentTemplate>
                     <table class="auto-style1">
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="height: 39px">
                                 <asp:Label ID="Label122" runat="server" Text="Filter Criteria" Width="100px" SkinID="LblBold"></asp:Label>
                             </td>
-                            <td class="odd">
+                            <td class="odd" style="height: 39px">
                                 <asp:DropDownList ID="DdlFilter" runat="server" Width="198px" AppendDataBoundItems="True" OnSelectedIndexChanged="DdlFilter_SelectedIndexChanged" AutoPostBack="True">
                                     <asp:ListItem Text="select" Value="0"></asp:ListItem>
                                     <asp:ListItem Text="Admission Date" Value="1"></asp:ListItem>
@@ -31,49 +31,52 @@
                                 </asp:DropDownList>
                             </td>
 
-                            <td class="odd" style="width: 60px" colspan="2">
+                            <td class="odd" style="width: 60px; height: 39px;" colspan="2">
                                 <asp:Label ID="lblgroup" runat="server" SkinID="LblBold" Text="Group" Width="75px"></asp:Label>
                             </td>
-                            <td class="odd">
+                            <td class="odd" style="height: 39px">
                                 <asp:TextBox ID="TxtGroup" runat="server" Width="167px"></asp:TextBox>
                                 <asp:Button ID="BtnGroup" runat="server" Text="...." Width="28px" />
                             </td>
 
-                            <td class="odd" style="width: 152px">
+                            <td class="odd" style="width: 152px; height: 39px;">
                                 <asp:CheckBox ID="ChkSelGroup" runat="server" Text="selected group" />
                             </td>
-                            <td class="odd">&nbsp;</td>
-                            <td class="odd">&nbsp;<td class="odd">&nbsp;</td>
+                            <td class="odd" style="height: 39px"></td>
+                            <td class="odd" style="height: 39px"><td class="odd" style="height: 39px"></td>
                         </tr>
                         <tr>
                             <td class="odd">
-                                <asp:Label ID="lblreligion" runat="server" SkinID="LblBold" Text="Religion" Width="100px"></asp:Label>
+                                <asp:Label ID="lblreligion" runat="server" Enabled="False" Height="16px" SkinID="LblBold" Text="Religion" Width="100px"></asp:Label>
                             </td>
-                            <td class="odd" colspan="4">
+                            <td class="odd">
                                 <asp:DropDownList ID="DdlReligion" runat="server" Width="198px">
-                                    <asp:ListItem Text="select" Value="0"></asp:ListItem>
-                                    <asp:ListItem Text="christian" Value="8"></asp:ListItem>
                                 </asp:DropDownList>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                               
                             </td>
-                            <td class="odd" colspan="4" rowspan="4">
-
-                                <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
-                                    <asp:CheckBoxList ID="ChkClassDivList" runat="server" >
-                                    </asp:CheckBoxList>
-                                </div>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td class="odd">
+                            <td class="odd" colspan="2" style="width: 60px">
                                 <asp:Label ID="lBLGRP2" runat="server" SkinID="LblBold" Text="Group" Width="100px"></asp:Label>
                             </td>
-                            <td class="odd" colspan="4">
+                            <td class="odd">
                                 <asp:DropDownList ID="Ddlgrpfilter" runat="server" Width="198px">
                                 </asp:DropDownList>
                             </td>
+                            <td colspan="4" rowspan="4">
+                                <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
+                                    <asp:CheckBoxList ID="ChkClassDivList" runat="server">
+                                    </asp:CheckBoxList>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="odd">
+                                &nbsp;</td>
+                            <td class="odd" colspan="2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                               
+                            </td>
+                            <td class="odd" colspan="2">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+
                         </tr>
                         <tr>
                             <td class="odd">
@@ -122,8 +125,7 @@
                             <td class="odd" colspan="4">
                                 <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
                                     <asp:CheckBoxList ID="ChkSelectColumns" runat="server" AutoPostBack="True"  >
-                                        <asp:ListItem Text="Student Name" Value="cName"></asp:ListItem>
-                                        <asp:ListItem Text="Admission No" Value="cPanNo"></asp:ListItem>
+                                         <asp:ListItem Text="Student Name" Value="cName"></asp:ListItem>
                                          <asp:ListItem Text="Reg.No" Value="cRegNo"></asp:ListItem>
                                         <asp:ListItem Text="Adhar No" Value="cAdharNo"></asp:ListItem>
                                         <asp:ListItem Text="Dob" Value="dDob"></asp:ListItem>
@@ -166,7 +168,6 @@
                             </td>
                             <td>
                                 <asp:DropDownList ID="DdlBasedOn" runat="server" Width="200px"></asp:DropDownList>
-                                <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="List" />
                             </td>
                         </tr>
                         <tr class="result-headTop">

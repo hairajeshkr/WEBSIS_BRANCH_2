@@ -169,7 +169,9 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
 
                     //string query = "select count(case when cSex='Male' then 1 end) as Male,count(case when cSex='Female' then 1 end) as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") ";
 
-                    string query = "select CLS.cName class,DIV.cName division ,count(case when cSex= 'Male' then 1 end) as Male,count(case when cSex= 'Female' then 1 end)as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId inner join tblclassdetails CLS on STDA.nClassId = CLS.nId inner join  tblclassdetails DIV on STDA.nDivisionId = DIV.nId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ")  group by CLS.cName,DIV.cName";
+                    //string query = "select CLS.cName class,DIV.cName division ,count(case when cSex= 'Male' then 1 end) as Male,count(case when cSex= 'Female' then 1 end)as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId inner join tblclassdetails CLS on STDA.nClassId = CLS.nId inner join  tblclassdetails DIV on STDA.nDivisionId = DIV.nId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ")  group by CLS.cName,DIV.cName";
+                    string query = "select distinct CLS.cName class,DIV.cName division ,count(case when cSex= 'Male' then 1 end) as Male,count(case when cSex= 'Female' then 1 end)as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId inner join tblclassdetails CLS on STDA.nClassId = CLS.nId inner join  tblclassdetails DIV on STDA.nDivisionId = DIV.nId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ")  group by CLS.cName,DIV.cName";
+
 
 
                     DTMale = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
@@ -205,6 +207,16 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
                 case "PRINT":
                     FnAssignProperty_Srch();
                     base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+
+                    this.BindReport();
+
+
+
+
+
+
+
+
                     break;
             }
         }
@@ -258,9 +270,9 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
         }
     }
 
-    protected void Button1_Click(object sender, EventArgs e)
+
+    private void BindReport()
     {
-       
         string selectedItemsC = "", selectedclass = "";
         for (int i = 0; i < ChkClassDivList.Items.Count; i++)
         {
@@ -275,7 +287,7 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
         selectedItemsC = selectedItemsC.TrimEnd(',');
         selectedclass = selectedclass.TrimEnd(',');
 
-       
+
         string selectedItemsD = "", selecteddiv = "";
         for (int i = 0; i < ChkDivList.Items.Count; i++)
         {
@@ -288,53 +300,57 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
 
         }
 
-      
+
         selectedItemsD = selectedItemsD.TrimEnd(',');
         selecteddiv = selecteddiv.TrimEnd(',');
 
-        //string query = "select CLS.cName class,DIV.cName division ,count(case when cSex= 'Male' then 1 end) as Male,count(case when cSex= 'Female' then 1 end)as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId inner join tblclassdetails CLS on STDA.nClassId = CLS.nId inner join  tblclassdetails DIV on STDA.nDivisionId = DIV.nId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ")  group by CLS.cName,DIV.cName";
+        //DataTable DTList = new DataTable();
+
+        //using (SqlConnection con1 = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+        //{
+        //    using (SqlCommand cmd1 = new SqlCommand("SPFillStudentGridData", con1))
+        //    {
+        //        con1.Open();
+        //        cmd1.CommandType = CommandType.StoredProcedure;
+        //        cmd1.Parameters.AddWithValue("@Class", selectedItemsC);
+        //        cmd1.Parameters.AddWithValue("@Division", selectedItemsD);
+        //        int i = cmd1.ExecuteNonQuery();
+        //        con1.Close();
+        //        using (SqlDataAdapter da = new SqlDataAdapter(cmd1))
+        //        {
+        //            da.Fill(DTList);
+        //        }
+        //    }
+
+        //    ViewState["DT_List"] = DTList;
+        //    //GrdVwRecords.DataSource = DTList;
+        //    //GrdVwRecords.DataBind();
+        //}
 
 
-        //DTMale = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
 
-        DataTable DTList = new DataTable();
-
-        using (SqlConnection con1 = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
-        {
-            using (SqlCommand cmd1 = new SqlCommand("SPFillStudentGridData", con1))
-            {
-                con1.Open();
-                cmd1.CommandType = CommandType.StoredProcedure;
-                cmd1.Parameters.AddWithValue("@Class", selectedItemsC);
-                cmd1.Parameters.AddWithValue("@Division", selectedItemsD);
-                int i = cmd1.ExecuteNonQuery();
-                con1.Close();
-                using (SqlDataAdapter da = new SqlDataAdapter(cmd1))
-                {
-                    da.Fill(DTList);
-                }
-            }
-
-            ViewState["DT_List"] = DTList;
-            GrdVwRecords.DataSource = DTList;
-            GrdVwRecords.DataBind();
-        }
-
-
-        //string query = "select CLS.cName class,DIV.cName division ,count(case when cSex= 'Male' then 1 end) as Male,count(case when cSex= 'Female' then 1 end)as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId inner join tblclassdetails CLS on STDA.nClassId = CLS.nId inner join  tblclassdetails DIV on STDA.nDivisionId = DIV.nId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ")  group by CLS.cName,DIV.cName";
+        string query = "select CLS.cName class,DIV.cName division ,count(case when cSex= 'Male' then 1 end) as Male,count(case when cSex= 'Female' then 1 end)as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId inner join tblclassdetails CLS on STDA.nClassId = CLS.nId inner join  tblclassdetails DIV on STDA.nDivisionId = DIV.nId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ")  group by CLS.cName,DIV.cName";
 
         //string query = "select 'CLS' class,'DIV' division ,count(case when cSex= 'Male' then 1 end) as Male,count(case when cSex= 'Female' then 1 end)as Female FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId = STDA.nStudentId and STDA.nClassId in(" + selectedItemsC + ") ";
-        //string parameter1 = query;
-        //string parameter2 = selectedItemsC;
+        string parameter1 = query;
+        string parameter2 = selectedItemsC;
+        Session["param1"] = parameter1;
+        Session["param2"] = parameter2;
+
+
+
+        //string parameter1 = selectedItemsC;
+        //string parameter2 = selectedItemsD;
         //Session["param1"] = parameter1;
         //Session["param2"] = parameter2;
 
-        string parameter1 = selectedItemsC;
-        string parameter2 = selectedItemsD;
-        Session["param1"] = parameter1;
-        Session["param2"] = parameter2;
+
         Response.Redirect("RptCampusStatisticsViewer.aspx");
 
 
     }
+
+
+
+
 }

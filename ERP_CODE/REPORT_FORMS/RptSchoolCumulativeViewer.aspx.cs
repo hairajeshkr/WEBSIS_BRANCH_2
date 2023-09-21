@@ -4,46 +4,41 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
-using System.Configuration;
 using System.Data.SqlClient;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using System.Data;
+using System.ComponentModel;
 
-
-public partial class REPORT_FORMS_RptCampusStatisticsViewer : System.Web.UI.Page
+public partial class REPORT_FORMS_RptSchoolCumulativeViewer : System.Web.UI.Page
 {
-    string query;
+    CrystalDecisions.CrystalReports.Engine.ReportDocument rptDoc = null;
     protected void Page_Load(object sender, EventArgs e)
     {
-
-
         string query = Session["param1"] as string;
-        //string Class = Session["param1"] as string;
-        //string Division = Session["param2"] as string;
-
-
+        string S = Session["param2"] as string;
         ReportDocument crystalReport = new ReportDocument();
-       // crystalReport.Load(Server.MapPath("~/TRANS_REPORTS/RptCampusStatistics.rpt"));
-        crystalReport.Load(Server.MapPath("~/TRANS_REPORTS/RptStcampus.rpt"));
+       if (S=="1")
+        {
+          crystalReport.Load(Server.MapPath("~/TRANS_REPORTS/RptSchoolCumulative.rpt"));
+        }
+        else if(S == "2")
+            {
+            crystalReport.Load(Server.MapPath("~/TRANS_REPORTS/RptSchoolCumulativeCategory.rpt"));
+        }
+
         DataSetDynamic dsCustomers = GetData(query, crystalReport);
         crystalReport.SetDataSource(dsCustomers);
         CrystalReportViewer1.ReportSource = crystalReport;
-        //crystalReport.SetParameterValue("@class", Class);
-        //crystalReport.SetParameterValue("@Division", Division);
-        crystalReport.SetParameterValue("Paragroup", 1);
-
-
-        //crystalReport.DataSourceConnections.Clear();
-        //crystalReport.Refresh();
-        //crystalReport.ExportToHttpResponse(ExportFormatType.PortableDocFormat, HttpContext.Current.Response, true, "Campus");
+       
+        //crystalReport.SetParameterValue("Paragroup", 1);
 
         crystalReport.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, false, "Campus");
         CrystalReportViewer1.RefreshReport();
         CrystalReportViewer1.Visible = true;
+        CrystalReportViewer1.DataBind();
 
     }
-
 
     private DataSetDynamic GetData(string query, ReportDocument crystalReport)
     {
@@ -87,5 +82,18 @@ public partial class REPORT_FORMS_RptCampusStatisticsViewer : System.Web.UI.Page
 
         }
     }
+
+
+
+    //protected void Page_Unload(object sender, EventArgs e)
+    //{
+       
+    //    if (this.rptDoc != null)
+    //    {
+    //        this.rptDoc.Close();
+    //        this.rptDoc.Dispose();
+    //    }
+    //}
+
 
 }

@@ -19,15 +19,22 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
+                TxtRollNo.Attributes.Add("onkeydown", "return NumbersOnly(event);");
+                TxtFatherIncome.Attributes.Add("onkeydown", "return NumbersOnly(event);");
+                TxtMotherIncome.Attributes.Add("onkeydown", "return NumbersOnly(event);");
+
                 ObjLst.FnGetStudentLedgerList(DdlAccountLedger, "");
                 ViewState["SALT"] = ObjLst.FnGetSalutationList() as DataTable;
                 FnBindingDropDownList(ObjLst, ViewState["SALT"] as DataTable, DdlSaltn, "");
                 FnBindingDropDownList(ObjLst, ViewState["SALT"] as DataTable, DdlSaltnFthr, "");
                 FnBindingDropDownList(ObjLst, ViewState["SALT"] as DataTable, DdlSaltnMthr, "");
+                FnBindingDropDownList(ObjLst, ViewState["SALT"] as DataTable, DdlSaltnGurdn, "");
                 ObjLst.FnGetLanguageList(DdlLanguage, "");
 
                 FnBindDocumetPath(HyLnkImg, "1", "PRF");
+                FnBindDocumetPath(HyPhotoCpt, "1", "PRF");
                 FnGetPopUpWindowDispaly("Profile Image", HyLnkImg, 600, 350, "../FileShow.aspx?PDF=0&FILE_TYPE=PRF_IMG", LblScript);
+                FnGetPopUpWindowDispaly("Profile Image", HyPhotoCpt, 700, 550, "../STUDENT/PhotoCapture.aspx?PDF=0&FILE_TYPE=PRF_IMG", LblScript);
                 //FnGetPopUpWindowDispaly("Staff Reviced Details", HyLnkBtnAdd, 850, 545, FnGetQueryString("StaffSubDetails.aspx", ViewState["ID"].ToString()), LblScript);
 
                 FnInitializeForm();
@@ -79,6 +86,8 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         ObjCls.CategoryId = ObjCls.FnIsNumeric(CtrlGrdCategory.SelectedValue.ToString());
         ObjCls.ClassId = ObjCls.FnIsNumeric(CtrlGrdClass.SelectedValue.ToString());
         ObjCls.DivisionId = ObjCls.FnIsNumeric(CtrlGrdDivision.SelectedValue.ToString());
+        ObjCls.FatherAnnualIncome = ObjCls.FnIsNumeric(TxtFatherIncome.Text);
+        ObjCls.MotherAnnualIncome = ObjCls.FnIsNumeric(TxtMotherIncome.Text);
 
         ObjCls.ImgePath = Session["IMG_PRF"].ToString();
         //ObjCls.ImgTempId = ObjCls.FnIsNumeric(ViewState["TEMPID"].ToString());
@@ -91,6 +100,10 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         ObjCls.FatherName = TxtFatherName.Text;
         ObjCls.MotherSaluationId = ObjCls.FnIsNumeric(DdlSaltnMthr.SelectedValue.ToString());
         ObjCls.MotherName = TxtMotherName.Text;
+        ObjCls.GuardianSaluationId = ObjCls.FnIsNumeric(DdlSaltnGurdn.SelectedValue.ToString());
+        ObjCls.GuardianName = TxtGurdnName.Text;
+        ObjCls.GuardianRelation = DdlRelationship.SelectedValue.ToString();
+
         ObjCls.JoinDate = ObjCls.FnDateTime(CtrlAdmnDate.DateText);
         ObjCls.AdharNo = TxtAdharNo.Text.Trim();
         ObjCls.MotherLanguageId = ObjCls.FnIsNumeric(DdlLanguage.SelectedValue.ToString());
@@ -124,11 +137,14 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         DdlSaltn.SelectedIndex = 0;
         DdlSaltnFthr.SelectedIndex = 0;
         DdlSaltnMthr.SelectedIndex = 0;
+        DdlSaltnGurdn.SelectedIndex = 0;
+        DdlRelationship.SelectedIndex = 0;
         TxtFatherName.Text = "";
         TxtMotherName.Text = "";
         TxtRegNo.Text = "";
         TxtStudentCode.Text = "";
         TxtAdmnNo.Text = "";
+        TxtGurdnName.Text = "";
         CtrlGrdCommunity.SelectedValue = "0";
         CtrlGrdCommunity.SelectedText = "";
         CtrlGrdReligion.SelectedValue = "0";
@@ -142,6 +158,8 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         CtrlGrdPlace.SelectedValue = "0";
         CtrlGrdPlace.SelectedText = "";
         DdlStatus.SelectedIndex = 0;
+        TxtFatherIncome.Text = "";
+        TxtMotherIncome.Text = "";
 
         TxtAge.Text = "";
         TxtMark1.Text = "";
@@ -273,11 +291,11 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         try
         {
             GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
+            DataTable dt = ViewState["DT"] as DataTable;
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
             Session["REG_ID"] = ViewState["ID"].ToString();
 
-            DdlSaltn.Text = ObjCls.SaluationId.ToString();
             TxtName.Text = ObjCls.Name;
             TxtCode.Text = ObjCls.Code;
             TxtRegNo.Text = ObjCls.RegNo;
@@ -291,7 +309,6 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
 
             CtrlAdmnDate.DateText = ObjCls.FnDateTime(ObjCls.JoinDate, "");
             RadBtnGender.Text = ObjCls.Sex.ToString();
-            DdlBloodGrp.Text = ObjCls.BloodGroup.ToString();
 
             CtrlGrdCountry.SelectedText = ObjCls.NationalityName.ToString();
             CtrlGrdCountry.SelectedValue = ObjCls.NationalityId.ToString();
@@ -313,14 +330,23 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             CtrlGrdDivision.SelectedText = ObjCls.DivisionName.ToString();
             CtrlGrdDivision.SelectedValue = ObjCls.DivisionId.ToString();
 
-            DdlSaltnFthr.Text = ObjCls.FatherSaluationId.ToString();
-            TxtFatherName.Text = ObjCls.FatherName;
-            DdlSaltnMthr.Text = ObjCls.MotherSaluationId.ToString();
-            TxtMotherName.Text = ObjCls.MotherName;
+            FnSetDropDownValue(DdlSaltn, ObjCls.SaluationId.ToString());
+            FnSetDropDownValue(DdlSaltnFthr, ObjCls.FatherSaluationId.ToString());
+            FnSetDropDownValue(DdlSaltnMthr, ObjCls.MotherSaluationId.ToString());
+            FnSetDropDownValue(DdlSaltnGurdn, ObjCls.GuardianSaluationId.ToString());
+            FnSetDropDownValue(DdlRelationship, ObjCls.GuardianRelation);
+            FnSetDropDownValue(DdlBloodGrp, ObjCls.BloodGroup);
+            FnSetDropDownValue(DdlLanguage, ObjCls.MotherLanguageId.ToString());
+            FnSetDropDownValue(DdlStatus, ObjCls.Status);
+            FnSetDropDownValue(DdlAccountLedger, ObjCls.AccLedgerId.ToString());
 
-            DdlLanguage.Text = ObjCls.MotherLanguageId.ToString();
-            DdlAccountLedger.Text = ObjCls.AccLedgerId.ToString();
-            DdlStatus.Text = ObjCls.Status.ToString();
+            TxtFatherName.Text = ObjCls.FatherName;
+            TxtMotherName.Text = ObjCls.MotherName;
+            TxtGurdnName.Text = ObjCls.GuardianName;
+
+            TxtFatherIncome.Text = ObjCls.FatherAnnualIncome.ToString();
+            TxtMotherIncome.Text = ObjCls.MotherAnnualIncome.ToString();
+
             TxtMark1.Text = ObjCls.IdentificationMark1;
             TxtMark2.Text = ObjCls.IdentificationMark2;
 
@@ -448,5 +474,7 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         }
     }
 
-    
+
+
+   
 }

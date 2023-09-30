@@ -8,11 +8,155 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <script language="javascript" src="Script/AccountLedger.js" type="text/javascript"></script>
     <div style="height:630px; width:1040px">
-      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="620px" Width="1030px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" style="border:1px solid #fff !important;">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="626px" Width="1030px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" style="border:1px solid #fff !important;">
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
-              <HeaderTemplate> 
- Student Registration</HeaderTemplate><ContentTemplate><table class="auto-style2"><tr><td class="odd" ><asp:Label ID="Label124" runat="server" Text="Student Name" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><table style="width: 100%"><tr><td><asp:DropDownList ID="DdlSaltn" runat="server" SkinID="Ddl100"></asp:DropDownList></td><td><asp:TextBox ID="TxtName" runat="server" placeholder="Student Name" SkinID="Txt400"></asp:TextBox></td></tr></table></td><td class="odd"><table style="width: 60%"><tr><td></td><td><asp:Label ID="Label128" runat="server" Text="Student ID" Width="100px"></asp:Label></td><td><asp:TextBox ID="TxtCode" runat="server" placeholder="Student ID" SkinID="TxtCodeDisable"></asp:TextBox></td></tr></table></td></tr><tr><td class="odd"><asp:Label ID="Label123" runat="server" Text="Admission No." Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><table style="width: 60%"><tr><td><asp:TextBox ID="TxtAdmnNo" runat="server" placeholder="Admn. / Roll No" SkinID="TxtSng250"></asp:TextBox></td><td><asp:Label ID="Label129" runat="server" Text="Reg No." Width="100px"></asp:Label></td><td><asp:TextBox ID="TxtRegNo" runat="server" placeholder="Reg No." SkinID="TxtCode"></asp:TextBox></td></tr></table></td><td class="odd" rowspan="6"><table style="width: 100%"><tr><td rowspan="2"><img id="ImgItem" runat="server" alt="Image" src="~//images//admin.png" class="ItemImageStyle" style="border:solid;border-width:1px;border-color:gray;height:150px;width:200px;" /> &nbsp;</img></img></td><td></td></tr><tr><td></td></tr><tr><td><ajaxToolkit:AsyncFileUpload ID="FileUploadImg" runat="server" CssClass="FileUploadControl upload-field-parent upload-field-input" FailedValidation="False" OnUploadedComplete="FileUploadImg_UploadedComplete" Width="200px" /></td><td><asp:HyperLink ID="HyLnkImg" runat="server" CssClass="upload-field-img"></asp:HyperLink></td></tr></table></td></tr><tr><td class="odd"><asp:Label ID="Label122" runat="server" Text="Aadhar No" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><table style="width: 100%"><tr><td><asp:TextBox ID="TxtAdharNo" runat="server" placeholder="Aadhar No" SkinID="TxtSng250"></asp:TextBox></td><td><asp:Label ID="Label130" runat="server" Text="Student Code" Width="100px"></asp:Label></td><td><asp:TextBox ID="TxtStudentCode" runat="server" placeholder="Student Code" SkinID="TxtCode"></asp:TextBox></td></tr></table></td></tr><tr><td class="odd"><asp:Label ID="Label8" runat="server" Text="Admission Date" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><uc3:CtrlDate ID="CtrlAdmnDate" runat="server" /></td></tr><tr><td class="odd"><asp:Label ID="Label125" runat="server" Text="Date of Birth" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><table class="upload-field-parent"><tr><td><uc3:CtrlDate ID="CtrlDob" runat="server" /></td><td><asp:Label ID="Label2" runat="server" Width="50px"></asp:Label></td><td><asp:Label ID="Label1" runat="server" Text="Age" Width="50px"></asp:Label></td><td><asp:TextBox ID="TxtAge" runat="server" placeholder="Age" SkinID="TxtQtyCentreDisable"></asp:TextBox></td><td style="width: 150px"><asp:RadioButtonList ID="RadBtnGender" runat="server" SkinID="RadBtnSex"></asp:RadioButtonList></td></tr></table></td></tr><tr><td class="odd"><asp:Label ID="Label131" runat="server" Text="Class" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><uc2:CtrlGridList ID="CtrlGrdClass" runat="server" AccountType="ClassList" PlaceHoldr="Class" /></td></tr><tr><td class="odd"><asp:Label ID="Label132" runat="server" Text="Division" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><table ><tr><td><uc2:CtrlGridList ID="CtrlGrdDivision" runat="server" AccountType="DivisionList" PlaceHoldr="Division" /></td><td><asp:Label ID="Label148" runat="server" Text="Roll No." Width="60px"></asp:Label></td><td><asp:TextBox ID="TxtRollNo" runat="server" placeholder="Roll No." SkinID="TxtQtyCentreDisable"></asp:TextBox></td></tr></table></td></tr><tr><td class="odd"><asp:Label ID="Label27" runat="server" Text="Father Name" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><table style="width: 100%;height:100%;"><tr><td><asp:DropDownList ID="DdlSaltnFthr" runat="server" SkinID="Ddl100"></asp:DropDownList></td><td><asp:TextBox ID="TxtFatherName" runat="server" placeholder="Father Name" SkinID="Txt400"></asp:TextBox></td></tr></table></td><td class="odd"><asp:CheckBox ID="ChkHostel" runat="server" Font-Bold="False" SkinID="ChkSelect" Text="Hostel Accomodation" /></td></tr><tr><td class="odd"><asp:Label ID="Label126" runat="server" Text="Mother Name" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><table style="width: 100%"><tr><td><asp:DropDownList ID="DdlSaltnMthr" runat="server" SkinID="Ddl100"></asp:DropDownList></td><td><asp:TextBox ID="TxtMotherName" runat="server" placeholder="Mother Name" SkinID="Txt400"></asp:TextBox></td></tr></table></td><td class="odd"><asp:CheckBox ID="ChkOwnAcc" runat="server" Font-Bold="False" SkinID="ChkSelect" Text="Create Own Account" /></td></tr><tr><td class="odd"><asp:Label ID="Label42" runat="server" Text="Religion" Width="120px"></asp:Label></td><td align="left" class="odd"><uc2:CtrlGridList ID="CtrlGrdReligion" runat="server" AccountType="ReligionList" GridHeight="200" PlaceHoldr="Religion" /></td><td class="odd"><asp:Label ID="Label134" runat="server" Text="Account Ledger" Width="120px"></asp:Label></td><td class="odd"><asp:DropDownList ID="DdlAccountLedger" runat="server" SkinID="DdlList"></asp:DropDownList></td></tr><tr><td class="odd"><asp:Label ID="Label43" runat="server" Text="Community" Width="120px"></asp:Label></td><td align="left" class="odd"><uc2:CtrlGridList ID="CtrlGrdCommunity" runat="server" AccountType="CommunityList" GridHeight="200" PlaceHoldr="Community" /></td><td class="odd"><asp:Label ID="Label16" runat="server" Text="Nationality" Width="100px"></asp:Label></td><td class="odd"><uc2:CtrlGridList ID="CtrlGrdCountry" runat="server" AccountType="Country" GridHeight="200" PlaceHoldr="Country" /></td></tr><tr><td class="odd"><asp:Label ID="Label133" runat="server" Text="Category" Width="120px"></asp:Label></td><td align="left" class="odd"><uc2:CtrlGridList ID="CtrlGrdCategory" runat="server" AccountType="CategoryList" GridHeight="150" PlaceHoldr="Category" /></td><td class="odd"><asp:Label ID="Label127" runat="server" Text="Place of Birth" Width="120px"></asp:Label></td><td class="odd">
-                  <uc2:CtrlGridList ID="CtrlGrdPlace" runat="server" AccountType="PlaceofBirth" GridHeight="150" PlaceHoldr="Place of Birth" /></td></tr><tr><td class="odd"><asp:Label ID="Label32" runat="server" Text="Blood Group" Width="120px"></asp:Label></td><td align="left" class="odd"><asp:DropDownList ID="DdlBloodGrp" runat="server" SkinID="DdlBloodGroup"></asp:DropDownList></td><td class="odd"><asp:Label ID="Label35" runat="server" Text="Mother Tongue" Width="120px"></asp:Label></td><td class="odd"><asp:DropDownList ID="DdlLanguage" runat="server" SkinID="DdlList"></asp:DropDownList></td></tr><tr><td   class="odd"><asp:Label ID="Label149" runat="server" Text="Identification Mark 1" Width="130px"></asp:Label><td class="odd"><asp:TextBox ID="TxtMark1" runat="server" placeholder="Identification Mark 1" SkinID="Txt400"></asp:TextBox></td><td class="odd"><asp:Label ID="Label12" runat="server" Text="Remarks" Width="120px"></asp:Label></td><td class="odd" rowspan="3" style="margin-left: 40px"><asp:TextBox ID="TxtRemarks" runat="server" SkinID="TxtMultiLine" TextMode="MultiLine"></asp:TextBox></td></td></tr><tr><td class="odd"><asp:Label ID="Label150" runat="server" Text="Identification Mark 2" Width="130px"></asp:Label><td class="odd"><asp:TextBox ID="TxtMark2" runat="server" placeholder="Identification Mark 2" SkinID="Txt400"></asp:TextBox></td><td class="odd"></td></td></tr><tr><td class="odd"><asp:Label ID="Label151" runat="server" Text="Status" Width="130px"></asp:Label><td class="odd"><table class="upload-field-parent"><tr><td><asp:DropDownList ID="DdlStatus" runat="server" SkinID="DdlStudentStatus"></asp:DropDownList></td><td><asp:CheckBox ID="ChkActive" runat="server" Checked="True" Font-Bold="False" SkinID="IsActive" Text="Active" /></td></tr></table></td><td class="odd"></td></td></tr><tr><td class="odd"><td class="odd"></td><td class="odd"></td><td class="odd"><asp:Label ID="LblScript" runat="server"></asp:Label></td></td></tr><tr><td align="center" class="FooterCommand" colspan="4" valign="middle"><uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="True" /></td></tr></table></ContentTemplate>
+              <HeaderTemplate>Student Registration</HeaderTemplate><ContentTemplate><table class="auto-style2"><tr><td class="odd" ><asp:Label ID="Label124" runat="server" Text="Student Name" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><table style="width: 100%"><tr><td><asp:DropDownList ID="DdlSaltn" runat="server" SkinID="Ddl100"></asp:DropDownList></td><td><asp:TextBox ID="TxtName" runat="server" placeholder="Student Name" SkinID="Txt400"></asp:TextBox></td></tr></table></td><td class="odd"><table style="width: 60%"><tr><td></td><td><asp:Label ID="Label128" runat="server" Text="Student ID" Width="100px"></asp:Label></td><td><asp:TextBox ID="TxtCode" runat="server" placeholder="Student ID" SkinID="TxtCodeDisable" Enabled="False"></asp:TextBox></td></tr></table></td></tr><tr><td class="odd"><asp:Label ID="Label123" runat="server" Text="Admission No." Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2"><table><tr><td><asp:TextBox ID="TxtAdmnNo" runat="server" placeholder="Admn. / Roll No" SkinID="TxtSng250"></asp:TextBox></td>
+                  <td class="odd"><asp:Label ID="Label129" runat="server" Text="Reg No." Width="100px"></asp:Label></td><td><asp:TextBox ID="TxtRegNo" runat="server" placeholder="Reg No." SkinID="Txt140"></asp:TextBox></td></tr></table></td><td class="odd" rowspan="6"><table style="width: 100%"><tr><td rowspan="2"><img id="ImgItem" runat="server" alt="Image" src="~//images//admin.png" class="ItemImageStyle" style="border:solid;border-width:1px;border-color:gray;height:150px;width:200px;" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</img></img></td><td></td></tr><tr><td>
+              
+              
+              
+              
+              
+              <asp:HyperLink ID="HyPhotoCpt" runat="server" CssClass="upload-field-img"></asp:HyperLink>
+              
+              
+              
+              
+              
+              </td></tr><tr><td><ajaxToolkit:AsyncFileUpload ID="FileUploadImg" runat="server" CssClass="FileUploadControl upload-field-parent upload-field-input" FailedValidation="False" OnUploadedComplete="FileUploadImg_UploadedComplete" Width="200px" /></td><td><asp:HyperLink ID="HyLnkImg" runat="server" CssClass="upload-field-img"></asp:HyperLink></td></tr></table></td></tr><tr><td class="odd"><asp:Label ID="Label122" runat="server" Text="Aadhar No" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2">
+                  <table><tr><td><asp:TextBox ID="TxtAdharNo" runat="server" placeholder="Aadhar No" SkinID="TxtSng250"></asp:TextBox></td><td class="odd"><asp:Label ID="Label130" runat="server" Text="Student Code" Width="100px"></asp:Label></td><td><asp:TextBox ID="TxtStudentCode" runat="server" placeholder="Student Code" SkinID="Txt140"></asp:TextBox></td></tr></table></td></tr><tr><td class="odd"><asp:Label ID="Label8" runat="server" Text="Admission Date" Width="120px"></asp:Label></td><td align="left" class="odd" colspan="2">
+                  <table class="upload-field-parent">
+                      <tr>
+                          <td>
+                              <uc3:CtrlDate ID="CtrlAdmnDate" runat="server" />
+                          </td>
+                          <td>
+                              <asp:Label ID="Label125" runat="server" Text="Date of Birth" Width="90px"></asp:Label>
+                          </td>
+                          <td>
+                              <uc3:CtrlDate ID="CtrlDob" runat="server" />
+                          </td>
+                          <td>
+                              <asp:Label ID="Label152" runat="server" Text="Age" Width="25px"></asp:Label>
+                          </td>
+                          <td>
+                              <asp:TextBox ID="TxtAge" runat="server" Enabled="False" placeholder="Age" SkinID="TxtQtyCentreDisable"></asp:TextBox>
+                          </td>
+                      </tr>
+                  </table>
+                  </td></tr><tr><td class="odd">
+                      <asp:Label ID="Label131" runat="server" Text="Class" Width="120px"></asp:Label>
+                      </td><td align="left" class="odd" colspan="2">
+                          <table>
+                              <tr>
+                                  <td style="height: 39px">
+                                      <uc2:CtrlGridList ID="CtrlGrdClass" runat="server" AccountType="ClassList" PlaceHoldr="Class" />
+                                  </td>
+                                  <td style="height: 39px; width: 150px">
+                                      <asp:RadioButtonList ID="RadBtnGender" runat="server" SkinID="RadBtnSex">
+                                      </asp:RadioButtonList>
+                                  </td>
+                              </tr>
+                          </table>
+                      </td></tr><tr><td class="odd" style="height: 39px">
+                      <asp:Label ID="Label132" runat="server" Text="Division" Width="120px"></asp:Label>
+                      </td><td align="left" class="odd" colspan="2" style="height: 39px">
+                          <table>
+                              <tr>
+                                  <td>
+                                      <uc2:CtrlGridList ID="CtrlGrdDivision" runat="server" AccountType="DivisionList" PlaceHoldr="Division" />
+                                  </td>
+                                  <td >
+                                      <asp:Label ID="Label148" runat="server" Text="Roll No." Width="45px"></asp:Label>
+                                  </td>
+                                  <td class="odd">
+                                      <asp:TextBox ID="TxtRollNo" runat="server" placeholder="Roll No." Enabled="False" SkinID="TxtQtyCentreDisable"></asp:TextBox>
+                                  </td>
+                              </tr>
+                          </table>
+                      </td></tr><tr><td class="odd">
+                      <asp:Label ID="Label154" runat="server" Text="Mother Tongue" Width="120px"></asp:Label>
+                      </td><td align="left" class="odd" colspan="2">
+                          <table>
+                              <tr>
+                                  <td>
+                                      <asp:DropDownList ID="DdlLanguage" runat="server" SkinID="DdlList">
+                                      </asp:DropDownList>
+                                  </td>
+                                  <td class="odd">
+                                      <asp:Label ID="Label155" runat="server" Text="Blood Group" Width="100px"></asp:Label>
+                                  </td>
+                                  <td>
+                                      <asp:DropDownList ID="DdlBloodGrp" runat="server" SkinID="DdlBloodGroup">
+                                      </asp:DropDownList>
+                                  </td>
+                              </tr>
+                          </table>
+                      </td></tr><tr><td class="odd">
+                  <asp:Label ID="Label27" runat="server" Text="Father Name/Income" Width="140px"></asp:Label></td><td align="left" class="odd" colspan="2"><table style="width: 100%;height:100%;"><tr><td><asp:DropDownList ID="DdlSaltnFthr" runat="server" SkinID="Ddl100"></asp:DropDownList></td><td><asp:TextBox ID="TxtFatherName" runat="server" placeholder="Father Name" SkinID="Txt400"></asp:TextBox></td></tr></table></td><td class="odd">
+                  <table class="upload-field-parent">
+                      <tr>
+                          <td>
+                              <asp:TextBox ID="TxtFatherIncome" runat="server" placeholder="Annual Income" SkinID="Txt100"></asp:TextBox>
+                          </td>
+                          <td>
+                              <asp:CheckBox ID="ChkHostel" runat="server" Font-Bold="False" SkinID="ChkSelect" Text="Hostel Accomodation" />
+                          </td>
+                      </tr>
+                  </table>
+                  </td></tr><tr><td class="odd"><asp:Label ID="Label126" runat="server" Text="Mother Name/Income" Width="140px"></asp:Label></td><td align="left" class="odd" colspan="2"><table style="width: 100%"><tr><td><asp:DropDownList ID="DdlSaltnMthr" runat="server" SkinID="Ddl100"></asp:DropDownList></td><td><asp:TextBox ID="TxtMotherName" runat="server" placeholder="Mother Name" SkinID="Txt400"></asp:TextBox></td></tr></table></td><td class="odd">
+                      <table class="upload-field-parent" style="width: 14%">
+                          <tr>
+                              <td>
+                                  <asp:TextBox ID="TxtMotherIncome" runat="server" placeholder="Annual Income" SkinID="Txt100"></asp:TextBox>
+                              </td>
+                              <td>
+                                  <asp:CheckBox ID="ChkOwnAcc" runat="server" Font-Bold="False" SkinID="ChkSelect" Text="Create Own Account" />
+                              </td>
+                          </tr>
+                      </table>
+                      </td></tr><tr><td class="odd"><asp:Label ID="Label153" runat="server" Text="Guardian Name" Width="140px"></asp:Label></td><td align="left" class="odd" colspan="2">
+                      <table style="width: 100%">
+                          <tr>
+                              <td style="height: 39px">
+                                  <asp:DropDownList ID="DdlSaltnGurdn" runat="server" SkinID="Ddl100">
+                                  </asp:DropDownList>
+                              </td>
+                              <td style="height: 39px">
+                                  <asp:TextBox ID="TxtGurdnName" runat="server" placeholder="Guardian Name" SkinID="Txt400"></asp:TextBox>
+                              </td>
+                          </tr>
+                      </table>
+                      </td><td class="odd">
+                          <table class="upload-field-parent" style="width: 14%">
+                              <tr>
+                                  <td>
+                                      <asp:Label ID="Label156" runat="server" Text="Relationship" Width="120px"></asp:Label>
+                                  </td>
+                                  <td>
+                                      <asp:DropDownList ID="DdlRelationship" runat="server" SkinID="DdlRelationShip">
+                                      </asp:DropDownList>
+                                  </td>
+                              </tr>
+                          </table>
+                      </td></tr>
+                  <tr>
+                      <td class="odd">
+                          <asp:Label ID="Label42" runat="server" Text="Religion" Width="120px"></asp:Label>
+                      </td>
+                      <td align="left" class="odd">
+                          <uc2:CtrlGridList ID="CtrlGrdReligion" runat="server" AccountType="ReligionList" GridHeight="180" PlaceHoldr="Religion" />
+                      </td>
+                      <td class="odd">
+                          <asp:Label ID="Label134" runat="server" Text="Account Ledger" Width="120px"></asp:Label>
+                      </td>
+                      <td class="odd">
+                          <asp:DropDownList ID="DdlAccountLedger" runat="server" SkinID="DdlList">
+                          </asp:DropDownList>
+                      </td>
+                  </tr>
+                  <tr><td class="odd"><asp:Label ID="Label43" runat="server" Text="Community" Width="120px"></asp:Label></td><td align="left" class="odd"><uc2:CtrlGridList ID="CtrlGrdCommunity" runat="server" AccountType="CommunityList" GridHeight="150" PlaceHoldr="Community" /></td><td class="odd"><asp:Label ID="Label16" runat="server" Text="Nationality" Width="100px"></asp:Label></td><td class="odd"><uc2:CtrlGridList ID="CtrlGrdCountry" runat="server" AccountType="Country" GridHeight="150" PlaceHoldr="Country" /></td></tr><tr><td class="odd"><asp:Label ID="Label133" runat="server" Text="Category" Width="120px"></asp:Label></td><td align="left" class="odd"><uc2:CtrlGridList ID="CtrlGrdCategory" runat="server" AccountType="CategoryList" GridHeight="120" PlaceHoldr="Category" /></td><td class="odd"><asp:Label ID="Label127" runat="server" Text="Place of Birth" Width="120px"></asp:Label></td><td class="odd">
+                  <uc2:CtrlGridList ID="CtrlGrdPlace" runat="server" AccountType="PlaceofBirth" GridHeight="120" PlaceHoldr="Place of Birth" /></td></tr><tr><td   class="odd"><asp:Label ID="Label149" runat="server" Text="Identification Mark 1" Width="130px"></asp:Label><td class="odd"><asp:TextBox ID="TxtMark1" runat="server" placeholder="Identification Mark 1" SkinID="Txt400"></asp:TextBox></td><td class="odd"><asp:Label ID="Label12" runat="server" Text="Remarks" Width="120px"></asp:Label></td><td class="odd" rowspan="3" style="margin-left: 40px"><asp:TextBox ID="TxtRemarks" runat="server" SkinID="TxtMultiLine" TextMode="MultiLine"></asp:TextBox></td></td></tr><tr><td class="odd"><asp:Label ID="Label150" runat="server" Text="Identification Mark 2" Width="130px"></asp:Label><td class="odd"><asp:TextBox ID="TxtMark2" runat="server" placeholder="Identification Mark 2" SkinID="Txt400"></asp:TextBox></td><td class="odd"></td></td></tr><tr><td class="odd"><asp:Label ID="Label151" runat="server" Text="Status" Width="130px"></asp:Label><td class="odd"><table class="upload-field-parent"><tr><td><asp:DropDownList ID="DdlStatus" runat="server" SkinID="DdlStudentStatus"></asp:DropDownList></td><td><asp:CheckBox ID="ChkActive" runat="server" Checked="True" Font-Bold="False" SkinID="IsActive" Text="Active" /></td></tr></table></td><td class="odd"></td></td></tr><tr><td class="odd"><td class="odd"></td><td class="odd"></td><td class="odd"><asp:Label ID="LblScript" runat="server"></asp:Label></td></td></tr><tr><td align="center" class="FooterCommand" colspan="4" valign="middle"><uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="True" /></td></tr></table></ContentTemplate>
               
           
 
@@ -36,7 +180,7 @@
                
 
 
-<ContentTemplate><table style="width: 100%"><tr class="result-head"><td><asp:Label ID="Label139" runat="server" SkinID="LblBold" Text="Student Name" Width="120px"></asp:Label></td><td><asp:Label ID="LblStudentName" runat="server" SkinID="LblIdentifyLeft" Width="580px"></asp:Label></td><td><asp:Label ID="Label140" runat="server" SkinID="LblBold" Text="Student Id" Width="100px"></asp:Label></td><td><asp:Label ID="LblStudentId" runat="server" SkinID="LblIdentifyLeft" Width="200px"></asp:Label></td></tr><tr><td align="center" colspan="4" valign="middle"></td></tr><tr><td align="center" colspan="4" valign="middle"><table style="width: 57%"><tr><td class="odd1"><asp:Label ID="Label141" runat="server" SkinID="LblBold" Text="Admission Details" Width="150px"></asp:Label></td><td class="odd2"><asp:Label ID="Label142" runat="server" SkinID="LblBold" Text="Education Details" Width="150px"></asp:Label></td><td class="odd3"><asp:Label ID="Label143" runat="server" SkinID="LblBold" Text="Hobbies &amp; Activities" Width="200px"></asp:Label></td><td class="odd3"><asp:Label ID="Label147" runat="server" SkinID="LblBold" Text="Document Upload" Width="200px"></asp:Label></td></tr><tr><td style="height: 20px"><img id="ImgStudent" runat="server" alt="Image"  class="ImageStyle" src="~/images/student_assistant.png" />&nbsp;&nbsp;</td><td style="height: 20px"><img id="ImgEducation" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentEducations.jpg" />&nbsp;&nbsp;</td><td style="height: 20px"><img id="ImgHobby" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentHobby.png" />&nbsp;&nbsp;</td><td style="height: 20px"><img id="ImgDoc" runat="server" alt="Image" class="ImageStyle" src="~/images/DocumentUpload.png" />&nbsp;&nbsp;</td></tr><tr><td class="odd2"><asp:Label ID="Label144" runat="server" SkinID="LblBold" Text="Sibling Details" Width="150px"></asp:Label></td><td class="odd3"><asp:Label ID="Label145" runat="server" SkinID="LblBold" Text="Address Details" Width="150px"></asp:Label></td><td class="odd1"><asp:Label ID="Label146" runat="server" SkinID="LblBold" Text="Fee Details" Width="150px"></asp:Label></td><td class="odd1"></td></tr><tr><td><img id="ImgSibling" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentSibling.png"  />&nbsp;&nbsp;</td><td><img id="ImgAddress" runat="server" alt="Image" class="ImageStyle" src="~/images/HomeAddress.png" />&nbsp;&nbsp;</td><td><img id="ImgFee" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentFee.png" />&nbsp;&nbsp;</td><td></td></tr></table></td></tr><tr><td></td><td><asp:HiddenField ID="HdnId" runat="server" /></td><td></td><td></td></tr></table></ContentTemplate>
+<ContentTemplate><table style="width: 100%"><tr class="result-head"><td><asp:Label ID="Label139" runat="server" SkinID="LblBold" Text="Student Name" Width="120px"></asp:Label></td><td><asp:Label ID="LblStudentName" runat="server" SkinID="LblIdentifyLeft" Width="580px"></asp:Label></td><td><asp:Label ID="Label140" runat="server" SkinID="LblBold" Text="Student Id" Width="100px"></asp:Label></td><td><asp:Label ID="LblStudentId" runat="server" SkinID="LblIdentifyLeft" Width="200px"></asp:Label></td></tr><tr><td align="center" colspan="4" valign="middle"></td></tr><tr><td align="center" colspan="4" valign="middle"><table style="width: 57%"><tr><td class="odd1"><asp:Label ID="Label141" runat="server" SkinID="LblBold" Text="Admission Details" Width="150px"></asp:Label></td><td class="odd2"><asp:Label ID="Label142" runat="server" SkinID="LblBold" Text="Education Details" Width="150px"></asp:Label></td><td class="odd3"><asp:Label ID="Label143" runat="server" SkinID="LblBold" Text="Hobbies &amp; Activities" Width="200px"></asp:Label></td><td class="odd3"><asp:Label ID="Label147" runat="server" SkinID="LblBold" Text="Document Upload" Width="200px"></asp:Label></td></tr><tr><td style="height: 20px"><img id="ImgStudent" runat="server" alt="Image"  class="ImageStyle" src="~/images/student_assistant.png" />&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="height: 20px"><img id="ImgEducation" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentEducations.jpg" />&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="height: 20px"><img id="ImgHobby" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentHobby.png" />&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="height: 20px"><img id="ImgDoc" runat="server" alt="Image" class="ImageStyle" src="~/images/DocumentUpload.png" />&nbsp;&nbsp;&nbsp;&nbsp;</td></tr><tr><td class="odd2"><asp:Label ID="Label144" runat="server" SkinID="LblBold" Text="Sibling Details" Width="150px"></asp:Label></td><td class="odd3"><asp:Label ID="Label145" runat="server" SkinID="LblBold" Text="Address Details" Width="150px"></asp:Label></td><td class="odd1"><asp:Label ID="Label146" runat="server" SkinID="LblBold" Text="Fee Details" Width="150px"></asp:Label></td><td class="odd1"></td></tr><tr><td><img id="ImgSibling" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentSibling.png"  />&nbsp;&nbsp;&nbsp;&nbsp;</td><td><img id="ImgAddress" runat="server" alt="Image" class="ImageStyle" src="~/images/HomeAddress.png" />&nbsp;&nbsp;&nbsp;&nbsp;</td><td><img id="ImgFee" runat="server" alt="Image" class="ImageStyle" src="~/images/StudentFee.png" />&nbsp;&nbsp;&nbsp;&nbsp;</td><td></td></tr></table></td></tr><tr><td></td><td><asp:HiddenField ID="HdnId" runat="server" /></td><td></td><td></td></tr></table></ContentTemplate>
               
           
 

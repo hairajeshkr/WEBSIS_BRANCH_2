@@ -9,12 +9,23 @@
 <body>
 
     <div>
+        <table>
+         <tr>
+         <td>
             <video id="video" runat="server" width="320" height="240" autoplay></video>
+              </td>
+             <td>
             <button id="capture" runat="server">Capture</button>
+              </td>
+                <td>
             <canvas id="canvas"  width="320" height="240" style="display:none";"></canvas>
-            <img id="capturedImage" runat="server" alt="Captured Image" width="320" height="240" style="display:normal;" >
-            
-             
+               </td>
+              <td>
+            <img id="capturedImage" runat="server" alt="Captured Image" width="320" height="240" style="display:inherit;" >
+              </td>
+             </tr>
+            </table>
+
             <td align="center">
            <input type="button" id="btnCrop" value="Crop" style="display: none" />
            <input type="hidden" name="imgX1" id="imgX1" />
@@ -22,12 +33,30 @@
            <input type="hidden" name="imgWidth" id="imgWidth" />
            <input type="hidden" name="imgHeight" id="imgHeight" />
            <input type="hidden" name="imgCropped" id="imgCropped" />
-
+           <table>
+         <tr>
+         <td>
                  <canvas id="canvas1"  width="320" height="240" style="display:none";"></canvas>
-                 <img id="Img1" runat="server" alt="Captured Image" width="320" height="240" style="display:normal;" >
-                <input type="range" id="brightnessControl" min="-100" max="100" value="0" step="1">
+             </td>
+             <td>
+                 <img id="Img1" runat="server" alt="Captured Image" width="320" height="240" style="display:inherit;" >
+                  </td>
+             <td>
+                <input type="range" id="brightnessControl" min="0" max="255" value="0" step="5">
+                 </td>
+             <td>
                 <input type="button" id="btnUpload" value="Upload" disabled="disabled" />
-       </td>
+                 </td>
+             <td>
+                <input type="button" id="btnPIX" value="Change Color & Upload" />
+                 </td>
+                <td>
+               <canvas id="canvas2" style="display: normal;"></canvas>
+                 </td>
+             </tr>
+          </table>
+
+            </td>
         </div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.9/js/jquery.Jcrop.min.js"></script>
@@ -52,42 +81,36 @@
 
                 // Capture image from video feed
                 captureButton.addEventListener('click', function () {
+                  
                     canvas.width = 320;
                     canvas.height = 240;
                     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
                     // Convert canvas content to a data URL (base64)
-                    const capturedImageData = canvas.toDataURL('image/jpeg');
-
+                     const capturedImageData = canvas.toDataURL('image/jpeg');
+                   
                     // Set the captured image source and display it
                     capturedImage.src = capturedImageData;
-
-                    // increaseBrightness('canvas', 80);
-
+                    capturedImage.style.display = 'normal';
+                    
                     //// Enable brightness control
                     brightnessControl.removeAttribute('disabled');
-
-                    ////$("#btnUpload").removeAttr("disabled");
+                                       
                     // Call the saveCapturedImage function to send the captured image data to the server
                     $('#capturedImage').Jcrop({
                         onChange: SetCoordinates,
                         onSelect: SetCoordinates
                     });
 
-                    // Set the captured image source and display it
-
+                   
                 });
 
             } else {
                 console.error('Webcam not supported.');
             }
 
-            // Function to adjust brightness based on the control
-            brightnessControl.addEventListener('input', function () {
-                const brightnessFactor = parseInt(brightnessControl.value, 10);
-                adjustBrightness('canvas1', brightnessFactor);
-            });
 
+           
         });
 
         function SetCoordinates(c) {
@@ -114,7 +137,6 @@
 
                 const capturedImageData = canvas.toDataURL('image/jpeg');
 
-                //increaseBrightness('canvas1', 80);
                 changeBackground('canvas1', [255, 0, 0, 255]);
                 Img1.src = capturedImageData;
                 $("#btnUpload").removeAttr("disabled");
@@ -127,7 +149,7 @@
         $("#btnUpload").click(function () {
             $.ajax({
                 type: "POST",
-                url: "PhotoUpload.aspx/SaveCapturedImage",
+                url: "StudentReg.aspx/SaveCapturedImage",
                 data: "{data: '" + $("#Img1")[0].src + "'}",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -135,25 +157,79 @@
             });
         });
 
-        function adjustBrightness(canvasId, brightnessFactor) {
-            const canvas = document.getElementById(canvasId);
+      
+
+        // Get the brightness control input element
+        const brightnessControl = document.getElementById('brightnessControl');
+
+        // Get the Img1 control element
+        const img1 = document.getElementById('Img1');
+
+        // Function to apply brightness adjustment
+        function applyBrightnessAdjustment() {
+            const brightnessFactor = parseFloat(brightnessControl.value);
+            adjustBrightness(img1, brightnessFactor);
+        }
+
+        // Event listener for brightness control changes
+        brightnessControl.addEventListener('input', applyBrightnessAdjustment);
+        brightnessControl.addEventListener('change', applyBrightnessAdjustment);
+
+        // Function to adjust brightness of an image element
+        function adjustBrightness(imageElement, brightnessFactor) {
+            const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
+
+            // Set canvas dimensions to match the image
+            canvas.width = imageElement.width;
+            canvas.height = imageElement.height;
+
+            // Draw the image on the canvas
+            ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
 
             // Get the image data from the canvas
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const data = imageData.data;
 
             // Adjust the brightness of each pixel
-            for (let i = 0; i < data.length; i += 4) {
-                // Modify the red, green, and blue values
-                data[i] = clamp(data[i] + brightnessFactor, 0, 255); // Red
-                data[i + 1] = clamp(data[i + 1] + brightnessFactor, 0, 255); // Green
-                data[i + 2] = clamp(data[i + 2] + brightnessFactor, 0, 255); // Blue
+            for (let i = 0; i < data.length; i += 3) {
+                // Separate the color channels (red, green, blue)
+                const red = data[i];
+                const green = data[i + 1];
+                const blue = data[i + 2];
+
+                // Apply brightness adjustment to each channel individually
+                data[i] = clamp(red + brightnessFactor, 0, 255); // Red
+                data[i + 1] = clamp(green + brightnessFactor, 0, 255); // Green
+                data[i + 2] = clamp(blue + brightnessFactor, 0, 255); // Blue
+
+
             }
 
             // Put the modified image data back on the canvas
             ctx.putImageData(imageData, 0, 0);
+
+            // Update the image element with the modified image
+            imageElement.src = canvas.toDataURL('image/jpeg');
         }
+
+        // Utility function to clamp a value between a minimum and maximum
+        function clamp(value, min, max) {
+            return Math.min(Math.max(value, min), max);
+        }
+
+
+        $("#btnPIX").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "StudentReg.aspx/ChangePIX",
+                data: "{data: '" + $("#Img1")[0].src + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) { }
+            });
+        });
+
 
         function changeBackground(canvasId, newBackgroundColor) {
             const canvas = document.getElementById(canvasId);
@@ -192,6 +268,7 @@
             // Put the modified image data back on the canvas
             ctx.putImageData(imageData, 0, 0);
         }
+
 
     </script>
 

@@ -17,9 +17,9 @@
               
               
               
-              <asp:HyperLink ID="HyPhotoCpt" runat="server" CssClass="upload-field-img"></asp:HyperLink>
+            <%--  <asp:HyperLink ID="HyPhotoCpt" runat="server" CssClass="upload-field-img"></asp:HyperLink>--%>
               
-              
+                <asp:HyperLink ID="HyPhotoCpt" runat="server" CssClass="upload-field-img"></asp:HyperLink>
               
               
               

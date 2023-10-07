@@ -6,7 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.Services;
 
+using System.Drawing;
+using System.Drawing.Imaging;
 public partial class StudentReg : ClsPageEvents, IPageInterFace
 {
     ClsRegistrationStudent ObjCls = new ClsRegistrationStudent();
@@ -34,7 +38,7 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
                 FnBindDocumetPath(HyLnkImg, "1", "PRF");
                 FnBindDocumetPath(HyPhotoCpt, "1", "PRF");
                 FnGetPopUpWindowDispaly("Profile Image", HyLnkImg, 600, 350, "../FileShow.aspx?PDF=0&FILE_TYPE=PRF_IMG", LblScript);
-                FnGetPopUpWindowDispaly("Profile Image", HyPhotoCpt, 700, 550, "../STUDENT/PhotoCapture.aspx?PDF=0&FILE_TYPE=PRF_IMG", LblScript);
+                FnGetPopUpWindowDispaly("Profile Image", HyPhotoCpt, 750, 550, "../STUDENT/PhotoCapture.aspx?PDF=0&FILE_TYPE=PRF_IMG", LblScript);
                 //FnGetPopUpWindowDispaly("Staff Reviced Details", HyLnkBtnAdd, 850, 545, FnGetQueryString("StaffSubDetails.aspx", ViewState["ID"].ToString()), LblScript);
 
                 FnInitializeForm();
@@ -226,6 +230,7 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
                 case "SAVE":
                     if (TxtName.Text.Trim().Length <= 0)
                     {
+                      
                         FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the name"));
                         FnFocus(TxtName);
                         return;
@@ -447,6 +452,7 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
                     if (FnValidateFileSize(FileUploadImg, 0, 255, 600) == true)
                     {
                         Session["IMG_PRF"] = FnSaveUploadFileName(ObjCls, e.FileName, "PRF");
+                        string FS= FnSaveUploadFileName(ObjCls, e.FileName, "PRF");
                         _strDestPath = FnServerUploadPath(FnProfileFilePath(Session["IMG_PRF"].ToString().Trim()));
                         FileUploadImg.PostedFile.SaveAs(_strDestPath);
                         Session["IMGBYTES"] = FnGenerateThumbnail(_strDestPath, ref _strImgeByte);
@@ -474,7 +480,90 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         }
     }
 
+    [WebMethod()]
+    public static bool SaveCapturedImage(string data)
+    {
+        ClsRegistrationStudent ObjCls = new ClsRegistrationStudent();
+      
+
+        string fileName = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
+
+        //Convert Base64 Encoded string to Byte Array.
+        byte[] imageBytes = Convert.FromBase64String(data.Split(',')[1]);
+
+        //Save the Byte Array as Image File.
+        string filePath = HttpContext.Current.Server.MapPath(string.Format("~/UploadedFiles/Profile/{0}.jpg", fileName));
+        File.WriteAllBytes(filePath, imageBytes);
+
+        HttpContext.Current.Session["IMG_PRF"] = "PRF"+ fileName+".jpg";
+
+        return true;
+
+
+    }
+
+
+
+    [WebMethod()]
+    public static bool ChangePIX(string data)
+    {
+        string fileName = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
+
+        //Convert Base64 Encoded string to Byte Array.
+        byte[] imageBytes = Convert.FromBase64String(data.Split(',')[1]);
+
+     
+        Bitmap bmpReturn = null;
+        byte[] byteBuffer = Convert.FromBase64String(data.Split(',')[1]);
+        MemoryStream memoryStream = new MemoryStream(byteBuffer);
+
+        memoryStream.Position = 0;
+
+        bmpReturn = (Bitmap)Bitmap.FromStream(memoryStream);
+
+        Color targetColor = Color.White; // Color to change
+        Color replacementColor = Color.Blue; // New color
+
+        for (int x = 0; x < bmpReturn.Width; x++)
+        {
+            for (int y = 0; y < bmpReturn.Height; y++)
+            {
+                Color pixelColor = bmpReturn.GetPixel(x, y);
+
+                if (pixelColor.R == 255 && pixelColor.G == 255 && pixelColor.B == 255)
+                {
+                    // Replace white pixel with blue color
+                    bmpReturn.SetPixel(x, y, replacementColor);
+                }
+                else
+                {
+                    // Keep the original pixel color
+                    bmpReturn.SetPixel(x, y, pixelColor);
+                }
+
+            }
+        }
+
+
+        byte[] byteArray = new byte[0];
+        using (MemoryStream stream = new MemoryStream())
+        {
+            bmpReturn.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            stream.Close();
+
+            byteArray = stream.ToArray();
+        }
+
+        string filePath = HttpContext.Current.Server.MapPath(string.Format("~/UploadedFiles/Profile/{0}.jpg", fileName));
+        File.WriteAllBytes(filePath, byteArray);
+        HttpContext.Current.Session["IMG_PRF"] = "PRF" + fileName + ".jpg";
+
+        return true;
+
+    }
+
 
 
    
+
 }

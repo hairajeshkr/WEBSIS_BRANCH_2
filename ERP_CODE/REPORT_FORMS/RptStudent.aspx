@@ -16,11 +16,20 @@
                 <ContentTemplate>
                     <table class="auto-style1">
                         <tr>
-                            <td class="odd" style="height: 39px">
-                                <asp:Label ID="Label122" runat="server" Text="Filter Criteria" Width="100px" SkinID="LblBold"></asp:Label>
+                            <td class="odd" rowspan="9">
+                                &nbsp;</td>
+
+                            <td class="odd" rowspan="9">
+                                <div class="result-list" style="overflow: scroll; height: 420px; width: 220px;">
+                                    <asp:TreeView ID="TreVwLst" runat="server" OnSelectedNodeChanged="TreVwLst_SelectedNodeChanged" ShowCheckBoxes="All" ExpandDepth="0"   ></asp:TreeView>
+                                    
+                                </div>
+
                             </td>
-                            <td class="odd" style="height: 39px">
-                                <asp:DropDownList ID="DdlFilter" runat="server" Width="198px" AppendDataBoundItems="True" OnSelectedIndexChanged="DdlFilter_SelectedIndexChanged" AutoPostBack="True">
+                            <td class="odd" colspan="2" >
+                                <asp:Label ID="Label122" runat="server" SkinID="LblBold" Text="Filter Criteria"></asp:Label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:DropDownList ID="DdlFilter" runat="server" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="DdlFilter_SelectedIndexChanged" Width="198px">
                                     <asp:ListItem Text="select" Value="0"></asp:ListItem>
                                     <asp:ListItem Text="Admission Date" Value="1"></asp:ListItem>
                                     <asp:ListItem Text="Group Wise" Value="2"></asp:ListItem>
@@ -31,133 +40,113 @@
                                 </asp:DropDownList>
                             </td>
 
-                            <td class="odd" style="width: 60px; height: 39px;" colspan="2">
-                                <asp:Label ID="lblgroup" runat="server" SkinID="LblBold" Text="Group" Width="75px"></asp:Label>
+                            <td class="odd" >
+                                <asp:Label ID="lblFromdate" runat="server" SkinID="LblBold" Text="From date"></asp:Label>
                             </td>
-                            <td class="odd" style="height: 39px">
-                                <asp:TextBox ID="TxtGroup" runat="server" Width="167px"></asp:TextBox>
-                                <asp:Button ID="BtnGroup" runat="server" Text="...." Width="28px" />
+                            <td class="odd" >
+                                <uc3:CtrlDate ID="CtrlFromDate" runat="server" />
                             </td>
 
-                            <td class="odd" style="width: 152px; height: 39px;">
-                                <asp:CheckBox ID="ChkSelGroup" runat="server" Text="selected group" />
-                            </td>
-                            <td class="odd" style="height: 39px"></td>
-                            <td class="odd" style="height: 39px"><td class="odd" style="height: 39px"></td>
+                            <td class="odd" ">
+                                &nbsp;</td>
+                            <td class="odd" ></td>
+                            <td class="odd" ></td>
                         </tr>
                         <tr>
-                            <td class="odd">
-                                <asp:Label ID="lblreligion" runat="server" Enabled="False" Height="16px" SkinID="LblBold" Text="Religion" Width="100px"></asp:Label>
-                            </td>
-                            <td class="odd">
+                            <td class="odd" colspan="2" >
+                                <asp:Label ID="lblreligion" runat="server" Enabled="False"  SkinID="LblBold" Text="Religion" ></asp:Label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:DropDownList ID="DdlReligion" runat="server" Width="198px">
                                 </asp:DropDownList>
                             </td>
-                            <td class="odd" colspan="2" style="width: 60px">
-                                <asp:Label ID="lBLGRP2" runat="server" SkinID="LblBold" Text="Group" Width="100px"></asp:Label>
+                            <td class="odd">
+                                <asp:Label ID="lblduedate" runat="server" SkinID="LblBold" Text="Due Date"></asp:Label>
                             </td>
                             <td class="odd">
-                                <asp:DropDownList ID="Ddlgrpfilter" runat="server" Width="198px">
-                                </asp:DropDownList>
+                                <uc3:CtrlDate ID="CtrlDueDate" runat="server" />
                             </td>
-                            <td colspan="4" rowspan="4">
+                            <td colspan="2" rowspan="4">
                                 <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
-                                    <asp:CheckBoxList ID="ChkClassDivList" runat="server">
+                                    <asp:CheckBoxList ID="ChkSelectColumns" runat="server" AutoPostBack="True">
+                                        <asp:ListItem Text="Student Name" Value="cName"></asp:ListItem>
+                                        <asp:ListItem Text="Reg.No" Value="cRegNo"></asp:ListItem>
+                                        <asp:ListItem Text="Adhar No" Value="cAdharNo"></asp:ListItem>
+                                        <asp:ListItem Text="Dob" Value="dDob"></asp:ListItem>
+                                        <asp:ListItem Text="PhoneNo" Value="cPhoneNo"></asp:ListItem>
+                                        <asp:ListItem Text="PinCode" Value="cPincode"></asp:ListItem>
+                                        <asp:ListItem Text="PlaceofBirth" Value="cPlaceofBirth"></asp:ListItem>
+                                        <asp:ListItem Text="BloodGroup" Value="cBloodGroup"></asp:ListItem>
+                                        <asp:ListItem Text="Admission Date" Value="dJoinDate"></asp:ListItem>
                                     </asp:CheckBoxList>
                                 </div>
+                                <asp:CheckBox ID="ChkSelectAllFields" runat="server" Text="Select All" OnCheckedChanged="ChkSelectAllFields_CheckedChanged" AutoPostBack="True"  />
+
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd">
-                                &nbsp;</td>
+                            <td class="odd" style="width: 14px"> &nbsp;<td>
                             <td class="odd" colspan="2">
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                
                             </td>
-                            <td class="odd" colspan="2">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
                             <td class="odd">&nbsp;</td>
 
                         </tr>
                         <tr>
-                            <td class="odd">
-                                <asp:Label ID="lblFromdate" runat="server" Text="From date" SkinID="LblBold"></asp:Label>
-                            </td>
+                            <td class="odd" style="width: 14px">&nbsp;</td>
                             <td class="odd" colspan="2">
-                                <uc3:CtrlDate ID="CtrlFromDate" runat="server" />
-                            </td>
-                            <td class="odd">
-                                <asp:Label ID="lblduedate" runat="server" Text="Due Date" SkinID="LblBold"></asp:Label>
+                                &nbsp;</td>
+                            <td class="odd" style="width: 31px">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
                             <td class="odd">
-                                <uc3:CtrlDate ID="CtrlDueDate" runat="server" />
-                            </td>
+                                &nbsp;</td>
                         </tr>
                         <tr>
                             <td class="odd" colspan="5" rowspan="5">
                                 <div class="result-list" style="overflow: scroll; height: 268px; width: 800px;">
-                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" >
+                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing">
                                     </asp:GridView>
-
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd" colspan="4">
-                                <asp:CheckBox ID="ChkSelctAllClass" runat="server" Text="Select All" OnCheckedChanged="ChkSelctAllClass_CheckedChanged" AutoPostBack="True"  />
+                            <td class="odd" colspan="2">
                             </td>
                         </tr>
 
 
                         <tr>
-                            <td class="odd" colspan="4">
-                                <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
-                                    <asp:CheckBoxList ID="ChkDivList" runat="server" >
-                                    </asp:CheckBoxList>
-                                </div>
-                            </td>
+                            <td class="odd" colspan="2">
+                                &nbsp;</td>
                         </tr>
                         <tr>
-                            <td class="odd" colspan="4">
-                                <asp:CheckBox ID="ChkSelectAllDiv" runat="server" Text="Select All" OnCheckedChanged="ChkSelectAllDiv_CheckedChanged" AutoPostBack="True"/>
-                            </td>
+                            <td class="odd" colspan="2">
+                                &nbsp;</td>
                         </tr>
                         <tr>
-                            <td class="odd" colspan="4">
-                                <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
-                                    <asp:CheckBoxList ID="ChkSelectColumns" runat="server" AutoPostBack="True"  >
-                                        <asp:ListItem Text="Student Name" Value="cName"></asp:ListItem>
-                                        <asp:ListItem Text="Admission No" Value="cAdmissionNo"></asp:ListItem>
-                                         <asp:ListItem Text="Reg.No" Value="cRegNo"></asp:ListItem>
-                                        <asp:ListItem Text="Adhar No" Value="cAdharNo"></asp:ListItem>
-                                        <asp:ListItem Text="Dob" Value="dDob"></asp:ListItem>
-                                         <asp:ListItem Text="PhoneNo" Value="cPhoneNo"></asp:ListItem>
-                                        <asp:ListItem Text="PinCode" Value="cPincode"></asp:ListItem>
-                                        <asp:ListItem Text="PlaceofBirth" Value="cPlaceofBirth"></asp:ListItem>
-                                         <asp:ListItem Text="BloodGroup" Value="cBloodGroup"></asp:ListItem>
-                                        <asp:ListItem Text="Admission Date" Value="dJoinDate"></asp:ListItem>
-
-                                    </asp:CheckBoxList>
-                                </div>
-                           </td>
+                            <td class="odd" colspan="2">
+                                &nbsp;</td>
                         </tr>
                         <tr>
+                            <td class="odd" rowspan="2">&nbsp;</td>
                             <td class="odd" colspan="5" rowspan="2">&nbsp;</td>
-                            <td class="odd" colspan="4">
-                                <asp:CheckBox ID="ChkSelectAllFields" runat="server" Text="Select All" AutoPostBack="True" OnCheckedChanged="ChkSelectAllFields_CheckedChanged"/>
-                            </td>
+                            <td class="odd" colspan="2">
+                                &nbsp;</td>
                         </tr>
 
 
                         <tr>
-                            <td class="odd" colspan="4">&nbsp;</td>
+                            <td class="odd" colspan="2">&nbsp;</td>
                         </tr>
 
                         <tr class="odd">
                             <td>
-                                <asp:Label ID="Label2" runat="server" SkinID="LblBold" Text="Sort Order" Width="100px"></asp:Label>
-
-                            </td>
+                                &nbsp;</td>
                             <td>
+                                <asp:Label ID="Label2" runat="server" SkinID="LblBold" Text="Sort Order" Width="100px"></asp:Label>
+                            </td>
+                            <td style="width: 14px">
                                 <asp:DropDownList ID="DdlSortOrder" runat="server" Width="200px">
                                     <asp:ListItem Text="select" Value="0"></asp:ListItem>
                                     <asp:ListItem Text="ASC" Value="1"></asp:ListItem>
@@ -167,13 +156,15 @@
                             <td colspan="2">
                                 <asp:Label ID="Label4" runat="server" SkinID="LblBold" Text="Based On" Width="100px"></asp:Label>
                             </td>
-                            <td>
+                            <td style="width: 31px">
                                 <asp:DropDownList ID="DdlBasedOn" runat="server" Width="200px"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr class="result-headTop">
-                            <td class="Footercommand" colspan="8" align="center" valign="middle">
-                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="List" />
+                            <td class="Footercommand" align="center" valign="middle">
+                                &nbsp;</td>
+                            <td align="center" class="Footercommand" colspan="7" valign="middle">
+                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="True" SaveText="List" />
                             </td>
                         </tr>
 

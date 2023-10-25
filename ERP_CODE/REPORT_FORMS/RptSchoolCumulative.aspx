@@ -14,249 +14,245 @@
                 <ContentTemplate>
                     <table class="auto-style1">
                         <tr>
-                            <td class="odd" style="width: 354px">
-                                <asp:RadioButton ID="RadReligion" runat="server" Text="Display Religion Wise Statistics" />
-                            </td>
-                                
-                            <td class="odd" style="width: 172px">
-                                <asp:RadioButton ID="RadAll" runat="server" Text="All" />
-                            </td>
-                            <td class="odd">&nbsp;</td>
-                                
+                             <td class="odd" rowspan="7">
+                                <div class="result-list" style="overflow: scroll; height: 420px; width: 220px;">
+                                    <asp:TreeView ID="TreVwLst" runat="server" OnSelectedNodeChanged="TreVwLst_SelectedNodeChanged" ShowCheckBoxes="All" ExpandDepth="0"   ></asp:TreeView>
+                                    
+                                </div>
+                             <td class="odd" style="width: 354px">
+                                 <asp:CheckBoxList ID="ChkReligionCat" runat="server">
+                                     <asp:ListItem Text="Display Religion Wise Statistics" Value="1"></asp:ListItem>
+                                     <asp:ListItem Text="Display Category Wise Statistics" Value="2"></asp:ListItem>
+                                     <asp:ListItem Text="Display BoardingType wise Statistics" Value="3"></asp:ListItem>
+                                 </asp:CheckBoxList>
+                             </td>
+                             <td class="odd" style="width: 172px">
+                                 <asp:CheckBox ID="ChKSelAll" runat="server" Text="All" />
+                              </td>
+                             <td class="odd" style="width: 172px">
+                                 &nbsp;</td>
                         </tr>
                         <tr>
-                            <td class="odd" style="width: 354px">
-                                <asp:RadioButton ID="RadCategory" runat="server" Text="Display Category Wise Statistics" />
-                            </td>
+                            <td class="odd" style="width: 354px">&nbsp;</td>
                            
                             <td class="odd" style="width: 172px">
-                                <asp:RadioButton ID="RadGpSec" runat="server" Text="Group/Section Wise" />
-                            </td>
-                            <td class="odd">
-                                <asp:TextBox ID="TxtGroup" runat="server" Width="167px"></asp:TextBox>
-                            </td>
-                           
-                        </tr>
-                        <tr>
-                            <td class="odd" style="width: 354px">
-                                <asp:RadioButton ID="RadBoarding" runat="server" Text="Display BoardingType wise Statistics" />
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </td>
-                            <td class="odd" style="width: 354px">
-                                <asp:RadioButton ID="RadSelGroup" runat="server" Text="Selected Group" />
-                            </td>
+                                &nbsp;</td>
                             <td class="odd" style="width: 172px">&nbsp;</td>
-                            <td class="odd">&nbsp;</td>
+                            <td class="odd">
+                                &nbsp;</td>
+                           
                         </tr>
                         <tr>
-                            <td class="odd" colspan="3">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <asp:Label ID="Label1" runat="server" Text="Group/Section"></asp:Label>
+                            <td class="odd" style="width: 354px; height: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                            <td class="odd" style="width: 354px; height: 20px;">
+                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="True" SaveText="show" />
                             </td>
+                            <td class="odd" style="width: 354px; height: 20px;">
+                                &nbsp;</td>
+                            <td class="odd" style="width: 172px; height: 20px;">
+                                &nbsp;</td>
+                            <td class="odd" style="height: 20px"></td>
                         </tr>
                         <tr>
-                            <td class="odd" rowspan="5" colspan="2">
+                            <td class="odd" colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                        </tr>
+                        <tr>
+                            <td class="odd" colspan="2" rowspan="5">
                                 <div class="result-list" style="overflow: scroll; height: 327px; width: 800px;">
-                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="770px" AutoGenerateColumns="False" OnDataBound="GrdVwRecords_DataBound"   >
+                                    <asp:GridView ID="GrdVwRecords" runat="server" AutoGenerateColumns="False" OnDataBound="GrdVwRecords_DataBound" SkinID="GrdVwMasterNoPageing" Width="770px">
                                         <Columns>
-
                                             <asp:TemplateField>
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblClass" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("class") %>' ></asp:Label>
+                                                    <asp:Label ID="LblClass" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("class") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <ItemTemplate>
-                                                    <asp:Label ID="Lbldiv" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("division") %>' ></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                             <asp:TemplateField HeaderText="M">
-                                                <ItemTemplate>
-                                                   <asp:Label ID="lblchristianm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Male") %>' ></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="F">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblchristianf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Female") %>' ></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="total">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblchristiantot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("total") %>' ></asp:Label>
+                                                    <asp:Label ID="Lbldiv" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("division") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="M">
                                                 <ItemTemplate>
-                                                   <asp:Label ID="lblhindum" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("hMale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblchristianm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Male") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="F">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="Lblhinduf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("hFemale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblchristianf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Female") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="total">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblhindumtot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("htotal") %>' ></asp:Label>
+                                                    <asp:Label ID="lblchristiantot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("total") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="M">
                                                 <ItemTemplate>
-                                                   <asp:Label ID="lblmuslimmale" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mMale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblhindum" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("hMale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="F">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblmuslimfeMale" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mFemale") %>' ></asp:Label>
+                                                    <asp:Label ID="Lblhinduf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("hFemale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="total">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblmuslimtot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mtotal") %>' ></asp:Label>
+                                                    <asp:Label ID="lblhindumtot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("htotal") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="M">
                                                 <ItemTemplate>
-                                                   <asp:Label ID="lblTotalRelgm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mMale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblmuslimmale" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mMale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="F">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblTotalRelgf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mFemale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblmuslimfeMale" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mFemale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="total">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblTotalRelgmtot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mtotal") %>' ></asp:Label>
+                                                    <asp:Label ID="lblmuslimtot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mtotal") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-
-                                            
+                                            <asp:TemplateField HeaderText="M">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblTotalRelgm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mMale") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="F">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblTotalRelgf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mFemale") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="total">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblTotalRelgmtot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mtotal") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>
-
-                                    <asp:GridView ID="GrdVwCategory" runat="server" SkinID="GrdVwMasterNoPageing" Width="770px" AutoGenerateColumns="False" OnDataBound="GrdVwCategory_DataBound"   >
+                                    <asp:GridView ID="GrdVwCategory" runat="server" AutoGenerateColumns="False" OnDataBound="GrdVwCategory_DataBound" SkinID="GrdVwMasterNoPageing" Width="770px">
                                         <Columns>
-
                                             <asp:TemplateField>
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblClass" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("class") %>' Width="75px" ></asp:Label>
+                                                    <asp:Label ID="LblClass" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("class") %>' Width="75px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <ItemTemplate>
-                                                    <asp:Label ID="Lbldiv" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("division") %>' ></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                             <asp:TemplateField HeaderText="M">
-                                                <ItemTemplate>
-                                                   <asp:Label ID="lblgeneralm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("GMale") %>' ></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="F">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblgeneralf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("GFemale") %>' ></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="total">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblgeneraltot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Gtotal") %>' ></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            
-                                            <asp:TemplateField HeaderText="M">
-                                                <ItemTemplate>
-                                                   <asp:Label ID="lblnonresm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("NonResMale") %>' ></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="F">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblnonresf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("NonResFeMale") %>' ></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="total">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblnonrestot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("NonRestotal") %>' ></asp:Label>
+                                                    <asp:Label ID="Lbldiv" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("division") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="M">
                                                 <ItemTemplate>
-                                                   <asp:Label ID="lblobcm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OBCMale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblgeneralm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("GMale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="F">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblobcf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OBCFemale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblgeneralf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("GFemale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="total">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblobctot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OBCtotal") %>' ></asp:Label>
+                                                    <asp:Label ID="lblgeneraltot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Gtotal") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="M">
                                                 <ItemTemplate>
-                                                   <asp:Label ID="lbloecm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OECMale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblnonresm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("NonResMale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="F">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lbloecf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OECFemale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblnonresf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("NonResFeMale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="total">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lbloectot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OECtotal") %>' ></asp:Label>
+                                                    <asp:Label ID="lblnonrestot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("NonRestotal") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                             <asp:TemplateField HeaderText="M">
+                                            <asp:TemplateField HeaderText="M">
                                                 <ItemTemplate>
-                                                   <asp:Label ID="lblreservationm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("RESMale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblobcm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OBCMale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="F">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblreservationf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("RESFemale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblobcf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OBCFemale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="total">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblreservationtot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("REStotal") %>' ></asp:Label>
+                                                    <asp:Label ID="lblobctot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OBCtotal") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                             <asp:TemplateField HeaderText="M">
+                                            <asp:TemplateField HeaderText="M">
                                                 <ItemTemplate>
-                                                   <asp:Label ID="lblscm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("SCMale") %>' ></asp:Label>
+                                                    <asp:Label ID="lbloecm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OECMale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="F">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblscf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("SCFemale") %>' ></asp:Label>
+                                                    <asp:Label ID="lbloecf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OECFemale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="total">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblsctot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("SCtotal") %>' ></asp:Label>
+                                                    <asp:Label ID="lbloectot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OECtotal") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                             <asp:TemplateField HeaderText="M">
+                                            <asp:TemplateField HeaderText="M">
                                                 <ItemTemplate>
-                                                   <asp:Label ID="lblstm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("STMale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblreservationm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("RESMale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="F">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblstf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("STFemale") %>' ></asp:Label>
+                                                    <asp:Label ID="lblreservationf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("RESFemale") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="total">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblsttot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("STtotal") %>' ></asp:Label>
+                                                    <asp:Label ID="lblreservationtot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("REStotal") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                             <asp:TemplateField HeaderText="M">
+                                            <asp:TemplateField HeaderText="M">
                                                 <ItemTemplate>
-                                                  <%-- <asp:Label ID="lblAllcatm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mMale") %>' ></asp:Label>--%>
+                                                    <asp:Label ID="lblscm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("SCMale") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="F">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblscf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("SCFemale") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="total">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblsctot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("SCtotal") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="M">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblstm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("STMale") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="F">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblstf" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("STFemale") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="total">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblsttot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("STtotal") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="M">
+                                                <ItemTemplate>
+                                                    <%-- <asp:Label ID="lblAllcatm" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mMale") %>' ></asp:Label>--%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="F">
@@ -269,22 +265,13 @@
                                                     <%--<asp:Label ID="lblAllcattot" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("mtotal") %>' ></asp:Label>--%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-
-                                            
                                         </Columns>
                                     </asp:GridView>
-
-
                                 </div>
                             </td>
+                            
                             <td class="odd">
-                                <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
-                                                <asp:CheckBoxList ID="ChkClassDivList" runat="server" >
-                                    </asp:CheckBoxList>
-                                               
-                                            </div>
-
-                            </td>
+                                &nbsp;</td>
                         </tr>
                        
                         <tr>
@@ -292,32 +279,27 @@
                         </tr>
                         <tr>
                             <td class="odd">
-                                <asp:CheckBox ID="ChkSelctAllClass" runat="server" AutoPostBack="True" OnCheckedChanged="ChkSelctAllClass_CheckedChanged" Text="Select All" />
-                            </td>
+                                &nbsp;</td>
                         </tr>
                         <tr>
                             <td class="odd">
-                                <div class="result-list" style="overflow: scroll; height: 150px; width: 186px;">
-                                    <asp:CheckBoxList ID="ChkDivList" runat="server">
-                                    </asp:CheckBoxList>
-                                </div>
-                            </td>
+                                &nbsp;</td>
                         </tr>
                         <tr>
                             <td class="odd">
                                 
-                            </td>
+                                &nbsp;</td>
                         </tr>
                         <tr>
+                            <td class="odd" rowspan="5">&nbsp;</td>
                             <td class="odd" colspan="2" rowspan="5">&nbsp;</td>
+                            <td class="odd" rowspan="5">&nbsp;</td>
                             <td class="odd">
-                                <asp:CheckBox ID="ChkSelectAllDiv" runat="server" AutoPostBack="True" OnCheckedChanged="ChkSelectAllDiv_CheckedChanged" Text="Select All" />
-                            </td>
+                                &nbsp;</td>
                         </tr>
                         <tr>
                             <td class="odd">
-                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="show" />
-                            </td>
+                                &nbsp;</td>
                         </tr>
                         <tr>
                             <td class="odd">&nbsp;</td>
@@ -331,8 +313,9 @@
                         </tr>
                        
                         <tr class="result-headTop">
-                            <td align="center" class="Footercommand" colspan="3" valign="middle">
+                            <td align="center" class="Footercommand" valign="middle">
                                 &nbsp;</td>
+                            <td align="center" class="Footercommand" colspan="4" valign="middle">&nbsp;</td>
                         </tr>
                        
                         </table>

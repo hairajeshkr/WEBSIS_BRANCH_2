@@ -129,9 +129,9 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
     public void FnGridViewBinding(string PrmFlag)
     {
 
-        GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
-        GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
-        GrdVwRecords.DataBind();
+        //GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
+        //GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+        //GrdVwRecords.DataBind();
         
     }
     public void FnPrintRecord()

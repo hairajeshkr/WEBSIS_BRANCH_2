@@ -10,7 +10,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
 {
-    ClsStudentClassDivisionAssign ObjCls = new ClsStudentClassDivisionAssign();
+    ClsRegistrationStudent ObjCls = new ClsRegistrationStudent();
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     static int icount = 0;
     protected override void Page_Load(object sender, EventArgs e)
@@ -77,13 +77,14 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         DdlReligion.DataValueField = "nId";
         DdlReligion.DataTextField = "cName";
         DdlReligion.DataBind();
+        DdlReligion.Items.Insert(0, new ListItem("---Select---", "0"));
 
     }
     public override void FnInitializeForm()
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new ClsStudentClassDivisionAssign(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls = new ClsRegistrationStudent(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         ViewState["DT_CHILD"] = FnGetGeneralTable(ObjCls);
         ViewState["DIV"] = FnGetGeneralTable(ObjCls);
@@ -128,10 +129,10 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
     public void FnGridViewBinding(string PrmFlag)
     {
 
-        GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
-        GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
-        GrdVwRecords.DataBind();
-        GrdVwRecords.SelectedIndex = -1;
+        //GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
+        //GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+        //GrdVwRecords.DataBind();
+        //GrdVwRecords.SelectedIndex = -1;
 
     }
 
@@ -148,100 +149,37 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    //if (GrdVwRecords.Rows.Count > 0)
-                    //{
-                    //    GrdVwRecords.Columns.Clear();
-                    //    GrdVwRecords.DataBind();
-                    //}
-                    //DataTable DTList = new DataTable();
-                    //string selectedItemsC = "";
-                    //for (int i = 0; i < ChkClassDivList.Items.Count; i++)
-                    //{
-                    //    if (ChkClassDivList.Items[i].Selected)
-                    //    {
-                    //        selectedItemsC += ChkClassDivList.Items[i].Value.ToString() + ",";
-                    //    }
-                    //}
-                    //selectedItemsC = selectedItemsC.TrimEnd(',');
-                    //string selectedItemsD = "";
-                    //for (int i = 0; i < ChkDivList.Items.Count; i++)
-                    //{
-                    //    if (ChkDivList.Items[i].Selected)
-                    //    {
-                    //        selectedItemsD += ChkDivList.Items[i].Value.ToString() + ",";
-                    //    }
-                    //}
-                    //selectedItemsD = selectedItemsD.TrimEnd(',');
+                    DataTable clsdetail = (ObjCls.FnGetDataSet("SELECT * FROM TblStudentAdmissionDetails ") as DataSet).Tables[0];
+                    DataTable ins= (ObjCls.FnGetDataSet("SELECT * FROM TblRegistrationStudent ") as DataSet).Tables[0];
+                    String InstId = "", Instmessage = "", Clsmessage="", ClsId="", Divmessage="", DivId="";
 
-
-                    string query = "SELECT  ";
-                    bool isSelected = ChkSelectColumns.Items.Cast<ListItem>().Count(i => i.Selected == true) > 0;
-                    if (!isSelected)
+                    foreach (TreeNode node in TreVwLst.CheckedNodes)
                     {
-                        ChkSelectColumns.Items[0].Selected = true;
-                    }
-                    foreach (ListItem item in ChkSelectColumns.Items)
-                    {
-                        if (item.Selected)
+                        if(node.Depth==0)
                         {
-
-                            if (item.Text == "Student Id")
-                            {
-
-                                query += "STDR.cCode as cCode,";
-                            }
-                            else if (item.Text == "Student Name")
-                            {
-
-                                query += "STDR.cName as cName,";
-                            }
-                            else if (item.Text == "Mother Tongue")
-                            {
-
-                                query += "LANG.cName as McName,";
-                            }
-                            else
-                            {
-                                query += item.Value + ",";
-                            }
-
-                            isSelected = true;
-                            BoundField bfield = new BoundField();
-                            bfield.HeaderText = item.Text;
-
-                            bfield.DataField = item.Value;
-
-                            GrdVwRecords.Columns.Add(bfield);
+                            Instmessage += node.Text + ",";
+                            InstId += node.Value + ",";
                         }
+                        else if (node.Depth == 1)
+                        {
+                            Clsmessage += node.Text + ",";
+                            ClsId += node.Value + ",";
+                        }
+                        else if (node.Depth == 2)
+                        {
+                            Divmessage += node.Text + ",";
+                            DivId += node.Value + ",";
+                        }
+
                     }
+                    InstId = InstId.TrimEnd(',');
+                    ClsId= ClsId.TrimEnd(',');
+                    DivId = DivId.TrimEnd(',');
 
-
-                    //query = query.Substring(0, query.Length - 1);
-                    //if (DdlFilter.SelectedValue == "3")
-                    //{
-
-                    //        query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId inner join TblStudentGeneral LANG on STDR.nMotherLanguageId=LANG.nId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") and STDR.nReligionId="+ DdlReligion.SelectedValue + " order by STDR.cName asc";
-                    //        DataTable DTCC1 = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
-                    //        GrdVwRecords.DataSource = DTCC1;
-                    //        GrdVwRecords.DataBind();
-
-                    //}
-                    //else if (DdlFilter.SelectedValue == "1")
-                    //{
-                    //    DateTime fdate = ObjCls.FnDateTime(CtrlFromDate.DateText);
-                    //    DateTime tdate = ObjCls.FnDateTime(CtrlDueDate.DateText);
-                    //    query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId inner join TblStudentGeneral LANG on STDR.nMotherLanguageId=LANG.nId  and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") and STDR.dJoindate>='" + fdate + "' and STDR.dJoindate<= '" + tdate + "' order by STDR.cName asc";
-
-                    //    DataTable DTCC1 = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
-                    //    GrdVwRecords.DataSource = DTCC1;
-                    //    GrdVwRecords.DataBind();
-                    //}
-
-
-
-
+                    DataTable dt= (ObjCls.FnGetDataSet("select * FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId  and  STDR.nInstituteId in(" + 4 + ") and STDA.nClassId in(" + ClsId + ")  and STDA.nDivisionId in(" + DivId + ") ") as DataSet).Tables[0];
 
                     break;
+
                 case "FIND":
                     FnFindRecord();
                     break;
@@ -278,20 +216,11 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             CtrlFromDate.EnableViewState = true;
             CtrlDueDate.EnableViewState = true;
 
-            //lBLGRP2.Enabled = false;
-            //Ddlgrpfilter.Enabled = false;
-
             lblreligion.Enabled = false;
             DdlReligion.Enabled = false;
         }
         else if (DdlFilter.SelectedValue == "2")
         {
-            //lblgroup.Enabled = false;
-            //TxtGroup.Enabled = false;
-            //BtnGroup.Enabled = false;
-
-            //lBLGRP2.Enabled = true;
-            //Ddlgrpfilter.Enabled = true;
 
             lblFromdate.Enabled = false;
             lblduedate.Enabled = false;
@@ -306,44 +235,19 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             lblreligion.Enabled = true;
             DdlReligion.Enabled = true;
 
-            //lBLGRP2.Enabled = false;
-            //Ddlgrpfilter.Enabled = false;
+
 
             lblFromdate.Enabled = false;
             lblduedate.Enabled = false;
             CtrlFromDate.EnableViewState = false;
             CtrlDueDate.EnableViewState = false;
 
-            //lblgroup.Enabled = true;
-            //TxtGroup.Enabled = true;
-            //BtnGroup.Enabled = true;
+
         }
 
     }
 
 
-
-
-
-    //protected void ChkSelctAllClass_CheckedChanged(object sender, EventArgs e)
-    //{
-    //    foreach (ListItem item in ChkClassDivList.Items)
-    //    {
-    //        item.Selected = true;
-    //        item.Enabled = true;
-    //    }
-    //}
-
-
-
-    //protected void ChkSelectAllDiv_CheckedChanged(object sender, EventArgs e)
-    //{
-    //    foreach (ListItem item in ChkDivList.Items)
-    //    {
-    //        item.Selected = true;
-    //        item.Enabled = true;
-    //    }
-    //}
 
     protected void ChkSelectAllFields_CheckedChanged(object sender, EventArgs e)
     {
@@ -364,7 +268,7 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
     //        if (ChkClassDivList.Items[i].Selected)
     //        {
     //            selectedItemsC += ChkClassDivList.Items[i].Value.ToString() + ",";
-    //        }
+    //        }         
     //    }
     //    selectedItemsC = selectedItemsC.TrimEnd(',');
     //    string selectedItemsD = "";
@@ -496,14 +400,55 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
 
 
 
-    protected void TreVwLst_SelectedNodeChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            FnCancel();
-        }
-        catch 
-        {
-        }
-    }
+    //protected void TreVwLst_SelectedNodeChanged(object sender, EventArgs e)
+    //{
+    //    //var CLN = TreVwLst.SelectedNode.Value;
+    //    //int IH = TreVwLst.SelectedNode.Depth
+    //    try
+    //    {
+    //        FnCancel();
+    //        string message = "";
+    //        if (TreVwLst.SelectedNode.Depth == 0)
+    //        {
+    //            foreach (TreeNode node in TreVwLst.CheckedNodes)
+    //            {
+    //                //if (node.Depth > 0)
+    //                //{
+    //                    //string checkedValue = node.Text.ToString();
+    //                    //activityData = new ActivityData { ActivityName = checkedValue };
+    //                    //listActivity.Add(activityData);
+    //                    //Session["listActivity"] = listActivity;
+
+    //                    message += node.Text;
+    //                //}
+    //            }
+    //        }
+    //        //else if (TreVwLst.SelectedNode.Depth == 1)
+    //        //{
+    //        //    CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
+    //        //    CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Parent.Text;
+    //        //    CtrlGrdClass.SelectedValue = TreVwLst.SelectedNode.Value;
+    //        //    CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Text;
+    //        //}
+    //        //else if (TreVwLst.SelectedNode.Depth == 2)
+    //        //{
+
+    //        //    CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Parent.Parent.Value;
+    //        //    CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Parent.Parent.Text;
+    //        //    CtrlGrdClass.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
+    //        //    CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Parent.Text;
+    //        //    CtrlGrdDiv.SelectedValue = TreVwLst.SelectedNode.Value;
+    //        //    CtrlGrdDiv.SelectedText = TreVwLst.SelectedNode.Text;
+
+    //        //}
+
+    //        //FnFillInstallment();
+
+
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+    //    }
+    //}
 }

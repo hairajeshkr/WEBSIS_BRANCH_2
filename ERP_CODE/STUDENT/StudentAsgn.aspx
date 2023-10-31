@@ -8,7 +8,7 @@
         <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="540px" Width="1080px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
-                    Class&Division Assign
+                    Student Details Assign
                 </HeaderTemplate>
                 <ContentTemplate>
                     <table class="auto-style1">
@@ -59,7 +59,7 @@
                                     <tr>
                                         <td>
                                             <div class="result-list" style="overflow: scroll; height: 420px; width:1200px;">
-                                                <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" OnRowDataBound="GrdVwRecords_RowDataBound"  >
+                                                <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" OnRowDataBound="GrdVwRecords_RowDataBound1"  >
                                                    <Columns>
                                                        <asp:TemplateField HeaderText="Student Name">
                                                            <ItemTemplate>
@@ -68,7 +68,7 @@
                                                                <table class="upload-field-parent">
                                                                    <tr>
                                                                        <td>
-                                                                           <asp:DropDownList ID="DdlSaltn" runat="server">
+                                                                           <asp:DropDownList ID="DdlSaltn" runat="server"  >
                                                                            </asp:DropDownList>
                                                                        </td>
                                                                        <td>
@@ -86,7 +86,7 @@
                                                                            <asp:DropDownList ID="DdlSaltnFthr" runat="server"></asp:DropDownList>
                                                                        </td>
                                                                        <td>
-                                                                            <asp:TextBox ID="TxtFName" runat="server" Text='<%# Eval("StudentName") %>'></asp:TextBox>
+                                                                            <asp:TextBox ID="TxtFName" runat="server" Text='<%# Eval("FatherName") %>'></asp:TextBox>
                                                                        </td>
                                                                    </tr>
                                                                </table>
@@ -100,10 +100,10 @@
                                                                <table class="upload-field-parent">
                                                                    <tr>
                                                                        <td>
-                                                                           <asp:DropDownList ID="DdlSaltnMthr" runat="server"></asp:DropDownList>
+                                                                           <asp:DropDownList ID="DdlSaltnMthr" runat="server" ></asp:DropDownList>
                                                                        </td>
                                                                        <td>
-                                                                            <asp:TextBox ID="TxtMName" runat="server" Text='<%# Eval("StudentName") %>'></asp:TextBox>
+                                                                            <asp:TextBox ID="TxtMName" runat="server" Text='<%# Eval("MotherName") %>'></asp:TextBox>
                                                                        </td>
                                                                    </tr>
                                                                </table>                                                       
@@ -117,7 +117,7 @@
                                                                            <asp:DropDownList ID="DdlSaltnGurdn" runat="server"></asp:DropDownList>
                                                                        </td>
                                                                        <td>
-                                                                            <asp:TextBox ID="TxtGName" runat="server" Text='<%# Eval("StudentName") %>'></asp:TextBox>
+                                                                            <asp:TextBox ID="TxtGName" runat="server" Text='<%# Eval("GuardianName") %>'></asp:TextBox>
                                                                        </td>
                                                                    </tr>
                                                                </table>                                                                
@@ -133,38 +133,38 @@
                                                        </asp:TemplateField>
                                                        <asp:TemplateField HeaderText="Student Id">
                                                            <ItemTemplate>
-                                                               <asp:TextBox ID="TxtStuId" runat="server" Text='<%# Eval("StudentCode") %>'></asp:TextBox>
+                                                               <asp:TextBox ID="TxtStuId" runat="server" Text='<%# Eval("StudentId") %>'></asp:TextBox>
                                                                <%--<asp:Label ID="LblStudentId" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("StudentCode") %>' Width="120px"></asp:Label>--%>
                                                            </ItemTemplate>
                                                        </asp:TemplateField>
 
                                                        <asp:TemplateField HeaderText="Roll No.">
                                                            <ItemTemplate>
-                                                               <%--<asp:Label ID="LblDivNo" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("DivisionName") %>' Width="120px"></asp:Label>--%>
-                                                               <asp:TextBox ID="TxtRollNO" runat="server" Text='<%# Eval("RollNo") %>'></asp:TextBox>
+                                                               <asp:Label ID="LblRollNo" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("RollNo") %>' Width="120px"></asp:Label>
+                                                               <%--<asp:TextBox ID="TxtRollNO" runat="server" Text='<%# Eval("RollNo") %>'></asp:TextBox>--%>
                                                            </ItemTemplate>
                                                        </asp:TemplateField>
                                                        <asp:TemplateField HeaderText="Student Mob.No.">
                                                            <ItemTemplate>
-                                                               <asp:TextBox ID="TxtStMobNo" runat="server" Text='<%# Eval("RollNo") %>'></asp:TextBox>
+                                                               <asp:TextBox ID="TxtStMobNo" runat="server" Text='<%# Eval("StMobNo") %>'></asp:TextBox>
                                                                <%--<asp:TextBox ID="TxtMobile" runat="server" Text='<%# Eval("PhoneNo") %>'  ></asp:TextBox>--%>
                                                            </ItemTemplate>
                                                        </asp:TemplateField>
                                                        <asp:TemplateField HeaderText="Father Mob.No.">
                                                            <ItemTemplate>
-                                                               <asp:TextBox ID="TxtFthrMobNo" runat="server" Text='<%# Eval("RollNo") %>'></asp:TextBox>
+                                                               <asp:TextBox ID="TxtFthrMobNo" runat="server" Text='<%# Eval("FatherMobNo") %>'></asp:TextBox>
                                                                <%--<asp:TextBox ID="TxtMobile" runat="server" Text='<%# Eval("PhoneNo") %>'  ></asp:TextBox>--%>
                                                            </ItemTemplate>
                                                        </asp:TemplateField>
                                                        <asp:TemplateField HeaderText="Mother Mob.No.">
                                                            <ItemTemplate>
-                                                               <asp:TextBox ID="TxtMthrMobNo" runat="server" Text='<%# Eval("RollNo") %>'></asp:TextBox>
+                                                               <asp:TextBox ID="TxtMthrMobNo" runat="server" Text='<%# Eval("MotherMobNo") %>'></asp:TextBox>
                                                                <%--<asp:TextBox ID="TxtMobile" runat="server" Text='<%# Eval("PhoneNo") %>'  ></asp:TextBox>--%>
                                                            </ItemTemplate>
                                                        </asp:TemplateField>
                                                        <asp:TemplateField HeaderText="Guardian Mob.No.">
                                                            <ItemTemplate>
-                                                               <asp:TextBox ID="TxtGrdMobNo" runat="server" Text='<%# Eval("RollNo") %>'></asp:TextBox>
+                                                               <asp:TextBox ID="TxtGrdMobNo" runat="server" Text='<%# Eval("GuardianMobNo") %>'></asp:TextBox>
                                                                <%--<asp:TextBox ID="TxtMobile" runat="server" Text='<%# Eval("PhoneNo") %>'  ></asp:TextBox>--%>
                                                            </ItemTemplate>
                                                        </asp:TemplateField>

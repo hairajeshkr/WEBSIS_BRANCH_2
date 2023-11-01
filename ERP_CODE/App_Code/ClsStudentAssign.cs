@@ -9,7 +9,7 @@ using System.Data;
 public class ClsStudentAssign : ClsCommonBaseMaster, IMasterCommands
 {
 
-    private int  nStudentId = 0, nSaluationId, nFatherSaluationId, nMotherSaluationId, nGuardianSaluationId;
+    private int  nStudentId = 0, nSaluationId, nFatherSaluationId, nMotherSaluationId, nGuardianSaluationId,nId;
     private int nRollNo = 0;
 
     private string cSaluationName, cFatherSaluationName, cMotherSaluationName, cGuardianSaluationName, cFatherName, cMotherName, cGuardianName, cMobNo, cName, cAdmissionNo;
@@ -149,6 +149,7 @@ public class ClsStudentAssign : ClsCommonBaseMaster, IMasterCommands
         MotherName = drVal["MotherName"].ToString().Trim();
         GuardianName = drVal["GuardianName"].ToString().Trim();
 
+        ID= StudentId = FnIsNumeric(drVal["ID"].ToString());
         StudentId = FnIsNumeric(drVal["StudentId"].ToString());
         InstituteId = FnIsNumeric(drVal["InstituteId"].ToString());
         ClassId = FnIsNumeric(drVal["ClassId"].ToString());
@@ -179,9 +180,11 @@ public class ClsStudentAssign : ClsCommonBaseMaster, IMasterCommands
         objDBManager.DataSetting = DBSource.GENERAL;
 
         //objFields.AddParameterFields("Prm_cRegNo", System.Data.DbType.String, RegNo);
+
         objFields.AddParameterFields("Prm_cName", System.Data.DbType.String, Name);
         objFields.AddParameterFields("Prm_cCode", System.Data.DbType.String, Code);
         objFields.AddParameterFields("Prm_cDisplayName", System.Data.DbType.String, DisplayName);
+
         objFields.AddParameterFields("Prm_nStudentId", System.Data.DbType.Int32, StudentId);
         objFields.AddParameterFields("Prm_nClassId", System.Data.DbType.Int32, ClassId);
         objFields.AddParameterFields("Prm_nDivisionId", System.Data.DbType.Int32, DivisionId);
@@ -191,11 +194,6 @@ public class ClsStudentAssign : ClsCommonBaseMaster, IMasterCommands
         objFields.AddParameterFields("Prm_nMotherSaluationId", System.Data.DbType.Int32, MotherSaluationId);
         objFields.AddParameterFields("Prm_nGuardianSaluationId", System.Data.DbType.Int32, GuardianSaluationId);
         //objFields.AddParameterFields("Prm_nRollNo", System.Data.DbType.Int32, RollNo);
-
-        //objFields.AddParameterFields("Prm_cSaluationName", System.Data.DbType.String, SaluationName);
-        //objFields.AddParameterFields("Prm_cFatherSaluationName", System.Data.DbType.String, FatherSaluationName);
-        //objFields.AddParameterFields("Prm_cMotherSaluationName", System.Data.DbType.String, MotherSaluationName);
-        //objFields.AddParameterFields("Prm_cGuardianSaluationName", System.Data.DbType.String, GuardianSaluationName);
 
         objFields.AddParameterFields("Prm_cFatherName", System.Data.DbType.String, FatherName);
         objFields.AddParameterFields("Prm_cMotherName", System.Data.DbType.String, MotherName);

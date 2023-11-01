@@ -12,6 +12,10 @@ public partial class STUDENT_StudentAsgn : ClsPageEvents, IPageInterFace
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     ClsStudentAssign ObjCls = new ClsStudentAssign();
 
+    HiddenField HdnId = null;
+    TextBox TxtName = null, TxtFName = null, TxtMName = null, TxtGName = null, TxtAdmNo = null, TxtStuId = null, TxtStMobNo = null, TxtFthrMobNo = null, TxtMthrMobNo = null, TxtGrdMobNo = null;
+
+    int iCnt = 1;
 
     protected override void Page_Load(object sender, EventArgs e)
     {
@@ -21,18 +25,20 @@ public partial class STUDENT_StudentAsgn : ClsPageEvents, IPageInterFace
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
-                FnInitializeForm();              
+                FnInitializeForm();   
+                
             }
+
             CtrlGrdClass.ParentControl = CtrlGrdGroup.IdControl;
             CtrlGrdDivision.ParentControl = CtrlGrdClass.IdControl;
             // CtrlGrdDivision_Srch.ParentControl = CtrlGrdClass_Srch.IdControl;
+
             
         }
         catch (Exception ex)
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
-        DataTable clsdt = (ObjCls.FnGetDataSet("SELECT * FROM TblRegistrationStudent order by cName asc") as DataSet).Tables[0];
     }
     public override void FnInitializeForm()
     {
@@ -51,6 +57,7 @@ public partial class STUDENT_StudentAsgn : ClsPageEvents, IPageInterFace
             //ObjCls.FnIsNumeric(CtrlGrdGroup.SelectedValue);
         ObjCls.ClassId = ObjCls.FnIsNumeric(CtrlGrdClass.SelectedValue);
         ObjCls.DivisionId = ObjCls.FnIsNumeric(CtrlGrdDivision.SelectedValue);
+        //ObjCls.StudentId = ObjCls.FnIsNumeric(CtrlGrdStudent.SelectedValue);
     }
    
     public void FnClose()
@@ -76,8 +83,7 @@ public partial class STUDENT_StudentAsgn : ClsPageEvents, IPageInterFace
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
 
-        //ObjLst.FnGetDivisionList(DdlToDivision, "", ObjCls.FnIsNumeric(CtrlGrdClass.SelectedValue), ObjCls.FnIsNumeric(CtrlGrdDivision.SelectedValue));
-        //TabContainer1.ActiveTabIndex = 0;
+        
     }
     
     public object FnGetGridRowCount(string PrmFlag)
@@ -104,8 +110,56 @@ public partial class STUDENT_StudentAsgn : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    FnPopUpAlert(ObjCls.FnAlertMessage("Record saved successfully"));
-                    break;
+      
+                             FnAssignProperty();
+                            for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
+                            {
+                                DropDownList DdlSaltn = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlSaltn");
+                                DropDownList DdlSaltnFthr = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlSaltnFthr");
+                                DropDownList DdlSaltnMthr = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlSaltnMthr");
+                                DropDownList DdlSaltnGurdn = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlSaltnGurdn");
+
+                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnAdId");
+                                TxtName = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtName");
+                                TxtFName = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtFName");
+                                TxtMName = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtMName");
+                                TxtGName = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtGName");
+                                TxtAdmNo = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtAdmNo");
+                                TxtStuId = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtStuId");
+                                TxtStMobNo = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtStMobNo");
+                                TxtFthrMobNo = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtFthrMobNo");
+                                TxtMthrMobNo = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtMthrMobNo");
+                                TxtGrdMobNo = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtGrdMobNo");
+
+                                ObjCls.SaluationId = ObjCls.FnIsNumeric(DdlSaltn.SelectedValue);
+                                ObjCls.FatherSaluationId= ObjCls.FnIsNumeric(DdlSaltnFthr.SelectedValue);
+                                ObjCls.MotherSaluationId= ObjCls.FnIsNumeric(DdlSaltnMthr.SelectedValue);
+                                ObjCls.GuardianSaluationId= ObjCls.FnIsNumeric(DdlSaltnGurdn.SelectedValue);
+
+                                ObjCls.StudentId = ObjCls.FnIsNumeric(HdnId.Value);
+                                ObjCls.Name = TxtName.Text.Trim();
+                                ObjCls.FatherName = TxtFName.Text.Trim();
+                                ObjCls.MotherName = TxtMName.Text.Trim();
+                                ObjCls.GuardianName = TxtGName.Text.Trim();
+                                ObjCls.AdmissionNo = TxtAdmNo.Text.Trim();
+                                ObjCls.MobNo = TxtStMobNo.Text.Trim();
+                                ObjCls.FatherMobNo = TxtFthrMobNo.Text.Trim();
+                                ObjCls.MotherMobNo = TxtMthrMobNo.Text.Trim();
+                                ObjCls.GuardianMobNo = TxtGrdMobNo.Text.Trim();
+                                ObjCls.ID= ObjCls.FnIsNumeric(HdnId.Value);
+
+                        _strMsg = ObjCls.UpdateRecord() as string;
+                        iCnt = 1;
+
+                            }
+                    if (iCnt > 0)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage(" Records Saved"));
+                    }
+                    FnCancel();
+                            
+                    
+                    break; ;
                 case "FIND":
                     FnFindRecord();
                     break;
@@ -128,22 +182,32 @@ public partial class STUDENT_StudentAsgn : ClsPageEvents, IPageInterFace
     }
 
     protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        try
+    {    try
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-
-                DropDownList DdlSaltn = (DropDownList)e.Row.FindControl("DdlSaltn");
-                DropDownList DdlSaltnFthr = (DropDownList)e.Row.FindControl("DdlSaltnFthr");
-                DropDownList DdlSaltnMthr = (DropDownList)e.Row.FindControl("DdlSaltnMthr");
-                DropDownList DdlSaltnGurdn = (DropDownList)e.Row.FindControl("DdlSaltnGurdn");
+                if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
+                {
 
 
-                FnSetDropDownValue(DdlSaltn, ObjCls.SaluationId.ToString());
-                FnSetDropDownValue(DdlSaltnFthr, ObjCls.FatherSaluationId.ToString());
-                FnSetDropDownValue(DdlSaltnMthr, ObjCls.MotherSaluationId.ToString());
-                FnSetDropDownValue(DdlSaltnGurdn, ObjCls.GuardianSaluationId.ToString());
+                      DropDownList DdlSaltn = (DropDownList)e.Row.FindControl("DdlSaltn");
+                      DropDownList DdlSaltnFthr = (DropDownList)e.Row.FindControl("DdlSaltnFthr");
+                      DropDownList DdlSaltnMthr = (DropDownList)e.Row.FindControl("DdlSaltnMthr");
+                      DropDownList DdlSaltnGurdn = (DropDownList)e.Row.FindControl("DdlSaltnGurdn");
+
+                      ViewState["SALT"] = ObjLst.FnGetSalutationList() as DataTable;
+                      FnBindingDropDownList(ObjLst, ViewState["SALT"] as DataTable, DdlSaltn, "");
+                      FnBindingDropDownList(ObjLst, ViewState["SALT"] as DataTable, DdlSaltnFthr, "");
+                      FnBindingDropDownList(ObjLst, ViewState["SALT"] as DataTable, DdlSaltnMthr, "");
+                      FnBindingDropDownList(ObjLst, ViewState["SALT"] as DataTable, DdlSaltnGurdn, "");
+
+                      FnSetDropDownValue(DdlSaltn, ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "SaluationId").ToString()).ToString());
+                      FnSetDropDownValue(DdlSaltnFthr, ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "FatherSaluationId").ToString()).ToString());
+                      FnSetDropDownValue(DdlSaltnMthr, ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "MotherSaluationId").ToString()).ToString());
+                      FnSetDropDownValue(DdlSaltnGurdn, ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "GuardianSaluationId").ToString()).ToString());
+
+                
+                }
 
             }
         }
@@ -153,6 +217,7 @@ public partial class STUDENT_StudentAsgn : ClsPageEvents, IPageInterFace
         }
 
     }
+   
 
-    
+
 } 

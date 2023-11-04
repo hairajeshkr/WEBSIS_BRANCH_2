@@ -8,10 +8,13 @@ using System.Data;
 using System.Data.SqlClient;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using System.IO;
+
 public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
 {
-    ClsStudentClassDivisionAssign ObjCls = new ClsStudentClassDivisionAssign();
+    ClsRegistrationStudent ObjCls = new ClsRegistrationStudent();
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
+    static int icount = 0;
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -23,14 +26,11 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             {
                 FnInitializeForm();
                 FnGrpClassDivChkFill();
+                DataTable DTInstitute = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='INGRP'") as DataSet).Tables[0];
+                this.PopulateTreeView(DTInstitute, icount, null);
 
             }
-            //DataTable ClsTGFI3 = (ObjCls.FnGetDataSet("SELECT * FROM TblStudentCategory where cttype='RELGN'") as DataSet).Tables[0];
-            //DataTable ClsTGFI3 = (ObjCls.FnGetDataSet("SELECT * FROM TblStudentCategory") as DataSet).Tables[0];
-            DataTable ClsTGFI = (ObjCls.FnGetDataSet("SELECT * FROM TblRegistrationStudent order by cName asc") as DataSet).Tables[0];
-            //DataTable ClsTGFI1 = (ObjCls.FnGetDataSet("SELECT * FROM TblStudentAdmissionDetails") as DataSet).Tables[0];
-            //DataTable ClsTGFI2 = (ObjCls.FnGetDataSet("SELECT * FROM TblClassDetails") as DataSet).Tables[0];
-            DataTable ClsTGFI3 = (ObjCls.FnGetDataSet("SELECT * FROM TblStudentGeneral") as DataSet).Tables[0];
+           
 
         }
         catch (Exception ex)
@@ -38,44 +38,55 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
-    public void FnGrpClassDivChkFill() 
+    public void PopulateTreeView(DataTable dtParent, int ParentId, TreeNode treeNode)
     {
-        Ddlgrpfilter.Enabled = true;
-        Ddlgrpfilter.Items.Clear();
-        Ddlgrpfilter.Items.Add(new ListItem("Select", "0"));
-        DataTable DTClass = (ObjCls.FnGetDataSet("SELECT nId,cName  FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
-        Ddlgrpfilter.DataSource = DTClass;
-        Ddlgrpfilter.DataValueField = "nId";
-        Ddlgrpfilter.DataTextField = "cName";
-        Ddlgrpfilter.DataBind();
+        int VS;
+        foreach (DataRow row in dtParent.Rows)
+        {
+            TreeNode tnode = new TreeNode
+            {
+                Text = row["Name"].ToString(),
+                Value = row["ID"].ToString()
+            };
+
+            if (ParentId == 0)
+            {
+                TreVwLst.Nodes.Add(tnode);
+                DataTable DTClass = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nClassId  where TCD.cttype='CLS' and TCD.nParentId= " + tnode.Value) as DataSet).Tables[0];
+                VS = 1;
+                this.PopulateTreeView(DTClass, VS, tnode);
+            }
+            else if (ParentId == 1)
+            {
+                treeNode.ChildNodes.Add(tnode);
+                DataTable DTDivision = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nDivisionId  where TCD.cttype='DIVN'and SAD.nClassId= " + tnode.Value) as DataSet).Tables[0];
+                VS = 2;
+                PopulateTreeView(DTDivision, VS, tnode);
+            }
+            else
+            {
+                treeNode.ChildNodes.Add(tnode);
+            }
+        }
+    }
 
 
-        DataTable DTClasses = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='CLS' ") as DataSet).Tables[0];
-        ChkClassDivList.DataSource = DTClasses;
-        ChkClassDivList.DataValueField = "nId";
-        ChkClassDivList.DataTextField = "cName";
-        ChkClassDivList.DataBind();
-
-        DataTable DTChkClassDiv = (ObjCls.FnGetDataSet("SELECT nId,cName FROM TblclassDetails where cttype='DIVN' ") as DataSet).Tables[0];
-        ChkDivList.DataSource = DTChkClassDiv;
-        ChkDivList.DataValueField = "nId";
-        ChkDivList.DataTextField = "cName";
-        ChkDivList.DataBind();
-
+    public void FnGrpClassDivChkFill()
+    {
 
         DataTable DdlReligionDT = (ObjCls.FnGetDataSet("SELECT * FROM TblStudentCategory where cttype='RELGN'") as DataSet).Tables[0];
         DdlReligion.DataSource = DdlReligionDT;
         DdlReligion.DataValueField = "nId";
         DdlReligion.DataTextField = "cName";
         DdlReligion.DataBind();
+        DdlReligion.Items.Insert(0, new ListItem("---Select---", "0"));
 
     }
     public override void FnInitializeForm()
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new ClsStudentClassDivisionAssign(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls = new ClsRegistrationStudent(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         ViewState["DT_CHILD"] = FnGetGeneralTable(ObjCls);
         ViewState["DIV"] = FnGetGeneralTable(ObjCls);
@@ -120,10 +131,10 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
     public void FnGridViewBinding(string PrmFlag)
     {
 
-        GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
-        GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
-        GrdVwRecords.DataBind();
-        GrdVwRecords.SelectedIndex = -1;
+        //GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
+        //GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+        //GrdVwRecords.DataBind();
+        //GrdVwRecords.SelectedIndex = -1;
 
     }
 
@@ -140,100 +151,12 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    if (GrdVwRecords.Rows.Count > 0)
-                    {
-                        GrdVwRecords.Columns.Clear();
-                        GrdVwRecords.DataBind();
-                    }
-                    DataTable DTList = new DataTable();
-                    string selectedItemsC = "";
-                    for (int i = 0; i < ChkClassDivList.Items.Count; i++)
-                    {
-                        if (ChkClassDivList.Items[i].Selected)
-                        {
-                            selectedItemsC += ChkClassDivList.Items[i].Value.ToString() + ",";
-                        }
-                    }
-                    selectedItemsC = selectedItemsC.TrimEnd(',');
-                    string selectedItemsD = "";
-                    for (int i = 0; i < ChkDivList.Items.Count; i++)
-                    {
-                        if (ChkDivList.Items[i].Selected)
-                        {
-                            selectedItemsD += ChkDivList.Items[i].Value.ToString() + ",";
-                        }
-                    }
-                    selectedItemsD = selectedItemsD.TrimEnd(',');
+                   
 
-
-                    string query = "SELECT  ";
-                    bool isSelected = ChkSelectColumns.Items.Cast<ListItem>().Count(i => i.Selected == true) > 0;
-                    if (!isSelected)
-                    {
-                        ChkSelectColumns.Items[0].Selected = true;
-                    }
-                    foreach (ListItem item in ChkSelectColumns.Items)
-                    {
-                        if (item.Selected)
-                        {
-                           
-                            if (item.Text == "Student Id")
-                            {
-                              
-                                query += "STDR.cCode as cCode,";
-                            }
-                            else if (item.Text== "Student Name")
-                            {
-                               
-                                query += "STDR.cName as cName,";
-                            }
-                            else if (item.Text == "Mother Tongue")
-                            {
-                               
-                                query += "LANG.cName as McName,";
-                            }
-                            else
-                            {
-                                query += item.Value + ",";
-                            }
-
-                            isSelected = true;
-                            BoundField bfield = new BoundField();
-                            bfield.HeaderText = item.Text;
-
-                            bfield.DataField = item.Value;
-
-                            GrdVwRecords.Columns.Add(bfield);
-                        }
-                    }
-
-
-                    query = query.Substring(0, query.Length - 1);
-                    if (DdlFilter.SelectedValue == "3")
-                    {
-                        
-                            query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId inner join TblStudentGeneral LANG on STDR.nMotherLanguageId=LANG.nId and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") and STDR.nReligionId="+ DdlReligion.SelectedValue + " order by STDR.cName asc";
-                            DataTable DTCC1 = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
-                            GrdVwRecords.DataSource = DTCC1;
-                            GrdVwRecords.DataBind();
-                        
-                    }
-                    else if (DdlFilter.SelectedValue == "1")
-                    {
-                        DateTime fdate = ObjCls.FnDateTime(CtrlFromDate.DateText);
-                        DateTime tdate = ObjCls.FnDateTime(CtrlDueDate.DateText);
-                        query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId inner join TblStudentGeneral LANG on STDR.nMotherLanguageId=LANG.nId  and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") and STDR.dJoindate>='" + fdate + "' and STDR.dJoindate<= '" + tdate + "' order by STDR.cName asc";
-
-                        DataTable DTCC1 = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
-                        GrdVwRecords.DataSource = DTCC1;
-                        GrdVwRecords.DataBind();
-                    }
-
-
-
-
-
+                    //FnExportExcelSheet(DTCC1);
+                    ExportDataTable();
                     break;
+
                 case "FIND":
                     FnFindRecord();
                     break;
@@ -260,9 +183,145 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
     }
 
 
+    private void ExportDataTable()
+    {
+        int Par = 0, i4 = 1;
+
+
+
+        String InstId = "", Instmessage = "", Clsmessage = "", ClsId = "", Divmessage = "", DivId = "";
+
+        foreach (TreeNode node in TreVwLst.CheckedNodes)
+        {
+            if (node.Depth == 0)
+            {
+                Instmessage += node.Text + ",";
+                InstId += node.Value + ",";
+            }
+            else if (node.Depth == 1)
+            {
+                Clsmessage += node.Text + ",";
+                ClsId += node.Value + ",";
+            }
+            else if (node.Depth == 2)
+            {
+                Divmessage += node.Text + ",";
+                DivId += node.Value + ",";
+            }
+
+        }
+        InstId = InstId.TrimEnd(',');
+        ClsId = ClsId.TrimEnd(',');
+        DivId = DivId.TrimEnd(',');
+
+
+
+
+        string query = "SELECT ";
+        bool isSelected = ChkSelectColumns.Items.Cast<ListItem>().Count(i => i.Selected == true) > 0;
+        if (!isSelected)
+        {
+            ChkSelectColumns.Items[0].Selected = true;
+        }
+        foreach (ListItem item in ChkSelectColumns.Items)
+        {
+            if (item.Selected)
+            {
+                query += item.Value + ",";
+
+                isSelected = true;
+                if (item.Value == "nStudentId")
+                {
+                    Par = i4;
+                }
+                i4++;
+            }
+        }
+        query = query.Substring(0, query.Length - 1);
+
+        if (DdlFilter.SelectedValue == "2")
+        {
+
+            query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId  and STDA.nClassId in(" + ClsId + ") and STDA.nDivisionId in (" + DivId + ") and STDR.nReligionId=" + DdlReligion.SelectedValue + " order by STDR.cName asc";
+
+
+        }
+        else if (DdlFilter.SelectedValue == "1")
+        {
+            DateTime fdate = ObjCls.FnDateTime(CtrlFromDate.DateText);
+            DateTime tdate = ObjCls.FnDateTime(CtrlDueDate.DateText);
+            query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId  and STDA.nClassId in(" + ClsId + ") and STDA.nDivisionId in (" + DivId + ") and STDR.dJoindate>='" + fdate + "' and STDR.dJoindate<= '" + tdate + "' order by STDR.cName asc";
+
+        }
+        else
+        {
+            query += " FROM TblRegistrationStudent";
+        }
+
+        DataTable DTCC1 = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
+        string Path = Server.MapPath(Request.ApplicationPath) + "EXCELFILES\\STUDENT_FILTER" + DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + ".xls";
+
+        WriteDataTableToExcel(DTCC1, "TEST", Path, "Excel");
+    }
+
+    private void FnExportExcelSheet(DataTable PrmDtVal)
+    {
+        try
+        {
+            DataTable dt1 = PrmDtVal;
+            if (dt1 == null)
+            {
+                throw new Exception("No Records to Export");
+            }
+            string Path = Server.MapPath(Request.ApplicationPath) + "\\EXCELFILES\\myexcelfile_" + DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + ".xls";
+            FileInfo FI = new FileInfo(Path);
+            StringWriter stringWriter = new StringWriter();
+            HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWriter);
+            DataGrid DataGrd = new DataGrid();
+            DataGrd.DataSource = dt1;
+            DataGrd.DataBind();
+
+            DataGrd.RenderControl(htmlWrite);
+            string directory = Path.Substring(0, Path.LastIndexOf("\\"));// GetDirectory(Path);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            System.IO.StreamWriter vw = new System.IO.StreamWriter(Path, true);
+            stringWriter.ToString().Normalize();
+            vw.Write(stringWriter.ToString());
+            vw.Flush();
+            vw.Close();
+            
+            WriteAttachment(FI.Name, "application/vnd.ms-excel", stringWriter.ToString());
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+        finally
+        {
+            
+        }
+    }
+    public static void WriteAttachment(string FileName, string FileType, string content)
+    {
+        HttpResponse Response = System.Web.HttpContext.Current.Response;
+        Response.ClearHeaders();
+        Response.AppendHeader("Content-Disposition", "attachment; filename=" + FileName);
+        Response.ContentType = FileType;
+        Response.Write(content);
+        Response.End();
+
+    }
+
+
+
+
     protected void DdlFilter_SelectedIndexChanged(object sender, EventArgs e)
     {
-        
+
         if (DdlFilter.SelectedValue == "1")
         {
             lblFromdate.Enabled = true;
@@ -270,72 +329,38 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             CtrlFromDate.EnableViewState = true;
             CtrlDueDate.EnableViewState = true;
 
-            lBLGRP2.Enabled = false;
-            Ddlgrpfilter.Enabled = false;
-
             lblreligion.Enabled = false;
             DdlReligion.Enabled = false;
         }
         else if (DdlFilter.SelectedValue == "2")
         {
-            lblgroup.Enabled = false;
-            TxtGroup.Enabled = false;
-            BtnGroup.Enabled = false;
-
-            lBLGRP2.Enabled = true;
-            Ddlgrpfilter.Enabled = true;
-
-            lblFromdate.Enabled = false;
-            lblduedate.Enabled = false;
-            CtrlFromDate.EnableViewState= false;
-            CtrlDueDate.EnableViewState = false;
-
-            lblreligion.Enabled = false;
-            DdlReligion.Enabled = false;
-        }
-        else if (DdlFilter.SelectedValue == "3")
-        {
-            lblreligion.Enabled = true;
-            DdlReligion.Enabled = true;
-
-            lBLGRP2.Enabled = false;
-            Ddlgrpfilter.Enabled = false;
 
             lblFromdate.Enabled = false;
             lblduedate.Enabled = false;
             CtrlFromDate.EnableViewState = false;
             CtrlDueDate.EnableViewState = false;
 
-            lblgroup.Enabled = true;
-            TxtGroup.Enabled = true;
-            BtnGroup.Enabled = true;
+            lblreligion.Enabled = false;
+            DdlReligion.Enabled = true;
         }
-       
-    }
-
-
-   
-   
-
-    protected void ChkSelctAllClass_CheckedChanged(object sender, EventArgs e)
-    {
-        foreach (ListItem item in ChkClassDivList.Items)
+        else if (DdlFilter.SelectedValue == "3")
         {
-            item.Selected = true;
-            item.Enabled = true;
+            lblreligion.Enabled = true;
+            DdlReligion.Enabled = true;
+
+
+
+            lblFromdate.Enabled = false;
+            lblduedate.Enabled = false;
+            CtrlFromDate.EnableViewState = false;
+            CtrlDueDate.EnableViewState = false;
+
+
         }
+
     }
 
 
-
-    protected void ChkSelectAllDiv_CheckedChanged(object sender, EventArgs e)
-    {
-        foreach (ListItem item in ChkDivList.Items)
-        {
-            item.Selected = true;
-            item.Enabled = true;
-        }
-    }
 
     protected void ChkSelectAllFields_CheckedChanged(object sender, EventArgs e)
     {
@@ -350,24 +375,34 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
     {
         int Par = 0, i4 = 1;
 
-        string selectedItemsC = "";
-        for (int i = 0; i < ChkClassDivList.Items.Count; i++)
+
+
+        String InstId = "", Instmessage = "", Clsmessage = "", ClsId = "", Divmessage = "", DivId = "";
+
+        foreach (TreeNode node in TreVwLst.CheckedNodes)
         {
-            if (ChkClassDivList.Items[i].Selected)
+            if (node.Depth == 0)
             {
-                selectedItemsC += ChkClassDivList.Items[i].Value.ToString() + ",";
+                Instmessage += node.Text + ",";
+                InstId += node.Value + ",";
             }
-        }
-        selectedItemsC = selectedItemsC.TrimEnd(',');
-        string selectedItemsD = "";
-        for (int i = 0; i < ChkDivList.Items.Count; i++)
-        {
-            if (ChkDivList.Items[i].Selected)
+            else if (node.Depth == 1)
             {
-                selectedItemsD += ChkDivList.Items[i].Value.ToString() + ",";
+                Clsmessage += node.Text + ",";
+                ClsId += node.Value + ",";
             }
+            else if (node.Depth == 2)
+            {
+                Divmessage += node.Text + ",";
+                DivId += node.Value + ",";
+            }
+
         }
-        selectedItemsD = selectedItemsD.TrimEnd(',');
+        InstId = InstId.TrimEnd(',');
+        ClsId = ClsId.TrimEnd(',');
+        DivId = DivId.TrimEnd(',');
+
+
 
 
         string query = "SELECT ";
@@ -381,26 +416,7 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             if (item.Selected)
             {
                 query += item.Value + ",";
-                //if (item.Text == "Student Id")
-                //{
-
-                //    query += "STDR.cCode as cCode,";
-                //}
-                //else if (item.Text == "Student Name")
-                //{
-
-                //    query += "STDR.cName as cName,";
-                //}
-                //else if (item.Text == "Mother Tongue")
-                //{
-
-                //    query += "LANG.cName as McName,";
-                //}
-                //else
-                //{
-                //    query += item.Value + ",";
-                //}
-
+               
                 isSelected = true;
                 if (item.Value == "nStudentId")
                 {
@@ -411,20 +427,18 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         }
         query = query.Substring(0, query.Length - 1);
 
-        if (DdlFilter.SelectedValue == "3")
+        if (DdlFilter.SelectedValue == "2")
         {
-           
-               // query += "FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId  and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") and STDR.nReligionId=8 order by STDR.cName asc";
-                query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId  and STDA.nClassId in(" + selectedItemsC + ")  and STDR.nReligionId="+ DdlReligion.SelectedValue + " order by STDR.cName asc";
 
-           
+            query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId  and STDA.nClassId in(" + ClsId + ") and STDA.nDivisionId in (" + DivId + ") and STDR.nReligionId=" + DdlReligion.SelectedValue + " order by STDR.cName asc";
+
+
         }
         else if (DdlFilter.SelectedValue == "1")
         {
             DateTime fdate = ObjCls.FnDateTime(CtrlFromDate.DateText);
             DateTime tdate = ObjCls.FnDateTime(CtrlDueDate.DateText);
-            //query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId  and STDA.nClassId in(" + selectedItemsC + ") and STDA.nDivisionId in (" + selectedItemsD + ") and STDR.dJoindate>='" + fdate + "' and STDR.dJoindate<= '" + tdate + "' order by STDR.cName asc";
-            query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId  and STDA.nClassId in(" + selectedItemsC + ") and STDR.dJoindate>='" + fdate + "' and STDR.dJoindate<= '" + tdate + "' order by STDR.cName asc";
+            query += " FROM TblRegistrationStudent STDR inner join TblStudentAdmissionDetails STDA on STDR.nId=STDA.nStudentId  and STDA.nClassId in(" + ClsId + ") and STDA.nDivisionId in (" + DivId + ") and STDR.dJoindate>='" + fdate + "' and STDR.dJoindate<= '" + tdate + "' order by STDR.cName asc";
 
         }
         else
@@ -447,7 +461,7 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
     {
 
         SqlCommand cmd = new SqlCommand(query);
-        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;User ID=hrm;Password=hrm"))
+        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-7QR5CKRO\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True"))
         {
             DataSetDynamic dsCustomers = new DataSetDynamic();
             cmd.Connection = con;
@@ -485,6 +499,85 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
 
         }
     }
+
+
+
+    public bool WriteDataTableToExcel
+(System.Data.DataTable dataTable, string worksheetName, string saveAsLocation, string ReporType)
+    {
+        Microsoft.Office.Interop.Excel.Application excel;
+        Microsoft.Office.Interop.Excel.Workbook excelworkBook;
+        Microsoft.Office.Interop.Excel.Worksheet excelSheet;
+        Microsoft.Office.Interop.Excel.Range excelCellrange;
+
+        try
+        {
+            //  get Application object.
+            excel = new Microsoft.Office.Interop.Excel.Application();
+            excel.Visible = false;
+            excel.DisplayAlerts = false;
+
+            // Creation a new Workbook
+            excelworkBook = excel.Workbooks.Add(Type.Missing);
+
+            // Workk sheet
+            excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelworkBook.ActiveSheet;
+            excelSheet.Name = worksheetName;
+
+            // loop through each row and add values to our sheet
+            int rowcount = 1;
+
+            foreach (DataRow datarow in dataTable.Rows)
+            {
+                rowcount += 1;
+                for (int i = 1; i <= dataTable.Columns.Count; i++)
+                {
+                    // on the first iteration we add the column headers
+                    if (rowcount == 3)
+                    {
+                        //excelSheet.Cells[2, i] = dataTable.Columns[i - 1].ColumnName;
+                        string query11 = dataTable.Columns[i - 1].ColumnName;
+                        excelSheet.Cells[2, i] = query11.Substring(1);
+                    }
+                    // Filling the excel file 
+                    excelSheet.Cells[rowcount, i] = datarow[i - 1].ToString();
+                }
+            }
+
+
+            excelSheet.Cells[1, 1] = "STUDENT FILTER";
+            Microsoft.Office.Interop.Excel.Range rowRange = excelSheet.Rows[1] as Microsoft.Office.Interop.Excel.Range;
+            rowRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
+            Microsoft.Office.Interop.Excel.Range rowRange1 = excelSheet.Rows[2] as Microsoft.Office.Interop.Excel.Range;
+            rowRange1.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
+            Microsoft.Office.Interop.Excel.Range FirstRow = excelSheet.Rows[1] as Microsoft.Office.Interop.Excel.Range;
+            FirstRow.Font.Bold = true;
+            Microsoft.Office.Interop.Excel.Range secondRow = excelSheet.Rows[2] as Microsoft.Office.Interop.Excel.Range;
+            secondRow.Font.Bold = true;
+            //now save the workbook and exit Excel
+            excelworkBook.SaveAs(saveAsLocation);
+           // excelworkBook.RenderControl(new HtmlTextWriter(Response.Output));
+            //HtmlTextWriter ;
+            excelworkBook.Close();
+            excel.Quit();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            // MessageBox.Show(ex.Message);
+            return false;
+        }
+        finally
+        {
+            excelSheet = null;
+            excelCellrange = null;
+            excelworkBook = null;
+        }
+    }
+
+
+
+
 
 
 }

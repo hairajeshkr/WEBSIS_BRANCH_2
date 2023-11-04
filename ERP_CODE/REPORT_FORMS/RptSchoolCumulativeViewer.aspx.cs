@@ -31,7 +31,6 @@ public partial class REPORT_FORMS_RptSchoolCumulativeViewer : System.Web.UI.Page
         crystalReport.SetDataSource(dsCustomers);
         CrystalReportViewer1.ReportSource = crystalReport;
        
-        //crystalReport.SetParameterValue("Paragroup", 1);
 
         crystalReport.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, false, "Campus");
         CrystalReportViewer1.RefreshReport();
@@ -54,19 +53,7 @@ public partial class REPORT_FORMS_RptSchoolCumulativeViewer : System.Web.UI.Page
                 //Get the List of all TextObjects in Section2.
                 List<TextObject> textObjects = crystalReport.ReportDefinition.Sections["Section2"].ReportObjects.OfType<TextObject>().ToList();
 
-                //for (int i = 0; i < textObjects.Count; i++)
-                //{
-                //    //Set the name of Column in TextObject.
-                //    textObjects[i].Text = string.Empty;
-                //    if (sdr.FieldCount > i)
-                //    {
-                //        textObjects[i].Text = sdr.GetName(i).Substring(1);
-
-                //    }
-
-                //}
-
-
+               
                 //Load all the data rows in the Dataset.
                 while (sdr.Read())
                 {
@@ -85,15 +72,6 @@ public partial class REPORT_FORMS_RptSchoolCumulativeViewer : System.Web.UI.Page
 
 
 
-    //protected void Page_Unload(object sender, EventArgs e)
-    //{
-       
-    //    if (this.rptDoc != null)
-    //    {
-    //        this.rptDoc.Close();
-    //        this.rptDoc.Dispose();
-    //    }
-    //}
 
 
 }

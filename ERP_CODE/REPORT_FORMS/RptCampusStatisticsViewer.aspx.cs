@@ -19,28 +19,20 @@ public partial class REPORT_FORMS_RptCampusStatisticsViewer : System.Web.UI.Page
 
 
         string query = Session["param1"] as string;
-        //string Class = Session["param1"] as string;
-        //string Division = Session["param2"] as string;
-
-
+       
         ReportDocument crystalReport = new ReportDocument();
        // crystalReport.Load(Server.MapPath("~/TRANS_REPORTS/RptCampusStatistics.rpt"));
         crystalReport.Load(Server.MapPath("~/TRANS_REPORTS/RptStcampus.rpt"));
         DataSetDynamic dsCustomers = GetData(query, crystalReport);
         crystalReport.SetDataSource(dsCustomers);
         CrystalReportViewer1.ReportSource = crystalReport;
-        //crystalReport.SetParameterValue("@class", Class);
-        //crystalReport.SetParameterValue("@Division", Division);
         crystalReport.SetParameterValue("Paragroup", 1);
-
-
-        //crystalReport.DataSourceConnections.Clear();
-        //crystalReport.Refresh();
-        //crystalReport.ExportToHttpResponse(ExportFormatType.PortableDocFormat, HttpContext.Current.Response, true, "Campus");
-
+        crystalReport.ExportToDisk(ExportFormatType.Excel, @"D:\Files\CustomerReport.xls");
         crystalReport.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, false, "Campus");
         CrystalReportViewer1.RefreshReport();
         CrystalReportViewer1.Visible = true;
+
+        crystalReport.ExportToDisk(ExportFormatType.Excel, @"D:\Files\CustomerReport.xls");
 
     }
 
@@ -59,19 +51,7 @@ public partial class REPORT_FORMS_RptCampusStatisticsViewer : System.Web.UI.Page
                 //Get the List of all TextObjects in Section2.
                 List<TextObject> textObjects = crystalReport.ReportDefinition.Sections["Section2"].ReportObjects.OfType<TextObject>().ToList();
 
-                //for (int i = 0; i < textObjects.Count; i++)
-                //{
-                //    //Set the name of Column in TextObject.
-                //    textObjects[i].Text = string.Empty;
-                //    if (sdr.FieldCount > i)
-                //    {
-                //        textObjects[i].Text = sdr.GetName(i).Substring(1);
-
-                //    }
-
-                //}
-
-
+               
                 //Load all the data rows in the Dataset.
                 while (sdr.Read())
                 {

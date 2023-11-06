@@ -21,7 +21,6 @@ public partial class REPORT_FORMS_RptCampusStatisticsViewer : System.Web.UI.Page
         string query = Session["param1"] as string;
        
         ReportDocument crystalReport = new ReportDocument();
-       // crystalReport.Load(Server.MapPath("~/TRANS_REPORTS/RptCampusStatistics.rpt"));
         crystalReport.Load(Server.MapPath("~/TRANS_REPORTS/RptStcampus.rpt"));
         DataSetDynamic dsCustomers = GetData(query, crystalReport);
         crystalReport.SetDataSource(dsCustomers);

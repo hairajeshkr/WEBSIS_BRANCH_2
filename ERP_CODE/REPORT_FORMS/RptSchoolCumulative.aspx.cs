@@ -396,13 +396,10 @@ public partial class REPORT_FORMS_RptSchoolCumulative : ClsPageEvents, IPageInte
         }
 
         DataTable DTCC1 = (ObjCls.FnGetDataSet(query) as DataSet).Tables[0];
-        //FnExportExcelSheet(DTCC1);
         if (CType == "1")
         {
             string Path = Server.MapPath(Request.ApplicationPath) + "EXCELFILES\\SCHOOL_CUMULATIVE_RELEGION" + DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + ".xls";
             WriteDataTableToExcel(DTCC1, "TEST", Path, "Excel");
-
-                        
 
         }
         else if (CType == "2")
@@ -520,7 +517,7 @@ public partial class REPORT_FORMS_RptSchoolCumulative : ClsPageEvents, IPageInte
                 excelSheet.Cells[2, 12] = "M";
                 excelSheet.Cells[2, 13] = "F";
                 excelSheet.Cells[2, 14] = "Total";
-                excelSheet.Range["$A$1:$K$20"].Subtotal(1, Microsoft.Office.Interop.Excel.XlConsolidationFunction.xlSum, new[] { 11, 11 });
+                excelSheet.Range["$A$1:$N$500"].Subtotal(1, Microsoft.Office.Interop.Excel.XlConsolidationFunction.xlSum, new[] { 14, 14 });
 
                
                 Microsoft.Office.Interop.Excel.Range rowRange = excelSheet.Rows[1] as Microsoft.Office.Interop.Excel.Range;
@@ -627,7 +624,7 @@ public partial class REPORT_FORMS_RptSchoolCumulative : ClsPageEvents, IPageInte
                 excelSheet.Cells[2, 24] = "M";
                 excelSheet.Cells[2, 25] = "F";
                 excelSheet.Cells[2, 26] = "Total";
-                excelSheet.Range["$A$1:$K$20"].Subtotal(1, Microsoft.Office.Interop.Excel.XlConsolidationFunction.xlSum, new[] { 11, 11 });
+                excelSheet.Range["$A$1:$Z$500"].Subtotal(1, Microsoft.Office.Interop.Excel.XlConsolidationFunction.xlSum, new[] { 26, 26 });
                 Microsoft.Office.Interop.Excel.Range rowRange = excelSheet.Rows[1] as Microsoft.Office.Interop.Excel.Range;
                 rowRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
                 Microsoft.Office.Interop.Excel.Range rowRange1 = excelSheet.Rows[2] as Microsoft.Office.Interop.Excel.Range;

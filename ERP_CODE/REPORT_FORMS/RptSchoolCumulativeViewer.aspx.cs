@@ -30,8 +30,6 @@ public partial class REPORT_FORMS_RptSchoolCumulativeViewer : System.Web.UI.Page
         DataSetDynamic dsCustomers = GetData(query, crystalReport);
         crystalReport.SetDataSource(dsCustomers);
         CrystalReportViewer1.ReportSource = crystalReport;
-       
-
         crystalReport.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, false, "Campus");
         CrystalReportViewer1.RefreshReport();
         CrystalReportViewer1.Visible = true;
@@ -52,8 +50,7 @@ public partial class REPORT_FORMS_RptSchoolCumulativeViewer : System.Web.UI.Page
             {
                 //Get the List of all TextObjects in Section2.
                 List<TextObject> textObjects = crystalReport.ReportDefinition.Sections["Section2"].ReportObjects.OfType<TextObject>().ToList();
-
-               
+              
                 //Load all the data rows in the Dataset.
                 while (sdr.Read())
                 {

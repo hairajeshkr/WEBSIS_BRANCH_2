@@ -18,12 +18,9 @@ public partial class REPORT_FORMS_RptStudentViewer : System.Web.UI.Page
 
         string query = Session["param1"] as string;
         string Par = Session["param2"] as string;
-
-
         ReportDocument crystalReport = new ReportDocument();
         crystalReport.Load(Server.MapPath("~/TRANS_REPORTS/rptDynamicColumn.rpt"));
         DataSetDynamic dsCustomers = GetData(query, crystalReport);
-        //DataSetDynamic dsCustomers = GetData1(query, crystalReport);
         crystalReport.SetDataSource(dsCustomers);
         CrystalReportViewer1.ReportSource = crystalReport;
         crystalReport.SetParameterValue("Paragroup", Par);

@@ -19,7 +19,6 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
         {
             base.Page_Load(sender, e);
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
-            //CtrlCommand2.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
                 FnInitializeForm();
@@ -85,8 +84,7 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         ViewState["DT_CHILD"] = FnGetGeneralTable(ObjCls);
         ViewState["DIV"] = FnGetGeneralTable(ObjCls);
-        //FnGridViewBinding("");
-        //FnGridViewBinding("SRCH");
+        
     }
     public void FnAssignProperty()
     {
@@ -166,13 +164,6 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
 
                     this.BindReport();
 
-
-
-
-
-
-
-
                     break;
             }
         }
@@ -246,9 +237,6 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
         string parameter2 = selectedItemsC;
         Session["param1"] = parameter1;
         Session["param2"] = parameter2;
-
-
-
 
         Response.Redirect("RptCampusStatisticsViewer.aspx");
 
@@ -362,9 +350,9 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
 
             excelSheet.Cells[1, 1] = "CLASS";
             excelSheet.Cells[1, 2] = "DIVISION";
-            excelSheet.Cells[1, 3] = "Male";
-            excelSheet.Cells[1, 4] = "Female";
-            excelSheet.Cells[1, 5] = "Sub Total";
+            excelSheet.Cells[1, 3] = "MALE";
+            excelSheet.Cells[1, 4] = "FEMALE";
+            excelSheet.Cells[1, 5] = "SUB TOTAL";
 
             Microsoft.Office.Interop.Excel.Range rowRange = excelSheet.Rows[1] as Microsoft.Office.Interop.Excel.Range;
             rowRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
@@ -373,9 +361,6 @@ public partial class REPORT_FORMS_RptStudentDtls : ClsPageEvents, IPageInterFace
             FirstRow.Font.Bold = true;
 
             excelSheet.Range["$A$1:$E$20"].Subtotal(1, Microsoft.Office.Interop.Excel.XlConsolidationFunction.xlSum, new[] { 5, 5 });
-
-
-            
             //now save the workbook and exit Excel
             excelworkBook.SaveAs(saveAsLocation);
            

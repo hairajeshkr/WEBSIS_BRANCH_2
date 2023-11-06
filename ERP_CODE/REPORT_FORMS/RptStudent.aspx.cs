@@ -153,7 +153,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
                 case "SAVE":
                    
 
-                    //FnExportExcelSheet(DTCC1);
                     ExportDataTable();
                     break;
 
@@ -535,7 +534,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
                     // on the first iteration we add the column headers
                     if (rowcount == 3)
                     {
-                        //excelSheet.Cells[2, i] = dataTable.Columns[i - 1].ColumnName;
                         string query11 = dataTable.Columns[i - 1].ColumnName;
                         excelSheet.Cells[2, i] = query11.Substring(1);
                     }
@@ -556,8 +554,6 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             secondRow.Font.Bold = true;
             //now save the workbook and exit Excel
             excelworkBook.SaveAs(saveAsLocation);
-           // excelworkBook.RenderControl(new HtmlTextWriter(Response.Output));
-            //HtmlTextWriter ;
             excelworkBook.Close();
             excel.Quit();
             return true;

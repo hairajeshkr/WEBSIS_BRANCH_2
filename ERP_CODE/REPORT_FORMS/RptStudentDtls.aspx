@@ -16,21 +16,25 @@
                 <ContentTemplate>
                     <table class="auto-style1">
                         <tr>
-                            <td class="odd" rowspan="11" style="width: 158px">
-                                <div class="result-list" style="overflow: scroll; height: 466px; width: 250px;">
+                            <td class="odd" rowspan="6" >
+                                <div class="result-list" style="overflow: scroll; height: 400px; width: 250px;">
                                     <asp:TreeView ID="TreVwLst" runat="server" ShowCheckBoxes="All" ExpandDepth="0"></asp:TreeView>
 
                                 </div>
 
                             </td>
                             <td class="odd"  >
-                                <asp:Label ID="Label122" runat="server" SkinID="LblBold" Text="Filter Criteria" Width="146px"></asp:Label>
+                                <asp:Label ID="Label122" runat="server" SkinID="LblBold" Text="Filter Criteria" Width="100px"></asp:Label>
                             </td>
 
                             <td class="odd" >
                                 <asp:DropDownList ID="DdlFilter" runat="server" AppendDataBoundItems="True" AutoPostBack="True" SkinID="DdlFilterCriteria">
                                 </asp:DropDownList>
                             </td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
                         </tr>
                         <tr>
                             <td class="odd" >
@@ -40,6 +44,10 @@
                                 <asp:DropDownList ID="DdlReligion" runat="server" Style="margin-bottom: 0px" Width="300px">
                                 </asp:DropDownList>
                             </td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
                         </tr>
                         <tr>
                             <td class="odd" >
@@ -48,6 +56,10 @@
                             <td class="odd" colspan="1" >
                                 <uc3:CtrlDate ID="CtrlFromDate" runat="server" />
                             </td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
                         </tr>
                         <tr>
                             <td class="odd">
@@ -55,17 +67,22 @@
                             </td>
                             <td class="odd" colspan="1" >
                                 <uc3:CtrlDate  ID="CtrlDueDate" runat="server" />
+                            </td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                            <td class="odd">&nbsp;</td>
+                        </tr>
+                        
+                        <tr>
                             
-                        </tr>
-                        <tr>
-                            <td class="odd" style="width: 123px; height: 7px;"></td>
-                            <td class="odd" colspan="1" style="width: 15px; height: 7px;"></td>
-                        </tr>
-                        <tr>
-                            <td class="odd" style="width: 123px; height: 25px;"></td>
-                            <td class="odd" colspan="3" style="width: 15px; height: 25px;">
+                            <td class="odd" rowspan="2" colspan="2">
                                 <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="True" SaveText="Export Excel" style="position:relative;float:right" />
                             </td>
+                            <td class="odd" rowspan="2">&nbsp;</td>
+                            <td class="odd" rowspan="2">&nbsp;</td>
+                            <td class="odd" rowspan="2">&nbsp;</td>
+                            <td class="odd" rowspan="2">&nbsp;</td>
                         </tr>
 
                     </table>

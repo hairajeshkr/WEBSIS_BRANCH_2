@@ -18,7 +18,6 @@ public partial class ADMIN_SubExamMaster : ClsPageEvents, IPageInterFace
             {
                 TxtPriority.Attributes.Add("onkeydown", "return NumbersOnly(event);");
                 FnInitializeForm();
-
             }
         }
         catch (Exception ex)
@@ -123,7 +122,6 @@ public partial class ADMIN_SubExamMaster : ClsPageEvents, IPageInterFace
                     base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     break;
                 case "CLEAR":
-                    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
                     FnCancel();
                     break;
                 case "CLOSE":
@@ -138,7 +136,6 @@ public partial class ADMIN_SubExamMaster : ClsPageEvents, IPageInterFace
                     //FnAssignProperty();
                     //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     //FnGridViewBinding("");
-                    //System.Threading.Thread.Sleep(1000000);
                     break;
                 case "HELP":
                     ObjCls.FnAlertMessage(" You Have No permission To Help Record");

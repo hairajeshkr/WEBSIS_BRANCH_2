@@ -1,34 +1,27 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CoSubject.aspx.cs" Inherits="ADMIN_CoSubject" StyleSheetTheme="SkinFile" Theme="SkinFile"  %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="DepartmentMaster.aspx.cs" Inherits="ADMIN_DepartmentMaster" StyleSheetTheme="SkinFile" Theme="SkinFile"  %>
 <%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="ajaxToolkit" %>
 <%@ Register src="../CtrlCommand.ascx" tagname="CtrlCommand" tagprefix="uc1" %>
 <%@ Register src="../CtrlGridList.ascx" tagname="CtrlGridList" tagprefix="uc2" %>
 <%@ Register src="../CtrlDate.ascx" tagname="CtrlDate" tagprefix="uc3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <script language="javascript" src="Script/InstituteGrp.js" type="text/javascript"></script>
-    <div style="height:400px; width:700px">
-      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="400px" Width="700px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
+
+     <div style="height:385px; width:569px">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="385px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
-              <HeaderTemplate> Academic Subject Scholastic
+              <HeaderTemplate> Department Master
               </HeaderTemplate>
               
                <ContentTemplate>
                    <table class="auto-style1">
                       <tr><td class="odd" style="width: 83px">
-                              <asp:Label ID="Label122" runat="server" Text="Subject Name" Width="120px"></asp:Label>
+                              <asp:Label ID="Label122" runat="server" Text="Department Name" Width="100px"></asp:Label>
                           </td>
                           <td class="odd">
-                              <asp:TextBox ID="TxtName" runat="server" placeholder="Subject Name"></asp:TextBox>
-                          </td>
-                          </tr>
-                        <tr><td class="odd" style="width: 83px; height: 39px;">
-                              <asp:Label ID="Label4" runat="server" Text="Print Name" Width="100px"></asp:Label>
-                          </td>
-                          <td class="odd" style="height: 39px">
-                              <asp:TextBox ID="TxtPrintName" runat="server" placeholder="Print Name"></asp:TextBox>
+                              <asp:TextBox ID="TxtName" runat="server" placeholder="Department Name"></asp:TextBox>
                           </td>
                           </tr>
                         <tr>
-                          <td class="even" style="width: 83px; height: 25px;">
+                          <td class="even" style="width: 83px">
                               <asp:Label ID="Label3" runat="server" Text="Code" Width="100px"></asp:Label>
                           </td>
                           <td class="even">
@@ -36,23 +29,12 @@
                           </td>
                       </tr>
                        <tr>
-                          <td class="odd">
-                              <asp:Label ID="Label6" runat="server" Text="Section" Width="125px"></asp:Label>
-                          </td>
-                            <td class="odd">
-                                            <asp:DropDownList ID="DdlSection" runat="server" SkinID="DdlCoScholasticSection">
-                                                
-                                            </asp:DropDownList>
-                                        </td>
-                      </tr>
-                        <tr>
-                         <td class="odd" style="width: 83px; height: 29px;">
+                         <td class="odd" style="width: 83px">
                               <asp:Label ID="Label1" runat="server" Text="Order Index" Width="100px"></asp:Label>
                           </td>
-                          <td class="odd" style="height: 29px">
+                          <td class="odd">
                               <asp:TextBox ID="TxtPriority" runat="server" placeholder="Order Index" SkinID="TxtCode" ></asp:TextBox>
                           
-                                                        
                           </td>
                       </tr>
 
@@ -92,7 +74,7 @@
 
                </ajaxToolkit:TabPanel>
           <ajaxToolkit:TabPanel ID="TabPanel2" runat="server" HeaderText="TabPanel2">
-              <HeaderTemplate>Academic Subject Scholastic List
+              <HeaderTemplate>Department MasterList
               </HeaderTemplate>
               
               <ContentTemplate>
@@ -111,7 +93,7 @@
                               <asp:TextBox ID="TxtCode_Srch" runat="server" placeholder="Code" SkinID="TxtCode"></asp:TextBox>
                           </td>
                           <td style="height: 39px">
-                              <asp:Button ID="BtnFind" runat="server" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="ManiPulateDataEvent_Clicked"/>
+                              <asp:Button ID="BtnFind" runat="server"  Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="ManiPulateDataEvent_Clicked" />
                           </td>
                       </tr>
 
@@ -126,23 +108,16 @@
                                                   <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Name") %>' Width="175px"></asp:LinkButton>
                                               </ItemTemplate>
                                           </asp:TemplateField>
-                                          <asp:TemplateField HeaderText="PrintName">
-                                              <ItemTemplate>
-                                                  <asp:Label ID="LblPrintName1" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("DisplayName") %>' Width="100px"></asp:Label>
-                                              </ItemTemplate>
-                                          </asp:TemplateField>
                                            <asp:TemplateField HeaderText="Code">
                                               <ItemTemplate>
                                                   <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Code") %>' Width="100px"></asp:Label>
                                               </ItemTemplate>
                                           </asp:TemplateField>
-                                           
                                           <asp:TemplateField HeaderText="Priority">
                                               <ItemTemplate>
                                                   <asp:Label ID="LbloRDERiNDEX" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("OrderIndex") %>' Width="100px"></asp:Label>
                                               </ItemTemplate>
                                           </asp:TemplateField>
-                                         
                                         <asp:BoundField DataField="Remarks" HeaderText="Remarks">
                                           <ItemStyle Width="200px" />
                                           </asp:BoundField>
@@ -169,6 +144,6 @@
 
                 </ajaxToolkit:TabPanel>
       </ajaxToolkit:TabContainer>
-        </div>  
+        </div> 
 </asp:Content>
 

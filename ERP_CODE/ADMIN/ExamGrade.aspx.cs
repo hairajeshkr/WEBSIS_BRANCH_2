@@ -18,7 +18,6 @@ public partial class ADMIN_ExamGrade : ClsPageEvents, IPageInterFace
             {
                 TxtPriority.Attributes.Add("onkeydown", "return NumbersOnly(event);");
                 FnInitializeForm();
-
             }
         }
         catch (Exception ex)
@@ -39,6 +38,7 @@ public partial class ADMIN_ExamGrade : ClsPageEvents, IPageInterFace
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.Name = TxtName.Text.Trim();
+        ObjCls.ParentId = ObjCls.FnIsNumeric(DdlGradeSystem.SelectedValue);
         ObjCls.Code = TxtCode.Text.Trim();
         ObjCls.RangeFrom = TxtRangeFrom.Text.Trim();
         ObjCls.RangeTo = TxtRangeTo.Text.Trim();
@@ -58,6 +58,7 @@ public partial class ADMIN_ExamGrade : ClsPageEvents, IPageInterFace
 
         TxtName.Text = "";
         TxtCode.Text = "";
+        DdlGradeSystem.SelectedValue = "0";
         TxtRangeFrom.Text = "";
         TxtRangeTo.Text = "";
         TxtGradePoint.Text = "";
@@ -125,7 +126,7 @@ public partial class ADMIN_ExamGrade : ClsPageEvents, IPageInterFace
                     base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     break;
                 case "CLEAR":
-                    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
+                    
                     FnCancel();
                     break;
                 case "CLOSE":
@@ -140,7 +141,7 @@ public partial class ADMIN_ExamGrade : ClsPageEvents, IPageInterFace
                     //FnAssignProperty();
                     //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     //FnGridViewBinding("");
-                    //System.Threading.Thread.Sleep(1000000);
+                    
                     break;
                 case "HELP":
                     ObjCls.FnAlertMessage(" You Have No permission To Help Record");
@@ -172,6 +173,7 @@ public partial class ADMIN_ExamGrade : ClsPageEvents, IPageInterFace
             ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
             ViewState["ID"] = ObjCls.ID.ToString();
             TxtName.Text = ObjCls.Name.ToString();
+            DdlGradeSystem.SelectedValue= ObjCls.ParentId.ToString();
             TxtCode.Text = ObjCls.Code.ToString();
             TxtPriority.Text = ObjCls.OrderIndex.ToString();
             TxtRangeFrom.Text = ObjCls.RangeFrom.ToString();

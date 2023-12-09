@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
-public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
+
+public partial class ADMIN_QualificationMaster : ClsPageEvents, IPageInterFace
 {
-    ClsAcademicSubject ObjCls = new ClsAcademicSubject();
+    ClsGeneral ObjCls = new ClsGeneral();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -16,9 +17,10 @@ public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
-                TxtPriority.Attributes.Add("onkeydown", "return NumbersOnly(event);");
+                //LblHdr.Text = Request.QueryString["TITLE"].ToString();
+                //LblHdr1.Text = Request.QueryString["TITLE"].ToString().ToUpper() + " LIST";
                 FnInitializeForm();
-               
+                //ObjCls = new ClsUser(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
             }
         }
         catch (Exception ex)
@@ -27,11 +29,16 @@ public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
         }
     }
 
+
     public override void FnInitializeForm()
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new ClsAcademicSubject(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls = new ClsGeneral(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        ObjCls.TType = FnGetRights().TTYPE;
+        ObjCls.MenuId = FnGetRights().MENUID;
+
+        TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -40,12 +47,11 @@ public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
         base.FnAssignProperty(ObjCls);
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
-        ObjCls.DisplayName = TxtPrintName.Text.Trim();
-        ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
+        ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtPriority.Text);
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
-
     }
+
     public void FnClose()
     {
         throw new NotImplementedException();
@@ -55,12 +61,10 @@ public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
         base.FnCancel();
 
         TxtName.Text = "";
-        TxtCode.Text = "";
-        TxtPrintName.Text = "";
         TxtName_Srch.Text = "";
         TxtCode_Srch.Text = "";
-        TxtPriority.Text = "";
         TxtRemarks.Text = "";
+        TxtPriority.Text = "";
         ChkActive.Checked = true;
 
         CtrlCommand1.SaveText = "Save";
@@ -77,10 +81,12 @@ public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
         FnGridViewBinding("");
         TabContainer1.ActiveTabIndex = 1;
     }
+
     public object FnGetGridRowCount(string PrmFlag)
     {
         throw new NotImplementedException();
     }
+
     public void FnGridViewBinding(string PrmFlag)
     {
         GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
@@ -88,10 +94,12 @@ public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
         GrdVwRecords.DataBind();
         GrdVwRecords.SelectedIndex = -1;
     }
+
     public void FnPrintRecord()
     {
         throw new NotImplementedException();
     }
+
     public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
     {
         try
@@ -121,7 +129,7 @@ public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
                     base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     break;
                 case "CLEAR":
-                    
+                    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
                     FnCancel();
                     break;
                 case "CLOSE":
@@ -133,22 +141,13 @@ public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
                     break;
                 case "FIND":
                     FnFindRecord();
-                    
+                    //FnAssignProperty();
+                    //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    //FnGridViewBinding("");
+                    //System.Threading.Thread.Sleep(1000000);
                     break;
                 case "HELP":
                     ObjCls.FnAlertMessage(" You Have No permission To Help Record");
-                    break;
-                case "FIRST":
-                    //========Code
-                    break;
-                case "PREVIOUS":
-                    //========Code
-                    break;
-                case "NEXT":
-                    //========Code
-                    break;
-                case "LAST":
-                    //========Code
                     break;
             }
         }
@@ -157,6 +156,7 @@ public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
+
     protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
     {
         try
@@ -167,10 +167,8 @@ public partial class ADMIN_CoSubject : ClsPageEvents, IPageInterFace
             TxtName.Text = ObjCls.Name.ToString();
             TxtCode.Text = ObjCls.Code.ToString();
             TxtPriority.Text = ObjCls.OrderIndex.ToString();
-            TxtPrintName.Text = ObjCls.DisplayName.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
-            //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";

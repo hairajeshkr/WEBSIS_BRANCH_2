@@ -10,7 +10,6 @@
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
               <HeaderTemplate> Academic Subject Scholastic
               </HeaderTemplate>
-              
                <ContentTemplate>
                    <table class="auto-style1">
                       <tr><td class="odd" style="width: 83px">
@@ -72,8 +71,6 @@
                               </table>
                                                        </td>
                       </tr>
-
-
                         <tr>
                           <td align="center" class="FooterCommand" colspan="2" valign="middle">
                               <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />
@@ -156,7 +153,6 @@
                               </div>
                           </td>
                       </tr>
-
 
 
                       <tr>

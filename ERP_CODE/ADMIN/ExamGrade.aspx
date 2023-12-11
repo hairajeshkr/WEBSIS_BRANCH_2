@@ -5,7 +5,7 @@
 <%@ Register Src="../CtrlGridList.ascx" TagName="CtrlGridList" TagPrefix="uc2" %>
 <%@ Register Src="../CtrlDate.ascx" TagName="CtrlDate" TagPrefix="uc3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script language="javascript" src="Script/InstituteGrp.js" type="text/javascript"></script>
+    <script language="javascript" src="Script/ExamGrade.js" type="text/javascript"></script>
     <div style="height: 460px; width: 700px">
         <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="460px" Width="700px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
@@ -26,8 +26,8 @@
                             <td class="odd">
                                 <asp:Label ID="Label7" runat="server" Text="Grade System" Width="125px"></asp:Label>
                             </td>
-                            <td class="odd">
-                                <asp:DropDownList ID="DdlGradeSystem" runat="server" SkinID="DdlGradingSystem">
+                            <td class="odd" colspan="2">
+                                <asp:DropDownList ID="DdlGradeSystem" runat="server" SkinID="DdlGradingSystem" Height="35px">
                                 </asp:DropDownList>
                             </td>
                         </tr>
@@ -36,7 +36,7 @@
                                 <asp:Label ID="Label3" runat="server" Text="Code" Width="100px"></asp:Label>
                             </td>
                             <td class="even" colspan="2">
-                                <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="False"></asp:TextBox>
+                                <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCode" ></asp:TextBox>
                             </td>
                         </tr>
 
@@ -134,7 +134,7 @@
 
                         <tr>
                             <td colspan="5">
-                                <div class="result-list" style="overflow: scroll; height: 300px; width: 529px;">
+                                <div class="result-list" style="overflow: scroll; height: 390px; width: 680px;">
                                     <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMaster" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging">
                                         <Columns>
                                             <asp:TemplateField HeaderText="Name">

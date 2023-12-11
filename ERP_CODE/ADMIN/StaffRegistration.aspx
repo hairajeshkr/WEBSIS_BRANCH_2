@@ -7,7 +7,7 @@
 <%@ Register Src="../WebUserControl.ascx" TagName="WebUserControl" TagPrefix="uc4" %>
 <%@ Register Src="../CtrlGridSmallList.ascx" TagName="CtrlGridSmallList" TagPrefix="uc5" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script language="javascript" src="Script/AccountLedger.js" type="text/javascript"></script>
+    <script language="javascript" src="Script/StaffRegistration.js" type="text/javascript"></script>
     <div style="height: 850px; width: 1070px">
         <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="850px" Width="1050px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
@@ -61,7 +61,17 @@
                                             <tr>
                                                 <td>
                                                     <img id="ImgItem" runat="server" alt="Image" class="ItemImageStyle" src="~//images//admin.png" style="border: solid; border-width: 1px; border-color: gray; height: 150px; width: 200px;" />
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <img id="ImgCapture" runat="server" alt="Image" class="ItemImageStyle" src="~/images/ImageCapture.png" style="border: solid; border-width: 1px; border-color: gray; height: 50px; width: 50px; cursor: pointer;"></img> </img>
+                                                    &nbsp; </img></img>&nbsp;&nbsp; &nbsp; </img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <img id="ImgCapture" runat="server" alt="Image" class="ItemImageStyle" src="~/images/ImageCapture.png" style="border: solid; border-width: 1px; border-color: gray; height: 50px; width: 50px; cursor: pointer;"></img> 
+                                                    </img>
+                                                    </img>
+                                                    </img>
+                                                    </img>
+                                                    </img>
+                                                    </img>
+                                                    </img>
+                                                    </img>
+                                                    </img>
+                                                    </img>
                                                     </img>
                                                     </img>
                                                     </img>
@@ -555,8 +565,7 @@
 
             </ajaxToolkit:TabPanel>
             
-            <ajaxToolkit:TabPanel ID="TabPanel3" runat="server" HeaderText="TabPanel2">
-                <HeaderTemplate>Staff Details</HeaderTemplate>
+            <ajaxToolkit:TabPanel ID="TabPanel3" runat="server" HeaderText="">
 
             </ajaxToolkit:TabPanel>
         </ajaxToolkit:TabContainer>

@@ -4,7 +4,7 @@
 <%@ Register src="../CtrlGridList.ascx" tagname="CtrlGridList" tagprefix="uc2" %>
 <%@ Register src="../CtrlDate.ascx" tagname="CtrlDate" tagprefix="uc3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-     <script language="javascript" src="Script/InstituteGrp.js" type="text/javascript"></script>
+     <script language="javascript" src="Script/SubExamMaster.js" type="text/javascript"></script>
     <div style="height:460px; width:700px">
       <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="460px" Width="700px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
@@ -25,7 +25,7 @@
                               <asp:Label ID="Label3" runat="server" Text="Code" Width="100px"></asp:Label>
                           </td>
                           <td class="even">
-                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="False"></asp:TextBox>
+                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCode" ></asp:TextBox>
                           </td>
                       </tr>
                       <tr>
@@ -33,7 +33,7 @@
                               <asp:Label ID="Label6" runat="server" Text="Exam" Width="125px"></asp:Label>
                           </td>
                            <td class="odd">
-                                 <uc2:CtrlGridList ID="CtrlGrdExam" runat="server" PlaceHoldr="Exam" GridHeight="200" AccountType="ReligionList" />
+                                 <uc2:CtrlGridList ID="CtrlGrdExam" runat="server" PlaceHoldr="Exam" GridHeight="200" AccountType="ExamMaster" />
                           </td>
                       </tr>
                         <tr>
@@ -114,7 +114,7 @@
 
                       <tr>
                           <td colspan="5">
-                              <div class="result-list" style="overflow: scroll; height: 300px; width: 529px;">
+                              <div class="result-list" style="overflow: scroll; height: 390px; width: 680px;">
                                   <asp:GridView ID="GrdVwRecords" runat="server"   SkinID="GrdVwMaster" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging">
                                       <Columns>
                                           <asp:TemplateField HeaderText="Name">
@@ -129,7 +129,7 @@
                                           </asp:TemplateField>
                                           <asp:TemplateField HeaderText="Marks">
                                               <ItemTemplate>
-                                                  <asp:Label ID="LblMarks" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Marks") %>' Width="100px"></asp:Label>
+                                                  <asp:Label ID="LblMarks" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("MaxMark") %>' Width="100px"></asp:Label>
                                               </ItemTemplate>
                                           </asp:TemplateField>
                                           <asp:TemplateField HeaderText="Priority">

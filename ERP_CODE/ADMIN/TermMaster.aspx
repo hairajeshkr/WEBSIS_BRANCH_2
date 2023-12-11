@@ -4,13 +4,12 @@
 <%@ Register src="../CtrlGridList.ascx" tagname="CtrlGridList" tagprefix="uc2" %>
 <%@ Register src="../CtrlDate.ascx" tagname="CtrlDate" tagprefix="uc3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-      <script language="javascript" src="Script/InstituteGrp.js" type="text/javascript"></script>
-    <div style="height:385px; width:569px">
-      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="385px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
+      <script language="javascript" src="Script/TermMaster.js" type="text/javascript"></script>
+    <div style="height:365px; width:569px">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="365px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
               <HeaderTemplate> Academic Term
               </HeaderTemplate>
-              
                <ContentTemplate>
                    <table class="auto-style1">
                       <tr><td class="odd" style="width: 83px">
@@ -60,8 +59,6 @@
                               </table>
                                                        </td>
                       </tr>
-
-
                         <tr>
                           <td align="center" class="FooterCommand" colspan="2" valign="middle">
                               <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />
@@ -127,8 +124,6 @@
                               </div>
                           </td>
                       </tr>
-
-
 
                       <tr>
                           <td></td>

@@ -27,14 +27,6 @@ public partial class NEP_SyllabusMaster :  ClsPageEvents, IPageInterFace
                 FnGridViewBinding("S1");
                 SetInitialRow();
             }
-            DataTable dtt = (ObjCls.FnGetDataSet("select * from TblNEPSyllabus") as DataSet).Tables[0];
-            DataTable DT = (ObjCls.FnGetDataSet("select * from TblNEPSyllabusSubjects") as DataSet).Tables[0];
-            DataTable dtt1 = (ObjCls.FnGetDataSet("select * from TblNEPExamTemplate") as DataSet).Tables[0];
-            DataTable DT1 = (ObjCls.FnGetDataSet("select * from TblNEPPaperGroup") as DataSet).Tables[0];
-            DataTable DT12 = (ObjCls.FnGetDataSet("select * from TblNEPGradeMaster") as DataSet).Tables[0];
-            DataTable DT13 = (ObjCls.FnGetDataSet("SELECT * FROM TblNEPSyllabus TBL INNER JOIN TblNEPSyllabusSubjects TBLD on TBL.nId=TBLD.nNEPSyllabusID  INNER JOIN TblNEPPaperGroup TBLG on TBL.nNEPPaperGroupID=TBLG.nId INNER JOIN TblNEPExamTemplate TBLE on TBL.nNEPExamTemplateId=TBLE.nId INNER JOIN TblNEPGradeMaster TBLR on TBL.nGradeId=TBLR.nId WHERE TBL.nIsDelete=0") as DataSet).Tables[0];
-            DataTable DT2 = (ObjCls.FnGetDataSet(" SELECT * FROM VwSyllabus where CompanyId=1 AND TType='SYSM' AND BranchId=4 AND FaId=1 AND AcId=2 and Id=2") as DataSet).Tables[0];
-
         }
         catch (Exception ex)
     {
@@ -55,10 +47,9 @@ public void FnAssignProperty()
 
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
-        ObjCls.NEPPaperGroupID = 6;   //ObjCls.FnIsNumeric(CtrlGrdPaperGroup.SelectedValue.ToString());
-        ObjCls.NEPExamTempalteId = 10; // ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
-        ObjCls.GradeId = 1;//ObjCls.FnIsNumeric(CtrlGrdGrdSystem.SelectedValue.ToString());
-        //ObjCls.NEPPaperGroupID = ObjCls.FnIsNumeric(DdlAcYear.SelectedValue.ToString());
+        ObjCls.NEPPaperGroupID = ObjCls.FnIsNumeric(CtrlGrdPaperGroup.SelectedValue.ToString());
+        ObjCls.NEPExamTempalteId =  ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
+        ObjCls.GradeId = ObjCls.FnIsNumeric(CtrlGrdGrdSystem.SelectedValue.ToString());
         ObjCls.Remarks= TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
     }
@@ -143,17 +134,11 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                             ChkOptional = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkOptional");
                             TxtPriority = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPriority");
 
-                            //ObjCls.TrDate = ObjCls.FnDateTime(DateTime.Now.ToString("dd/MMM/yyyy"));
-                            //ObjCls.DueDate = ObjCls.FnDateTime(CtrlTrDate.DateText);
-
                              ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
                              ObjCls.NEPSubjectName = TxtSubject.Text.Trim();
                              ObjCls.Elective = ObjCls.FnIsNumeric(ChkElective.Checked);
                              ObjCls.Optional = ObjCls.FnIsNumeric(ChkOptional.Checked);
                              ObjCls.DisplayOrder = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
-
-                               // ObjCls.PerAmt = ObjCls.FnIsDouble(TxtPerAmt.Text);
-                            //ObjCls.Remarks = TxtRemarks.Text.Trim();
 
                             _strMsg = ObjCls.SaveRecord() as string;
 
@@ -345,22 +330,14 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
         {
             HiddenField HdnAutoId = (HiddenField)GrdVwRecords.Rows[e.RowIndex].FindControl("HdnId");
             TextBox LnkName = (TextBox)GrdVwRecords.Rows[e.RowIndex].FindControl("TxtSubject");
-            // LinkButton LnkStudentCode = (LinkButton)GrdVwRecords.Rows[e.RowIndex].FindControl("LnkStudentCode");
             Button ButtonAddpaper = (Button)GrdVwRecords.Rows[e.RowIndex].FindControl("BtnPapers");
-            //HdnId.Value = HdnAutoId.Value;
-            //LblStudentName.Text = LnkName.Text;
-            //LblStudentId.Text = LnkStudentCode.Text;
-
+            
             _strHdr = "Subject Id :- " + LnkName.Text;
-           // _strUrl = "SyllabusVsPapers.aspx?CNTRID=" + HdnAutoId.Value + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
             _strUrl = "SyllabusVsPapers.aspx?UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
-
             _strTitle = "Papers : - " + _strHdr;
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',800,550);";
             ButtonAddpaper.Attributes.Add("onClick", _strLnk);
 
-
-            //TabContainer1.ActiveTabIndex = 2;
         }
         catch (Exception ex)
         {

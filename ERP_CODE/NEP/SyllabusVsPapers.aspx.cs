@@ -10,7 +10,10 @@ using System.Data;
 public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
 {
     ClsNEPSyllabus ObjCls = new ClsNEPSyllabus();
-
+    Label LblPaper = null, LblCreditHrs = null;
+    HiddenField HdnId = null;
+    CheckBox ChkSelect = null;
+    int iCnt = 0;
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -44,7 +47,7 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.NEPPaperGroupID = 10; //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
+        ObjCls.NEPPaperGroupID = ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
     }
 
     public override void FnCancel()
@@ -97,69 +100,68 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
 
     public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
     {
-    //    try
-    //    {
-    //        switch (((Button)sender).CommandName.ToString().ToUpper())
-    //        {
-    //            case "SAVE":
-    //                switch (((Button)sender).CommandArgument.ToString().ToUpper())
-    //                {
-    //                    case "NEW":
-    //                        ObjCls.PFlag = "S1";
+        try
+        {
+            switch (((Button)sender).CommandName.ToString().ToUpper())
+            {
+                case "SAVE":
+                    switch (((Button)sender).CommandArgument.ToString().ToUpper())
+                    {
+                        case "NEW":
+                            ObjCls.PFlag = "S1";
 
-    //                        FnAssignProperty();
-    //                        for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
-    //                        {
-    //                            HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
-    //                            TxtSubject = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtSubject");
-    //                            ChkElective = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkElective");
-    //                            ChkOptional = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkOptional");
-    //                            TxtPriority = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPriority");
+                            FnAssignProperty();
+                            for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
+                            {
+                                Label LblPaper = null, LblCreditHrs = null;
+                                HiddenField HdnId = null;
+                                CheckBox ChkSelect = null;
 
-    //                            //ObjCls.TrDate = ObjCls.FnDateTime(DateTime.Now.ToString("dd/MMM/yyyy"));
-    //                            //ObjCls.DueDate = ObjCls.FnDateTime(CtrlTrDate.DateText);
+                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                                ChkSelect = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkSelect");
+                                LblPaper = (Label)GrdVwRecords.Rows[i].FindControl("LblPaper");
+                                LblCreditHrs = (Label)GrdVwRecords.Rows[i].FindControl("LblCreditHrs");
 
-    //                            ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
-    //                            ObjCls.NEPSubjectName = TxtSubject.Text.Trim();
-    //                            ObjCls.Elective = ObjCls.FnIsNumeric(ChkElective.Checked);
-    //                            ObjCls.Optional = ObjCls.FnIsNumeric(ChkOptional.Checked);
-    //                            ObjCls.DisplayOrder = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
+                                ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
+                                ObjCls.Elective = ObjCls.FnIsNumeric(ChkSelect.Checked);
+                                ObjCls.NEPPaperName = LblPaper.Text.Trim();
+                                ObjCls.NEPCreditHrs = ObjCls.FnIsNumeric(LblCreditHrs.Text.Trim());
 
-    //                            // ObjCls.PerAmt = ObjCls.FnIsDouble(TxtPerAmt.Text);
-    //                            //ObjCls.Remarks = TxtRemarks.Text.Trim();
+                                // ObjCls.PerAmt = ObjCls.FnIsDouble(TxtPerAmt.Text);
+                                //ObjCls.Remarks = TxtRemarks.Text.Trim();
 
-    //                            _strMsg = ObjCls.SaveRecord() as string;
+                                _strMsg = ObjCls.SaveRecord() as string;
 
-    //                            if (ObjCls.FnIsDouble(TxtPriority.Text) > 0)
-    //                            {
-    //                                iCnt = iCnt + 1;
-    //                            }
-    //                        }
-    //                        if (iCnt > 0)
-    //                        {
-    //                            FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Saved"));
-    //                        }
-    //                        FnCancel();
-    //                        break;
-    //                }
-    //                break;
-    //            case "FIND":
-    //                ObjCls.PFlag = "S1";
-    //                FnFindRecord();
-    //                break;
-    //            case "CLEAR":
-    //                FnCancel();
-    //                break;
-    //            case "PRINT":
-    //                FnAssignProperty();
-    //                base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-    //                break;
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-    //    }
+                                if (ObjCls.FnIsDouble(LblPaper.Text) > 0)
+                                {
+                                    iCnt = iCnt + 1;
+                                }
+                            }
+                            if (iCnt > 0)
+                            {
+                                FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Saved"));
+                            }
+                            FnCancel();
+                            break;
+                    }
+                    break;
+                case "FIND":
+                    ObjCls.PFlag = "S1";
+                    FnFindRecord();
+                    break;
+                case "CLEAR":
+                    FnCancel();
+                    break;
+                case "PRINT":
+                    FnAssignProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
     }
 
     

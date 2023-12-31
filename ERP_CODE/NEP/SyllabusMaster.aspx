@@ -138,8 +138,6 @@
                 <ContentTemplate>
                     <table class="auto-style1">
                         <tr>
-                            
-                          
                             <td class="odd">
                                 <table class="auto-style1">
                                     <tr>
@@ -177,7 +175,6 @@
                                             <asp:TemplateField HeaderText="Code">
                                                 <ItemTemplate>
                                                     <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Code") %>' Width="100px"></asp:Label>
-                                                    
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Paper Group Name">
@@ -188,7 +185,6 @@
                                             <asp:TemplateField HeaderText="Template">
                                                 <ItemTemplate>
                                                    <asp:Label ID="LblTemplate" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("NEPExamTemplateName") %>' Width="100px"></asp:Label>
-                                                    
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                              <asp:TemplateField HeaderText="Ac.year">
@@ -199,7 +195,6 @@
                                             <asp:TemplateField HeaderText="Grading System">
                                                 <ItemTemplate>
                                                     <asp:Label ID="LblGradeing" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("NEPGradingName") %>' Width="100px"></asp:Label>
-                                                    
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             

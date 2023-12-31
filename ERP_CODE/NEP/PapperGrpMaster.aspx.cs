@@ -33,10 +33,7 @@ public partial class NEP_PapperGrpMaster : ClsPageEvents, IPageInterFace
                 FnGridViewBinding("S1");
                 SetInitialRow();
             }
-            DataTable dtt = (ObjCls.FnGetDataSet("select * from TblNEPPaperGroup") as DataSet).Tables[0];
-            DataTable DT = (ObjCls.FnGetDataSet("select * from TblNEPReportColumns") as DataSet).Tables[0];
-            DataTable DT2 = (ObjCls.FnGetDataSet(" SELECT * FROM VwPaperGroup where CompanyId=1 AND TType='PPRGRP' AND BranchId=4 AND FaId=1 AND AcId=2 and Id=5") as DataSet).Tables[0];
-
+            
           
         }
         catch (Exception ex)

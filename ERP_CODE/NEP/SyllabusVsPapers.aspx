@@ -10,9 +10,7 @@
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
                     Paper Selection
-                
                 </HeaderTemplate>
-
                 <ContentTemplate>
                     <table class="auto-style1">
                         <tr class="result-head">
@@ -22,9 +20,7 @@
                             </td>
                             <td class="odd">
                                 <asp:TextBox ID="TxtFilterPaper" runat="server" placeholder="Filter Paper"></asp:TextBox>
-
                             </td>
-
                             <td class="odd"></td>
                             <td class="odd">&nbsp;</td>
                             <td class="odd">
@@ -63,7 +59,7 @@
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Credit Hrs">
                                                             <ItemTemplate>
-                                                                <asp:Label ID="LblName" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("StudentName") %>' Width="100px"></asp:Label>
+                                                                <asp:Label ID="LblCreditHrs" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("StudentName") %>' Width="100px"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                     </Columns>

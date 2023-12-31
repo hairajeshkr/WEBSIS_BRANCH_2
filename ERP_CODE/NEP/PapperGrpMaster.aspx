@@ -20,7 +20,6 @@
                 <ContentTemplate>
                     <table class="auto-style1">
                         <tr>
-
                             <td class="auto-style5" style="width: 71px;">
                                 <asp:Label ID="Label15" runat="server" Text="Name" Width="174px"></asp:Label>
                             </td>
@@ -74,9 +73,7 @@
                                                         <ItemTemplate>
                                                             <asp:TextBox ID="TxtReportColumn" runat="server" Width="190px"></asp:TextBox>
                                                             <asp:HiddenField ID="HdnNId" runat="server" Value='<%# Eval("ID") %>' />
-                                                            <%--<asp:Label ID="LblFeeMaste" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("FeeMaster") %>' Width="300px"></asp:Label>
-                                                     <asp:HiddenField ID="HdnId" runat="server" Value='<%# Eval("Id") %>'></asp:HiddenField>
-                                                    <asp:HiddenField ID="HdnFeeMstId" runat="server" Value='<%# Eval("FeeMasterId") %>'></asp:HiddenField>--%>
+                                                          
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Abbreviation">
@@ -187,10 +184,6 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
-
-                                            <%--<asp:BoundField DataField="Remarks" HeaderText="Remarks">
-                                          <ItemStyle Width="200px" />
-                                          </asp:BoundField>--%>
                                             <asp:CheckBoxField DataField="Active" HeaderText="Active" />
                                         </Columns>
                                     </asp:GridView>

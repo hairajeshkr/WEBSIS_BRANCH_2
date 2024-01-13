@@ -52,7 +52,7 @@
                         <tr>
                             <td colspan="2">
                                 <div class="result-list" style="overflow: scroll; height: 290px; width: 1050px;">
-                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMaster" ShowFooter="True">
+                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMaster" ShowFooter="True" Width="1000px">
                                         <Columns>
                                             <asp:TemplateField HeaderText="Grade">
                                                 <ItemTemplate>
@@ -65,22 +65,22 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Remarks">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TxtRemark" runat="server" Width="150px" ></asp:TextBox>
+                                                    <asp:TextBox ID="TxtRemark" runat="server" Width="147px" ></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Range From">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TxtRangeFrom" runat="server" Width="150px"></asp:TextBox>
+                                                    <asp:TextBox ID="TxtRangeFrom" runat="server" Width="147px"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Range To">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TxtRangeTo" runat="server" Width="150px"></asp:TextBox>
+                                                    <asp:TextBox ID="TxtRangeTo" runat="server" Width="147px"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Grade Point">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TxtGradepoint" runat="server" Width="150px"></asp:TextBox>
+                                                    <asp:TextBox ID="TxtGradepoint" runat="server" Width="147px"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Failed">
@@ -90,7 +90,7 @@
                                             </asp:TemplateField>
                                              <asp:TemplateField HeaderText="Order">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TxtOrder" runat="server" Width="150px"></asp:TextBox>
+                                                    <asp:TextBox ID="TxtOrder" runat="server" Width="147px"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField>
@@ -138,8 +138,8 @@
                       </tr>
                       <tr>
                           <td colspan="5">
-                              <div class="result-list" style="overflow: scroll; height: 450px; width: 1050px;">
-                                  <asp:GridView ID="GrdVwSummary" runat="server"  SkinID="GrdVwMaster" Width="1050px"  OnSelectedIndexChanging="GrdVwSummary_SelectedIndexChanging">
+                              <div class="result-list" style="overflow: scroll; height: 450px; width: 1030px;">
+                                  <asp:GridView ID="GrdVwSummary" runat="server"  SkinID="GrdVwMaster" Width="1000px"  OnSelectedIndexChanging="GrdVwSummary_SelectedIndexChanging">
                                       <Columns>
                                           <asp:TemplateField HeaderText="Grade Name">
                                               <ItemTemplate>

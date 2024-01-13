@@ -164,15 +164,11 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                             FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Saved"));
                         }
                         FnCancel();
+                            FnGridViewBinding("S1");
                         break;
                 }
                 break;
             case "FIND":
-                    DataTable dtt = (ObjCls.FnGetDataSet("select * from TblNEPExamTemplate") as DataSet).Tables[0];
-                    DataTable dt = (ObjCls.FnGetDataSet("select * from TblNEPExamTemplateDetails") as DataSet).Tables[0];
-                    // DataTable dts = (ObjCls.FnGetDataSet("select * from VwExamTemplate") as DataSet).Tables[0];
-                    // DataTable dts = (ObjCls.FnGetDataSet("SELECT *	FROM TblNEPExamTemplate TBL INNER JOIN TblNEPExamTemplateDetails TBLD on TBL.nId = TBLD.nNEPExamTemplateID INNER JOIN TblNEPPaperGroup TBLG on TBL.nNEPPaperGroupID = TBLG.nId WHERE TBL.nIsDelete = 0") as DataSet).Tables[0];
-                    DataTable dts = (ObjCls.FnGetDataSet("SELECT *	FROM TblNEPExamTemplate TBL INNER JOIN TblNEPExamTemplateDetails TBLD on TBL.nId = TBLD.nNEPExamTemplateID WHERE TBL.nIsDelete = 0") as DataSet).Tables[0];
                     ObjCls.cFlag = "S1";
                     FnFindRecord();
                 break;
@@ -335,19 +331,10 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                 TxtPercentage.Text = DT.Rows[i]["Percentage"].ToString();
                 TxtPriority.Text = DT.Rows[i]["DisplayOrder"].ToString();
 
-                //TxtSubExamName.Text=ObjCls.SubExamName;
-                //HdnId.Value = ObjCls.FnIsNumeric(ObjCls.ID).ToString();
-                //DdlRptColumn.SelectedValue= ObjCls.FnIsNumeric(ObjCls.NEPRptColumnID).ToString();
-                //TxtMaxMark.Text= ObjCls.FnIsNumeric(ObjCls.MaxMark).ToString();
-                //TxtPercentage.Text= ObjCls.FnIsNumeric(ObjCls.Percentage).ToString();
-                //TxtPriority.Text = ObjCls.FnIsNumeric(ObjCls.DisplayOrder).ToString();
             }
             
-            //ChkApprove.Checked = ObjCls.IsApprove;
+            
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
-
-            //CtrlCommand1.SaveText = "Update";
-            //CtrlCommand1.SaveCommandArgument = "UPDATE";
 
             TabContainer1.ActiveTabIndex = 0;
 

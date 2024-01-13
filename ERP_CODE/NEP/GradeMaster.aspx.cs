@@ -161,15 +161,11 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                                 FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Saved"));
                             }
                             FnCancel();
+                            FnGridViewBinding("S1");
                             break;
                     }
                     break;
                 case "FIND":
-                    DataTable dtt = (ObjCls.FnGetDataSet("select * from TblNEPGradeMaster") as DataSet).Tables[0];
-                    DataTable dt = (ObjCls.FnGetDataSet("select * from TblNEPGradeDetails") as DataSet).Tables[0];
-                    DataTable dts = (ObjCls.FnGetDataSet("select * from VwGradeMaster") as DataSet).Tables[0];
-                    // DataTable dts = (ObjCls.FnGetDataSet("SELECT *	FROM TblNEPExamTemplate TBL INNER JOIN TblNEPExamTemplateDetails TBLD on TBL.nId = TBLD.nNEPExamTemplateID INNER JOIN TblNEPPaperGroup TBLG on TBL.nNEPPaperGroupID = TBLG.nId WHERE TBL.nIsDelete = 0") as DataSet).Tables[0];
-                    //DataTable dts = (ObjCls.FnGetDataSet("SELECT *	FROM TblNEPExamTemplate TBL INNER JOIN TblNEPExamTemplateDetails TBLD on TBL.nId = TBLD.nNEPExamTemplateID WHERE TBL.nIsDelete = 0") as DataSet).Tables[0];
                     ObjCls.cFlag = "S1";
                     FnFindRecord();
                     break;
@@ -200,7 +196,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
         dt.Columns.Add(new DataColumn("Range From", typeof(Int32)));
         dt.Columns.Add(new DataColumn("Range To", typeof(Int32)));
         dt.Columns.Add(new DataColumn("Grade Point", typeof(Int32)));
-        dt.Columns.Add(new DataColumn("Failed", typeof(Int32)));
+        dt.Columns.Add(new DataColumn("Failed", typeof(Boolean)));
         dt.Columns.Add(new DataColumn("Order", typeof(Int32)));
         dr = dt.NewRow();
         dr["ID"] = 1;
@@ -209,7 +205,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
         dr["Range from"] = 0;
         dr["Range To"] = 0;
         dr["Grade Point"] = 0;
-        dr["Failed"] = 0;
+        dr["Failed"] = false;
         dr["Order"] = 0;
         // dr["ChkExpire"] = false;
         dt.Rows.Add(dr);
@@ -236,8 +232,8 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                     TextBox box3 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[3].FindControl("TxtRangeFrom");
                     TextBox box4 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[4].FindControl("TxtRangeTo");
                     TextBox box5 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[5].FindControl("TxtGradepoint");
-                    CheckBox box6 = (CheckBox)GrdVwRecords.Rows[rowIndex].Cells[4].FindControl("ChkFailed");
-                    TextBox box7 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[5].FindControl("TxtOrder");
+                    CheckBox box6 = (CheckBox)GrdVwRecords.Rows[rowIndex].Cells[6].FindControl("ChkFailed");
+                    TextBox box7 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[7].FindControl("TxtOrder");
 
                     drCurrentRow = dtCurrentTable.NewRow();
                     //drCurrentRow["RowNumber"] = i + 1;
@@ -246,7 +242,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                     dtCurrentTable.Rows[i - 1]["Range from"] = ObjCls.FnIsNumeric(box3.Text);
                     dtCurrentTable.Rows[i - 1]["Range To"] = ObjCls.FnIsNumeric( box4.Text);
                     dtCurrentTable.Rows[i - 1]["Grade Point"] = ObjCls.FnIsNumeric( box5.Text);
-                    dtCurrentTable.Rows[i - 1]["Failed"] =  ObjCls.FnIsNumeric( box6.Text);
+                    dtCurrentTable.Rows[i - 1]["Failed"] =  ObjCls.FnIsBoolean( box6.Checked);
                     dtCurrentTable.Rows[i - 1]["Order"] = ObjCls.FnIsNumeric(box7.Text);
                     //dtCurrentTable.Rows[i - 1]["ChkExpire"] = box8.Checked;
                     rowIndex++;
@@ -282,8 +278,8 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                     TextBox box3 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[3].FindControl("TxtRangeFrom");
                     TextBox box4 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[4].FindControl("TxtRangeTo");
                     TextBox box5 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[5].FindControl("TxtGradepoint");
-                    CheckBox box6 = (CheckBox)GrdVwRecords.Rows[rowIndex].Cells[4].FindControl("ChkFailed");
-                    TextBox box7 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[5].FindControl("TxtOrder");
+                    CheckBox box6 = (CheckBox)GrdVwRecords.Rows[rowIndex].Cells[6].FindControl("ChkFailed");
+                    TextBox box7 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[7].FindControl("TxtOrder");
 
 
 
@@ -292,7 +288,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                     box3.Text = ObjCls.FnIsNumeric(dt.Rows[i]["Range from"]).ToString();
                     box4.Text = ObjCls.FnIsNumeric(dt.Rows[i]["Range To"]).ToString();
                     box5.Text = ObjCls.FnIsNumeric(dt.Rows[i]["Grade Point"]).ToString();
-                    box6.Text = ObjCls.FnIsNumeric(dt.Rows[i]["Failed"]).ToString();
+                    box6.Checked =  ObjCls.FnIsBoolean(dt.Rows[i]["Failed"].ToString());
                     box7.Text = ObjCls.FnIsNumeric(dt.Rows[i]["Order"]).ToString();
                     rowIndex++;
                 }

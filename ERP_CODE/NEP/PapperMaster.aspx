@@ -114,7 +114,7 @@
                             </tr>
                             <tr>
                                 <td colspan="5">
-                                    <div class="result-list" style="overflow: scroll; height: 300px; width: 529px;">
+                                    <div class="result-list" style="overflow: scroll; height: 280px; width: 529px;">
                                         <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMaster" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Name">
@@ -139,7 +139,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Paper Group">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="LblPaperGrp" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Abbreviation") %>' Width="150px"></asp:Label>
+                                                        <asp:Label ID="LblPaperGrp" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("PaperGroupName") %>' Width="150px"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 

@@ -149,7 +149,7 @@
                         </tr>
                         <tr>
                             <td class="odd">
-                                <div class="result-list" style="overflow: scroll; height: 450px; width: 1000px">
+                                <div class="result-list" style="overflow: scroll; height: 450px; width: 1030px">
                                     <asp:GridView ID="GrdVwLst" runat="server" SkinID="GrdVwMasterNoPageing" Width="1000px" OnSelectedIndexChanging="GrdVwLst_SelectedIndexChanging">
                                         <Columns>
                                             <asp:BoundField />

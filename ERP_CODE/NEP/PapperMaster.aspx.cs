@@ -137,12 +137,6 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                 break;
             case "FIND":
                 FnFindRecord();
-                    DataTable dt = (ObjCls.FnGetDataSet("select * from TblNEPPapers") as DataSet).Tables[0];
-                    DataTable dts = (ObjCls.FnGetDataSet("select * from VwPaperMaster") as DataSet).Tables[0];
-                    //FnAssignProperty();
-                    //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                    //FnGridViewBinding("");
-                    //System.Threading.Thread.Sleep(1000000);
                     break;
             case "HELP":
                 ObjCls.FnAlertMessage(" You Have No permission To Help Record");

@@ -48,6 +48,7 @@ public partial class NEP_PapperGrpMaster : ClsPageEvents, IPageInterFace
         ObjCls = new ClsNEPPaperGroup(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         TabContainer1.ActiveTabIndex = 0;
+        //FnGridViewBinding("");
         
     }
     public void FnAssignProperty()
@@ -152,7 +153,6 @@ public partial class NEP_PapperGrpMaster : ClsPageEvents, IPageInterFace
                                 ObjCls.Percentage = ObjCls.FnIsNumeric(TxtPercentage.Text.Trim());
                                 ObjCls.DisplayOrder = ObjCls.FnIsNumeric(TxtOrder.Text.Trim());
 
-
                                 _strMsg = ObjCls.SaveRecord() as string;
 
                                 if (ObjCls.FnIsDouble(TxtWeightage.Text) > 0 || ObjCls.FnIsDouble(TxtMaxMark.Text) > 0)
@@ -166,6 +166,8 @@ public partial class NEP_PapperGrpMaster : ClsPageEvents, IPageInterFace
                             }
 
                             FnCancel();
+                            FnGridViewBinding("S1");
+
                             break;
                     }
                     break;
@@ -216,9 +218,10 @@ public partial class NEP_PapperGrpMaster : ClsPageEvents, IPageInterFace
                 TxtWeightage = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtWeightage");
                 TxtPercentage = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPercentage");
                 TxtOrder = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtOrder");
+                
                 TxtReportColumn.Text = dataTable1.Rows[i]["RptColumnName"].ToString();
                 TxtAbbreviation.Text = dataTable1.Rows[i]["RptAbbreviation"].ToString();
-               DdlInputType.SelectedValue = dataTable1.Rows[i]["InputType"].ToString();
+                DdlInputType.SelectedValue = dataTable1.Rows[i]["InputType"].ToString();
                 TxtMaxMark.Text = dataTable1.Rows[i]["MaxMark"].ToString();
                 TxtWeightage.Text = dataTable1.Rows[i]["Weightage"].ToString();
                 TxtPercentage.Text = dataTable1.Rows[i]["Percentage"].ToString();
@@ -335,7 +338,6 @@ public partial class NEP_PapperGrpMaster : ClsPageEvents, IPageInterFace
                     TextBox box6 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[6].FindControl("TxtPercentage");
                     TextBox box7 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[7].FindControl("TxtOrder");
                     CheckBox box8 = (CheckBox)GrdVwRecords.Rows[rowIndex].Cells[8].FindControl("ChkExpire");
-
 
                     box1.Text = dt.Rows[i]["TxtReportColumn"].ToString();
                     box2.Text = dt.Rows[i]["TxtAbbreviation"].ToString();

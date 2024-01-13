@@ -8,11 +8,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
   
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                                    <ContentTemplate>
-
+     <ContentTemplate>
     <script language="javascript" src="Script/FeeAssign.js" type="text/javascript"></script>
     <div style="height: 550px; width: 1080px">
-        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="540px" Width="1080px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
+        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="540px" Width="1080px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
                     Paper Group Master
@@ -53,7 +52,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="auto-style5" style="width: 71px">&nbsp;</td>
+                            <td class="auto-style5" style="width: 71px">
+                                
+                            </td>
                             <td class="odd">
                                 <asp:CheckBox ID="ChkIsScholastic" runat="server" Text="IsScholastic" />
                                 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -170,7 +171,7 @@
                         <tr>
                             <td colspan="5">
                                 <div class="result-list" style="overflow: scroll; height: 450px; width: 1050px;">
-                                    <asp:GridView ID="GrdVwSummary" runat="server" SkinID="GrdVwMaster" Width="1050px" OnSelectedIndexChanging="GrdVwSummary_SelectedIndexChanging">
+                                    <asp:GridView ID="GrdVwSummary" runat="server" SkinID="GrdVwMaster" Width="1000px" OnSelectedIndexChanging="GrdVwSummary_SelectedIndexChanging">
                                         <Columns>
                                             <asp:TemplateField HeaderText="Paper Group Name">
                                                 <ItemTemplate>

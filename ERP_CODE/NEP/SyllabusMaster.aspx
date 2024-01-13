@@ -32,7 +32,6 @@
                                             <asp:TextBox ID="TxtCode" runat="server"></asp:TextBox>
                                         </td>
                                     </tr>
-                                   
                                     <tr>
                                         <td class="odd">
                                             <asp:Label ID="Label15" runat="server" Text="Paper Group" Width="100px"></asp:Label>
@@ -74,8 +73,7 @@
                                          <td class="odd">
                                              <asp:CheckBox ID="ChkActive" runat="server" Checked="True" Font-Bold="False" SkinID="IsActive" Text="Active" Width="92px" />
                                         </td>
-                                        <td class="odd">
-                                            &nbsp;</td>
+                                        
                                     </tr>
                                  </table>
                             </td>
@@ -83,12 +81,12 @@
                         <tr>
                             <td class="odd">
                                 <div class="result-list" style="overflow: scroll;height:280px; width:1030px">
-                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="1030px" ShowFooter="True" OnRowDeleting="GrdVwRecords_RowDeleting">
+                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="1000px" ShowFooter="True"  >
                                         <Columns>
                                             <asp:BoundField />
                                             <asp:TemplateField HeaderText="Subject">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TxtSubject" runat="server" placeholder="subject"></asp:TextBox>
+                                                    <asp:TextBox ID="TxtSubject" runat="server" placeholder="subject" Width="200px"></asp:TextBox>
                                                     <asp:HiddenField ID="HdnId" runat="server" Value='<%# Eval("Id") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
@@ -100,11 +98,6 @@
                                             <asp:TemplateField HeaderText="Optional">
                                                 <ItemTemplate>
                                                    <asp:CheckBox ID="ChkOptional" runat="server" />
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Papers">
-                                                <ItemTemplate>
-                                                    <asp:Button ID="BtnPapers" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="..."  Width="100px"></asp:Button>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                              <asp:TemplateField HeaderText="Order">
@@ -124,13 +117,55 @@
                             </td>
                         </tr>
                         <tr >
-                            <td align="center" valign="middle" colspan="2">
-                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleDelete="False" IsVisiblePrint="True" />
+                            <td align="center" valign="middle">
+                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleDelete="False" IsVisiblePrint="True" SaveText="Continue" />
                             </td>
                         </tr>
                     </table>
                 </ContentTemplate>
             </ajaxToolkit:TabPanel>
+
+            <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel4">
+                <HeaderTemplate>
+                    Subject-Paper Allocation
+                </HeaderTemplate>
+                <ContentTemplate>
+                    <table class="auto-style1">
+                        <tr>
+                            <td class="odd">
+                                <div class="result-list" style="overflow: scroll; height: 450px; width: 1030px">
+                                    <asp:GridView ID="GrdVwPapers" runat="server" SkinID="GrdVwMasterNoPageing" Width="1000px" ShowFooter="True" OnRowDeleting="GrdVwPapers_RowDeleting">
+                                        <Columns>
+                                            <asp:BoundField />
+                                            <asp:TemplateField HeaderText="Subject">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblSubject" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("SubjectName") %>'></asp:Label>
+                                                    <asp:HiddenField ID="HdnIds" runat="server" Value='<%# Eval("Id") %>' />
+                                                    <asp:HiddenField ID="HdnSubjId" runat="server" Value='<%# Eval("SubjectId") %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Display Order">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblDisplayOrder" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("DisplayOrder") %>' ></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Papers">
+                                                <ItemTemplate>
+                                                    <asp:Button ID="BtnPapers" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="..." Width="100px" ></asp:Button>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                        </Columns>
+                                    </asp:GridView>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </ContentTemplate>
+            </ajaxToolkit:TabPanel>
+
+
+
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel2">
                 <HeaderTemplate>
                     Syllabus List
@@ -162,7 +197,7 @@
                         </tr>
                         <tr>
                             <td class="odd">
-                                <div class="result-list" style="overflow: scroll;height:420px; width:1000px">
+                                <div class="result-list" style="overflow: scroll;height:420px; width:1030px">
                                     <asp:GridView ID="GrdVwLst" runat="server" SkinID="GrdVwMasterNoPageing" OnSelectedIndexChanging="GrdVwLst_SelectedIndexChanging" Width="1000px" >
                                         <Columns>
                                             <asp:BoundField />

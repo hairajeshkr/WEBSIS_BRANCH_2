@@ -14,7 +14,7 @@ public partial class NEP_ExamTemplate :ClsPageEvents, IPageInterFace
     TextBox TxtSubExamName = null, TxtMaxMark = null, TxtPercentage = null, TxtPriority=null;
     HiddenField HdnStudentId = null, HdnId = null;
     DropDownList DdlRptColumn = null;
-    int iCnt = 0;
+    int iCnt = 0,cCnt=0;
 protected override void Page_Load(object sender, EventArgs e)
 {
     try
@@ -166,15 +166,58 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                         FnCancel();
                             FnGridViewBinding("S1");
                         break;
+                        case "UPDATE":
+                            ObjCls.cFlag = "SS";
+                            FnAssignProperty();
+                            for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
+                            {
+                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                                TxtSubExamName = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtSubExamName");
+                                DdlRptColumn = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlRptColumn");
+                                TxtMaxMark = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtMaxMark");
+
+                                TxtPercentage = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPercentage");
+                                TxtPriority = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPriority");
+
+                                ObjCls.SubExamName = TxtSubExamName.Text.Trim();
+                                ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
+                                ObjCls.NEPRptColumnID = ObjCls.FnIsNumeric(DdlRptColumn.SelectedValue);
+                                ObjCls.MaxMark = ObjCls.FnIsNumeric(TxtMaxMark.Text.Trim());
+                                ObjCls.Percentage = ObjCls.FnIsNumeric(TxtPercentage.Text.Trim());
+                                ObjCls.DisplayOrder = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
+
+                                cCnt = cCnt + 1;
+                                ObjCls.nFlag = cCnt;
+                                _strMsg = ObjCls.UpdateRecord() as string;
+
+
+                                if (ObjCls.FnIsDouble(TxtPriority.Text) > 0 || ObjCls.FnIsDouble(TxtMaxMark.Text) > 0)
+                                {
+                                    iCnt = iCnt + 1;
+                                    
+                                }
+                            }
+                            if (iCnt > 0)
+                            {
+                                FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records updated successfully"));
+                            }
+                            FnCancel();
+                            FnGridViewBinding("S1");
+
+                            break;
                 }
                 break;
             case "FIND":
+                    DataTable dtt = (ObjCls.FnGetDataSet("select * from TblNEPExamTemplate") as DataSet).Tables[0];
+                    DataTable DTS = (ObjCls.FnGetDataSet("select * from TblNEPExamTemplateDetails") as DataSet).Tables[0];
+
                     ObjCls.cFlag = "S1";
                     FnFindRecord();
                 break;
             case "CLEAR":
                 FnCancel();
-                break;
+                    FnGridViewBinding("S1");
+                    break;
             case "PRINT":
                 FnAssignProperty();
                 base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
@@ -332,9 +375,13 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                 TxtPriority.Text = DT.Rows[i]["DisplayOrder"].ToString();
 
             }
-            
-            
+
+
+            //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
+
+            CtrlCommand1.SaveText = "Update";
+            CtrlCommand1.SaveCommandArgument = "UPDATE";
 
             TabContainer1.ActiveTabIndex = 0;
 

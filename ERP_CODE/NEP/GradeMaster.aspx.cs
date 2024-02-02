@@ -14,7 +14,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
     CheckBox Chkfailed, ChkFailed;
 
     HiddenField HdnStudentId = null, HdnId = null; 
-    int iCnt = 0;
+    int iCnt = 0,cCnt=0;
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -154,6 +154,48 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                                 if (ObjCls.FnIsDouble(TxtRangeFrom.Text) > 0 || ObjCls.FnIsDouble(TxtRangeTo.Text) > 0)
                                 {
                                     iCnt = iCnt + 1;
+                                    ObjCls.nFlag = iCnt;
+                                }
+                            }
+                            if (iCnt > 0)
+                            {
+                                FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Saved"));
+                            }
+                            FnCancel();
+                            FnGridViewBinding("S1");
+                            break;
+                        case "UPDATE":
+                            
+                            FnAssignProperty();
+                            for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
+                            {
+                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                                TxtGrade = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtGrade");
+                                TxtRemark = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtRemark");
+
+                                TxtRangeFrom = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtRangeFrom");
+                                TxtRangeTo = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtRangeTo");
+                                TxtGradepoint = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtGradepoint");
+                                Chkfailed = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkFailed");
+                                TxtOrder = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtOrder");
+
+                                ObjCls.NEPGrade = TxtGrade.Text.Trim();
+                                ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
+                                ObjCls.NEPRemarks = TxtRemark.Text.Trim();
+                                ObjCls.NEPRangeFrom = ObjCls.FnIsNumeric(TxtRangeFrom.Text.Trim());
+                                ObjCls.NEPRangeTo = ObjCls.FnIsNumeric(TxtRangeTo.Text.Trim());
+                                ObjCls.NEPGradePoint = ObjCls.FnIsNumeric(TxtGradepoint.Text.Trim());
+                                ObjCls.DisplayOrder = ObjCls.FnIsNumeric(TxtOrder.Text.Trim());
+                                ObjCls.Failed = ObjCls.FnIsNumeric(Chkfailed.Checked == true ? true : false);
+
+                                cCnt = cCnt + 1;
+                                ObjCls.nFlag = cCnt;
+                                _strMsg = ObjCls.UpdateRecord() as string;
+
+
+                                if (ObjCls.FnIsDouble(TxtRangeFrom.Text) > 0 || ObjCls.FnIsDouble(TxtRangeTo.Text) > 0)
+                                {
+                                    iCnt = iCnt + 1;
                                 }
                             }
                             if (iCnt > 0)
@@ -171,6 +213,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                     break;
                 case "CLEAR":
                     FnCancel();
+                    FnGridViewBinding("S1");
                     break;
                 case "PRINT":
                     FnAssignProperty();
@@ -349,8 +392,8 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
             //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
-            //CtrlCommand1.SaveText = "Update";
-            //CtrlCommand1.SaveCommandArgument = "UPDATE";
+            CtrlCommand1.SaveText = "Update";
+            CtrlCommand1.SaveCommandArgument = "UPDATE";
 
             TabContainer1.ActiveTabIndex = 0;
 

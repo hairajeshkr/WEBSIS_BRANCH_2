@@ -13,7 +13,7 @@
                     Grade Master
                 </HeaderTemplate>
                 <ContentTemplate>
-                    <table class="auto-style1">
+                    <table class="auto-style1"> 
                         <tr>
                             
                             <td class="auto-style5" style="width: 71px;">

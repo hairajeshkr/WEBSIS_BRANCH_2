@@ -16,7 +16,7 @@
                 </HeaderTemplate>
 
                 <ContentTemplate>
-                    <table class="auto-style1">
+                    <table class="auto-style1"> 
 
                         <tr>
                             <td class="odd" style="width: 90px; height: 30px">

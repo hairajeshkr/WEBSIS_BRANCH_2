@@ -1,191 +1,169 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="MarkAsgnStudent.aspx.cs" Inherits="STUDENT_MarkAsgnStudent" StylesheetTheme="SkinFile" %>
 
-
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Src="../CtrlCommand.ascx" TagName="CtrlCommand" TagPrefix="uc1" %>
 <%@ Register Src="../CtrlGridList.ascx" TagName="CtrlGridList" TagPrefix="uc2" %>
 <%@ Register Src="../CtrlDate.ascx" TagName="CtrlDate" TagPrefix="uc3" %>
+<%@ Register Src="~/CtrlGridList.ascx" TagPrefix="uc1" TagName="CtrlGridList" %>
+
 <%--<%@ Register Src="../CtrlGridList.ascx" TagName="CtrlGridList" TagPrefix="uc1" %>--%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-   <div style="height: 535px; width: 1180px">
-        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="540px" Width="1180px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
+    <div style="height: 535px; width: 1180px">
+        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="545px" Width="1180px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
                     Student Mark Entry        
-               </HeaderTemplate>                
-             <ContentTemplate>
+                </HeaderTemplate>
+                <ContentTemplate>
                     <table class="auto-style1">
                         <tr>
-                            <td>
-                                <asp:Label ID="Label1" runat="server" Text="Staff Name"></asp:Label>
-
+                            <td class="odd" style="width: 113px">
+                                <asp:Label ID="Label1" runat="server" Text="Teacher"></asp:Label>
                             </td>
-                            <td>
-                                <asp:Label ID="Label2" runat="server" Text="Class"></asp:Label>
-                            </td>
-                            <td>
-                                <asp:Label ID="Label3" runat="server" Text="Division"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <uc2:CtrlGridList ID="CtrlGrdStaffName" runat="server" AccountType="CategoryList" />
-                            </td>
-                            <td>
-                                <uc2:CtrlGridList ID="CtrlGrdClass" runat="server" AccountType="ClassList" />
-                            </td>
-                            <td>
-                                <uc2:CtrlGridList ID="CtrlGrdDivision" runat="server"  AccountType="DivisionList"/>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:Label ID="Label4" runat="server" Text="Subject"></asp:Label>
-
-                            </td>
-                            <td>
-                                <asp:Label ID="Label5" runat="server" Text="Term"></asp:Label>
-
-                            </td>
-                            <td>
-                                <asp:Label ID="Label6" runat="server" Text="Exam"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <uc2:CtrlGridList ID="CtrlGrdSubject" runat="server"  AccountType="CoScholasticMainSubject" />
-
-                            </td>
-                            <td>
-                                <uc2:CtrlGridList ID="CtrlGrdSelectTerm" runat="server" AccountType="TermMaster" />
-
-                            </td>
-                            <td>
-                                <uc2:CtrlGridList ID="CtrlGrdExam" runat="server" AccountType="ExamMaster" />
-                            </td>
-                        </tr>
-                         <tr>
-                            <td>
-                                <asp:Label ID="Label7" runat="server" Text="Sub Exam"></asp:Label>
-                             </td>
-                             <td>
-                                 <asp:Label ID="Label8" runat="server" Text="Entry Type"></asp:Label>
-                             </td>
-                             <td>
-                                 <asp:Label ID="Label9" runat="server" Text="Grading system"></asp:Label>
-                             </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <uc2:CtrlGridList ID="CtrlGrdSubExam" runat="server" AccountType="ExamSubMaster" />
-                            </td>
-                            <td>
-                                <asp:DropDownList ID="DdlEntryType" runat="server" SkinID="DdlEntryType" Width="300px" >
+                            <td class="odd">
+                                <asp:DropDownList ID="DdlTeacher" runat="server" Width="300px" OnSelectedIndexChanged="DdlTeacher_SelectedIndexChanged" AutoPostBack="True" >
+                                    <%--<asp:ListItem Text="--select--" Value="0"></asp:ListItem>--%>
                                 </asp:DropDownList>
                             </td>
-                            <td>
-                                <asp:DropDownList ID="DdlGradingSystm" runat="server" Width="300px" SkinID="DdlGradingSystem">
+                            <td class="odd" style="width: 176px">
+                                <asp:Label ID="Label5" runat="server" Text="Paper"></asp:Label>
+                            </td>
+                            <td class="odd">
+                             <asp:DropDownList ID="DdlPaper" runat="server" AutoPostBack="True" Width="300px" OnSelectedIndexChanged="DdlPaper_SelectedIndexChanged">
+                                </asp:DropDownList>    
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="odd" style="width: 113px">
+                                <asp:Label ID="Label2" runat="server" Text="Group"></asp:Label>
+                            </td>
+                            <td class="odd">
+                                 <asp:DropDownList ID="DdlGroup" runat="server" AutoPostBack="True" Width="300px">
+                                </asp:DropDownList>
+
+                            </td>
+                            <td class="odd" style="width: 176px">
+                                <asp:Label ID="Label8" runat="server" Text="Exam"></asp:Label>
+                            </td>
+                            <td class="odd">
+                                <asp:DropDownList ID="DdlExam" runat="server" AutoPostBack="True" Width="300px" OnSelectedIndexChanged="DdlExam_SelectedIndexChanged">
                                 </asp:DropDownList>
                             </td>
                         </tr>
-                         <tr>
-                             <td>&nbsp;</td>
-                             <td>&nbsp;</td>
-                             <td>&nbsp;</td>
+                        <tr>
+                            <td class="odd" style="height: 39px; width: 113px;">
+                                <asp:Label ID="Label4" runat="server" Text="Sub Exam"></asp:Label>
+                            </td>
+                            <td class="odd" style="height: 39px">
+                                <asp:DropDownList ID="DdlSubExam" runat="server" AutoPostBack="True" Width="300px" >
+                                    <%--<asp:ListItem Text="---select---" Value="0"></asp:ListItem>
+                                    <asp:ListItem Text="Periodic test T1" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="Portfolio T1" Value="2"></asp:ListItem>--%>
+                                </asp:DropDownList>
+                            </td>
+                            <td class="odd" style="height: 39px; width: 176px;">
+                                <asp:Label ID="Label7" runat="server" Text="Exam date"></asp:Label>
+                            </td>
+                            <td class="odd" style="height: 39px">
+                                <uc3:CtrlDate ID="CtrlExamDate" runat="server" />
+                            </td>
                         </tr>
-                         <tr>
-                            <td>
+
+                        <tr>
+                            <td class="odd">
+                                <asp:Label ID="Label9" runat="server" Text="Sort By"></asp:Label>
+                            </td>
+                            <td class="odd">
+                                <asp:DropDownList ID="DdlSortBy" runat="server" Width="300px">
+                                    <asp:ListItem Text="---select---" Value="0"></asp:ListItem>
+                                    <asp:ListItem Text="Roll Number" Value="1"></asp:ListItem>
+                                </asp:DropDownList>
+                            </td>
+                            <td class="odd" style="width: 176px">
+                                <asp:CheckBox ID="ChkMarkUpdated" runat="server" Text="Mark Updated" />
+                            </td>
+                            <td class="odd">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:Button ID="BtnFind" runat="server" CommandName="FIND" OnClick="ManiPulateDataEvent_Clicked" SkinID="BtnCommandFindNew" Text="Find" Width="69px" />
                             </td>
-                             <td>&nbsp;</td>
-                             <td>&nbsp;</td>
                         </tr>
-                         <tr>
-                            <td class="odd" colspan="3">
-                                <div class="result-list" style="overflow: scroll;height:270px; width:1150px">
-                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="1100px" OnRowDataBound="GrdVwRecords_RowDataBound"  >
+
+                        <tr>
+                            <td class="odd" colspan="4">
+                                <div class="result-list" style="overflow: scroll; height: 345px; width: 1153px">
+                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="1130px" OnRowDataBound="GrdVwRecords_RowDataBound">
                                         <Columns>
                                             <asp:BoundField />
-                                            <asp:TemplateField HeaderText="student Name">
+                                            <asp:TemplateField HeaderText="Student Name">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblName" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("StudentName") %>' Width="200px"></asp:Label>
-                                                    <asp:HiddenField ID="HdnId" runat="server" Value='<%# Eval("ID") %>' />
+                                                    <asp:Label ID="LblName" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("StudentName") %>' Width="250px"></asp:Label>
+                                                    <asp:HiddenField ID="HdnRwIndex" runat="server" />
                                                     <asp:HiddenField ID="HdnStudentId" runat="server" Value='<%# Eval("StudentId") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                             <asp:TemplateField HeaderText="Adm.No.">
+                                            <asp:TemplateField HeaderText="Adm.No.">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="LblClass" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("AdmissionNo") %>' Width="200px"></asp:Label>
+                                                    <asp:Label ID="LblAdmnNo" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("AdmissionNo") %>' Width="150px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            
-                                            <asp:TemplateField HeaderText="Mark">
+                                            <asp:TemplateField HeaderText="Roll No.">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TxtMark" runat="server" Width="100px" Text='<%# Eval("ObtainedMark") %>' ></asp:TextBox>
+                                                    <asp:Label ID="LblRollNo" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("RollNo") %>' Width="90px"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Grade">
+
+                                            <asp:TemplateField HeaderText="Class">
                                                 <ItemTemplate>
-                                                  <%-- <asp:Label ID="LblGrade" runat="server" SkinID="LblGrdMaster"   Width="200px"></asp:Label>--%>
-                                                    <asp:DropDownList ID="DdlGrade" runat="server" Width="100px"  >
-                                                        <asp:ListItem Text="---select---" Value="0"></asp:ListItem>
-                                                        <asp:ListItem Text="A" Value="1"></asp:ListItem>
-                                                        <asp:ListItem Text="B" Value="2"></asp:ListItem>
-                                                        <asp:ListItem Text="C" Value="3"></asp:ListItem>
-                                                        <asp:ListItem Text="D" Value="4"></asp:ListItem>
+                                                    <asp:Label ID="LblClass" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("ClassName") %>' Width="100px"></asp:Label>
+                                                    <%--<asp:Label ID="Label3" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("ClassId") %>' Width="200px"></asp:Label>--%>
+                                                    <asp:HiddenField ID="HdnClassId" runat="server" Value='<%# Eval("ClassId") %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Division">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblDivision" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("DivisionName") %>' Width="100px"></asp:Label>
+                                                    <%--<asp:Label ID="Label6" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("DivisionId") %>' Width="200px"></asp:Label>--%>
+                                                    <asp:HiddenField ID="HdnDivId" runat="server" Value='<%# Eval("DivisionId") %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Status">
+                                                <ItemTemplate>
+                                                    <asp:DropDownList ID="DdlStatus" runat="server" Width="83px">
+                                                        <asp:ListItem Text="Present" Value="1"></asp:ListItem>
+                                                        <asp:ListItem Text="Absent" Value="2"></asp:ListItem>
+                                                        <asp:ListItem Text="NA" Value="3"></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                             
+                                            <asp:TemplateField HeaderText="Mark">
+                                                <ItemTemplate>
+                                                    <asp:TextBox ID="TxtMark" runat="server" Width="130px"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Max Mark">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LblMaxMark" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("MaxMark") %>' Width="100px"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
                                         </Columns>
-                                    </asp:GridView>
-                                    
+                                    </asp:GridView>              
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <td align="center" valign="middle" colspan="3">
-                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleDelete="False"  IsVisiblePrint="True" />
+                            <td align="center" valign="middle" colspan="4">
+                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleDelete="False" IsVisiblePrint="True" />
                             </td>
                         </tr>
                     </table>
-                <script type="text/javascript">
-                    function FnUpdateMark(PrmTxtMark, PrmLblGrade) {
-                        var TxtMark = document.getElementById(PrmTxtMark).value;
-                        alert("hello");
-                         LblGrade = document.getElementById(PrmLblGrade);
-                        alert(LblGrade);
-                        alert("function" + TxtMark);
-                        if ((TxtMark >= 91) && (TxtMark <= 100)) {
-                            LblGrade = 'A';
-                        }
-                        alert("hai");
-                        //$.ajax({
 
-                        //    type: "POST",
-                        //    contentType: "application/json; charset=utf-8",
-                        //    url: "MarkAsgnStudent.aspx/FnFillGrade",
-                        //    data: "{'nAmount':'" + TxtMark + "'}",
-                        //    dataType: "json",
-                        //    success: function (data) {
-                        //        var obj = data.d;
-                        //        if (obj == 'true') {
-                        //            $('#nAmount').val('');
-                        //            $('#lblmsg').html("Details Submitted Successfully");
-                        //            //window.location.reload();
-                        //        }
-                        //    },
-                        //    error: function (result) {
-                        //        alert("Error");
-                        //    }
-                        //});
-                    }
-                </script>
-</ContentTemplate>
-</ajaxToolkit:TabPanel>
+                </ContentTemplate>
+            </ajaxToolkit:TabPanel>
         </ajaxToolkit:TabContainer>
     </div>
 </asp:Content>
+
+
 

@@ -14,7 +14,7 @@
                     Exam Template
                 </HeaderTemplate>
                 <ContentTemplate>
-                    <table class="auto-style1">
+                    <table class="auto-style1">    
                         <tr>
 
 

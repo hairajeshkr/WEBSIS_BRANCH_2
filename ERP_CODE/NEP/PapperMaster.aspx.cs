@@ -25,7 +25,8 @@ protected override void Page_Load(object sender, EventArgs e)
     {
         FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
     }
-}
+        DataTable dtt = (ObjCls.FnGetDataSet("select * from TblNEPPapers") as DataSet).Tables[0];
+    }
 public override void FnInitializeForm()
 {
     TabContainer1.ActiveTabIndex = 0;

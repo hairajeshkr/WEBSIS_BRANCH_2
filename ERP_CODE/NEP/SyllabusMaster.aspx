@@ -81,13 +81,14 @@
                         <tr>
                             <td class="odd">
                                 <div class="result-list" style="overflow: scroll;height:280px; width:1030px">
-                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="1000px" ShowFooter="True"  >
+                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="1000px" ShowFooter="True" OnRowDeleting="GrdVwRecords_RowDeleting" >
                                         <Columns>
                                             <asp:BoundField />
                                             <asp:TemplateField HeaderText="Subject">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TxtSubject" runat="server" placeholder="subject" Width="200px"></asp:TextBox>
+                                                    <asp:TextBox ID="TxtSubject" runat="server" placeholder="subject"  Width="200px"></asp:TextBox>
                                                     <asp:HiddenField ID="HdnId" runat="server" Value='<%# Eval("Id") %>' />
+                                                     <asp:HiddenField ID="HdnSubjId" runat="server" Value='<%# Eval("SubjectId") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Elective">
@@ -102,7 +103,7 @@
                                             </asp:TemplateField>
                                              <asp:TemplateField HeaderText="Order">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TxtPriority" runat="server" placeholder="Display Order" Text='' SkinID="TxtSng170"></asp:TextBox>
+                                                    <asp:TextBox ID="TxtPriority" runat="server" placeholder="Display Order"   SkinID="TxtSng170"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField>
@@ -110,6 +111,11 @@
                                                 <FooterTemplate>
                                                     <asp:Button ID="ButtonAdd" runat="server" Text="Add+" OnClick="ButtonAdd_Click" UseSubmitBehavior="false" />
                                                 </FooterTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Papers">
+                                                <ItemTemplate>
+                                                    <asp:Button ID="BtnPapers" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="..." Width="100px" Enabled='<%# Eval("Status").ToString() == "A" ? true : false %>'  ></asp:Button>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>
@@ -151,7 +157,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Papers">
                                                 <ItemTemplate>
-                                                    <asp:Button ID="BtnPapers" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="..." Width="100px" ></asp:Button>
+                                                    <asp:Button ID="BtnPapersT" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="..." Width="100px" ></asp:Button>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -163,7 +169,6 @@
                     </table>
                 </ContentTemplate>
             </ajaxToolkit:TabPanel>
-
 
 
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel2">

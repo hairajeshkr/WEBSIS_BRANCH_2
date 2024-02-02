@@ -26,7 +26,6 @@
                                 <asp:TextBox ID="TxtName" runat="server"></asp:TextBox>
                             </td>
                         </tr>
-
                         <tr>
                             <td class="auto-style5" style="width: 71px">
                                 <asp:Label ID="Label10" runat="server" Text="Code" Width="132px"></asp:Label>

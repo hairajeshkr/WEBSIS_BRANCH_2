@@ -4,17 +4,19 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+
 using System.Data;
 public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
 {
     ClsNEPSyllabusPaper ObjCls = new ClsNEPSyllabusPaper();
-    Label LblPaper = null, LblCreditHrs = null;
-    HiddenField HdnId = null;
+    Label LblPaper = null, LblCreditHrs = null, LblPaperName=null, LblSubExam=null, LblPrintName=null, LblOrder=null, LblReport=null;
+    HiddenField HdnId = null, HdnReportCId=null,HdnSyllbId=null;
     CheckBox ChkSelect = null;
-    int iCnt = 0;
+    TextBox TxtMaxMark = null, TxtPercentage = null, TxtOrder=null;
+    int iCnt = 0,PaperId, GPaperId;
     string Sylb, ExamT;
+
+
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -26,6 +28,7 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
             if (!IsPostBack)
             {
                 ObjCls.PFlag = "S1";
+                ObjCls.SUBFlag = "D";
                 ViewState["SUBJ_ID"] = Request.QueryString["CNTRID"].ToString();
                 FnInitializeForm();
 
@@ -102,7 +105,8 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
         else
         {
         GrdVwPaper.DataSource = ViewState["DT"] as DataTable;
-        GrdVwPaper.DataKeyNames = new String[] { ObjCls.KeyName };
+            ViewState["DT1"] = ViewState["DT"] as DataTable;
+            GrdVwPaper.DataKeyNames = new String[] { ObjCls.KeyName };
         GrdVwPaper.DataBind();
         GrdVwPaper.SelectedIndex = -1;
         }
@@ -131,6 +135,7 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
                             FnAssignProperty();
                             for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
                             {
+                                ObjCls.SUBFlag = "F";
                                 ChkSelect = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkSelect");
                                 if (ChkSelect.Checked == true)
                                 {
@@ -145,6 +150,8 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
 
                                     ObjCls.NEPPaperId = ObjCls.FnIsNumeric(HdnId.Value);
                                     ObjCls.CreditHrs = ObjCls.FnIsNumeric(TxtCreditHrs.Text.Trim());
+                                    PaperId= ObjCls.FnIsNumeric(HdnId.Value);
+                                    ObjCls.SyllabusId = ObjCls.FnIsNumeric(Sylb);
                                     _strMsg = ObjCls.SaveRecord() as string;
                                }
                                 
@@ -153,6 +160,47 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
                             {
                                 FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Saved"));
                             }
+
+
+                            for (int i = 0; i <= GrdVwPaper.Rows.Count - 1; i++)
+                            {
+                                
+                                    Label LblPaper = null;
+                                    TextBox TxtCreditHrs = null;
+                                    HiddenField HdnId = null;
+                                ObjCls.SUBFlag = "S";
+
+                                LblPaperName = (Label)GrdVwPaper.Rows[i].FindControl("LblPaperName");
+
+                                LblSubExam = (Label)GrdVwPaper.Rows[i].FindControl("LblSubExam");
+                                LblPrintName = (Label)GrdVwPaper.Rows[i].FindControl("LblPrintName");
+                                LblReport = (Label)GrdVwPaper.Rows[i].FindControl("LblReport");
+                                HdnReportCId = (HiddenField)GrdVwPaper.Rows[i].FindControl("HdnReportCId");
+                                TxtMaxMark = (TextBox)GrdVwPaper.Rows[i].FindControl("TxtMaxMark");
+                                TxtPercentage = (TextBox)GrdVwPaper.Rows[i].FindControl("TxtPercentage");
+                                TxtOrder = (TextBox)GrdVwPaper.Rows[i].FindControl("TxtOrder");
+
+                                
+                                ObjCls.NEPPaperId = PaperId;
+                                ObjCls.ReportCId= ObjCls.FnIsNumeric(HdnReportCId.Value);
+                                ObjCls.LblSubExam =LblSubExam.Text;
+                                ObjCls.LblPrintName = LblPrintName.Text;
+                                ObjCls.TxtMaxMark = ObjCls.FnIsNumeric(TxtMaxMark.Text);
+                                ObjCls.TxtPercentage = ObjCls.FnIsNumeric(TxtPercentage.Text);
+                                ObjCls.TxtOrder = ObjCls.FnIsNumeric(TxtOrder.Text);
+                                ObjCls.SyllabusId = ObjCls.FnIsNumeric(Sylb);
+
+                                _strMsg = ObjCls.SaveRecord() as string;
+                                
+
+                            }
+                            if (iCnt > 0)
+                            {
+                                FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Saved"));
+                            }
+
+
+
                             FnCancel();
                             break;
                     }
@@ -208,10 +256,34 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
         }
     }
 
+    protected void OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        
+        int index = Convert.ToInt32(e.RowIndex);
+        DataTable dt = ViewState["DT1"] as DataTable;
+        dt.Rows[index].Delete();
+        ViewState["DT1"] = dt;
+        GrdVwPaper.DataSource = ViewState["DT1"] as DataTable;
+        GrdVwPaper.DataBind();
+    }
 
     protected void ChkSelect_CheckedChanged(object sender, EventArgs e)
     {
         
+        for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
+        {
+            ChkSelect = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkSelect");
+            if (ChkSelect.Checked == true)
+            {
+                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                LblPaper = (Label)GrdVwRecords.Rows[i].FindControl("LblPaper");
+                Session["ParamPaperId"] = ObjCls.FnIsNumeric(HdnId.Value);
+                GPaperId= ObjCls.FnIsNumeric(HdnId.Value);
+                ObjCls.NEPPaperId= ObjCls.FnIsNumeric(HdnId.Value);
+                ObjCls.GPaperName = LblPaper.Text;
+                ObjCls.SyllabusId = ObjCls.FnIsNumeric(Sylb);
+            }
+        }
         CtrlGrdTemplate.SelectedValue = ExamT;
         ObjCls.PFlag = "S2";
         

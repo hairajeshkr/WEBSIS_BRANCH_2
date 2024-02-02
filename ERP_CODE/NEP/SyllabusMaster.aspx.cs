@@ -11,29 +11,32 @@ public partial class NEP_SyllabusMaster :  ClsPageEvents, IPageInterFace
     ClsNEPSyllabus ObjCls = new ClsNEPSyllabus();
     ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     TextBox TxtSubject = null, TxtPriority = null;
-    HiddenField HdnStudentId = null, HdnId = null;
+    HiddenField HdnStudentId = null, HdnId = null, HdnSubjId=null;
     CheckBox ChkElective = null, ChkOptional=null;
     DropDownList DdlSubject;
-    int iCnt = 0;
+    int iCnt = 0, cCnt = 0;
     GridView GrdVwChld = null;
+    string Status;
     protected override void Page_Load(object sender, EventArgs e)
 {
     try
     {
         base.Page_Load(sender, e);
-        CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
+           
+            CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
         if (!IsPostBack)
         {
             FnInitializeForm();
                 FnGridViewBinding("");
                 FnGridViewBinding("S1");
-                FnGridViewBinding("S2");
+               FnGridViewBinding("S2");
                 SetInitialRow();
             }
 
-
-           
+            
+             
         }
+
 
         catch (Exception ex)
     {
@@ -78,7 +81,7 @@ public override void FnCancel()
         CtrlGrdGrdSystem.SelectedValue = "0";
         CtrlGrdGrdSystem.SelectedText = "";
         TxtRemarks.Text = "";
-        GrdVwRecords.DataSource = null;
+        //GrdVwRecords.DataSource = null;
     }
 public void FnFindRecord()
 {
@@ -118,10 +121,11 @@ public void FnGridViewBinding(string PrmFlag)
         else if (PrmFlag == "S2")
         {
 
-            GrdVwPapers.DataSource = ViewState["DT"] as DataTable;
-            GrdVwPapers.DataKeyNames = new String[] { ObjCls.KeyName };
-            GrdVwPapers.DataBind();
-            GrdVwPapers.SelectedIndex = -1;
+            
+            GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
+            GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+            GrdVwRecords.DataBind();
+            GrdVwRecords.SelectedIndex = -1;
         }
         else 
         { 
@@ -171,6 +175,7 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                             if (ObjCls.FnIsDouble(TxtPriority.Text) > 0 )
                             {
                                 iCnt = iCnt + 1;
+
                             }
                         }
                         if (iCnt > 0)
@@ -179,14 +184,75 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                         }
                             ObjCls.PFlag = "S2";
                             FnFindRecord_P();
-                            
-                           
 
-                            TabContainer1.ActiveTabIndex = 1;
+
+                            DataTable dataTable1 = ViewState["DT"] as DataTable;
+                            int RowCount = dataTable1.Rows.Count;
+
+                            for (int i = 0; i < RowCount; i++)
+                            {
+                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                                HdnSubjId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnSubjId");
+                                TxtSubject = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtSubject");
+                                ChkElective = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkElective");
+                                ChkOptional = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkOptional");
+                                TxtPriority = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPriority");
+
+                                HdnId.Value = HdnId.Value;
+                                HdnSubjId.Value = HdnSubjId.Value;
+                                TxtSubject.Text = dataTable1.Rows[i]["SubjectName"].ToString();
+                                ChkElective.Checked = ObjCls.FnIsBoolean(dataTable1.Rows[i]["Elective"].ToString());
+                                ChkOptional.Checked = ObjCls.FnIsBoolean(dataTable1.Rows[i]["Optional"].ToString());
+                                TxtPriority.Text = dataTable1.Rows[i]["DisplayOrder"].ToString();
+
+                            }
+
+
                             
                             break;
 
-                }
+                        case "UPDATE":
+
+                            ObjCls.PFlag = "S1";
+
+                            FnAssignProperty();
+                            for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
+                            {
+                                cCnt = cCnt + 1;
+                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                                TxtSubject = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtSubject");
+                                DdlSubject = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlSubject");
+                                ChkElective = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkElective");
+                                ChkOptional = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkOptional");
+                                TxtPriority = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPriority");
+
+                                ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
+                                ObjCls.NEPSubjectName = TxtSubject.Text.ToString();
+
+                                ObjCls.Elective = ObjCls.FnIsNumeric(ChkElective.Checked);
+                                ObjCls.Optional = ObjCls.FnIsNumeric(ChkOptional.Checked);
+                                ObjCls.DisplayOrder = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
+                                ObjCls.CFlag = cCnt;
+                                _strMsg = ObjCls.UpdateRecord() as string;
+
+                                if (ObjCls.FnIsDouble(TxtPriority.Text) > 0)
+                                {
+                                    iCnt = iCnt + 1;
+                                    
+                                }
+                            }
+                            if (iCnt > 0)
+                            {
+                                FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Updated"));
+                            }
+                            ObjCls.PFlag = "S2";
+                            //FnFindRecord_P();
+
+                            TabContainer1.ActiveTabIndex = 1;
+
+                            break;
+
+                    }
                 break;
             case "FIND":
                     ObjCls.PFlag = "S1";
@@ -195,7 +261,9 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                     break;
             case "CLEAR":
                 FnCancel();
-                break;
+                    FnGridViewBinding("S1");
+
+                    break;
             case "PRINT":
                 FnAssignProperty();
                 base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
@@ -267,20 +335,23 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
         DataTable dt = new DataTable();
         DataRow dr = null;
         dt.Columns.Add(new DataColumn("ID", typeof(string)));
+        dt.Columns.Add(new DataColumn("SubjectId", typeof(string)));
         dt.Columns.Add(new DataColumn("TxtSubject", typeof(string)));
        // dt.Columns.Add(new DataColumn("DdlSubject", typeof(string)));
         dt.Columns.Add(new DataColumn("ChkElective", typeof(Boolean)));
         dt.Columns.Add(new DataColumn("ChkOptional", typeof(Boolean)));
         dt.Columns.Add(new DataColumn("TxtPriority", typeof(string)));
-        
+        dt.Columns.Add(new DataColumn("Status", typeof(string)));
+
         dr = dt.NewRow();
         dr["ID"] = 1;
+        dr["SubjectId"] = 1;
         dr["TxtSubject"] = string.Empty;
         //dr["DdlSubject"] = string.Empty;
         dr["ChkElective"] = false;
         dr["ChkOptional"] = false;
         dr["TxtPriority"] = string.Empty;
-        
+        dr["Status"] = 'B';
         dt.Rows.Add(dr);
         ViewState["CurrentTable"] = dt;
         GrdVwRecords.DataSource = dt;
@@ -364,30 +435,7 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
         AddNewRowToGrid();
     }
 
-    protected void GrdVwRecords_RowDeleting(object sender, GridViewDeleteEventArgs e)
-    {
-        try
-        {
-            HiddenField HdnAutoId = (HiddenField)GrdVwRecords.Rows[e.RowIndex].FindControl("HdnId");
-            TextBox LnkName = (TextBox)GrdVwRecords.Rows[e.RowIndex].FindControl("TxtSubject");
-            Button ButtonAddpaper = (Button)GrdVwRecords.Rows[e.RowIndex].FindControl("BtnPapers");
-            
-            _strHdr = "Subject Id :- " + 1;
-            _strUrl = "SyllabusVsPapers.aspx?UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
-            _strTitle = "Papers : - " + _strHdr;
-            _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',800,550);";
-            ButtonAddpaper.Attributes.Add("onClick", _strLnk);
-
-        }
-        catch (Exception ex)
-        {
-            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-        }
-    }
-
-
-
-   
+     
 
     protected void GrdVwPapers_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
@@ -412,10 +460,46 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
             ButtonAddpaper.Attributes.Add("onClick", _strLnk);
             Session["param1"] = HdnAutoId.Value;
             Session["param2"] = "10";  //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
+
         }
         catch (Exception ex)
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
+
+    protected void GrdVwRecords_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        try
+        {
+            HiddenField HdnAutoId = (HiddenField)GrdVwRecords.Rows[e.RowIndex].FindControl("HdnId");
+            HiddenField HdnSubjId = (HiddenField)GrdVwRecords.Rows[e.RowIndex].FindControl("HdnSubjId");
+            //Label SubjName = (Label)GrdVwRecords.Rows[e.RowIndex].FindControl("TxtSubject");
+            //Label DisplayOrder = (Label)GrdVwRecords.Rows[e.RowIndex].FindControl("TxtPriority");
+            TextBox SubjName = (TextBox)GrdVwRecords.Rows[e.RowIndex].FindControl("TxtSubject");
+            TextBox DisplayOrder = (TextBox)GrdVwRecords.Rows[e.RowIndex].FindControl("TxtPriority");
+            Button ButtonAddpaper = (Button)GrdVwRecords.Rows[e.RowIndex].FindControl("BtnPapers");
+            string h = HdnAutoId.Value;
+            string h2 = HdnSubjId.Value;
+            string vs = SubjName.Text;
+            string ds = DisplayOrder.Text;
+
+
+            _strHdr = "Subject Name :- " + SubjName.Text;
+            _strUrl = "SyllabusVsPapers.aspx?CNTRID=" + HdnSubjId.Value + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
+
+            _strTitle = "Papers : -SUBID " + h2 + "-SYLABID " + h + "" + _strHdr;
+            _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',900,550);";
+            ButtonAddpaper.Attributes.Add("onClick", _strLnk);
+            Session["param1"] = HdnAutoId.Value;
+            Session["param2"] = "10";  //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
+
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+
+
 }

@@ -17,7 +17,7 @@ public partial class NEP_PapperGrpMaster : ClsPageEvents, IPageInterFace
     GridView GrdVwChld = null;
     DropDownList DdlInputType = null;
     CheckBox ChkExpire = null;
-    int iCnt = 0;
+    int iCnt = 0, cCnt = 0;
 
     protected override void Page_Load(object sender, EventArgs e)
     {
@@ -169,15 +169,70 @@ public partial class NEP_PapperGrpMaster : ClsPageEvents, IPageInterFace
                             FnGridViewBinding("S1");
 
                             break;
+
+                        case "UPDATE":
+
+                            ObjCls.PFlag = "S1";
+                            FnAssignProperty();
+
+                            for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
+                            {
+                                cCnt = cCnt + 1;
+                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnNId");
+                                TxtReportColumn = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtReportColumn");
+                                TxtAbbreviation = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtAbbreviation");
+                                DdlInputType = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlInputType");
+                                TxtMaxMark = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtMaxMark");
+                                TxtWeightage = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtWeightage");
+
+                                TxtPercentage = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPercentage");
+                                TxtOrder = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtOrder");
+                                ChkExpire = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkExpire");
+
+                                ObjCls.NEPRptColumnName = TxtReportColumn.Text.Trim();
+                                ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
+                                ObjCls.InputType = ObjCls.FnIsNumeric(DdlInputType.SelectedValue);
+                                ObjCls.RptAbbreviation = TxtAbbreviation.Text.Trim();
+                                ObjCls.MaxMark = ObjCls.FnIsNumeric(TxtMaxMark.Text.Trim());
+                                ObjCls.Weightage = ObjCls.FnIsNumeric(TxtWeightage.Text.Trim());
+                                ObjCls.Percentage = ObjCls.FnIsNumeric(TxtPercentage.Text.Trim());
+                                ObjCls.DisplayOrder = ObjCls.FnIsNumeric(TxtOrder.Text.Trim());
+                                ObjCls.CFlag = cCnt;
+                                _strMsg = ObjCls.UpdateRecord() as string;
+
+                                if (ObjCls.FnIsDouble(TxtWeightage.Text) > 0 || ObjCls.FnIsDouble(TxtMaxMark.Text) > 0)
+                                {
+                                    iCnt = iCnt + 1;
+                                    
+                                }
+                            }
+                            if (iCnt > 0)
+                            {
+                                FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Updated"));
+                            }
+
+                            FnCancel();
+                            FnGridViewBinding("S1");
+
+
+                           
+
+                            break;
+
+
                     }
                     break;
                 case "FIND":
                   
                     ObjCls.PFlag = "S1";
                     FnFindRecord();
+
+                   
                     break;
                 case "CLEAR":
                     FnCancel();
+                    FnGridViewBinding("S1");
+
                     break;
                 case "PRINT":
                     FnAssignProperty();

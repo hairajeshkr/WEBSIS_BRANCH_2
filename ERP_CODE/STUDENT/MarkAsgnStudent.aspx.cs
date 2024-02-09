@@ -17,6 +17,7 @@ public partial class STUDENT_MarkAsgnStudent : ClsPageEvents, IPageInterFace
     Label LblMaxMark;
     DataTable DT = new DataTable();
     DataTable DTGrade = new DataTable();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -26,18 +27,14 @@ public partial class STUDENT_MarkAsgnStudent : ClsPageEvents, IPageInterFace
             if (!IsPostBack)
             {
                 FnInitializeForm();
-
-                DataTable DTTeacher = (ObjCls.FnGetDataSet("select nId Id,cName Name from tblregistration where cttype='emp'") as DataSet).Tables[0];
-                DdlTeacher.DataSource = DTTeacher;
-                DdlTeacher.DataValueField = "Id";
-                DdlTeacher.DataTextField = "Name"; 
-                DdlTeacher.DataBind();
-                DdlTeacher.Items.Insert(0, new ListItem("--select--", "0"));
-
-
+                              
+                ObjLst.FnGetStaffList(DdlTeacher, "");
             }
 
             DataTable DtTemp = (ObjCls.FnGetDataSet("select * from TblNEPStudentMarkEntryTemp") as DataSet).Tables[0];
+            //DataTable dtt = (ObjCls.FnGetDataSet("delete from  TblNEPStudentMarkEntryTemp") as DataSet).Tables[0];
+
+            //DataTable ggg = (ObjCls.FnGetDataSet("ALTER VIEW [dbo].[VwStudentMarkEntryTemp] AS SELECT ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SlNo,TBL.nId AS Id,TBL.nTokenId AS TokenNo,TBL.nStaffId AS StaffId, TRS.cName AS StaffName,TSTGRP.nNEPStudentGroupName AS StudentGroupName,TSTGRP.nId AS StudentGroupId,TNEP.cNEPPaperName AS PaperName,TNEP.nId AS PaperId,TAS.cNEPRptColumnName AS ExamName,TBL.nExamId AS ExamId,TES.cSubExamName AS ExamSubName, TBL.nExamSubId AS ExamSubId,TSAD.nStudentId AS StudentId,TRSS.cName AS StudentName,TSAD.nRollNo AS RollNo,TRSS.cAdmissionNo AdmissionNo, TCD.cName As ClassName, TSAD.nClassId AS ClassId,TDCD.cName AS DivisionName,TSAD.nDivisionId AS DivisionId,TBL.nStudentStatusId AS StudentStatusId,TBL.nMark AS ObtainedMark,TBL.nMaxMark AS Maxmark,TBL.cRemarks AS Remarks,TBL.nActive AS Active,TBL.nIsDelete AS IsDelete,TBL.nIsExport AS IsExport,TBL.cTType AS TType,TSAD.nCompanyId AS CompanyId,TSAD.nBranchId AS BranchId,TSAD.nFaId AS FaId,TSAD.nAcId AS AcId,TBL.nModifiedUserId AS UserId,TBL.dModifiedDate AS UpdateDate FROM TblStudentAdmissionDetails  TSAD INNER JOIN TblRegistrationStudent TRSS ON TRSS.nId=TSAD.nStudentId INNER JOIN TblNEPStudentMarkEntryTemp TBL ON TRSS.nId=TBL.nStudentId INNER JOIN TblRegistration TRS ON TRS.nId=TBL.nStaffId INNER JOIN TblNEPPapers TNEP ON TNEP.nId=TBL.nPaperId INNER JOIN TblClassDetails TCD ON TCD.nId=TBL.nClassId and TCD.cTType='CLS' INNER JOIN TblClassDetails TDCD ON TDCD.nId=TBL.nDivisionId and TDCD.cTType='DIVN' INNER JOIN TblNEPReportColumns TAS ON TAS.nId=TBL.nExamId and TAS.nNEPPaperGroupID=TNEP.nNEPPaperGroupID INNER JOIN TblNEPSubExam TES ON TES.nNEPReportColumnId=TAS.nId AND TES.nId=TBL.nExamSubId INNER JOIN TblNEPStudentGroup TSTGRP  ON TSTGRP.nId=TBL.nStudentGroupId WHERE TBL.nIsDelete=0") as DataSet).Tables[0];
             DataTable DtOrg = (ObjCls.FnGetDataSet("select * from TblNEPStudentMarkEntry") as DataSet).Tables[0];
 
 
@@ -46,8 +43,7 @@ public partial class STUDENT_MarkAsgnStudent : ClsPageEvents, IPageInterFace
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
-        //DataTable DTTeachers = (ObjCls.FnGetDataSet("select * from tblregistration where cttype='emp'") as DataSet).Tables[0];
-
+      
     }
 
     public override void FnInitializeForm()
@@ -59,7 +55,7 @@ public partial class STUDENT_MarkAsgnStudent : ClsPageEvents, IPageInterFace
         ViewState["TOKENNO"] = ObjCls.FnGetTokenId().ToString();
         ViewState["INDX"] = "0";
         FnGridViewBinding("");
-
+        ViewState["STAFF"] = FnGetGeneralTable(ObjCls);
 
     }
     public void FnAssignProperty()
@@ -182,9 +178,25 @@ public partial class STUDENT_MarkAsgnStudent : ClsPageEvents, IPageInterFace
                     for (int i = 0; i < Rwcount; i++)
                     {
                         TxtMark = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtMark");
+                        DdlStudStatus = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlStatus");
 
                         TxtMark.Text = DT.Rows[i]["ObtainedMark"].ToString();
-                        
+                        DdlStudStatus.SelectedValue = DT.Rows[i]["StudentStatusId"].ToString();
+
+                        if (DdlStudStatus.SelectedValue == "1")
+                        {
+                            TxtMark.Enabled = true;
+                        }
+
+                        //if (DdlStudStatus.SelectedValue == "2" || DdlStudStatus.SelectedValue == "3")
+                        else
+                        {
+                            //TxtMark.Text = ddlstatus.SelectedItem.Text;
+                            TxtMark.Enabled = false;
+
+                        }
+
+
                     }
 
 
@@ -247,10 +259,6 @@ public partial class STUDENT_MarkAsgnStudent : ClsPageEvents, IPageInterFace
         }
     }
 
-  
-
-
-
     protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         TextBox TxtMarks;
@@ -270,24 +278,15 @@ public partial class STUDENT_MarkAsgnStudent : ClsPageEvents, IPageInterFace
                     DdlStudStatus=(DropDownList)e.Row.FindControl("DdlStatus");
 
 
-                TxtMark.Attributes.Add("onkeyup", "return FnUpdateStudMark('" + ViewState["TOKENNO"].ToString() + "','" + ViewState["ID"].ToString() + "','" + FnGetRights().COMPANYID + "','" + FnGetRights().BRANCHID + "','" + FnGetRights().ACYEARID + "','" + FnGetRights().FAYEARID + "','" + FnGetRights().TTYPE + "','" + FnGetRights().USERID + "','" + DdlTeacher.ClientID + "','" + DdlGroup.ClientID + "','" + DdlPaper.ClientID + "','" + DdlExam.ClientID + "','" + DdlSubExam.ClientID + "','" + TxtMark.ClientID + "', '" + HdnClassId.ClientID + "','" + HdnDivId.ClientID + "','" + HdnStudentId.ClientID + "','" + LblMaxMark.Text + "','" + CtrlExamDate.ClientID + "','"+ DdlStudStatus.ClientID + "');");
-
-                //DT_RECORD = ViewState["DT"] as DataTable;
-                //int j = DT_RECORD.Rows.Count;
                 
-                //if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
-                //{
-                //    if (j > 0)
-                //    {
-                //       for (int i = 0; i < j; i++)
-                //       {
-                //        TxtMarks = (TextBox)e.Row.FindControl("TxtMark");
-                //        TxtMarks.Text = DT_RECORD.Rows[i]["ObtainedMark"].ToString();
-                //       }
+                TxtMark.Attributes.Add("onchange", "return FnUpdateStudMark('" + ViewState["TOKENNO"].ToString() + "','" + ViewState["ID"].ToString() + "','" + FnGetRights().COMPANYID + "','" + FnGetRights().BRANCHID + "','" + FnGetRights().ACYEARID + "','" + FnGetRights().FAYEARID + "','" + FnGetRights().TTYPE + "','" + FnGetRights().USERID + "','" + DdlTeacher.ClientID + "','" + DdlGroup.ClientID + "','" + DdlPaper.ClientID + "','" + DdlExam.ClientID + "','" + DdlSubExam.ClientID + "','" + TxtMark.ClientID + "', '" + HdnClassId.ClientID + "','" + HdnDivId.ClientID + "','" + HdnStudentId.ClientID + "','" + LblMaxMark.Text + "','" + CtrlExamDate.ClientID + "','" + DdlStudStatus.ClientID + "');");
+               DdlStudStatus.Attributes.Add("onchange", "return FnUpdateStudMark('" + ViewState["TOKENNO"].ToString() + "','" + ViewState["ID"].ToString() + "','" + FnGetRights().COMPANYID + "','" + FnGetRights().BRANCHID + "','" + FnGetRights().ACYEARID + "','" + FnGetRights().FAYEARID + "','" + FnGetRights().TTYPE + "','" + FnGetRights().USERID + "','" + DdlTeacher.ClientID + "','" + DdlGroup.ClientID + "','" + DdlPaper.ClientID + "','" + DdlExam.ClientID + "','" + DdlSubExam.ClientID + "','" + TxtMark.ClientID + "', '" + HdnClassId.ClientID + "','" + HdnDivId.ClientID + "','" + HdnStudentId.ClientID + "','" + LblMaxMark.Text + "','" + CtrlExamDate.ClientID + "','" + DdlStudStatus.ClientID + "');");
+               //DdlStudStatus.Attributes.Add("onkeyup", "if ('" + DdlStudStatus.ClientID + "'.value=='2'){'" + TxtMark.ClientID + "'.disabled=true;}else{'" + TxtMark.ClientID + "'.disabled=false;} ");
+                //DdlStudStatus.Attributes.Add("onchange", "return ChangeText('" + DdlStudStatus.ClientID + "','" + TxtMark.ClientID + "');");
 
-                //    }
-                //    //ViewState["TOKENNO"] = (ViewState["DT"] as DataTable).Rows[0]["TokenNo"].ToString();
-                //}
+
+
+
 
             }
         }
@@ -320,6 +319,12 @@ public partial class STUDENT_MarkAsgnStudent : ClsPageEvents, IPageInterFace
 
         
         DdlExam.Items.Add(new ListItem("Select", "0"));
+        DataTable DT = (ObjCls.FnGetDataSet("select * from TblNEPReportColumns ") as DataSet).Tables[0];
+        DataTable DTT = (ObjCls.FnGetDataSet("select * FROM TblNEPPapers") as DataSet).Tables[0];
+        DataTable dtt = (ObjCls.FnGetDataSet("select * from TblNEPExamTemplate") as DataSet).Tables[0];
+        DataTable DTS = (ObjCls.FnGetDataSet("select * from TblNEPExamTemplateDetails") as DataSet).Tables[0];
+
+
         DataTable DTExams = (ObjCls.FnGetDataSet("select RPTC.nId Id,RPTC.cNEPRptColumnName Name from TblNEPReportColumns RPTC inner Join TblNEPPapers PAPR on PAPR.nNEPPaperGroupID = RPTC.nNEPPaperGroupID where PAPR.nId ="+ PaperId) as DataSet).Tables[0];
         DdlExam.DataSource = DTExams;
         DdlExam.DataValueField = "Id";
@@ -332,13 +337,22 @@ public partial class STUDENT_MarkAsgnStudent : ClsPageEvents, IPageInterFace
     protected void DdlExam_SelectedIndexChanged(object sender, EventArgs e)
     {
         int SubExamId = ObjCls.FnIsNumeric(DdlExam.SelectedValue);
-        DataTable DTExamTmp = (ObjCls.FnGetDataSet("select * from TblNEPExamTemplateDetails") as DataSet).Tables[0];
+        int PaperId = ObjCls.FnIsNumeric(DdlPaper.SelectedValue);
+        
+        DataTable DTExam = (ObjCls.FnGetDataSet("select TETP.nId Id, TETP.cSubExamName Name from tblnepsubexam TETP inner join tblnepsyllabuspapers TNSP on TNSP.nid=TETP.nnepsyllabuspaperid inner join tblnepteacherpaper TNTP on TNTP.nNEPPaperId = TNSP.nNEPPaperId where TETP.nNEPReportColumnId = " + SubExamId + "and TNTP.nNEPPaperId = " + PaperId) as DataSet).Tables[0];
 
-        DataTable DTExam = (ObjCls.FnGetDataSet("select TETP.nId Id,TETP.cSubExamName Name from TblNEPExamTemplateDetails TETP where nNEPRptColumnID=" + SubExamId) as DataSet).Tables[0];
+
         DdlSubExam.DataSource = DTExam;
         DdlSubExam.DataValueField = "Id";
         DdlSubExam.DataTextField = "Name";
         DdlSubExam.DataBind();
         DdlSubExam.Items.Insert(0, new ListItem("--select--", "0"));
+    }
+
+
+
+    protected void DdlStatus_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
     }
 }

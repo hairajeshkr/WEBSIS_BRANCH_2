@@ -22,7 +22,7 @@
                                 <asp:Label ID="Label1" runat="server" Text="Teacher"></asp:Label>
                             </td>
                             <td class="odd">
-                                <asp:DropDownList ID="DdlTeacher" runat="server" Width="300px" OnSelectedIndexChanged="DdlTeacher_SelectedIndexChanged" AutoPostBack="True" >
+                                <asp:DropDownList ID="DdlTeacher" runat="server" Width="300px" OnSelectedIndexChanged="DdlTeacher_SelectedIndexChanged" AutoPostBack="True">
                                     <%--<asp:ListItem Text="--select--" Value="0"></asp:ListItem>--%>
                                 </asp:DropDownList>
                             </td>
@@ -30,8 +30,8 @@
                                 <asp:Label ID="Label5" runat="server" Text="Paper"></asp:Label>
                             </td>
                             <td class="odd">
-                             <asp:DropDownList ID="DdlPaper" runat="server" AutoPostBack="True" Width="300px" OnSelectedIndexChanged="DdlPaper_SelectedIndexChanged">
-                                </asp:DropDownList>    
+                                <asp:DropDownList ID="DdlPaper" runat="server" AutoPostBack="True" Width="300px" OnSelectedIndexChanged="DdlPaper_SelectedIndexChanged">
+                                </asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
@@ -39,7 +39,7 @@
                                 <asp:Label ID="Label2" runat="server" Text="Group"></asp:Label>
                             </td>
                             <td class="odd">
-                                 <asp:DropDownList ID="DdlGroup" runat="server" AutoPostBack="True" Width="300px">
+                                <asp:DropDownList ID="DdlGroup" runat="server" AutoPostBack="True" Width="300px">
                                 </asp:DropDownList>
 
                             </td>
@@ -56,7 +56,7 @@
                                 <asp:Label ID="Label4" runat="server" Text="Sub Exam"></asp:Label>
                             </td>
                             <td class="odd" style="height: 39px">
-                                <asp:DropDownList ID="DdlSubExam" runat="server" AutoPostBack="True" Width="300px" >
+                                <asp:DropDownList ID="DdlSubExam" runat="server" AutoPostBack="True" Width="300px">
                                     <%--<asp:ListItem Text="---select---" Value="0"></asp:ListItem>
                                     <asp:ListItem Text="Periodic test T1" Value="1"></asp:ListItem>
                                     <asp:ListItem Text="Portfolio T1" Value="2"></asp:ListItem>--%>
@@ -66,7 +66,7 @@
                                 <asp:Label ID="Label7" runat="server" Text="Exam date"></asp:Label>
                             </td>
                             <td class="odd" style="height: 39px">
-                                <uc3:CtrlDate ID="CtrlExamDate" runat="server" />
+                                <uc3:CtrlDate ID="CtrlExamDate" runat="server" IsVisibleDate="True" IsVisibleDateTime="True" />
                             </td>
                         </tr>
 
@@ -128,7 +128,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Status">
                                                 <ItemTemplate>
-                                                    <asp:DropDownList ID="DdlStatus" runat="server" Width="83px">
+                                                    <asp:DropDownList ID="DdlStatus" runat="server" Width="83px" AutoPostBack="true" OnSelectedIndexChanged="DdlStatus_SelectedIndexChanged">
                                                         <asp:ListItem Text="Present" Value="1"></asp:ListItem>
                                                         <asp:ListItem Text="Absent" Value="2"></asp:ListItem>
                                                         <asp:ListItem Text="NA" Value="3"></asp:ListItem>
@@ -137,7 +137,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Mark">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TxtMark" runat="server" Width="130px"></asp:TextBox>
+                                                    <asp:TextBox ID="TxtMark" runat="server" Width="130px"  ></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
@@ -148,7 +148,8 @@
                                             </asp:TemplateField>
 
                                         </Columns>
-                                    </asp:GridView>              
+                                    </asp:GridView>
+                                    
                                 </div>
                             </td>
                         </tr>

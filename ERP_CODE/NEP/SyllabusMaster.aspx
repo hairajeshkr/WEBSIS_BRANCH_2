@@ -130,47 +130,7 @@
                     </table>
                 </ContentTemplate>
             </ajaxToolkit:TabPanel>
-
-            <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel4">
-                <HeaderTemplate>
-                    Subject-Paper Allocation
-                </HeaderTemplate>
-                <ContentTemplate>
-                    <table class="auto-style1">
-                        <tr>
-                            <td class="odd">
-                                <div class="result-list" style="overflow: scroll; height: 450px; width: 1030px">
-                                    <asp:GridView ID="GrdVwPapers" runat="server" SkinID="GrdVwMasterNoPageing" Width="1000px" ShowFooter="True" OnRowDeleting="GrdVwPapers_RowDeleting">
-                                        <Columns>
-                                            <asp:BoundField />
-                                            <asp:TemplateField HeaderText="Subject">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="LblSubject" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("SubjectName") %>'></asp:Label>
-                                                    <asp:HiddenField ID="HdnIds" runat="server" Value='<%# Eval("Id") %>' />
-                                                    <asp:HiddenField ID="HdnSubjId" runat="server" Value='<%# Eval("SubjectId") %>' />
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Display Order">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="LblDisplayOrder" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("DisplayOrder") %>' ></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Papers">
-                                                <ItemTemplate>
-                                                    <asp:Button ID="BtnPapersT" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="..." Width="100px" ></asp:Button>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-
-                                        </Columns>
-                                    </asp:GridView>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </ContentTemplate>
-            </ajaxToolkit:TabPanel>
-
-
+                        
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel2">
                 <HeaderTemplate>
                     Syllabus List

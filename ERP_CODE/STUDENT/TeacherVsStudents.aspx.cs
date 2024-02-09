@@ -12,7 +12,7 @@ public partial class STUDENT_TeacherVsStudents : ClsPageEvents, IPageInterFace
     HiddenField HdnId = null;
     CheckBox ChkSelect = null;
     int iCnt = 0;
-    string Sylb, ExamT;
+    string PaperId, TeacherId,GroupId;
 
     protected override void Page_Load(object sender, EventArgs e)
     {
@@ -20,8 +20,9 @@ public partial class STUDENT_TeacherVsStudents : ClsPageEvents, IPageInterFace
         {
             base.Page_Load(sender, e);
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
-            Sylb = Session["param1"] as string;
-            ExamT = Session["param2"] as string;
+            PaperId = Session["param1"] as string;
+            TeacherId = Session["param2"] as string;
+            GroupId = Session["param3"] as string;
             if (!IsPostBack)
             {
                 ObjCls.PFlag = "S1";
@@ -51,7 +52,9 @@ public partial class STUDENT_TeacherVsStudents : ClsPageEvents, IPageInterFace
         
         ObjCls.NEPClassId = ObjCls.FnIsNumeric(CtrlGrdClass.SelectedValue);
         ObjCls.NEPDivisionId = ObjCls.FnIsNumeric(CtrlGrdDivision.SelectedValue);
-        ObjCls.GroupNID = ObjCls.FnIsNumeric(Sylb);
+        ObjCls.NEPPaperId = ObjCls.FnIsNumeric(PaperId);
+        ObjCls.GroupNID = ObjCls.FnIsNumeric(GroupId);
+        ObjCls.NEPTeacherId= ObjCls.FnIsNumeric(TeacherId);
     }
     public override void FnCancel()
     {
@@ -122,8 +125,7 @@ public partial class STUDENT_TeacherVsStudents : ClsPageEvents, IPageInterFace
                                     LblPaper = (Label)GrdVwRecords.Rows[i].FindControl("LblPaper");
                                     TxtCreditHrs = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtCreditHrs");
 
-                                    ObjCls.GroupNID = ObjCls.FnIsNumeric(HdnId.Value);
-                                    ObjCls.GroupNID = ObjCls.FnIsNumeric(Sylb);
+                                    ObjCls.GroupNID = ObjCls.FnIsNumeric(GroupId);
                                     ObjCls.NEPStudentId = ObjCls.FnIsNumeric(HdnId.Value);
                                     _strMsg = ObjCls.SaveRecord() as string;
                                 }
@@ -138,7 +140,7 @@ public partial class STUDENT_TeacherVsStudents : ClsPageEvents, IPageInterFace
                     }
                     break;
                 case "FIND":
-
+                    ObjCls.PFlag = "S2";
                     FnFindRecord();
                     break;
                 case "CLEAR":
@@ -161,10 +163,12 @@ public partial class STUDENT_TeacherVsStudents : ClsPageEvents, IPageInterFace
 
         ChkSelect = (CheckBox)e.Row.FindControl("ChkSelect");
         {
-            //CtrlGrdTemplate.SelectedValue = ExamT;
+            
             ObjCls.PFlag = "S2";
 
         }
     }
+
+
 
 }

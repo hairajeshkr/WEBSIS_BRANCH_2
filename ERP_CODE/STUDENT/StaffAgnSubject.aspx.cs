@@ -14,7 +14,7 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
     CheckBox ChkSelect = null, ChkIsCustomclass = null;
     DropDownList DdlPapers, DdlClass, DdlDivision;
     int iCnt = 0;
-    string selectedTextP, selectedTextC, selectedTextD;
+    string selectedTextP, selectedTextC, selectedTextD, CCP,CCC;
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -24,21 +24,17 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
             if (!IsPostBack)
             {
 
+                ObjLst.FnGetStaffList(DdlTeacher, "");
 
-                DdlTeacher.Items.Add(new ListItem("Select", "0"));
-                DataTable ClsTC = (ObjCls.FnGetDataSet("select nId,cName from TblRegistration where cTType='EMP'") as DataSet).Tables[0];
-                DdlTeacher.DataSource = ClsTC;
-                DdlTeacher.DataValueField = "nId";
-                DdlTeacher.DataTextField = "cName";
-                DdlTeacher.DataBind();
-
+                
                 FnInitializeForm();
                 FnGridViewBinding("");
                 FnGridViewBinding("S1");
                 FnGridViewBinding("S2");
                 SetInitialRow();
             }
-           
+
+
         }
 
         catch (Exception ex)
@@ -52,7 +48,9 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
         ObjCls = new ClsTeacherVsPaperandStudent(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
-       
+        ViewState["CLS"] = FnGetGeneralTable(ObjCls);
+        ViewState["DIV"] = FnGetGeneralTable(ObjCls);
+
         TabContainer1.ActiveTabIndex = 0;
     }
     public void FnAssignProperty()
@@ -62,7 +60,19 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
         
         ObjCls.nNEPTeacherId = ObjCls.FnIsNumeric(DdlTeacher.SelectedValue.ToString());
     }
+    public void FnGetClassList()
+    {
+        ViewState["CLS"] = ObjLst.FnGetClassDetailedList();
+        DataTable dtt = ViewState["CLS"] as DataTable;
+        
 
+    }
+
+    public void FnGetDivisionList()
+    {
+        ViewState["DIV"] = ObjLst.FnGetDivisionList(ObjCls.FnIsNumeric(1), 0);
+        DataTable dtt1 = ViewState["DIV"] as DataTable;
+    }
     public void FnClose()
     {
         throw new NotImplementedException();
@@ -75,6 +85,7 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
     public void FnFindRecord()
     {
         FnAssignProperty();
+        //FnGetClassList();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
         CtrlCommand1.IsVisibleSave = true;
@@ -82,6 +93,8 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
     public void FnFindRecord_S()
     {
         FnAssignProperty();
+        //FnGetClassList();
+        //FnGetDivisionList();
         FnFindRecord(ObjCls);
         FnGridViewBinding("S1");
         CtrlCommand1.IsVisibleSave = true;
@@ -165,7 +178,7 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
                                 if (ChkIsCustomclass.Checked == true)
                                 {
                                     ObjCls.IsCustomClass = ObjCls.FnIsNumeric(ChkIsCustomclass.Checked);
-                                    //ObjCls.IsCustomClass = 1;
+                                    
                                 }
 
 
@@ -209,8 +222,7 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
 
                             }
 
-                            //TabContainer1.ActiveTabIndex = 1;
-
+                            
                             break;
 
                         case "UPDATE":
@@ -257,7 +269,7 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
                     break;
                 case "FIND":
                     ObjCls.PFlag = "S1";
-                    //FnFindRecord();
+                    
                     FnFindRecord_S();
 
                     DataTable dataTable2 = ViewState["DT"] as DataTable;
@@ -286,7 +298,11 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
                     {
                         SetInitialRow();
                     }
-
+                    else
+                    {
+                        ViewState["CurrentTable"] = dataTable2;
+                    }
+                                       
                     break;
                 case "CLEAR":
                     FnCancel();
@@ -385,13 +401,16 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
         {
             DataTable dtCurrentTable = (DataTable)ViewState["CurrentTable"];
             DataRow drCurrentRow = null;
+            
+            DataTable DTUpdate = ViewState["Update"] as DataTable;
             if (dtCurrentTable.Rows.Count > 0)
             {
-                for (int i = 1; i <= dtCurrentTable.Rows.Count; i++)
+                
+                    for (int i = 1; i <= dtCurrentTable.Rows.Count; i++)
                 {
                     CheckBox box1 = (CheckBox)GrdVwRecords.Rows[rowIndex].Cells[1].FindControl("ChkSelect");
 
-                    // dt.Columns.Add(new DataColumn("ChkIsCustomclass", typeof(Boolean)));
+                    
                     DropDownList box2 = (DropDownList)GrdVwRecords.Rows[rowIndex].Cells[2].FindControl("DdlPapers");
                     DropDownList box3 = (DropDownList)GrdVwRecords.Rows[rowIndex].Cells[3].FindControl("DdlClass");
                     DropDownList box4 = (DropDownList)GrdVwRecords.Rows[rowIndex].Cells[4].FindControl("DdlDivision");
@@ -485,8 +504,10 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
             _strTitle = "Papers : -PaperId " + h2 + "-GroupId " + h + "" + _strHdr;
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',830,500);";
             ButtonAddStude.Attributes.Add("onClick", _strLnk);
-            Session["param1"] = HdnAutoId.Value;
-            Session["param2"] = "10";  //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
+           
+            Session["param1"] = h2;
+            Session["param2"] =DdlTeacher.SelectedValue.ToString();
+            Session["param3"]= HdnAutoId.Value;
         }
         catch (Exception ex)
         {
@@ -500,7 +521,7 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
         string selectedText = DdlPaper.SelectedItem.Text;
        
         TextBox TxtGroupName = DdlPaper.NamingContainer.FindControl("TxtGroupName") as TextBox;
-        String CCP = TxtGroupName.Text;
+         CCP = TxtGroupName.Text;
         TxtGroupName.Text = CCP + selectedText;
     }
     protected void SelectedIndexChangedC(object sender, EventArgs e)
@@ -510,6 +531,19 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
         string selectedText = DdlClass.SelectedItem.Text;
        
         TextBox TxtGroupName = DdlClass.NamingContainer.FindControl("TxtGroupName") as TextBox;
+       
+
+        GridViewRow currentRow = (GridViewRow)DdlClass.NamingContainer;
+        DropDownList DdlDivision = (DropDownList)currentRow.FindControl("DdlDivision");
+
+       
+        DataTable ClsTD = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='DIVN' and nParentId=" + DdlClass.SelectedValue + "") as DataSet).Tables[0];
+        DdlDivision.DataSource = ClsTD;
+        DdlDivision.DataValueField = "ID";
+        DdlDivision.DataTextField = "Name";
+        DdlDivision.DataBind();
+        DdlDivision.Items.Insert(0, new ListItem("--select--", "0"));
+
         String CCC = TxtGroupName.Text;
         TxtGroupName.Text = CCC + selectedText;
 
@@ -536,7 +570,26 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
                 DropDownList DdlDiv = (DropDownList)e.Row.FindControl("DdlDivision");
                 TextBox TxtGroupName = (TextBox)e.Row.FindControl("TxtGroupName");
 
-                TxtGroupName.Text = DdlPaper.Text;
+                DataTable ClsTP = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cNEPPaperName Name FROM TblNEPPapers  TCD ") as DataSet).Tables[0];
+                DdlPaper.DataSource = ClsTP;
+                DdlPaper.DataTextField = "Name";
+                DdlPaper.DataValueField = "ID";
+                DdlPaper.DataBind();
+                DdlPaper.Items.Insert(0, new ListItem("--select--", "0"));
+
+                DataTable ClsTC = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='CLS'") as DataSet).Tables[0];
+                DdlClass.DataSource = ClsTC;
+                DdlClass.DataTextField = "Name";
+                DdlClass.DataValueField = "ID";
+                DdlClass.DataBind();
+                DdlClass.Items.Insert(0, new ListItem("--select--", "0"));
+
+                DataTable ClsTD = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='DIVN'") as DataSet).Tables[0];
+                DdlDiv.DataSource = ClsTD;
+                DdlDiv.DataTextField = "Name";
+                DdlDiv.DataValueField = "ID";
+                DdlDiv.DataBind();
+                DdlDiv.Items.Insert(0, new ListItem("--select--", "0"));
                 
             }
         }
@@ -545,10 +598,5 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-    protected void ChkIsCustomclass_CheckedChanged(object sender, EventArgs e)
-    {
-
-       
-
-    }
+    
 }

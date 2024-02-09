@@ -40,7 +40,7 @@
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="Select">
                                                             <ItemTemplate>
-                                                                <asp:CheckBox ID="ChkSelect" runat="server" OnCheckedChanged="ChkSelect_CheckedChanged" AutoPostBack="true" />
+                                                                <asp:CheckBox ID="ChkSelect" runat="server" OnCheckedChanged="ChkSelect_CheckedChanged" Value='<%# Eval("ChkSelect") %>' Checked='<%# Eval("ChkSelect").ToString() =="False"?false:true %>' AutoPostBack="true" />
 
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
@@ -90,7 +90,7 @@
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="Paper Name">
                                                             <ItemTemplate>
-                                                                <asp:Label ID="LblPaperName" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Name") %>' Width="150px"></asp:Label>
+                                                                <asp:Label ID="LblPaperName" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("PaperName") %>' Width="150px"></asp:Label>
 
 
                                                             </ItemTemplate>
@@ -162,7 +162,7 @@
                         </tr>
                         <tr class="result-headTop">
                             <td class="Footercommand" colspan="4" align="center" valign="middle">
-                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="Submit" />
+                                <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="Submit" OnClick="ValidateSumOfPercentages"  />
 
 
                             </td>

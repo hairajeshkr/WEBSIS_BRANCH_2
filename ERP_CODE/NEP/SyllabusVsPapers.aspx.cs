@@ -10,9 +10,9 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
 {
     ClsNEPSyllabusPaper ObjCls = new ClsNEPSyllabusPaper();
     Label LblPaper = null, LblCreditHrs = null, LblPaperName=null, LblSubExam=null, LblPrintName=null, LblOrder=null, LblReport=null;
-    HiddenField HdnId = null, HdnReportCId=null,HdnSyllbId=null;
+    HiddenField HdnId = null, HdnReportCId=null,HdnSyllbId=null, HdnReportCIdV = null;
     CheckBox ChkSelect = null;
-    TextBox TxtMaxMark = null, TxtPercentage = null, TxtOrder=null;
+    TextBox TxtMaxMark = null, TxtPercentage = null, TxtOrder=null, TxtPercentageV = null;
     int iCnt = 0,PaperId, GPaperId;
     string Sylb, ExamT;
 
@@ -48,13 +48,15 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
         ObjCls = new ClsNEPSyllabusPaper(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnFindRecord();
-
+        ObjCls.PFlag = "S3";
+        ObjCls.SUBFlag = "P";
+        FnFindRecord_P();
     }
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
          ObjCls.NEPSubjectId = ObjCls.FnIsNumeric(ViewState["SUBJ_ID"].ToString());
-
+        ObjCls.SyllabusId = ObjCls.FnIsNumeric(Sylb);
     }
 
     public override void FnCancel()
@@ -87,6 +89,13 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
         FnGridViewBinding("S2");
         CtrlCommand1.IsVisibleSave = true;
     }
+    public void FnFindRecord_P()
+    {
+        FnAssignProperty();
+        FnFindRecord(ObjCls);
+        FnGridViewBinding("S3");
+        CtrlCommand1.IsVisibleSave = true;
+    }
     public object FnGetGridRowCount(string PrmFlag)
     {
         throw new NotImplementedException();
@@ -102,7 +111,7 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
             GrdVwRecords.SelectedIndex = -1;
             
         }
-        else
+        else if (PrmFlag == "S2")
         {
         GrdVwPaper.DataSource = ViewState["DT"] as DataTable;
             ViewState["DT1"] = ViewState["DT"] as DataTable;
@@ -110,9 +119,15 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
         GrdVwPaper.DataBind();
         GrdVwPaper.SelectedIndex = -1;
         }
+        else if (PrmFlag == "S3")
+        {
+            GrdVwPaper.DataSource = ViewState["DT"] as DataTable;
+            GrdVwPaper.DataKeyNames = new String[] { ObjCls.KeyName };
+            GrdVwPaper.DataBind();
+            GrdVwPaper.SelectedIndex = -1;
+        }
 
-        
-        
+
     }
 
     public void FnPrintRecord()
@@ -162,7 +177,39 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
                             }
 
 
+                            int TPerc, TReportId, TPercV, TReportIdV,PercSum=0;
+
                             for (int i = 0; i <= GrdVwPaper.Rows.Count - 1; i++)
+                            {
+                                HdnReportCId = (HiddenField)GrdVwPaper.Rows[i].FindControl("HdnReportCId");
+                                TxtPercentage = (TextBox)GrdVwPaper.Rows[i].FindControl("TxtPercentage");
+                                 TPerc= ObjCls.FnIsNumeric(TxtPercentage.Text);
+                                 TReportId = ObjCls.FnIsNumeric(HdnReportCId.Value);
+                                PercSum = 0;
+                                for (int j = 0; j <= GrdVwPaper.Rows.Count - 1; j++)
+                                {
+                                    HdnReportCIdV = (HiddenField)GrdVwPaper.Rows[j].FindControl("HdnReportCId");
+                                    TxtPercentageV = (TextBox)GrdVwPaper.Rows[j].FindControl("TxtPercentage");
+                                     TPercV = ObjCls.FnIsNumeric(TxtPercentageV.Text);
+                                     TReportIdV = ObjCls.FnIsNumeric(HdnReportCIdV.Value);
+                                    if(TReportId== TReportIdV)
+                                    {
+                                        PercSum = PercSum + TPercV;
+                                        if(PercSum != 100)
+                                        {
+                                            FnPopUpAlert(ObjCls.FnAlertMessage("Sum of Percentage should be 100 "));
+                                            break;
+                                        }
+
+                                    }
+
+                                }
+
+
+                            }
+
+
+                                for (int i = 0; i <= GrdVwPaper.Rows.Count - 1; i++)
                             {
                                 
                                     Label LblPaper = null;
@@ -223,6 +270,9 @@ public partial class NEP_SyllabusVsPapers : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
+
+   
+
 
     protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
     {

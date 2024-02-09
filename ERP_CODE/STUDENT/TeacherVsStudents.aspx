@@ -5,8 +5,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
     <script language="javascript" src="Script/ClassDivAsgn.js" type="text/javascript"></script>
-    <div style="height: 600px; width: 800px">
-        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="580px" Width="780px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
+    <div style="height: 450px; width: 800px">
+        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="440px" Width="780px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
                     Student Selection
@@ -28,11 +28,12 @@
                             </td>
                             </tr>
                         <tr>
-                            <td class="odd">
-                                &nbsp;</td>
-                            <td class="odd" style="width: 81px">
-                                <asp:Button ID="BtnFind" runat="server" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="ManiPulateDataEvent_Clicked" Style="left: -27px; top: -1px; right: -42px;" Text="FIND" Width="69px" />
+                           
+                            <td class="odd" style="height: 40px">
+                                <asp:Button ID="BtnFind" runat="server" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="ManiPulateDataEvent_Clicked"  Text="FIND" Width="69px" />
                             </td>
+                            
+                           
                             
                         </tr>
                         <tr>
@@ -40,7 +41,7 @@
                                 <table class="upload-field-parent" style="width: 63%; height: 253px;">
                                     <tr>
                                         <td colspan="2">
-                                            <div class="result-list" style="overflow: scroll; height: 400px; width: 780px;">
+                                            <div class="result-list" style="overflow: scroll; height: 290px; width: 780px;">
                                                 <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="750px"  >
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="Select">
@@ -79,17 +80,7 @@
                                                                 <asp:Label ID="LblDivision" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Name") %>' Width="210px"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField HeaderText="Sub Exam">
-                                                            <ItemTemplate>
-                                                                <asp:Button ID="BtnSubExam" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="..." Width="100px"></asp:Button>
-                                                            </ItemTemplate>
-                                                        </asp:TemplateField>
-                                                        <asp:TemplateField HeaderText="Credit Hrs">
-                                                <ItemTemplate>
-                                                    <asp:TextBox ID="TxtCreditHrs" runat="server" placeholder="Credit Hrs" Width="100px"></asp:TextBox>
-                                                    
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
+                                                       
                                                     </Columns>
                                                 </asp:GridView>
 

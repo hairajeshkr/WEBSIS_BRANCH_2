@@ -33,8 +33,6 @@ public partial class NEP_SyllabusMaster :  ClsPageEvents, IPageInterFace
                 SetInitialRow();
             }
 
-            
-             
         }
 
 
@@ -57,8 +55,8 @@ public void FnAssignProperty()
 
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
-        ObjCls.NEPPaperGroupID = 6;//ObjCls.FnIsNumeric(CtrlGrdPaperGroup.SelectedValue.ToString());
-        ObjCls.NEPExamTempalteId = 10;  //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
+        ObjCls.NEPPaperGroupID = 35;//ObjCls.FnIsNumeric(CtrlGrdPaperGroup.SelectedValue.ToString());
+        ObjCls.NEPExamTempalteId = 32;  //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
         ObjCls.GradeId = 1;//ObjCls.FnIsNumeric(CtrlGrdGrdSystem.SelectedValue.ToString());
         ObjCls.Remarks= TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
@@ -81,7 +79,7 @@ public override void FnCancel()
         CtrlGrdGrdSystem.SelectedValue = "0";
         CtrlGrdGrdSystem.SelectedText = "";
         TxtRemarks.Text = "";
-        //GrdVwRecords.DataSource = null;
+
     }
 public void FnFindRecord()
 {
@@ -246,7 +244,6 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                                 FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Updated"));
                             }
                             ObjCls.PFlag = "S2";
-                            //FnFindRecord_P();
 
                             TabContainer1.ActiveTabIndex = 1;
 
@@ -337,7 +334,6 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
         dt.Columns.Add(new DataColumn("ID", typeof(string)));
         dt.Columns.Add(new DataColumn("SubjectId", typeof(string)));
         dt.Columns.Add(new DataColumn("TxtSubject", typeof(string)));
-       // dt.Columns.Add(new DataColumn("DdlSubject", typeof(string)));
         dt.Columns.Add(new DataColumn("ChkElective", typeof(Boolean)));
         dt.Columns.Add(new DataColumn("ChkOptional", typeof(Boolean)));
         dt.Columns.Add(new DataColumn("TxtPriority", typeof(string)));
@@ -347,7 +343,6 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
         dr["ID"] = 1;
         dr["SubjectId"] = 1;
         dr["TxtSubject"] = string.Empty;
-        //dr["DdlSubject"] = string.Empty;
         dr["ChkElective"] = false;
         dr["ChkOptional"] = false;
         dr["TxtPriority"] = string.Empty;
@@ -437,45 +432,14 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
 
      
 
-    protected void GrdVwPapers_RowDeleting(object sender, GridViewDeleteEventArgs e)
-    {
-        try
-        {
-            HiddenField HdnAutoId = (HiddenField)GrdVwPapers.Rows[e.RowIndex].FindControl("HdnIds");
-            HiddenField HdnSubjId = (HiddenField)GrdVwPapers.Rows[e.RowIndex].FindControl("HdnSubjId");
-            Label SubjName = (Label)GrdVwPapers.Rows[e.RowIndex].FindControl("LblSubject");
-            Label DisplayOrder = (Label)GrdVwPapers.Rows[e.RowIndex].FindControl("LblDisplayOrder");
-            Button ButtonAddpaper = (Button)GrdVwPapers.Rows[e.RowIndex].FindControl("BtnPapers");
-            string h = HdnAutoId.Value;
-            string h2 = HdnSubjId.Value;
-            string vs = SubjName.Text;
-            string ds = DisplayOrder.Text;
-            
-
-            _strHdr = "Subject Name :- " + SubjName.Text;
-            _strUrl = "SyllabusVsPapers.aspx?CNTRID=" + HdnSubjId.Value + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
-
-            _strTitle = "Papers : -SUBID " + h2 + "-SYLABID "  + h + "" + _strHdr;
-            _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',830,500);";
-            ButtonAddpaper.Attributes.Add("onClick", _strLnk);
-            Session["param1"] = HdnAutoId.Value;
-            Session["param2"] = "10";  //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
-
-        }
-        catch (Exception ex)
-        {
-            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-        }
-    }
-
+   
     protected void GrdVwRecords_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
         try
         {
             HiddenField HdnAutoId = (HiddenField)GrdVwRecords.Rows[e.RowIndex].FindControl("HdnId");
             HiddenField HdnSubjId = (HiddenField)GrdVwRecords.Rows[e.RowIndex].FindControl("HdnSubjId");
-            //Label SubjName = (Label)GrdVwRecords.Rows[e.RowIndex].FindControl("TxtSubject");
-            //Label DisplayOrder = (Label)GrdVwRecords.Rows[e.RowIndex].FindControl("TxtPriority");
+            
             TextBox SubjName = (TextBox)GrdVwRecords.Rows[e.RowIndex].FindControl("TxtSubject");
             TextBox DisplayOrder = (TextBox)GrdVwRecords.Rows[e.RowIndex].FindControl("TxtPriority");
             Button ButtonAddpaper = (Button)GrdVwRecords.Rows[e.RowIndex].FindControl("BtnPapers");
@@ -492,7 +456,7 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',900,550);";
             ButtonAddpaper.Attributes.Add("onClick", _strLnk);
             Session["param1"] = HdnAutoId.Value;
-            Session["param2"] = "10";  //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
+            Session["param2"] = "32";  //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
 
         }
         catch (Exception ex)

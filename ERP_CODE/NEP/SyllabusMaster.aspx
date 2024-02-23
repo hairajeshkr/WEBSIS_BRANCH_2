@@ -73,7 +73,6 @@
                                          <td class="odd">
                                              <asp:CheckBox ID="ChkActive" runat="server" Checked="True" Font-Bold="False" SkinID="IsActive" Text="Active" Width="92px" />
                                         </td>
-                                        
                                     </tr>
                                  </table>
                             </td>
@@ -130,7 +129,6 @@
                     </table>
                 </ContentTemplate>
             </ajaxToolkit:TabPanel>
-                        
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel2">
                 <HeaderTemplate>
                     Syllabus List

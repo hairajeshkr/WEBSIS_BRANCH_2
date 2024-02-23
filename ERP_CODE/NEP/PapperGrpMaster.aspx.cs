@@ -48,7 +48,6 @@ public partial class NEP_PapperGrpMaster : ClsPageEvents, IPageInterFace
         ObjCls = new ClsNEPPaperGroup(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         TabContainer1.ActiveTabIndex = 0;
-        //FnGridViewBinding("");
         
     }
     public void FnAssignProperty()
@@ -213,12 +212,9 @@ public partial class NEP_PapperGrpMaster : ClsPageEvents, IPageInterFace
 
                             FnCancel();
                             FnGridViewBinding("S1");
-
-
-                           
+                         
 
                             break;
-
 
                     }
                     break;

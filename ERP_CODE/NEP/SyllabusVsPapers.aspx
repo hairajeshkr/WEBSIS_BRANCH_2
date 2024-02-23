@@ -5,29 +5,25 @@
 <%@ Register Src="../CtrlGridList.ascx" TagName="CtrlGridList" TagPrefix="uc2" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script language="javascript" src="Script/ClassDivAsgn.js" type="text/javascript"></script>
-    <div style="height: 600px; width: 900px">
-        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="580px" Width="880px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
+    <div style="height: 600px; width: 870px">
+        <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="580px" Width="850px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
                     Paper Selection
                 </HeaderTemplate>
-
                 <ContentTemplate>
                     <table class="auto-style1">
                         <tr class="result-head">
                             <td class="odd">
                                 <asp:Label ID="Label122" runat="server" Height="30px" Text="Filter Paper" Width="100px" SkinID="LblBold"></asp:Label>
-
                             </td>
                             <td class="odd">
                                 <asp:TextBox ID="TxtFilterPaper" runat="server" placeholder="Filter Paper"></asp:TextBox>
 
                             </td>
-                            <td class="odd"></td>
+                            
                             <td class="odd">
-                                <asp:Button ID="BtnFind" runat="server" CommandName="FIND" SkinID="BtnCommandFindNew" Style="left: 3px; top: -3px" Text="FIND" Width="69px" />
-
-
+                                <asp:Button ID="BtnFind" runat="server" CommandName="FIND" SkinID="BtnCommandFindNew" Text="FIND"  />
                             </td>
                         </tr>
                         <tr>
@@ -35,8 +31,8 @@
                                 <table class="upload-field-parent" style="width: 63%; height: 253px;">
                                     <tr>
                                         <td colspan="2">
-                                            <div class="result-list" style="overflow: scroll; height: 200px; width: 850px;">
-                                                <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="830px">
+                                            <div class="result-list" style="overflow: scroll; height: 200px; width: 830px;">
+                                                <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="810px">
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="Select">
                                                             <ItemTemplate>
@@ -76,22 +72,20 @@
                                     <tr>
                                         <td class="odd" style="width: 99px">
                                             <asp:Label ID="Label1" runat="server" Text="Exam Template" Width="150px"></asp:Label>
-
                                         </td>
                                         <td class="odd">
                                             <uc2:CtrlGridList ID="CtrlGrdTemplate" runat="server" AccountType="ClassList" PlaceHoldr="Class" />
-
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <div class="result-list" style="overflow: scroll; height: 200px; width: 850px;">
-                                                <asp:GridView ID="GrdVwPaper" runat="server" SkinID="GrdVwMasterNoPageing" OnRowDeleting="OnRowDeleting">
+                                            <div class="result-list" style="overflow: scroll; height: 230px; width: 830px;">
+                                                <asp:GridView ID="GrdVwPaper" runat="server" SkinID="GrdVwMasterNoPageing" OnRowDeleting="OnRowDeleting" Width="810px">
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="Paper Name">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="LblPaperName" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("PaperName") %>' Width="150px"></asp:Label>
-
+                                                                 <asp:HiddenField ID="HdnPapaerCId" runat="server" Value='<%# Eval("PaperId") %>' />
 
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
@@ -143,7 +137,7 @@
                                                         </asp:TemplateField>
                                                         <asp:TemplateField>
                                                             <ItemTemplate>
-                                                                <asp:Button ID="BtnDelete" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="Delete" Width="20px" ></asp:Button>
+                                                                <asp:Button ID="BtnDelete" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="Delete" Width="60px" ></asp:Button>
 
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
@@ -163,12 +157,9 @@
                         <tr class="result-headTop">
                             <td class="Footercommand" colspan="4" align="center" valign="middle">
                                 <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="Submit" OnClick="ValidateSumOfPercentages"  />
-
-
                             </td>
                         </tr>
                     </table>
-
 
                 </ContentTemplate>
 

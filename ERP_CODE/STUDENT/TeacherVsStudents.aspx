@@ -33,8 +33,6 @@
                                 <asp:Button ID="BtnFind" runat="server" CommandName="FIND" SkinID="BtnCommandFindNew" OnClick="ManiPulateDataEvent_Clicked"  Text="FIND" Width="69px" />
                             </td>
                             
-                           
-                            
                         </tr>
                         <tr>
                             <td class="odd" colspan="5">
@@ -45,8 +43,12 @@
                                                 <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="750px"  >
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="Select">
+                                                            <HeaderTemplate>
+                                                                <asp:CheckBox ID="chkAll" runat="server" />
+                                                            </HeaderTemplate>
+
                                                             <ItemTemplate>
-                                                                <asp:CheckBox ID="ChkSelect" runat="server"  AutoPostBack="true" />
+                                                                <asp:CheckBox ID="ChkSelect" runat="server" Checked='<%# Eval("ChkSelect").ToString() =="False"?false:true %>' AutoPostBack="true" />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                          <asp:TemplateField HeaderText="Student ID">
@@ -86,9 +88,7 @@
 
                                             </div>
                                         </td>
-
                                     </tr>
-
                                     
                                 </table>
                             </td>
@@ -99,8 +99,37 @@
 
                             </td>
                         </tr>
-                    </table>
 
+
+                        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $("[id*=GrdVwRecords] [id*=chkAll]").on("click", function () {
+                                //Get the reference of Header CheckBox.
+                                var chkAll = $(this);
+                                //Loop through all GridView CheckBoxes except Header CheckBox.
+                                $("[id*=GrdVwRecords] [id*=ChkSelect]").not("[id*=chkAll]").each(function () {
+                                    $(this)[0].checked = chkAll[0].checked;
+                                });
+                            });
+                        </script>
+                        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $("[id*=GrdVwRecords] [id*=ChkSelect]").on("click", function () {
+                                //Get the reference of Header CheckBox.
+                                var chkAll = $("[id*=GrdVwRecords] [id*=chkAll]");
+                                //Set Header CheckBox checked to true.
+                                chkAll[0].checked = true;
+                                //Loop through all GridView CheckBoxes except Header CheckBox.
+                                $("[id*=GrdVwRecords] [id*=ChkSelect]").not("[id*=chkAll]").each(function () {
+                                    if (!$(this).is(":checked")) {
+                                        chkAll[0].checked = false;
+                                        return;
+                                    }
+                                });
+                            });
+                        </script>
+                      
+                    </table>
                 </ContentTemplate>
 
             </ajaxToolkit:TabPanel>

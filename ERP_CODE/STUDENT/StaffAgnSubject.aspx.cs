@@ -25,8 +25,7 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
             {
 
                 ObjLst.FnGetStaffList(DdlTeacher, "");
-
-                
+                                
                 FnInitializeForm();
                 FnGridViewBinding("");
                 FnGridViewBinding("S1");
@@ -56,15 +55,14 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
-
-        
+       
         ObjCls.nNEPTeacherId = ObjCls.FnIsNumeric(DdlTeacher.SelectedValue.ToString());
     }
     public void FnGetClassList()
     {
         ViewState["CLS"] = ObjLst.FnGetClassDetailedList();
         DataTable dtt = ViewState["CLS"] as DataTable;
-        
+      
 
     }
 
@@ -85,7 +83,6 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
     public void FnFindRecord()
     {
         FnAssignProperty();
-        //FnGetClassList();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
         CtrlCommand1.IsVisibleSave = true;
@@ -93,8 +90,6 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
     public void FnFindRecord_S()
     {
         FnAssignProperty();
-        //FnGetClassList();
-        //FnGetDivisionList();
         FnFindRecord(ObjCls);
         FnGridViewBinding("S1");
         CtrlCommand1.IsVisibleSave = true;
@@ -131,10 +126,7 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
         }
         else
         {
-            GrdVwLst.DataSource = ViewState["DT"] as DataTable;
-            GrdVwLst.DataKeyNames = new String[] { ObjCls.KeyName };
-            GrdVwLst.DataBind();
-            GrdVwLst.SelectedIndex = -1;
+           
         }
     }
 
@@ -212,13 +204,11 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
                                 ChkIsCustomclass = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkIsCustomclass");
 
                                 HdnId.Value = HdnId.Value;
-                                //ChkSelect.Checked = ObjCls.FnIsBoolean(dataTable1.Rows[i]["ChkSelect"].ToString());
                                 DdlPapers.SelectedValue = dataTable1.Rows[i]["PaperId"].ToString();
                                 ChkIsCustomclass.Checked = ObjCls.FnIsBoolean(dataTable1.Rows[i]["CustomClass"].ToString());
                                 DdlClass.SelectedValue = dataTable1.Rows[i]["ClassId"].ToString();
                                 DdlDivision.SelectedValue = dataTable1.Rows[i]["DivisionId"].ToString();
                                 TxtGroupName.Text = dataTable1.Rows[i]["GroupName"].ToString();
-                                
 
                             }
 
@@ -322,47 +312,6 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
     }
 
 
-    protected void GrdVwLst_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
-    {
-        try
-        {
-            FnCancel();
-            GrdVwLst.SelectedIndex = e.NewSelectedIndex;
-            ObjCls.PFlag = "V";
-            ViewState["ID"] = GrdVwLst.SelectedDataKey.Values[0].ToString();
-            FnFindRecord_S();
-            ObjCls.GetDataRow(GrdVwLst.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
-            
-            DataTable dataTable1 = ViewState["DT"] as DataTable;
-            int RowCount = dataTable1.Rows.Count;
-
-            for (int i = 0; i < RowCount; i++)
-            {
-                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
-                ChkSelect = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkSelect");
-                DdlPapers = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlPapers");
-                DdlClass = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlClass");
-                DdlDivision = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlDivision");
-                TxtGroupName = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtGroupName");
-
-
-                
-            }
-
-
-            ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
-
-            CtrlCommand1.SaveText = "Update";
-            CtrlCommand1.SaveCommandArgument = "UPDATE";
-
-            TabContainer1.ActiveTabIndex = 0;
-        }
-        catch (Exception ex)
-        {
-            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-        }
-    }
-
 
     private void SetInitialRow()
     {
@@ -409,8 +358,7 @@ public partial class STUDENT_StaffAgnSubject : ClsPageEvents, IPageInterFace
                     for (int i = 1; i <= dtCurrentTable.Rows.Count; i++)
                 {
                     CheckBox box1 = (CheckBox)GrdVwRecords.Rows[rowIndex].Cells[1].FindControl("ChkSelect");
-
-                    
+                   
                     DropDownList box2 = (DropDownList)GrdVwRecords.Rows[rowIndex].Cells[2].FindControl("DdlPapers");
                     DropDownList box3 = (DropDownList)GrdVwRecords.Rows[rowIndex].Cells[3].FindControl("DdlClass");
                     DropDownList box4 = (DropDownList)GrdVwRecords.Rows[rowIndex].Cells[4].FindControl("DdlDivision");

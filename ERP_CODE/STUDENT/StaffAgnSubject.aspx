@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StaffAgnSubject.aspx.cs" Inherits="STUDENT_StaffAgnSubject" StylesheetTheme="SkinFile"  %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StaffAgnSubject.aspx.cs" Inherits="STUDENT_StaffAgnSubject" StylesheetTheme="SkinFile" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Src="../CtrlCommand.ascx" TagName="CtrlCommand" TagPrefix="uc1" %>
@@ -30,29 +30,34 @@
                         </tr>
                         <tr>
                             <td class="odd">
-                                <div class="result-list" style="overflow: scroll; height: 390px; width: 1170px">
-                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="1170px" ShowFooter="True" OnRowDeleting="GrdVwRecords_RowDeleting" OnRowDataBound="GrdVwRecords_RowDataBound">
+                                <div class="result-list" style="overflow: scroll; height: 410px; width: 1170px">
+                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="1150px" ShowFooter="True" OnRowDeleting="GrdVwRecords_RowDeleting" OnRowDataBound="GrdVwRecords_RowDataBound">
                                         <Columns>
                                             <asp:BoundField />
                                             <asp:TemplateField HeaderText="Select">
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="ChkSelect" runat="server" /></ItemTemplate>
+                                                    <asp:CheckBox ID="ChkSelect" runat="server" />
+                                                </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Papers">
                                                 <ItemTemplate>
-                                                    <asp:DropDownList ID="DdlPapers" runat="server" Width="125px" SkinID="DdlInputType" AutoPostBack="true" OnSelectedIndexChanged="SelectedIndexChangedP"></asp:DropDownList></ItemTemplate>
+                                                    <asp:DropDownList ID="DdlPapers" runat="server" Width="125px" SkinID="DdlInputType" AutoPostBack="true" OnSelectedIndexChanged="SelectedIndexChangedP"></asp:DropDownList>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Is CustomClass">
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="ChkIsCustomclass"  AutoPostBack="true" runat="server" /></ItemTemplate>
+                                                    <asp:CheckBox ID="ChkIsCustomclass" AutoPostBack="true" runat="server" />
+                                                </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Class">
                                                 <ItemTemplate>
-                                                    <asp:DropDownList ID="DdlClass" runat="server" Width="125px"  AutoPostBack="true" OnSelectedIndexChanged="SelectedIndexChangedC"></asp:DropDownList></ItemTemplate>
+                                                    <asp:DropDownList ID="DdlClass" runat="server" Width="125px" AutoPostBack="true" OnSelectedIndexChanged="SelectedIndexChangedC"></asp:DropDownList>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Division">
                                                 <ItemTemplate>
-                                                    <asp:DropDownList ID="DdlDivision" runat="server" Width="125px"  AutoPostBack="true" OnSelectedIndexChanged="SelectedIndexChangedD"></asp:DropDownList></ItemTemplate>
+                                                    <asp:DropDownList ID="DdlDivision" runat="server" Width="125px" AutoPostBack="true" OnSelectedIndexChanged="SelectedIndexChangedD"></asp:DropDownList>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Group Name">
                                                 <ItemTemplate>
@@ -61,12 +66,14 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <FooterTemplate>
-                                                    <asp:Button ID="ButtonAdd" runat="server" Text="Add+" OnClick="ButtonAdd_Click" UseSubmitBehavior="false" /></FooterTemplate>
+                                                    <asp:Button ID="ButtonAdd" runat="server" Text="Add+" OnClick="ButtonAdd_Click" UseSubmitBehavior="false" />
+                                                </FooterTemplate>
                                                 <FooterStyle HorizontalAlign="Center" />
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Student">
                                                 <ItemTemplate>
-                                                    <asp:Button ID="BtnStudents" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="..." Width="100px" Enabled='<%# Eval("Status").ToString() == "A" ? true : false %>'></asp:Button></ItemTemplate>
+                                                    <asp:Button ID="BtnStudents" runat="server" CommandName="DELETE" SkinID="BtnGrdEditGreen" Text="..." Width="100px" Enabled='<%# Eval("Status").ToString() == "A" ? true : false %>'></asp:Button>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>
@@ -82,60 +89,6 @@
                 </ContentTemplate>
 
             </ajaxToolkit:TabPanel>
-
-            
-            <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel2">
-                <HeaderTemplate>Teacher Paper List</HeaderTemplate>
-
-                <ContentTemplate>
-                    <table class="auto-style1">
-                        <tr>
-                            <td class="odd">
-                                <table class="auto-style1">
-                                    <tr>
-                                        <td class="odd">
-                                            <asp:Label ID="Label16" runat="server" Text="Name"></asp:Label></td>
-                                        <td class="odd">
-                                            <asp:TextBox ID="TxtName_Srch" runat="server"></asp:TextBox></td>
-                                        <td class="odd">
-                                            <asp:Label ID="Label2" runat="server" Text="Code"></asp:Label></td>
-                                        <td class="odd">
-                                            <asp:TextBox ID="TxtCode_Srch" runat="server"></asp:TextBox></td>
-                                        <td class="odd">
-                                            <asp:Button ID="BtnFind" runat="server" CommandName="FIND" SkinID="BtnCommandFind" Text="Find" Width="100px" /></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="odd">
-                                <div class="result-list" style="overflow: scroll; height: 420px; width: 1170px">
-                                    <asp:GridView ID="GrdVwLst" runat="server" SkinID="GrdVwMasterNoPageing" Width="1170px">
-                                        <Columns>
-                                            <asp:BoundField />
-                                            <asp:TemplateField HeaderText="Staff Name">
-                                                <ItemTemplate>
-                                                    <asp:LinkButton ID="LnkName" runat="server" CommandName="SELECT" SkinID="LnkBtnGrdMain" Text='<%# Eval("Name") %>' Width="175px"></asp:LinkButton><asp:HiddenField ID="HdnId" runat="server" Value='<%# Eval("ID") %>' />
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Code">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="LblCode" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Code") %>' Width="100px"></asp:Label></ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Department">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="LblPaperGroup" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("PaperGroupName") %>' Width="100px"></asp:Label></ItemTemplate>
-                                            </asp:TemplateField>
-                                        </Columns>
-                                    </asp:GridView>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </ContentTemplate>
-
-            </ajaxToolkit:TabPanel>
-            
         </ajaxToolkit:TabContainer>
     </div>
 </asp:Content>

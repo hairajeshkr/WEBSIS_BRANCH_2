@@ -62,8 +62,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-
-                                
+                               
                                         <div class="result-list" style="overflow: scroll; height: 280px; width: 1050px;">
 
                                             <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMaster" ShowFooter="True" AutoGenerateColumns="False" Autopostback="false" >
@@ -122,8 +121,6 @@
                                             </asp:GridView>
 
                                         </div>
-
-
                                     
                             </td>
                         </tr>

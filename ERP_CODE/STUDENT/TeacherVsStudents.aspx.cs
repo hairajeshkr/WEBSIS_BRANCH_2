@@ -11,7 +11,7 @@ public partial class STUDENT_TeacherVsStudents : ClsPageEvents, IPageInterFace
     Label LblPaper = null, LblCreditHrs = null;
     HiddenField HdnId = null;
     CheckBox ChkSelect = null;
-    int iCnt = 0;
+    int iCnt = 0,Rdel=0;
     string PaperId, TeacherId,GroupId;
 
     protected override void Page_Load(object sender, EventArgs e)
@@ -121,15 +121,15 @@ public partial class STUDENT_TeacherVsStudents : ClsPageEvents, IPageInterFace
                                     HiddenField HdnId = null;
 
                                     HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
-                                    ChkSelect = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkSelect");
-                                    LblPaper = (Label)GrdVwRecords.Rows[i].FindControl("LblPaper");
-                                    TxtCreditHrs = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtCreditHrs");
-
+                                    
                                     ObjCls.GroupNID = ObjCls.FnIsNumeric(GroupId);
                                     ObjCls.NEPStudentId = ObjCls.FnIsNumeric(HdnId.Value);
+                                    ObjCls.Rdel = Rdel;
                                     _strMsg = ObjCls.SaveRecord() as string;
+                                    iCnt = iCnt + 1;
+                                    Rdel = Rdel + 1;
                                 }
-
+                                
                             }
                             if (iCnt > 0)
                             {
@@ -163,9 +163,7 @@ public partial class STUDENT_TeacherVsStudents : ClsPageEvents, IPageInterFace
 
         ChkSelect = (CheckBox)e.Row.FindControl("ChkSelect");
         {
-            
             ObjCls.PFlag = "S2";
-
         }
     }
 

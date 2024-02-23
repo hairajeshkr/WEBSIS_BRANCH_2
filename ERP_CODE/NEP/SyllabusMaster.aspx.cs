@@ -217,7 +217,8 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                             for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
                             {
                                 cCnt = cCnt + 1;
-                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                                HdnId = (HiddenField)GrdVwRecords.Rows[0].FindControl("HdnId");
+                                HdnSubjId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnSubjId");
                                 TxtSubject = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtSubject");
                                 DdlSubject = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlSubject");
                                 ChkElective = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkElective");
@@ -226,7 +227,7 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
 
                                 ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
                                 ObjCls.NEPSubjectName = TxtSubject.Text.ToString();
-
+                                ObjCls.HdnSubjId = ObjCls.FnIsNumeric(HdnSubjId.Value);
                                 ObjCls.Elective = ObjCls.FnIsNumeric(ChkElective.Checked);
                                 ObjCls.Optional = ObjCls.FnIsNumeric(ChkOptional.Checked);
                                 ObjCls.DisplayOrder = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
@@ -245,7 +246,34 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                             }
                             ObjCls.PFlag = "S2";
 
-                            TabContainer1.ActiveTabIndex = 1;
+                            FnFindRecord_P();
+
+
+                            DataTable dataTable2 = ViewState["DT"] as DataTable;
+                            int RowCount2 = dataTable2.Rows.Count;
+
+                            for (int i = 0; i < RowCount2; i++)
+                            {
+                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                                HdnSubjId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnSubjId");
+                                TxtSubject = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtSubject");
+                                ChkElective = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkElective");
+                                ChkOptional = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkOptional");
+                                TxtPriority = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPriority");
+
+                                HdnId.Value = HdnId.Value;
+                                HdnSubjId.Value = HdnSubjId.Value;
+                                TxtSubject.Text = dataTable2.Rows[i]["SubjectName"].ToString();
+                                ChkElective.Checked = ObjCls.FnIsBoolean(dataTable2.Rows[i]["Elective"].ToString());
+                                ChkOptional.Checked = ObjCls.FnIsBoolean(dataTable2.Rows[i]["Optional"].ToString());
+                                TxtPriority.Text = dataTable2.Rows[i]["DisplayOrder"].ToString();
+
+                            }
+
+
+
+
+                            TabContainer1.ActiveTabIndex = 0;
 
                             break;
 
@@ -254,8 +282,7 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
             case "FIND":
                     ObjCls.PFlag = "S1";
                     FnFindRecord();
-                    
-                    break;
+                   break;
             case "CLEAR":
                 FnCancel();
                     FnGridViewBinding("S1");
@@ -315,6 +342,15 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
 
 
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
+            if (RowCount == 0)
+            {
+                SetInitialRow();
+            }
+            else
+            {
+                ViewState["CurrentTable"] = dataTable1;
+            }
+
 
             CtrlCommand1.SaveText = "Update";
             CtrlCommand1.SaveCommandArgument = "UPDATE";
@@ -369,7 +405,6 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                     CheckBox box2 = (CheckBox)GrdVwRecords.Rows[rowIndex].Cells[2].FindControl("ChkElective");
                     CheckBox box3 = (CheckBox)GrdVwRecords.Rows[rowIndex].Cells[3].FindControl("ChkOptional");
                     TextBox box4 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[4].FindControl("TxtPriority");
-                   
 
                     drCurrentRow = dtCurrentTable.NewRow();
                     dtCurrentTable.Rows[i - 1]["TxtSubject"] = box1.Text;

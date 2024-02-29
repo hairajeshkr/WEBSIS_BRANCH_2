@@ -14,8 +14,10 @@
                     Exam Template
                 </HeaderTemplate>
                 <ContentTemplate>
-                    <table class="auto-style1">
+                    <table class="auto-style1">    
                         <tr>
+
+
                             <td class="odd">
                                 <table class="auto-style1">
                                     <tr>
@@ -64,7 +66,7 @@
                         <tr>
                             <td class="odd">
                                 <div class="result-list" style="overflow: scroll; height: 280px; width: 1030px">
-                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="1000px" ShowFooter="True">
+                                    <asp:GridView ID="GrdVwRecords" runat="server" SkinID="GrdVwMasterNoPageing" Width="1000px" ShowFooter="True" OnRowDataBound="GrdVwRecords_RowDataBound">
                                         <Columns>
                                             <asp:BoundField />
                                             <asp:TemplateField HeaderText="Sub Exam name">
@@ -121,6 +123,8 @@
                 <ContentTemplate>
                     <table class="auto-style1">
                         <tr>
+
+
                             <td class="odd">
                                 <table class="auto-style1">
                                     <tr>
@@ -145,7 +149,7 @@
                         </tr>
                         <tr>
                             <td class="odd">
-                                <div class="result-list" style="overflow: scroll; height: 450px; width: 1000px">
+                                <div class="result-list" style="overflow: scroll; height: 450px; width: 1030px">
                                     <asp:GridView ID="GrdVwLst" runat="server" SkinID="GrdVwMasterNoPageing" Width="1000px" OnSelectedIndexChanging="GrdVwLst_SelectedIndexChanging">
                                         <Columns>
                                             <asp:BoundField />

@@ -15,7 +15,7 @@
                 <ContentTemplate>
                     <table class="auto-style2" style="height: 796px">
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="width: 112px">
                                 <asp:Label ID="Label124" runat="server" Text="Staff Name" Width="120px"></asp:Label></td>
                             <td align="left" class="odd" colspan="4">
                                 <table style="width: 100%">
@@ -40,7 +40,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="width: 112px">
                                 <asp:Label ID="Label123" runat="server" Text="App. Order No." Width="120px"></asp:Label></td>
                             <td align="left" class="odd" colspan="4">
                                 <table>
@@ -59,51 +59,14 @@
                                     <tr>
                                         <td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<table class="upload-field-parent">
                                             <tr>
-                                                <td>
+                                                <td style="height: 157px">
                                                     <img id="ImgItem" runat="server" alt="Image" class="ItemImageStyle" src="~//images//admin.png" style="border: solid; border-width: 1px; border-color: gray; height: 150px; width: 200px;" />
-                                                    &nbsp; </img></img>&nbsp;&nbsp; &nbsp; </img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <img id="ImgCapture" runat="server" alt="Image" class="ItemImageStyle" src="~/images/ImageCapture.png" style="border: solid; border-width: 1px; border-color: gray; height: 50px; width: 50px; cursor: pointer;"></img> 
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; </img></img>&nbsp;&nbsp; &nbsp; </img>&nbsp;&nbsp;&nbsp;&nbsp;<img id="ImgCapture" runat="server" alt="Image" class="ItemImageStyle" src="~/images/ImageCapture.png" style="border: solid; border-width: 1px; border-color: gray; height: 50px; width: 50px; cursor: pointer;"></img> </img>
                                                     </img>
                                                     </img>
                                                     </img>
                                                     </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    </img>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</img></img></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</img></td>
+                                                </td>
                                                 <caption>
                                                     <img/>
                                                     <tr>
@@ -125,7 +88,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="width: 112px">
                                 <asp:Label ID="Label122" runat="server" Text="Probationary Period" Width="133px" Height="28px"></asp:Label></td>
                             <td align="left" class="odd" colspan="4">
                                 <table>
@@ -143,7 +106,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="width: 112px">
                                 <asp:Label ID="Label8" runat="server" Text="Date of Joining" Width="120px"></asp:Label></td>
                             <td align="left" class="odd" colspan="4">
                                 <table class="upload-field-parent">
@@ -168,18 +131,19 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="width: 112px">
                                 <asp:Label ID="Label131" runat="server" Text="Appointment Nature" Width="133px" Height="36px"></asp:Label>
                             </td>
                             <td align="left" class="odd" colspan="4">
                                 <table>
                                     <tr>
                                         <td>
-                                            <asp:DropDownList ID="DdlAppointmentNature" runat="server" SkinID="DdlNatureOfAppointment">
+                                            <asp:DropDownList ID="DdlAppointmentNature" runat="server" SkinID="DdlNatureOfAppointment" Height="30px" Width="303px">
                                             </asp:DropDownList>
                                         </td>
                                         <td style="height: 39px; width: 150px">
-                                            <asp:RadioButtonList ID="RadBtnGender" runat="server" SkinID="RadBtnSex" Height="22px" Width="193px">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <asp:RadioButtonList ID="RadBtnGender" runat="server" SkinID="RadBtnSex"  Width="189px">
                                             </asp:RadioButtonList>
                                         </td>
                                     </tr>
@@ -187,7 +151,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd" style="height: 39px">
+                            <td class="odd" style="height: 39px; width: 112px;">
                                 <asp:Label ID="Label132" runat="server" Text="Permanent Address" Width="136px"></asp:Label>
                             </td>
                             <td align="left" class="odd" colspan="4" style="height: 39px">
@@ -207,7 +171,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="width: 112px">
                                 <asp:Label ID="Label154" runat="server" Text="Temporary Address" Width="130px"></asp:Label>
                             </td>
                             <td align="left" class="odd" colspan="4">
@@ -228,7 +192,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="width: 112px">
                                 <asp:Label ID="Label27" runat="server" Text="Bank A/c No." Width="140px"></asp:Label></td>
                             <td align="left" class="odd" colspan="4">
                                 <table style="width: 100%; height: 100%;">
@@ -257,7 +221,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="width: 112px">
                                 <asp:Label ID="Label7" runat="server" Text="Branch Name" Width="140px"></asp:Label></td>
                             <td align="left" class="odd" colspan="4">
                                 <table style="width: 100%; height: 100%;">
@@ -286,7 +250,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="width: 112px">
                                 <asp:Label ID="Label153" runat="server" Text="Father/Spouse Name" Width="140px"></asp:Label></td>
                             <td align="left" class="odd" colspan="4">
                                 <table style="width: 100%">
@@ -305,7 +269,7 @@
                                 <table class="upload-field-parent" style="width: 84%">
                                     <tr>
                                         <td class="odd" style="width: 119px">
-                                            <asp:Label ID="Label156" runat="server" Text="Experiance" Width="120px"></asp:Label>
+                                            <asp:Label ID="Label156" runat="server" Text="Experiance" Width="111px" Height="21px"></asp:Label>
                                         </td>
                                         <td>
                                             <asp:DropDownList ID="DdlExperiance" runat="server" SkinID="DdlExperiance">
@@ -316,7 +280,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="odd">
+                            <td class="odd" style="width: 112px">
                                 <asp:Label ID="Label42" runat="server" Text="Department" Width="120px"></asp:Label>
                             </td>
                             <td align="left" class="odd" colspan="3">
@@ -335,7 +299,7 @@
                                 </asp:DropDownList>
                             </td>
                             <tr>
-                                <td class="odd">
+                                <td class="odd" style="width: 112px">
                                     <asp:Label ID="Label43" runat="server" Text="Qualification" Width="80px"></asp:Label>
                                 </td>
                                 <td align="left" class="odd" colspan="3">
@@ -355,7 +319,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="odd">
+                                <td class="odd" style="width: 112px">
                                     <asp:Label ID="Label133" runat="server" Text="Designation" Width="120px"></asp:Label>
                                 </td>
                                 <td align="left" class="odd" colspan="3">
@@ -369,13 +333,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="odd">
+                                <td class="odd" style="width: 112px">
                                     <asp:Label ID="Label149" runat="server" Text="PF No" Width="130px"></asp:Label>
 
                                     <td colspan="3">
                                         <asp:TextBox ID="TxtPFNo" runat="server" placeholder="PF No" SkinID="Txt140"></asp:TextBox></td>
-
-
                                     <td class="odd">
                                         <asp:Label ID="Label12" runat="server" Text="Remarks" Width="120px"></asp:Label>
                                     </td>
@@ -385,7 +347,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="odd">
+                                <td class="odd" style="width: 112px">
                                     <asp:Label ID="Label150" runat="server" Text="PAN No" Width="130px"></asp:Label>
                                     <td class="upload-field-input" style="width: 270px">
                                         <asp:TextBox ID="TxtPANNo" runat="server" placeholder="PAN No" SkinID="Txt140"></asp:TextBox></td>
@@ -398,25 +360,20 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="odd">
-                                    <asp:Label ID="Label151" runat="server" Text="Mob No." Width="130px"></asp:Label>
-                                    <td class="odd" colspan="3">
-                                        <table class="upload-field-parent">
-                                            <tr>
-                                                <td>
-                                                    <asp:TextBox ID="TxtMobNo" runat="server" placeholder="Phone No" SkinID="Txt140"></asp:TextBox>
-                                                </td>
-                                                <td><asp:Label ID="Label11" runat="server" Text="Phone No" Width="107px"></asp:Label></td>
-                                                <td>
-                                                    &nbsp;</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                    <td class="odd"><asp:TextBox ID="TxtPhoneNo" runat="server" placeholder="Phone No" SkinID="Txt140"></asp:TextBox></td>
+                                <td class="odd" style="width: 112px">
+                                    <asp:Label ID="Label151" runat="server" Text="Mob No." Width="130px" ></asp:Label>
+                                    <td class="upload-field-input" style="width: 270px">
+                                                    <asp:TextBox ID="TxtMobNo" runat="server" placeholder="Phone No" SkinID="Txt140"></asp:TextBox></td>
+                                               <td class="upload-field-input" style="width: 270px">
+                                                   <asp:Label ID="Label11" runat="server" Text="Phone No" Width="107px"></asp:Label>
+                                                <td>&nbsp;</td>
+                                                <td class="odd">
+                                                    <asp:TextBox ID="TxtPhoneNo" runat="server" placeholder="Phone No" SkinID="Txt140"></asp:TextBox>
+                                                   </td>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="odd">
+                                <td class="odd" style="width: 112px">
                                     <td class="odd" colspan="3">
                                         <asp:CheckBox ID="ChkActive" runat="server" Checked="True" Font-Bold="False" SkinID="IsActive" Text="Active" />
                                     </td>
@@ -435,15 +392,9 @@
                     </table>
                 </ContentTemplate>
 
-
-
-
             </ajaxToolkit:TabPanel>
             <ajaxToolkit:TabPanel ID="TabPanel2" runat="server" HeaderText="TabPanel2">
                 <HeaderTemplate>Staff List</HeaderTemplate>
-
-
-
                 <ContentTemplate>
                     <table style="width: 100%; height: 0px;">
                         <tr>

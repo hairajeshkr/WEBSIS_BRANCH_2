@@ -21,7 +21,6 @@ public partial class STUDENT_StaffRegistration : ClsPageEvents, IPageInterFace
         try
         {
             base.Page_Load(sender, e);
-            //CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
@@ -143,9 +142,6 @@ public partial class STUDENT_StaffRegistration : ClsPageEvents, IPageInterFace
 
         FnNoneImage(ImgItem);
 
-        //HdnId.Value = "";
-        //LblStudentName.Text = "";
-        //LblStudentId.Text = "";
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
@@ -159,12 +155,6 @@ public partial class STUDENT_StaffRegistration : ClsPageEvents, IPageInterFace
         ObjCls.AdmissionNo = TxtAdmNo_Srch.Text.Trim();
         ObjCls.RegNo = TxtRegNo_Srch.Text.Trim();
         ObjCls.AdharNo = TxtAdhar_Srch.Text.Trim();
-        //ObjCls.ClassId = ObjCls.FnIsNumeric(CtrlGrdClass_Srch.SelectedValue.ToString());
-        //ObjCls.DivisionId = ObjCls.FnIsNumeric(CtrlGrdDiv_Srch.SelectedValue.ToString());
-
-        //DataTable ClsTGFM = (ObjCls.FnGetDataSet("SELECT *  FROM TblRegistration") as DataSet).Tables[0];
-        //DataTable ClsTGFM1 = (ObjCls.FnGetDataSet("SELECT *  FROM VwRegistration") as DataSet).Tables[0];
-
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
         TabContainer1.ActiveTabIndex = 1;
@@ -218,7 +208,6 @@ public partial class STUDENT_StaffRegistration : ClsPageEvents, IPageInterFace
                     base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     break;
                 case "CLEAR":
-                    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
                     FnCancel();
                     break;
                 case "CLOSE":
@@ -230,10 +219,7 @@ public partial class STUDENT_StaffRegistration : ClsPageEvents, IPageInterFace
                     break;
                 case "FIND":
                     FnFindRecord();
-                    //FnAssignProperty();
-                    //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                    //FnGridViewBinding("");
-                    //System.Threading.Thread.Sleep(1000000);
+                   
                     break;
                 case "HELP":
                     ObjCls.FnAlertMessage(" You Have No permission To Help Record");

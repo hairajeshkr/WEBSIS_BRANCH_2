@@ -14,7 +14,7 @@ public partial class NEP_ExamTemplate :ClsPageEvents, IPageInterFace
     TextBox TxtSubExamName = null, TxtMaxMark = null, TxtPercentage = null, TxtPriority=null;
     HiddenField HdnStudentId = null, HdnId = null;
     DropDownList DdlRptColumn = null;
-    int iCnt = 0;
+    int iCnt = 0,cCnt=0;
 protected override void Page_Load(object sender, EventArgs e)
 {
     try
@@ -23,7 +23,7 @@ protected override void Page_Load(object sender, EventArgs e)
         CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
         if (!IsPostBack)
         {
-            FnInitializeForm();
+                FnInitializeForm();
                 FnGridViewBinding("");
                 FnGridViewBinding("S1");
                 SetInitialRow();
@@ -44,11 +44,12 @@ public override void FnInitializeForm()
     TabContainer1.ActiveTabIndex = 0;
     
 }
-    public void FnAssignProperty()
+public void FnAssignProperty()
 {
         base.FnAssignProperty(ObjCls);
 
-        ObjCls.NEPPaperGroupID = 35;//ObjCls.FnIsNumeric(CtrlGrdPaperGroup.SelectedValue);
+        ObjCls.NEPPaperGroupID = 35;
+            //ObjCls.FnIsNumeric(CtrlGrdPaperGroup.SelectedValue);
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
         ObjCls.Remarks = TxtRemark.Text.Trim();
@@ -163,16 +164,59 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                             FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Saved"));
                         }
                         FnCancel();
+                            FnGridViewBinding("S1");
                         break;
+                        case "UPDATE":
+                            ObjCls.cFlag = "SS";
+                            FnAssignProperty();
+                            for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
+                            {
+                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                                TxtSubExamName = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtSubExamName");
+                                DdlRptColumn = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlRptColumn");
+                                TxtMaxMark = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtMaxMark");
+
+                                TxtPercentage = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPercentage");
+                                TxtPriority = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPriority");
+
+                                ObjCls.SubExamName = TxtSubExamName.Text.Trim();
+                                ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
+                                ObjCls.NEPRptColumnID = ObjCls.FnIsNumeric(DdlRptColumn.SelectedValue);
+                                ObjCls.MaxMark = ObjCls.FnIsNumeric(TxtMaxMark.Text.Trim());
+                                ObjCls.Percentage = ObjCls.FnIsNumeric(TxtPercentage.Text.Trim());
+                                ObjCls.DisplayOrder = ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
+
+                                cCnt = cCnt + 1;
+                                ObjCls.nFlag = cCnt;
+                                _strMsg = ObjCls.UpdateRecord() as string;
+
+
+                                if (ObjCls.FnIsDouble(TxtPriority.Text) > 0 || ObjCls.FnIsDouble(TxtMaxMark.Text) > 0)
+                                {
+                                    iCnt = iCnt + 1;
+                                    
+                                }
+                            }
+                            if (iCnt > 0)
+                            {
+                                FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records updated successfully"));
+                            }
+                            FnCancel();
+                            FnGridViewBinding("S1");
+
+                            break;
                 }
                 break;
             case "FIND":
+                    
+
                     ObjCls.cFlag = "S1";
                     FnFindRecord();
                 break;
             case "CLEAR":
                 FnCancel();
-                break;
+                    FnGridViewBinding("S1");
+                    break;
             case "PRINT":
                 FnAssignProperty();
                 base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
@@ -204,6 +248,7 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
         dr["Max Mark"] = string.Empty;
         dr["Percentage"] = string.Empty;
         dr["Order"] = string.Empty;
+        // dr["ChkExpire"] = false;
         dt.Rows.Add(dr);
         ViewState["CurrentTable"] = dt;
         GrdVwRecords.DataSource = dt;
@@ -230,11 +275,13 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                     TextBox box7 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[5].FindControl("TxtPriority");
 
                     drCurrentRow = dtCurrentTable.NewRow();
+                    //drCurrentRow["RowNumber"] = i + 1;
                     dtCurrentTable.Rows[i - 1]["Sub Exam name"] = box1.Text;
                     dtCurrentTable.Rows[i - 1]["Report Column"] = ObjCls.FnIsNumeric(box3.SelectedValue);
                     dtCurrentTable.Rows[i - 1]["Max Mark"] = box4.Text;
                     dtCurrentTable.Rows[i - 1]["Percentage"] = box6.Text;
                     dtCurrentTable.Rows[i - 1]["Order"] = box7.Text;
+                    //dtCurrentTable.Rows[i - 1]["ChkExpire"] = box8.Checked;
                     rowIndex++;
                 }
 
@@ -311,6 +358,7 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
             int Rwcount = DT.Rows.Count;
             for (int i = 0; i < Rwcount; i++)
             {
+                //AddNewRowToGrid();
                 HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
                 TxtSubExamName = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtSubExamName");
                 DdlRptColumn = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlRptColumn");
@@ -319,16 +367,20 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                 TxtPriority = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPriority");
 
                 TxtSubExamName.Text = DT.Rows[i]["SubExamName"].ToString();
+                //HdnId.Value = dataTable1.Rows[i]["SubExamName"].ToString();
                 DdlRptColumn.SelectedValue = DT.Rows[i]["RptColumnID"].ToString();
                 TxtMaxMark.Text = DT.Rows[i]["MaxMark"].ToString();
                 TxtPercentage.Text = DT.Rows[i]["Percentage"].ToString();
                 TxtPriority.Text = DT.Rows[i]["DisplayOrder"].ToString();
 
             }
-            
-            
+
+
+            //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
+            CtrlCommand1.SaveText = "Update";
+            CtrlCommand1.SaveCommandArgument = "UPDATE";
 
             TabContainer1.ActiveTabIndex = 0;
 
@@ -339,5 +391,27 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
         }
         
     }
-    
+
+
+    protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                DropDownList DdlRptColumn = (DropDownList)e.Row.FindControl("DdlRptColumn");
+
+                DataTable DTExams = (ObjCls.FnGetDataSet("select RPTC.nId Id,RPTC.cNEPRptColumnName Name from TblNEPReportColumns RPTC inner join tblneppapergroup TPG  on RPTC.nNEPPaperGroupID = TPG.nId where TPG.nId =35") as DataSet).Tables[0];
+                DdlRptColumn.DataSource = DTExams;
+                DdlRptColumn.DataValueField = "Id";
+                DdlRptColumn.DataTextField = "Name";
+                DdlRptColumn.DataBind();
+                DdlRptColumn.Items.Insert(0, new ListItem("--select--", "0"));
+            }
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
 }

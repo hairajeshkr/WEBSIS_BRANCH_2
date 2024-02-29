@@ -14,7 +14,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
     CheckBox Chkfailed, ChkFailed;
 
     HiddenField HdnStudentId = null, HdnId = null; 
-    int iCnt = 0;
+    int iCnt = 0,cCnt=0;
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -154,6 +154,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                                 if (ObjCls.FnIsDouble(TxtRangeFrom.Text) > 0 || ObjCls.FnIsDouble(TxtRangeTo.Text) > 0)
                                 {
                                     iCnt = iCnt + 1;
+                                    ObjCls.nFlag = iCnt;
                                 }
                             }
                             if (iCnt > 0)
@@ -161,16 +162,63 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                                 FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Saved"));
                             }
                             FnCancel();
+                            FnGridViewBinding("S1");
+                            break;
+                        case "UPDATE":
+                            
+                            FnAssignProperty();
+                            for (int i = 0; i <= GrdVwRecords.Rows.Count - 1; i++)
+                            {
+                                HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
+                                TxtGrade = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtGrade");
+                                TxtRemark = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtRemark");
+
+                                TxtRangeFrom = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtRangeFrom");
+                                TxtRangeTo = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtRangeTo");
+                                TxtGradepoint = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtGradepoint");
+                                Chkfailed = (CheckBox)GrdVwRecords.Rows[i].FindControl("ChkFailed");
+                                TxtOrder = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtOrder");
+
+                                ObjCls.NEPGrade = TxtGrade.Text.Trim();
+                                ObjCls.ID = ObjCls.FnIsNumeric(HdnId.Value);
+                                ObjCls.NEPRemarks = TxtRemark.Text.Trim();
+                                ObjCls.NEPRangeFrom = ObjCls.FnIsNumeric(TxtRangeFrom.Text.Trim());
+                                ObjCls.NEPRangeTo = ObjCls.FnIsNumeric(TxtRangeTo.Text.Trim());
+                                ObjCls.NEPGradePoint = ObjCls.FnIsNumeric(TxtGradepoint.Text.Trim());
+                                ObjCls.DisplayOrder = ObjCls.FnIsNumeric(TxtOrder.Text.Trim());
+                                ObjCls.Failed = ObjCls.FnIsNumeric(Chkfailed.Checked == true ? true : false);
+
+                                cCnt = cCnt + 1;
+                                ObjCls.nFlag = cCnt;
+                                _strMsg = ObjCls.UpdateRecord() as string;
+
+
+                                if (ObjCls.FnIsDouble(TxtRangeFrom.Text) > 0 || ObjCls.FnIsDouble(TxtRangeTo.Text) > 0)
+                                {
+                                    iCnt = iCnt + 1;
+                                }
+                            }
+                            if (iCnt > 0)
+                            {
+                                FnPopUpAlert(ObjCls.FnAlertMessage(iCnt.ToString() + " Records Saved"));
+                            }
+                            FnCancel();
+                            FnGridViewBinding("S1");
                             break;
                     }
                     break;
                 case "FIND":
-                   
                     ObjCls.cFlag = "S1";
                     FnFindRecord();
                     break;
+                case "DELETE":
+                    ObjCls.cFlag = "S1";
+                    FnAssignProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
+                    break;
                 case "CLEAR":
                     FnCancel();
+                    FnGridViewBinding("S1");
                     break;
                 case "PRINT":
                     FnAssignProperty();
@@ -207,6 +255,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
         dr["Grade Point"] = 0;
         dr["Failed"] = false;
         dr["Order"] = 0;
+        // dr["ChkExpire"] = false;
         dt.Rows.Add(dr);
         ViewState["CurrentTable"] = dt;
         GrdVwRecords.DataSource = dt;
@@ -235,6 +284,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                     TextBox box7 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[7].FindControl("TxtOrder");
 
                     drCurrentRow = dtCurrentTable.NewRow();
+                    //drCurrentRow["RowNumber"] = i + 1;
                     dtCurrentTable.Rows[i - 1]["grade"] = box1.Text;
                     dtCurrentTable.Rows[i - 1]["Remarks"] = box2.Text;
                     dtCurrentTable.Rows[i - 1]["Range from"] = ObjCls.FnIsNumeric(box3.Text);
@@ -242,6 +292,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                     dtCurrentTable.Rows[i - 1]["Grade Point"] = ObjCls.FnIsNumeric( box5.Text);
                     dtCurrentTable.Rows[i - 1]["Failed"] =  ObjCls.FnIsBoolean( box6.Checked);
                     dtCurrentTable.Rows[i - 1]["Order"] = ObjCls.FnIsNumeric(box7.Text);
+                    //dtCurrentTable.Rows[i - 1]["ChkExpire"] = box8.Checked;
                     rowIndex++;
                 }
 
@@ -321,6 +372,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
             int Rwcount = DT.Rows.Count;
             for (int i = 0; i < Rwcount; i++)
             {
+                //AddNewRowToGrid();
                 HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
                 TxtGrade = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtGrade");
                 TxtRemarknep = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtRemark");
@@ -331,6 +383,7 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
                 TxtOrder = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtOrder");
 
                 TxtGrade.Text = DT.Rows[i]["Grade"].ToString();
+                //HdnId.Value = dataTable1.Rows[i]["SubExamName"].ToString();
                 TxtRemarknep.Text = DT.Rows[i]["GRemarks"].ToString();
                 TxtRangeFrom.Text = DT.Rows[i]["RangeFrom"].ToString();
                 TxtRangeTo.Text = DT.Rows[i]["RangeTo"].ToString();
@@ -341,8 +394,11 @@ public partial class NEP_GradeMaster : ClsPageEvents, IPageInterFace
 
             }
 
+            //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
+            CtrlCommand1.SaveText = "Update";
+            CtrlCommand1.SaveCommandArgument = "UPDATE";
 
             TabContainer1.ActiveTabIndex = 0;
 

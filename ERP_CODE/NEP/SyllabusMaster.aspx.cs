@@ -55,9 +55,9 @@ public void FnAssignProperty()
 
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
-        ObjCls.NEPPaperGroupID = 35;//ObjCls.FnIsNumeric(CtrlGrdPaperGroup.SelectedValue.ToString());
-        ObjCls.NEPExamTempalteId = 32;  //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
-        ObjCls.GradeId = 1;//ObjCls.FnIsNumeric(CtrlGrdGrdSystem.SelectedValue.ToString());
+        ObjCls.NEPPaperGroupID = ObjCls.FnIsNumeric(CtrlGrdPaperGroup.SelectedValue.ToString());
+        ObjCls.NEPExamTempalteId = ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
+        ObjCls.GradeId = ObjCls.FnIsNumeric(CtrlGrdGrdSystem.SelectedValue.ToString());
         ObjCls.Remarks= TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
     }
@@ -491,7 +491,7 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',900,550);";
             ButtonAddpaper.Attributes.Add("onClick", _strLnk);
             Session["param1"] = HdnAutoId.Value;
-            Session["param2"] = "32";  //ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
+            Session["param2"] = ObjCls.FnIsNumeric(CtrlGrdTemplate.SelectedValue.ToString());
 
         }
         catch (Exception ex)

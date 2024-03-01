@@ -44,7 +44,7 @@ public void FnAssignProperty()
     ObjCls.Code = TxtCode.Text.Trim();
     ObjCls.NEPPaperPrintName = TxtPrintName.Text.Trim();
     ObjCls.Abbreviation = TxtAbbreviation.Text.Trim();
-    ObjCls.NEPPaperGroupID = 35;// ObjCls.FnIsNumeric(CtrlGrdPaperGrp.SelectedValue);
+    ObjCls.NEPPaperGroupID = ObjCls.FnIsNumeric(CtrlGrdPaperGrp.SelectedValue);
     ObjCls.Remarks = TxtRemarks.Text.Trim();
     ObjCls.Active = (ChkActive.Checked == true ? true : false);
 }

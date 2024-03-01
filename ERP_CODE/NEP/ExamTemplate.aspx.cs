@@ -48,8 +48,7 @@ public void FnAssignProperty()
 {
         base.FnAssignProperty(ObjCls);
 
-        ObjCls.NEPPaperGroupID = 35;
-            //ObjCls.FnIsNumeric(CtrlGrdPaperGroup.SelectedValue);
+        ObjCls.NEPPaperGroupID = ObjCls.FnIsNumeric(CtrlGrdPaperGroup.SelectedValue);
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
         ObjCls.Remarks = TxtRemark.Text.Trim();
@@ -275,13 +274,11 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                     TextBox box7 = (TextBox)GrdVwRecords.Rows[rowIndex].Cells[5].FindControl("TxtPriority");
 
                     drCurrentRow = dtCurrentTable.NewRow();
-                    //drCurrentRow["RowNumber"] = i + 1;
                     dtCurrentTable.Rows[i - 1]["Sub Exam name"] = box1.Text;
                     dtCurrentTable.Rows[i - 1]["Report Column"] = ObjCls.FnIsNumeric(box3.SelectedValue);
                     dtCurrentTable.Rows[i - 1]["Max Mark"] = box4.Text;
                     dtCurrentTable.Rows[i - 1]["Percentage"] = box6.Text;
                     dtCurrentTable.Rows[i - 1]["Order"] = box7.Text;
-                    //dtCurrentTable.Rows[i - 1]["ChkExpire"] = box8.Checked;
                     rowIndex++;
                 }
 
@@ -358,7 +355,6 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
             int Rwcount = DT.Rows.Count;
             for (int i = 0; i < Rwcount; i++)
             {
-                //AddNewRowToGrid();
                 HdnId = (HiddenField)GrdVwRecords.Rows[i].FindControl("HdnId");
                 TxtSubExamName = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtSubExamName");
                 DdlRptColumn = (DropDownList)GrdVwRecords.Rows[i].FindControl("DdlRptColumn");
@@ -367,7 +363,6 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
                 TxtPriority = (TextBox)GrdVwRecords.Rows[i].FindControl("TxtPriority");
 
                 TxtSubExamName.Text = DT.Rows[i]["SubExamName"].ToString();
-                //HdnId.Value = dataTable1.Rows[i]["SubExamName"].ToString();
                 DdlRptColumn.SelectedValue = DT.Rows[i]["RptColumnID"].ToString();
                 TxtMaxMark.Text = DT.Rows[i]["MaxMark"].ToString();
                 TxtPercentage.Text = DT.Rows[i]["Percentage"].ToString();
@@ -376,7 +371,6 @@ public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
             }
 
 
-            //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";

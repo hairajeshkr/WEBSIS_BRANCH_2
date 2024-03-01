@@ -12,6 +12,7 @@ public class ClsNEPGradeMaster : ClsCommonBaseMaster, IMasterCommands
     private int nNEPGradingID = 0, nNEPGradeForOneByEight = 0, nExpired = 0, nDisplayOrder = 0;
     private string cNEPGrade, cNEPGradingName, cNEPPaperPrintName, cNEPRemarks;
     public string cFlag = "";
+    public int nFlag;
     public ClsNEPGradeMaster() : base("TblNEPGradeMaster", "ID", 0, 0, 0, 0)
     {
     }
@@ -153,6 +154,7 @@ public class ClsNEPGradeMaster : ClsCommonBaseMaster, IMasterCommands
         objFields.AddParameterFields("Prm_nNEPGradeForOneByEight", System.Data.DbType.Int32, NEPGradeForOneByEight);   
         objFields.AddParameterFields("Prm_nDisplayOrder", System.Data.DbType.Int32, DisplayOrder);
         objFields.AddParameterFields("Prm_cFillFlag", System.Data.DbType.String, cFlag);
+        objFields.AddParameterFields("Prm_cFFlag", System.Data.DbType.String, nFlag);
 
         if (PrmDbFlag.Equals("S"))
         {

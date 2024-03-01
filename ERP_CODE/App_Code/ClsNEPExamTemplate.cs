@@ -13,6 +13,7 @@ public class ClsNEPExamTemplate : ClsCommonBaseMaster, IMasterCommands
     private string cNEPTemplateName, cSubExamName;
     private bool nDefaultTemplate;
     public string cFlag, NEPPaperGroupName;
+    public int nFlag;
 
     public ClsNEPExamTemplate() : base("TblNEPExamTemplate", "ID", 0, 0, 0, 0)
     {
@@ -117,8 +118,10 @@ public class ClsNEPExamTemplate : ClsCommonBaseMaster, IMasterCommands
         MaxMark = FnIsNumeric(drVal["MaxMark"].ToString());
         Percentage = FnIsNumeric(drVal["Percentage"].ToString());
         DisplayOrder = FnIsNumeric(drVal["DisplayOrder"].ToString());
-        NEPPaperGroupID = FnIsNumeric(drVal["PaperGroupID"].ToString());
+        //NEPPaperGroupID = FnIsNumeric(drVal["PaperGroupID"].ToString());
+        NEPPaperGroupID = 6;
         cFlag = "ss";
+        //ID= FnIsNumeric(drVal["ID"].ToString());
         NEPPaperGroupName= drVal["PaperGroupName"].ToString().Trim();
 
     }
@@ -135,11 +138,13 @@ public class ClsNEPExamTemplate : ClsCommonBaseMaster, IMasterCommands
         objFields.AddParameterFields("Prm_nDefaultTemplate", System.Data.DbType.Int32, DefaultTemplate);
         objFields.AddParameterFields("Prm_nNEPRptColumnID", System.Data.DbType.Int32, NEPRptColumnID);
 
-        objFields.AddParameterFields("Prm_nNEPPaperGroupID", System.Data.DbType.Int32, 6);
+        objFields.AddParameterFields("Prm_nNEPPaperGroupID", System.Data.DbType.Int32, nNEPPaperGroupID);
         objFields.AddParameterFields("Prm_nMaxMark", System.Data.DbType.Int32, MaxMark);
         objFields.AddParameterFields("Prm_nPercentage", System.Data.DbType.Int32, Percentage);
         objFields.AddParameterFields("Prm_nDisplayOrder", System.Data.DbType.Int32, DisplayOrder);
         objFields.AddParameterFields("Prm_cFillFlag", System.Data.DbType.String, cFlag);
+        objFields.AddParameterFields("Prm_cFFlag", System.Data.DbType.String, nFlag);
+        //objFields.AddParameterFields("Prm_nId", System.Data.DbType.Int32, ID);
 
 
         if (PrmDbFlag.Equals("S"))

@@ -69,22 +69,18 @@ public partial class REPORT_FORMS_RptExam1 : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    //ExportDataTable();
                     break;
                 case "FIND":
                     FnFindRecord();
                     break;
                 case "FIND_SRCH":
-                    //FnFindRecord_Srch();
                     break;
                 case "CLEAR":
                     FnCancel();
                     break;
                 case "CLEAR_SRCH":
-                    //FnCancel_Srch();
                     break;
                 case "PRINT":
-                   // FnAssignProperty_Srch();
                     base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     this.BindReport();
                     break;
@@ -101,7 +97,7 @@ public partial class REPORT_FORMS_RptExam1 : ClsPageEvents, IPageInterFace
     {
         string selectedItemsC = "", selectedclass = "";
          
-            string query = "EXEC ProReportTemplateFormat2";
+            string query = "EXEC ProReportTemplateFormat2 10";
         
         string parameter1 = query;
             string parameter2 = CtrlGrdStudent.SelectedValue.ToString();
@@ -114,7 +110,9 @@ public partial class REPORT_FORMS_RptExam1 : ClsPageEvents, IPageInterFace
         // Response.Redirect("RptExamCardReportViewer2.aspx");
         //Response.Redirect("RptExamCardReportViewer3.aspx");
         // Response.Redirect("RptExamCardReportViewer4.aspx");
+       
         Response.Redirect("RptExamCardReportViewer5.aspx");
+        //Response.Redirect("RptExamCardReportViewer6.aspx");
     }
 
 }

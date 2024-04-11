@@ -46,8 +46,6 @@
                           
                           </td>
                       </tr>
-                       
-
                         <tr>
                           <td class="even" style="width: 83px">
                               <asp:Label ID="Label12" runat="server" Text="Remarks" Width="100px"></asp:Label>
@@ -105,7 +103,6 @@
                           </td>
                       </tr>
 
-
                       <tr>
                           <td colspan="5">
                               <div class="result-list" style="overflow: scroll; height: 300px; width: 590px;">
@@ -140,7 +137,6 @@
                               </div>
                           </td>
                       </tr>
-
                       <tr>
                           <td></td>
                           <td></td>
@@ -150,8 +146,6 @@
                       </tr>
                   </table>
               </ContentTemplate>
-
-
 
                 </ajaxToolkit:TabPanel>
       </ajaxToolkit:TabContainer>

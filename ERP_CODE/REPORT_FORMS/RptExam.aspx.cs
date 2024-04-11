@@ -141,9 +141,7 @@ public partial class REPORT_FORMS_RptExam : ClsPageEvents, IPageInterFace
                     break;
                 case "FIND":
                     FnFindRecord();
-                    //FnAssignProperty();
-                    //base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
-                    //FnGridViewBinding("");
+
                     break;
                 case "HELP":
                     ObjCls.FnAlertMessage(" You Have No permission To Help Record");
@@ -171,7 +169,6 @@ public partial class REPORT_FORMS_RptExam : ClsPageEvents, IPageInterFace
             TxtProcedureName.Text = ObjCls.cProcedureName.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
-            //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";

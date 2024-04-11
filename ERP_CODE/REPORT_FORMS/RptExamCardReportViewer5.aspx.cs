@@ -21,7 +21,7 @@ public partial class REPORT_FORMS_RptExamCardReportViewer5 : System.Web.UI.Page
         string query = Session["param1"] as string;
         string Stud = Session["param2"] as string;
         //string Template = Session["param3"] as string;
-        string Template = "3";
+        string Template = "2";
         ReportDocument crystalReport = new ReportDocument();
         if (Template == "1")
         {
@@ -36,16 +36,13 @@ public partial class REPORT_FORMS_RptExamCardReportViewer5 : System.Web.UI.Page
             crystalReport.Load(Server.MapPath("~/TRANS_REPORTS/RptExamCardReportFormat5.rpt"));
         }
 
-    
-
-
-        //DataSetDynamic dsCustomers = GetData(query +" "+ Stud, crystalReport);
+       //DataSetDynamic dsCustomers = GetData(query +" "+ Stud, crystalReport);
         DataSetDynamic dsCustomers = GetData(query, crystalReport);
 
         DataTable tbEmp = new DataTable();
        
         //string query2 = "EXEC ProReportTemplateFormat3 " + Stud ;
-        string query2 = "EXEC ProReportTemplateFormat3";
+        string query2 = "EXEC ProReportTemplateFormat3 10";
         DataTable DT = (ObjCls.FnGetDataSet(query2) as DataSet).Tables[0];
               
         foreach (DataRow row in DT.Rows)
@@ -54,9 +51,6 @@ public partial class REPORT_FORMS_RptExamCardReportViewer5 : System.Web.UI.Page
             newRow.ItemArray = row.ItemArray;
             dsCustomers.Tables[1].Rows.Add(newRow);
         }
-
-            
-
 
         //string query3 = "EXEC ProReportTemplateGrade " + Stud;
         string query3 = "EXEC ProReportTemplateGrade";
@@ -70,11 +64,7 @@ public partial class REPORT_FORMS_RptExamCardReportViewer5 : System.Web.UI.Page
         }
 
 
-
-
-
         //dsCustomers.Tables.Add(tbEmp.Copy());
-
         crystalReport.SetDataSource(dsCustomers);
         //crystalReport.SetDataSource(tbEmp);
 
@@ -86,8 +76,7 @@ public partial class REPORT_FORMS_RptExamCardReportViewer5 : System.Web.UI.Page
 
 
     }
-
-    
+   
 
     private DataSetDynamic GetData(string query, ReportDocument crystalReport)
     {

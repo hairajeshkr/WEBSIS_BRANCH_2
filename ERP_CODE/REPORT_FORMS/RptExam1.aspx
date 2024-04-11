@@ -27,20 +27,16 @@
                                         <td class="odd">
                                             &nbsp;</td>
                                     </tr>
-
                         <tr>
-                            
                             <td class="odd">
                                 <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="True" SaveText="Export Excel" style="position:relative;float:right" />
                             </td>
                         </tr>
-                       
                         <tr class="result-headTop">
                             <td align="center" class="Footercommand" valign="middle">
                                 &nbsp;</td>
                             <td align="center" class="Footercommand" colspan="3" valign="middle">&nbsp;</td>
                         </tr>
-                       
                         </table>
                     </ContentTemplate>
                 </ajaxToolkit:TabPanel>

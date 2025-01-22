@@ -4,12 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
-using System.IO;
 
-public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
+public partial class FIN_FeeAllocation : ClsPageEvents, IPageInterFace
 {
-    ClsStudentSiblingDetails ObjCls = new ClsStudentSiblingDetails();
+    ClsFeeAllocation ObjCls = new ClsFeeAllocation();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
+
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -18,10 +18,13 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
-                ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
                 
                 FnInitializeForm();
             }
+            CtrlGridClass.ParentControl = CtrlGrdGroup.IdControl;
+            CtrlGridDivision.ParentControl = CtrlGridClass.IdControl;
+            CtrlGridStudent.ParentControl = CtrlGridDivision.IdControl;
+
         }
         catch (Exception ex)
         {
@@ -30,57 +33,47 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
     }
     public override void FnInitializeForm()
     {
-        TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new ClsStudentSiblingDetails(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
-        FnFindRecord();
+        ObjCls = new ClsFeeAllocation(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        
+        ViewState["TOKENNO"] = ObjCls.FnGetTokenId().ToString();
+        ViewState["INDX"] = "0";
+        ViewState["DT"] = FnGetGeneralTable(ObjCls);
+
+       // FnGridViewBinding("");
+
+        TabContainer1.ActiveTabIndex = 0;
     }
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.StudentId = ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString());
-        ObjCls.SiblingId = ObjCls.FnIsNumeric(CtrlGrdStudent.SelectedValue.ToString());
-        ObjCls.Remarks = TxtRemarks.Text.Trim();
     }
+
     public void FnClose()
     {
         throw new NotImplementedException();
     }
-    public override void FnCancel()
-    {
-        base.FnCancel();
 
-        CtrlGrdStudent.SelectedText = "";
-        CtrlGrdStudent.SelectedValue = "0";
-        TxtRemarks.Text = "";
-
-        CtrlCommand1.SaveText = "Save";
-        CtrlCommand1.SaveCommandArgument = "NEW";
-        TabContainer1.ActiveTabIndex = 0;
-        FnFocus(CtrlGrdStudent.ControlTextBox);
-    }
     public void FnFindRecord()
     {
-        FnAssignProperty();
-        FnFindRecord(ObjCls);
-        FnGridViewBinding("");
-        TabContainer1.ActiveTabIndex = 0;
+        throw new NotImplementedException();
     }
+
     public object FnGetGridRowCount(string PrmFlag)
     {
         throw new NotImplementedException();
     }
+
     public void FnGridViewBinding(string PrmFlag)
     {
-        GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
-        GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
-        GrdVwRecords.DataBind();
-        GrdVwRecords.SelectedIndex = -1;
+        throw new NotImplementedException();
     }
+
     public void FnPrintRecord()
     {
         throw new NotImplementedException();
     }
+
     public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
     {
         try
@@ -88,12 +81,7 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
-                    if (ObjCls.FnIsNumeric(CtrlGrdStudent.SelectedValue.ToString()) <= 0)
-                    {
-                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the education"));
-                        FnFocus(CtrlGrdStudent.ControlTextBox);
-                        return;
-                    }
+                  
                     FnAssignProperty();
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
@@ -110,7 +98,6 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
                     base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     break;
                 case "CLEAR":
-                    //FnPopUpAlert(ObjCls.FnReportWindow("SA.HTML", "wELCOME"));
                     FnCancel();
                     break;
                 case "CLOSE":
@@ -122,10 +109,12 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
                     break;
                 case "FIND":
                     FnFindRecord();
+                    
                     break;
                 case "HELP":
                     ObjCls.FnAlertMessage(" You Have No permission To Help Record");
                     break;
+
             }
         }
         catch (Exception ex)
@@ -133,38 +122,6 @@ public partial class STUDENT_StudentSibling : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-    protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
-    {
-        try
-        {
-            GrdVwRecords.SelectedIndex = e.NewSelectedIndex;
-            ObjCls.GetDataRow(GrdVwRecords.SelectedDataKey.Values[0].ToString(), ViewState["DT"] as DataTable);
-            ViewState["ID"] = ObjCls.ID.ToString();
-            CtrlGrdStudent.SelectedValue = ObjCls.SiblingId.ToString();
-            CtrlGrdStudent.SelectedText = ObjCls.SiblingName.ToString();
-            TxtRemarks.Text = ObjCls.Remarks.ToString();
-            ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
-            CtrlCommand1.SaveText = "Update";
-            CtrlCommand1.SaveCommandArgument = "UPDATE";
-
-            TabContainer1.ActiveTabIndex = 1;
-        }
-        catch (Exception ex)
-        {
-            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-        }
-    }
-    protected void GrdVwRecords_PageIndexChanging(object sender, GridViewPageEventArgs e)
-    {
-        try
-        {
-            GrdVwRecords.PageIndex = e.NewPageIndex;
-            FnGridViewBinding("");
-        }
-        catch (Exception ex)
-        {
-            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
-        }
-    }
+   
 }

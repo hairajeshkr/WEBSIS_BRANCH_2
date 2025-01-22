@@ -40,6 +40,7 @@ public partial class Country : ClsPageEvents, IPageInterFace
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.TType = DdlType.SelectedValue.ToString();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
+        ObjCls.IsDefault = ObjCls.FnIsNumeric((ChkIsDefault.Checked == true ? true : false));
         ObjCls.ParentId = ObjCls.FnIsNumeric(CtrlGrdGroup.SelectedValue.ToString());
     }
     public void FnClose()
@@ -60,6 +61,7 @@ public partial class Country : ClsPageEvents, IPageInterFace
         DdlType.SelectedIndex = 0;
         TxtRemarks.Text = "";
         ChkActive.Checked = true;
+        ChkIsDefault.Checked = false;
 
         FnInitializeForm();
 
@@ -73,6 +75,7 @@ public partial class Country : ClsPageEvents, IPageInterFace
         base.FnAssignProperty(ObjCls);
         ObjCls.Name = TxtName_Srch.Text.Trim();
         ObjCls.TType = DdlType1.SelectedValue.ToString();
+
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
         TabContainer1.ActiveTabIndex = 1;
@@ -176,6 +179,7 @@ public partial class Country : ClsPageEvents, IPageInterFace
             DdlType.Text = ObjCls.TType.ToString();
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
+            ChkIsDefault.Checked = (ObjCls.FnIsBoolean(ObjCls.IsDefault) == true ? true : false);
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";

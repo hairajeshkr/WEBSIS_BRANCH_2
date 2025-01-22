@@ -15,12 +15,10 @@ function ValidateAdd() {
     var TxtBoard = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_TxtBoard');
     var CtrlFrmDate = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_CtrlFrmDate_TxtDate');
     var CtrlToDate = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_CtrlToDate_TxtDate');
-
     
     //var TxtGrpId = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_CtrlGrdAdmmisionClass_ClassId');
     //var TxtClassName = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_CtrlGrdAdmmisionClass_TxtCaption');
     //var TxtQuotaName = document.getElementById('ContentPlaceHolder1_TabContainer1_TabPanel2_DdlQuota');
-
 
     if (!isEmpty(TxtEducation, 'Please enter Course Name.', TxtEducation) &&
         !isEmpty(TxtYear, 'Please enter Year.', TxtYear) &&

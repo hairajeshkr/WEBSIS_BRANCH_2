@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-public partial class FIN_Installment : ClsPageEvents,IPageInterFace
+public partial class STUDENT_FeeConcn : ClsPageEvents,IPageInterFace
 {
-    ClsFeeInstallmentMaster ObjCls = new ClsFeeInstallmentMaster();
+    ClsFeeMaster ObjCls = new ClsFeeMaster();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
+
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -17,6 +19,7 @@ public partial class FIN_Installment : ClsPageEvents,IPageInterFace
             if (!IsPostBack)
             {
                 TxtOrderIndex.Attributes.Add("onkeydown", "return NumbersOnly(event);");
+                ObjLst.FnGetBranchList(DdlCmp, "");
                 FnInitializeForm();
             }
         }
@@ -25,15 +28,16 @@ public partial class FIN_Installment : ClsPageEvents,IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
+
     public override void FnInitializeForm()
     {
         TabContainer1.ActiveTabIndex = 0;
         int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-        ObjCls = new ClsFeeInstallmentMaster(ref iCmpId, ref iBrId, ref iFaId,ref iAcId);
+        ObjCls = new ClsFeeMaster(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
         ObjCls.TType = FnGetRights().TTYPE;
         ObjCls.MenuId = FnGetRights().MENUID;
         TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
-
+        DdlCmp.SelectedIndex = iBrId;
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
@@ -42,35 +46,31 @@ public partial class FIN_Installment : ClsPageEvents,IPageInterFace
         base.FnAssignProperty(ObjCls);
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
-        ObjCls.Abbrevation = TxtAbbrevation.Text.Trim();
-        ObjCls.OrderIndex = ObjCls.FnIsNumeric(TxtOrderIndex.Text.Trim());   
-        ObjCls.StartDate = ObjCls.FnDateTime(CtrlStartDate.DateText);
-        ObjCls.EndDate = ObjCls.FnDateTime(CtrlDueDate.DateText);
-        ObjCls.IsEca = (ChkECAInstallment.Checked == true ? true : false);
-        ObjCls.IsOneTime = (ChkOneTimeInstallment.Checked == true ? true : false);
-
+        ObjCls.PrintName= TxtPrintName.Text.Trim();
+        ObjCls.OrderIndex= ObjCls.FnIsNumeric(TxtOrderIndex.Text.Trim());
+        ObjCls.AccLedgerId = ObjCls.FnIsNumeric(CtrlGrdAcc.SelectedValue.ToString());
+        ObjCls.AccCmpId= ObjCls.FnIsNumeric(DdlCmp.SelectedValue.ToString());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
+        ObjCls.IsShow = ObjCls.FnIsNumeric(ChkSwPro.Checked == true ? true : false);
+        ObjCls.IsLedger = ObjCls.FnIsNumeric(ChkOwnAcc.Checked == true ? true : false);
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
+        //ObjCls.IsApprove = (ChkApprove.Checked == true ? true : false);
+
     }
     public override void FnCancel()
     {
         base.FnCancel();
-
-        TxtName_Srch.Text = "";
         TxtName.Text = "";
-        TxtCode.Text = "";
-        TxtCode_Srch.Text = "";
-
-        TxtAbbrevation.Text = "";
+        TxtPrintName.Text = "";
         TxtOrderIndex.Text = "";
-        CtrlStartDate.DateText = "";
-        CtrlDueDate.DateText = "";
+        TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";
+        DdlCmp.SelectedIndex = 0;
+        CtrlGrdAcc.SelectedValue = "0";
+        CtrlGrdAcc.SelectedText = "";
         ChkActive.Checked = true;
-        ChkApprove.Checked = false;
-        ChkECAInstallment.Checked = false;
-        ChkOneTimeInstallment.Checked = false;
-        FnInitializeForm();
+        ChkOwnAcc.Checked = false;
+        ChkSwPro.Checked = false;
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
@@ -81,6 +81,7 @@ public partial class FIN_Installment : ClsPageEvents,IPageInterFace
     {
         throw new NotImplementedException();
     }
+
     public void FnFindRecord()
     {
         base.FnAssignProperty(ObjCls);
@@ -88,6 +89,7 @@ public partial class FIN_Installment : ClsPageEvents,IPageInterFace
         ObjCls.Code = TxtCode_Srch.Text.Trim();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
+
         TabContainer1.ActiveTabIndex = 1;
     }
     public object FnGetGridRowCount(string PrmFlag)
@@ -161,8 +163,8 @@ public partial class FIN_Installment : ClsPageEvents,IPageInterFace
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
-
     }
+
     protected void GrdVwRecords_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
     {
         try
@@ -172,25 +174,28 @@ public partial class FIN_Installment : ClsPageEvents,IPageInterFace
             ViewState["ID"] = ObjCls.ID.ToString();
             TxtName.Text = ObjCls.Name.ToString();
             TxtCode.Text = ObjCls.Code.ToString();
-            TxtAbbrevation.Text = ObjCls.Abbrevation.ToString();
+            TxtPrintName.Text = ObjCls.PrintName.ToString();
             TxtOrderIndex.Text = ObjCls.OrderIndex.ToString();
-            CtrlStartDate.DateText = ObjCls.FnDateTime(ObjCls.StartDate, "dd/MMM/yyyy");
-            CtrlDueDate.DateText = ObjCls.FnDateTime(ObjCls.EndDate, "dd/MMM/yyyy");
-            ChkActive.Checked = ObjCls.Active;
-            ChkECAInstallment.Checked= ObjCls.IsEca;
-            ChkOneTimeInstallment.Checked = ObjCls.IsOneTime;
+            DdlCmp.SelectedValue = ObjCls.AccCmpId.ToString();
+
+            ChkOwnAcc.Checked = (ObjCls.IsLedger > 0 ? true : false);
+            ChkSwPro.Checked = (ObjCls.IsShow > 0 ? true : false);
+
             TxtRemarks.Text = ObjCls.Remarks.ToString();
+            ChkActive.Checked = ObjCls.Active;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
-            
+
             CtrlCommand1.SaveText = "Update";
             CtrlCommand1.SaveCommandArgument = "UPDATE";
             TabContainer1.ActiveTabIndex = 0;
+            //ChkApprove.Checked = ObjCls.IsApprove;
         }
         catch (Exception ex)
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
+
     protected void GrdVwRecords_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try

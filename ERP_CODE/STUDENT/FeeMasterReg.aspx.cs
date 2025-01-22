@@ -8,6 +8,7 @@ using System.Data;
 public partial class STUDENT_FeeMasterReg : ClsPageEvents,IPageInterFace
 {
     ClsFeeMaster ObjCls = new ClsFeeMaster();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
 
     protected override void Page_Load(object sender, EventArgs e)
     {
@@ -17,6 +18,10 @@ public partial class STUDENT_FeeMasterReg : ClsPageEvents,IPageInterFace
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
+                TxtOrderIndex.Attributes.Add("onkeydown", "return NumbersOnly(event);");
+                ObjLst.FnGetBranchList(DdlCmp, "");
+                ObjLst.FnGetFeeTypeList(DdlFeeType, "");
+                ObjLst.FnGetFeeTypeList(DdlFeeType_Srch, "");                
                 FnInitializeForm();
             }
         }
@@ -34,55 +39,53 @@ public partial class STUDENT_FeeMasterReg : ClsPageEvents,IPageInterFace
         ObjCls.TType = FnGetRights().TTYPE;
         ObjCls.MenuId = FnGetRights().MENUID;
         TxtCode.Text = ObjCls.FnGetAutoCode().ToString();
-
+        DdlCmp.SelectedIndex = iBrId;
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
         FnGridViewBinding("");
     }
-
-
     public void FnAssignProperty()
     {
         base.FnAssignProperty(ObjCls);
         ObjCls.Name = TxtName.Text.Trim();
         ObjCls.Code = TxtCode.Text.Trim();
-        ObjCls.FeeType= CtrlGrdFeeType.SelectedValue.ToString();
         ObjCls.PrintName= TxtPrintName.Text.Trim();
-        ObjCls.Priority= ObjCls.FnIsNumeric(TxtPriority.Text.Trim());
-        ObjCls.AccCmpId= ObjCls.FnIsNumeric(CtrlGrdInstitution.SelectedValue.ToString());
-        ObjCls.AccCmpName = CtrlGrdInstitution.SelectedText.ToString();
+        ObjCls.OrderIndex= ObjCls.FnIsNumeric(TxtOrderIndex.Text.Trim());
+        ObjCls.FeeTypeId = ObjCls.FnIsNumeric(DdlFeeType.SelectedValue.ToString());
+        ObjCls.AccLedgerId = ObjCls.FnIsNumeric(CtrlGrdAcc.SelectedValue.ToString());
+        ObjCls.AccCmpId= ObjCls.FnIsNumeric(DdlCmp.SelectedValue.ToString());
         ObjCls.Remarks = TxtRemarks.Text.Trim();
-        //ObjCls.IsApprove = (ChkApprove.Checked == true ? true : false);
+        ObjCls.IsExcludeFine = ObjCls.FnIsNumeric(ChkExfrmFine.Checked == true ? true : false);
+        ObjCls.IsShow = ObjCls.FnIsNumeric(ChkSwPro.Checked == true ? true : false);
+        ObjCls.IsTutionFee = ObjCls.FnIsNumeric(ChkTutFee.Checked == true ? true : false);
+        ObjCls.IsLedger = 0;
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
-        ObjCls.IsFine = ObjCls.FnIsNumeric(ChkExfrmFine.Checked==true?true:false);
-        //ObjCls.AccHead = CtrlGrdAccHead.SelectedValue.ToString();
-        //ObjCls.CrOwnAcc = (ChkOwnAcc.Checked == true ? true : false);
-        //ObjCls.TutFee = (ChkTutFee.Checked == true ? true : false);
-        //ObjCls.shInStPro = (ChkSwPro.Checked == true ? true : false);
+        //ObjCls.IsApprove = (ChkApprove.Checked == true ? true : false);
     }
-
-
     public override void FnCancel()
     {
         base.FnCancel();
         TxtName.Text = "";
         TxtPrintName.Text = "";
-        TxtPriority.Text = "";
+        TxtOrderIndex.Text = "";
         TxtCode_Srch.Text = "";
         TxtRemarks.Text = "";
+        DdlFeeType.SelectedIndex = 0;
+        DdlCmp.SelectedIndex = 0;
+        DdlFeeType_Srch.SelectedIndex = 0;
+        CtrlGrdAcc.SelectedValue = "0";
+        CtrlGrdAcc.SelectedText = "";
         ChkActive.Checked = true;
         ChkExfrmFine.Checked = false;
-        //ChkApprove.Checked = false;
         ChkExfrmFine.Checked = false;
-        ChkOwnAcc.Checked = false;
         ChkSwPro.Checked = false;
         ChkTutFee.Checked = false;
+        ChkPrintName.Checked = false;
 
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 0;
-       // FnFocus(TxtName);
+        FnFocus(TxtName);
     }
-
     public void FnClose()
     {
         throw new NotImplementedException();
@@ -93,17 +96,16 @@ public partial class STUDENT_FeeMasterReg : ClsPageEvents,IPageInterFace
         base.FnAssignProperty(ObjCls);
         ObjCls.Name = TxtName_Srch.Text.Trim();
         ObjCls.Code = TxtCode_Srch.Text.Trim();
+        ObjCls.FeeTypeId = ObjCls.FnIsNumeric(DdlFeeType_Srch.SelectedValue.ToString());
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
 
         TabContainer1.ActiveTabIndex = 1;
     }
-
     public object FnGetGridRowCount(string PrmFlag)
     {
         throw new NotImplementedException();
     }
-
     public void FnGridViewBinding(string PrmFlag)
     {
         GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
@@ -111,12 +113,10 @@ public partial class STUDENT_FeeMasterReg : ClsPageEvents,IPageInterFace
         GrdVwRecords.DataBind();
         GrdVwRecords.SelectedIndex = -1;
     }
-
     public void FnPrintRecord()
     {
         throw new NotImplementedException();
     }
-
     public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
     {
         try
@@ -184,28 +184,25 @@ public partial class STUDENT_FeeMasterReg : ClsPageEvents,IPageInterFace
             ViewState["ID"] = ObjCls.ID.ToString();
             TxtName.Text = ObjCls.Name.ToString();
             TxtCode.Text = ObjCls.Code.ToString();
-
-            CtrlGrdFeeType.SelectedValue = ObjCls.FeeType.ToString();
-            ChkExfrmFine.Checked = ObjCls.FnIsBoolean(ObjCls.IsFine);
             TxtPrintName.Text = ObjCls.PrintName.ToString();
-            TxtPriority.Text = ObjCls.Priority.ToString();
-            CtrlGrdInstitution.SelectedValue = ObjCls.AccCmpId.ToString();
+            TxtOrderIndex.Text = ObjCls.OrderIndex.ToString();
+            DdlCmp.SelectedValue = ObjCls.AccCmpId.ToString();
+            DdlFeeType.SelectedValue = ObjCls.FeeTypeId.ToString();
+            CtrlGrdAcc.SelectedValue = ObjCls.AccLedgerId.ToString();
+            CtrlGrdAcc.SelectedText = ObjCls.AccLedgerName;
+
+            ChkSwPro.Checked = (ObjCls.IsShow > 0 ? true : false);
+            ChkExfrmFine.Checked = (ObjCls.IsExcludeFine > 0 ? true : false);
+            ChkTutFee.Checked = (ObjCls.IsTutionFee > 0 ? true : false);
 
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
-            //ChkOwnAcc.Checked=
-           // ChkSwPro.Checked=
-           //ChkTutFee.Checked=
-            
-            //ChkApprove.Checked = ObjCls.IsApprove;
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
             CtrlCommand1.SaveText = "Update";
             CtrlCommand1.SaveCommandArgument = "UPDATE";
-
             TabContainer1.ActiveTabIndex = 0;
-
-
+            //ChkApprove.Checked = ObjCls.IsApprove;
         }
         catch (Exception ex)
         {
@@ -225,4 +222,22 @@ public partial class STUDENT_FeeMasterReg : ClsPageEvents,IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
+
+    protected void ChkPrintName_CheckedChanged(object sender, EventArgs e)
+    {
+        // Check if the checkbox is checked
+        if (ChkPrintName.Checked)
+        {
+            // Copy the text from TextBox1 to TextBox2
+            TxtPrintName.Text = TxtName.Text;
+        }
+        else
+        {
+            // Clear TextBox2 if checkbox is unchecked
+            TxtPrintName.Text = string.Empty;
+        }
+    }
+
+
+
 }

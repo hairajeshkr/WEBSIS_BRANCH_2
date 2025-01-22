@@ -18,7 +18,6 @@ public partial class STUDENT_StudentAddress : ClsPageEvents,IPageInterFace
 
     ClsStudentGuardianPermanentAddress  ObjClsGurdn = new ClsStudentGuardianPermanentAddress();
     ClsStudentGuardianTemporaryAddress ObjClsGurdnTemp = new ClsStudentGuardianTemporaryAddress();
-    ClsStudentHouse ObjClsA = new ClsStudentHouse();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -31,6 +30,16 @@ public partial class STUDENT_StudentAddress : ClsPageEvents,IPageInterFace
             if (!IsPostBack)
             {
                 ViewState["STU_ID"] = Request.QueryString["CNTRID"].ToString();
+
+                ChkSame.Attributes.Add("onclick", "return FnCopyAddressAllStudent();");
+                ChkSameFthr.Attributes.Add("onclick", "return FnCopyAddressAllFather();");
+                ChkSameMthr.Attributes.Add("onclick", "return FnCopyAddressAllMother();");
+                ChkSameGurdn.Attributes.Add("onclick", "return FnCopyAddressAllGurdian();");
+
+                ChkFather.Attributes.Add("onclick", "return FnCopyAddressToFather();");
+                ChkMother.Attributes.Add("onclick", "return FnCopyAddressToMother();");
+                ChkGuardian.Attributes.Add("onclick", "return FnCopyAddressToGuardian();");
+
                 FnInitializeForm();
                 TxtHouseNamePerm.Focus();
             }
@@ -149,9 +158,9 @@ public partial class STUDENT_StudentAddress : ClsPageEvents,IPageInterFace
         ObjClsMthrTemp.DistrictId = ObjCls.FnIsNumeric(CtrlGrdMthrDistTEmp.SelectedValue.ToString());
         ObjClsMthrTemp.Landmark = TxtMthrLandmarkTemp.Text.Trim();
         ObjClsMthrTemp.PhoneNo = TxtMthrPhNoTemp.Text.Trim();
-        ObjClsMthrTemp.Email = TxtMthrMobTemp.Text.Trim();
-        ObjClsMthrTemp.MobNo = TxtMthrRemarksTemp.Text.Trim();
-        ObjClsMthrTemp.Remarks = TxtRemarksTemp.Text.Trim();
+        ObjClsMthrTemp.Email = TxtMthrEmailTemp.Text.Trim();
+        ObjClsMthrTemp.MobNo = TxtMthrMobTemp.Text.Trim();
+        ObjClsMthrTemp.Remarks = TxtMthrRemarksTemp.Text.Trim();
     }
     public void FnAssignPropertyGurdn()
     {
@@ -679,39 +688,5 @@ public partial class STUDENT_StudentAddress : ClsPageEvents,IPageInterFace
         throw new NotImplementedException();
     }
 
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        //HiddenField HdnAutoId = (HiddenField)GrdVwRecords.Rows[e.RowIndex].FindControl("HdnId");
-        //LinkButton LnkName = (LinkButton)GrdVwRecords.Rows[e.RowIndex].FindControl("LnkName");
-        //LinkButton LnkStudentCode = (LinkButton)GrdVwRecords.Rows[e.RowIndex].FindControl("LnkStudentCode");
-        //HdnId.Value = HdnAutoId.Value;
-        //LblStudentName.Text = LnkName.Text;
-        //LblStudentId.Text = LnkStudentCode.Text;
-
-       // _strHdr = "Student Id :-" + LnkStudentCode.Text + " , " + LnkName.Text;
-        //_strUrl = "ClassReg.aspx";
-        //_strTitle = "ADDRESS DETAILS : - " ;
-        //_strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',900,600);";
-        //Button1.Attributes.Add("onClick", _strLnk);
-
-
-       // HiddenField HdnAutoId =  (HiddenField)GrdVwRecords.Rows[e.RowIndex].FindControl("HdnId");
-        //LinkButton LnkName = (LinkButton)GrdVwRecords.Rows[e.RowIndex].FindControl("LnkName");
-        //LinkButton LnkStudentCode = (LinkButton)GrdVwRecords.Rows[e.RowIndex].FindControl("LnkStudentCode");
-        //HdnId.Value = HdnAutoId.Value;
-        //LblStudentName.Text = LnkName.Text;
-        //LblStudentId.Text = LnkStudentCode.Text;
-
-       // _strHdr = "Student Id :-" + LnkStudentCode.Text + " , " + LnkName.Text;
-        _strUrl = "StudentAddressCopy.aspx?CNTRID=" + ObjCls.FnIsNumeric(ViewState["STU_ID"].ToString()) + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
-        _strTitle = "ADDRESS COPY : - " ;
-        //_strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',900,600);";
-         FnPopUpChild(ObjCls,  _strTitle ,  _strUrl, 450,350,true);
-
-        //Button1.Attributes.Add("onClick", _strLnk);
-
-
-
-
-    }
+    
 }

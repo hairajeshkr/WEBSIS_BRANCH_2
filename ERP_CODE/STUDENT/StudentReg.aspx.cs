@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.IO;
-using System.Web.Services;
 
-using System.Drawing;
-using System.Drawing.Imaging;
 public partial class StudentReg : ClsPageEvents, IPageInterFace
 {
     ClsRegistrationStudent ObjCls = new ClsRegistrationStudent();
@@ -36,9 +34,9 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
                 ObjLst.FnGetLanguageList(DdlLanguage, "");
 
                 FnBindDocumetPath(HyLnkImg, "1", "PRF");
-                FnBindDocumetPath(HyPhotoCpt, "1", "PRF");
                 FnGetPopUpWindowDispaly("Profile Image", HyLnkImg, 600, 350, "../FileShow.aspx?PDF=0&FILE_TYPE=PRF_IMG", LblScript);
-                FnGetPopUpWindowDispaly("Profile Image", HyPhotoCpt, 750, 550, "../STUDENT/PhotoCapture.aspx?PDF=0&FILE_TYPE=PRF_IMG", LblScript);
+                FnGetPopUpWindowDispaly("Profile Capture", ImgCapture, 950, 550, "../STUDENT/PhotoCapture.aspx?PDF=0&FILE_TYPE=PRF_IMG", LblScript);
+
                 //FnGetPopUpWindowDispaly("Staff Reviced Details", HyLnkBtnAdd, 850, 545, FnGetQueryString("StaffSubDetails.aspx", ViewState["ID"].ToString()), LblScript);
 
                 FnInitializeForm();
@@ -47,6 +45,7 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             CtrlGrdCommunity.ParentControl = CtrlGrdReligion.IdControl;
             CtrlGrdDivision.ParentControl = CtrlGrdClass.IdControl;
             CtrlGrdDiv_Srch.ParentControl = CtrlGrdClass_Srch.IdControl;
+            //CtrlDob.Attributes.Add("onchange", "return setupDobControl();");
         }
         catch (Exception ex)
         {
@@ -118,6 +117,13 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         ObjCls.IdentificationMark1 = TxtMark1.Text.Trim();
         ObjCls.IdentificationMark2 = TxtMark2.Text.Trim();
 
+        ObjCls.FatherOccupation = TxtFatherOccuption.Text.Trim();
+        ObjCls.MotherOccupation = TxtMotherOccuption.Text.Trim();
+        ObjCls.TCFrom = TxtTcFrom.Text.Trim();
+        ObjCls.TCFromNo = TxtTcNo.Text.Trim();
+        //ObjCls.PENNo = TxtPENNo.Text.Trim();
+        ObjCls.IsSingleChild= (ChkSingleChild.Checked == true ? true : false);
+
         ObjCls.Remarks = TxtRemarks.Text.Trim();
         ObjCls.Active = (ChkActive.Checked == true ? true : false);
     }
@@ -187,6 +193,14 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
         LblStudentName.Text = "";
         LblStudentId.Text = "";
 
+
+        TxtFatherOccuption.Text = "";
+        TxtMotherOccuption.Text = "";
+        TxtTcFrom.Text = "";
+        TxtTcNo.Text = "";
+        //TxtPENNo.Text = "";
+        ChkSingleChild.Checked = false;
+
         CtrlCommand1.SaveText = "Save";
         CtrlCommand1.SaveCommandArgument = "NEW";
         TabContainer1.ActiveTabIndex = 0;
@@ -228,11 +242,47 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             switch (((Button)sender).CommandName.ToString().ToUpper())
             {
                 case "SAVE":
+                    if (DdlSaltn.SelectedValue == "0")
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please Select Salutation"));
+                        FnFocus(DdlSaltn);
+                        return;
+                    }
                     if (TxtName.Text.Trim().Length <= 0)
                     {
-                      
                         FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the name"));
                         FnFocus(TxtName);
+                        return;
+                    }
+                    if (TxtAdmnNo.Text.Trim().Length <= 0)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter the Admission No."));
+                        FnFocus(TxtAdmnNo);
+                        return;
+                    }
+                    if (TxtAdharNo.Text.Trim().Length < 12)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please enter a Valid Aadhar No."));
+                        FnFocus(TxtAdharNo);
+                        return;
+                    }
+                    if (CtrlAdmnDate.DateText == "dd/MMM/yyyy")
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please Select Admission Date"));
+                        FnFocus(CtrlAdmnDate);
+                        return;
+                    }
+                    if (CtrlDob.DateText == "dd/MMM/yyyy")
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please Select DOB"));
+                        FnFocus(CtrlDob);
+                        return;
+                    }
+
+                    if (CtrlGrdClass.SelectedValue == "0")
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please Select Class"));
+                        FnFocus(CtrlGrdClass);
                         return;
                     }
                    
@@ -356,15 +406,22 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             TxtMark2.Text = ObjCls.IdentificationMark2;
 
             Session["IMG_PRF"] = ObjCls.ImgePath;
-            if (ObjCls.ImageByte.Length > 0)
-            {
-                Session["IMGBYTES"] = ObjCls.ImageByte;
-                FnConvertByteToImge((byte[])((Session["IMGBYTES"])), ImgItem);
-            }
+            Session["IMGBYTES"] = ObjCls.ImageByte;
+            //FnSetImage(ImgItem, ObjCls.ImgePath);
+
+            FnConvertByteToImge((byte[])((Session["IMGBYTES"])), ImgItem);
             //ViewState["TEMPID"] = ObjCls.ImgTempId.ToString();
 
             TxtRemarks.Text = ObjCls.Remarks.ToString();
             ChkActive.Checked = ObjCls.Active;
+
+            TxtFatherOccuption.Text=ObjCls.FatherOccupation.ToString();
+            TxtMotherOccuption.Text = ObjCls.MotherOccupation.ToString();
+            TxtTcFrom.Text = ObjCls.TCFrom.ToString();
+            TxtTcNo.Text = ObjCls.TCFromNo.ToString();
+            //TxtPENNo.Text = ObjCls.PENNo.ToString();
+            ChkSingleChild.Checked = (ObjCls.IsSingleChild = true ? true : false); 
+
 
             ViewState["DT_UPDATE"] = ObjCls.UpdateDate.ToString();
 
@@ -420,6 +477,12 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',770,450);";
             ImgDoc.Attributes.Add("onClick", _strLnk);
 
+            _strUrl = "StudentCommunication.aspx?CNTRID=" + HdnAutoId.Value + "&UID=" + Request.QueryString["UID"].ToString() + "&CID=" + Request.QueryString["CID"].ToString() + "&BID=" + Request.QueryString["BID"].ToString() + "&FID=" + Request.QueryString["FID"].ToString() + "&AID=" + Request.QueryString["AID"].ToString() + "&MID=" + Request.QueryString["MID"].ToString() + "&UGRPID=" + Request.QueryString["UGRPID"].ToString() + "&TTYPE=" + FnGetRights().TTYPE + "&WIDTH=" + Request.QueryString["WIDTH"].ToString() + "&HEIGHT=" + Request.QueryString["HEIGHT"].ToString();
+            _strTitle = "COMMUNICATION : - " + _strHdr;
+            _strLnk = "return FnGetPopUp('" + _strUrl + "','" + _strTitle + "',770,450);";
+            ImgCommunication.Attributes.Add("onClick", _strLnk);
+
+
             TabContainer1.ActiveTabIndex = 2;
         }
         catch (Exception ex)
@@ -452,7 +515,6 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
                     if (FnValidateFileSize(FileUploadImg, 0, 255, 600) == true)
                     {
                         Session["IMG_PRF"] = FnSaveUploadFileName(ObjCls, e.FileName, "PRF");
-                        string FS= FnSaveUploadFileName(ObjCls, e.FileName, "PRF");
                         _strDestPath = FnServerUploadPath(FnProfileFilePath(Session["IMG_PRF"].ToString().Trim()));
                         FileUploadImg.PostedFile.SaveAs(_strDestPath);
                         Session["IMGBYTES"] = FnGenerateThumbnail(_strDestPath, ref _strImgeByte);
@@ -479,51 +541,41 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
             throw ex;
         }
     }
-
     [WebMethod()]
     public static bool SaveCapturedImage(string data)
     {
-        ClsRegistrationStudent ObjCls = new ClsRegistrationStudent();
-      
-
-        string fileName = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
-
+        string fileName = DateTime.Now.ToString("ddMMyyhhmmss");
         //Convert Base64 Encoded string to Byte Array.
         byte[] imageBytes = Convert.FromBase64String(data.Split(',')[1]);
-
         //Save the Byte Array as Image File.
+        ClsRegistrationStudent ObjClsFle = new ClsRegistrationStudent();
+
+        string[] source = fileName.Trim().Split('\\');
+        string[] sourcefile = source[source.GetUpperBound(0)].Split('.');
+        string sourcefileExt = sourcefile[sourcefile.GetUpperBound(0)];
+        fileName = "PRF" + ObjClsFle.FnGetTokenId().ToString() + sourcefileExt;
+
         string filePath = HttpContext.Current.Server.MapPath(string.Format("~/UploadedFiles/Profile/{0}.jpg", fileName));
         File.WriteAllBytes(filePath, imageBytes);
-
-        HttpContext.Current.Session["IMG_PRF"] = "PRF"+ fileName+".jpg";
+        HttpContext.Current.Session["IMG_PRF"] = fileName + ".jpg";
+        HttpContext.Current.Session["IMGBYTES"] = imageBytes;
+        string str = HttpContext.Current.Session["IMG_PRF"].ToString();
 
         return true;
-
-
     }
-
-
-
     [WebMethod()]
     public static bool ChangePIX(string data)
     {
-        string fileName = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
-
+        string fileName = DateTime.Now.ToString("ddMMyyhhmmss");
         //Convert Base64 Encoded string to Byte Array.
         byte[] imageBytes = Convert.FromBase64String(data.Split(',')[1]);
-
-     
         Bitmap bmpReturn = null;
         byte[] byteBuffer = Convert.FromBase64String(data.Split(',')[1]);
         MemoryStream memoryStream = new MemoryStream(byteBuffer);
-
         memoryStream.Position = 0;
-
         bmpReturn = (Bitmap)Bitmap.FromStream(memoryStream);
-
         Color targetColor = Color.White; // Color to change
         Color replacementColor = Color.Blue; // New color
-
         for (int x = 0; x < bmpReturn.Width; x++)
         {
             for (int y = 0; y < bmpReturn.Height; y++)
@@ -543,27 +595,70 @@ public partial class StudentReg : ClsPageEvents, IPageInterFace
 
             }
         }
-
-
         byte[] byteArray = new byte[0];
         using (MemoryStream stream = new MemoryStream())
         {
             bmpReturn.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             stream.Close();
-
             byteArray = stream.ToArray();
         }
+        ClsRegistrationStudent ObjClsFle = new ClsRegistrationStudent();
+
+        string[] source = fileName.Trim().Split('\\');
+        string[] sourcefile = source[source.GetUpperBound(0)].Split('.');
+        string sourcefileExt = sourcefile[sourcefile.GetUpperBound(0)];
+        fileName = "PRF" + ObjClsFle.FnGetTokenId().ToString() + sourcefileExt;
 
         string filePath = HttpContext.Current.Server.MapPath(string.Format("~/UploadedFiles/Profile/{0}.jpg", fileName));
         File.WriteAllBytes(filePath, byteArray);
-        HttpContext.Current.Session["IMG_PRF"] = "PRF" + fileName + ".jpg";
+        HttpContext.Current.Session["IMG_PRF"] = fileName + ".jpg";
+        HttpContext.Current.Session["IMGBYTES"] = byteArray;
 
+        string str = HttpContext.Current.Session["IMG_PRF"].ToString();
         return true;
+    }
+
+
+
+    protected void CtrlAdmnDate_DayRender(object sender, DayRenderEventArgs e)
+    {
+        // Compare the date of the day being rendered with the current date
+        if (e.Day.Date > DateTime.Today)
+        {
+            // Disable selection and change appearance to make it clear that the date is disabled
+            e.Day.IsSelectable = false;
+            e.Cell.BackColor = System.Drawing.Color.LightGray; // Optional: Change background color to indicate disabled state
+            e.Cell.ForeColor = System.Drawing.Color.DarkGray; // Optional: Change text color to indicate disabled state
+        }
+    }
+
+
+    protected void CtrlAdmnDate_PreRender(object sender, EventArgs e)
+    {
+        DateTime selectedDate;
+
+        // Try parsing the selected date from the control
+        if (DateTime.TryParse(CtrlAdmnDate.DateText, out selectedDate))
+        {
+            // Check if the selected date is in the future
+            if (selectedDate > DateTime.Today)
+            {
+                // Clear the invalid date
+                CtrlAdmnDate.DateText = string.Empty;
+                
+
+                // Optionally display an error message or provide feedback
+               // ErrorMessage.Text = "The selected date cannot be in the future.";
+                FnPopUpAlert(ObjCls.FnAlertMessage("The selected date cannot be in the future."));
+                //ErrorMessage.Visible = true;
+            }
+        }
+
+
 
     }
 
 
 
    
-
 }

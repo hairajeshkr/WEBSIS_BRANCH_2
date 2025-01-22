@@ -21,6 +21,8 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
         {
             base.Page_Load(sender, e);
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
+            
+
             //CtrlCommand2.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
             if (!IsPostBack)
             {
@@ -30,7 +32,8 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
                 this.PopulateTreeView(DTInstitute, icount, null);
 
             }
-           
+
+            TreVwLst.TreeNodeCheckChanged += new TreeNodeEventHandler(TreVwLst_TreeNodeCheckChanged);
 
         }
         catch (Exception ex)
@@ -570,6 +573,169 @@ public partial class REPORT_FORMS_RptStudent : ClsPageEvents, IPageInterFace
             excelworkBook = null;
         }
     }
+
+    protected void TreVwLst_SelectedNodeChanged(object sender, EventArgs e)
+    {
+        // Get the selected node
+        TreeNode selectedNode = TreVwLst.SelectedNode;
+
+        if (selectedNode != null)
+        {
+            // Toggle the checked state of the selected node
+            selectedNode.Checked = !selectedNode.Checked;
+
+            // Check/uncheck all child nodes
+            CheckChildNodes(selectedNode, selectedNode.Checked);
+
+            // Check/uncheck all parent nodes
+            CheckParentNodes(selectedNode, selectedNode.Checked);
+        }
+
+    }
+
+    private void CheckChildNodes(TreeNode node, bool isChecked)
+    {
+        foreach (TreeNode childNode in node.ChildNodes)
+        {
+            childNode.Checked = isChecked;
+            CheckChildNodes(childNode, isChecked);
+        }
+    }
+
+    private void CheckParentNodes(TreeNode node, bool isChecked)
+    {
+        if (node.Parent != null)
+        {
+            if (isChecked)
+            {
+                // If a node is checked, check its parent
+                node.Parent.Checked = true;
+                CheckParentNodes(node.Parent, true);
+            }
+            else
+            {
+                // Only uncheck the parent if all siblings are unchecked
+                bool allSiblingsUnchecked = true;
+                foreach (TreeNode sibling in node.Parent.ChildNodes)
+                {
+                    if (sibling.Checked)
+                    {
+                        allSiblingsUnchecked = false;
+                        break;
+                    }
+                }
+
+                if (allSiblingsUnchecked)
+                {
+                    node.Parent.Checked = false;
+                    CheckParentNodes(node.Parent, false);
+                }
+            }
+        }
+    }
+
+
+    //-----------------------------------------------------------------------------------------
+    //protected void TreVwLst_AfterCheck(object sender, TreeNodeEventArgs e)
+    protected void TreVwLst_TreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
+    {
+
+        //// Handle child nodes based on the checked state of the parent node
+        //if (e.Node.Checked)
+        //{
+        //    CheckAllChildNodes(e.Node, true);
+        //}
+        //else
+        //{
+        //    CheckAllChildNodes(e.Node, false);
+        //}
+
+        //// Handle parent nodes' checked state
+        //UpdateParentNodes(e.Node);
+
+
+
+        // If a third-level node is checked, check its parent and grandparent nodes.
+        if (e.Node.Checked)
+        {
+            CheckParentNodes(e.Node);
+        }
+        else
+        {
+            // Optionally, you could uncheck parent nodes if a child is unchecked
+            // Uncomment the line below if you want this behavior
+             UncheckParentNodes(e.Node);
+        }
+
+
+
+
+    }
+
+
+    private void CheckParentNodes(TreeNode node)
+    {
+        if (node.Parent != null)
+        {
+            node.Parent.Checked = true;
+            CheckParentNodes(node.Parent); // Recursive call to ensure all parent levels are updated
+        }
+    }
+
+
+    private void UncheckParentNodes(TreeNode node)
+    {
+        if (node.Parent != null)
+        {
+            bool anyChildChecked = false;
+            foreach (TreeNode sibling in node.Parent.ChildNodes)
+            {
+                if (sibling.Checked)
+                {
+                    anyChildChecked = true;
+                    break;
+                }
+            }
+
+            node.Parent.Checked = anyChildChecked;
+
+            // Recursive call to uncheck parent nodes if needed
+            UncheckParentNodes(node.Parent);
+        }
+    }
+
+
+
+    private void CheckAllChildNodes(TreeNode node, bool isChecked)
+    {
+        foreach (TreeNode childNode in node.ChildNodes)
+        {
+            childNode.Checked = isChecked;
+            CheckAllChildNodes(childNode, isChecked); // Recursive call to ensure all levels are updated
+        }
+    }
+
+    private void UpdateParentNodes(TreeNode node)
+    {
+        if (node.Parent != null)
+        {
+            bool allSiblingsChecked = true;
+            foreach (TreeNode sibling in node.Parent.ChildNodes)
+            {
+                if (!sibling.Checked)
+                {
+                    allSiblingsChecked = false;
+                    break;
+                }
+            }
+            node.Parent.Checked = allSiblingsChecked;
+
+            // Recursively update parent nodes
+            UpdateParentNodes(node.Parent);
+        }
+    }
+
+
 
 
 

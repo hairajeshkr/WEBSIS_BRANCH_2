@@ -1,4 +1,4 @@
-﻿ <%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="FeeAsgn.aspx.cs" Inherits="FIN_FeeAsgn" StylesheetTheme="SkinFile" %>
+﻿ <%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ConsSettings.aspx.cs" Inherits="FIN_ConsSettings" StylesheetTheme="SkinFile" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Src="../CtrlCommand.ascx" TagName="CtrlCommand" TagPrefix="uc1" %>
@@ -12,14 +12,9 @@
         content: "\f073";
         color: floralwhite;
     }
-        .auto-style3 {
-            overflow: scroll;
-            height: 380px;
-            width: 270px;
-        }
         </style>
-    <script language="javascript" src="Script/FeeAssign.js" type="text/javascript"></script>
-    <div style="height: 550px; width: 1090px">
+    <script language="javascript" src="Script/ConsSettings.js" type="text/javascript"></script>
+    <div style="height: 550px; width: 1080px">
         <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="540px" Width="1080px" BorderColor="White" BorderStyle="Solid" BorderWidth="0px" Style="border: 1px solid #fff !important;">
             <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
                 <HeaderTemplate>
@@ -100,17 +95,8 @@
                                                                                         <asp:Label ID="LblSlNo" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("SlNo") %>' Width="40px"></asp:Label>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <asp:Label ID="LblName" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Name") %>' Width="200px"></asp:Label>
+                                                                                        <asp:Label ID="LblName" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Name") %>' Width="360px"></asp:Label>
                                                                                         <asp:HiddenField ID="HdnId" runat="server" Value='<%# Eval("ID") %>' />
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <uc1:CtrlDate ID="CtrlFrmDate" runat="server" DateText='<%# FnGetDateString(Eval("StartDate"))%>' />
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <asp:Label ID="LblWdth1" runat="server" SkinID="LblGrdMaster" Text=" " Width="10px"></asp:Label>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <uc1:CtrlDate ID="CtrlToDate" runat="server" DateText='<%# FnGetDateString(Eval("EndDate"))%>' />
                                                                                     </td>
                                                                                     <td>
                                                                                         <asp:Label ID="LblWdth2" runat="server" SkinID="LblGrdMaster" Text=" " Width="10px"></asp:Label>
@@ -121,7 +107,7 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td colspan="7">
-                                                                                        <asp:GridView ID="GrdVwChild" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" OnRowDataBound="GrdVwChild_RowDataBound" ShowHeader="False" SkinID="GrdVwMasterNoPageing" Width="608px">
+                                                                                        <asp:GridView ID="GrdVwChild" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" OnRowDataBound="GrdVwChild_RowDataBound" ShowHeader="False" SkinID="GrdVwMasterNoPageing" Width="520px">
                                                                                             <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                                                                                             <Columns>
                                                                                                 <asp:TemplateField>
@@ -136,7 +122,7 @@
                                                                                                 </asp:TemplateField>
                                                                                                 <asp:TemplateField HeaderText="Fee Master Name">
                                                                                                     <ItemTemplate>
-                                                                                                        <asp:Label ID="LblName0" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Name") %>' Width="350px"></asp:Label>
+                                                                                                        <asp:Label ID="LblName0" runat="server" SkinID="LblGrdMaster" Text='<%# Eval("Name") %>' Width="360px"></asp:Label>
                                                                                                         <asp:HiddenField ID="HdnFeeId" runat="server" Value='<%# Eval("ID") %>' />
                                                                                                         <asp:HiddenField ID="HdnRwIndex" runat="server" />
                                                                                                     </ItemTemplate>
@@ -178,8 +164,8 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="result-list1" style="overflow: scroll; height: 380px; width: 280px;">
-                                                            <asp:GridView ID="GrdVwSummary" runat="server" OnRowDataBound="GrdVwSummary_RowDataBound" SkinID="GrdVwMasterNoPageing" Width="214px">
+                                                        <div class="result-list1" style="overflow: scroll; height: 380px; width: 260px;">
+                                                            <asp:GridView ID="GrdVwSummary" runat="server" OnRowDataBound="GrdVwSummary_RowDataBound" SkinID="GrdVwMasterNoPageing">
                                                                 <Columns>
                                                                     <asp:BoundField />
                                                                     <asp:TemplateField HeaderText="Fee Master">
@@ -212,7 +198,7 @@
                                         <td><uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="False" IsVisibleFind="False" IsVisiblePrint="False" SaveText="Submit" /></td>
                                         <td><asp:Label ID="Label2" runat="server" SkinID="LblBold" Width="200px"></asp:Label></td>
                                         <td> <asp:Label ID="LblTot" runat="server" SkinID="LblBold" Text='TOTAL AMOUNT' Width="150px"></asp:Label></td>
-                                        <td><asp:TextBox ID="TxtTotalAmount" runat="server" SkinID="TxtDigit120Disable" Font-Bold="True"></asp:TextBox></td>
+                                        <td><asp:TextBox ID="TxtTotalAmount" runat="server" SkinID="TxtDigit120Disable"></asp:TextBox></td>
                                     </tr>
                                 </table>
                             </td>

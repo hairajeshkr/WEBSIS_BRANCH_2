@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="RptStudent.aspx.cs" Inherits="REPORT_FORMS_RptStudent" StylesheetTheme="SkinFile" %>
+﻿<%@ Page Title="" Language="C#"  MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="RptStudent.aspx.cs" Inherits="REPORT_FORMS_RptStudent"   StylesheetTheme="SkinFile" %>
 
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -19,7 +19,7 @@
 
                             <td class="odd" rowspan="11">
                                 <div class="result-list" style="overflow: scroll; height: 470px; width: 250px;">
-                                    <asp:TreeView ID="TreVwLst" runat="server" ShowCheckBoxes="All" ExpandDepth="0"></asp:TreeView>
+                                    <asp:TreeView ID="TreVwLst" runat="server" ShowCheckBoxes="All" ExpandDepth="0" OnSelectedNodeChanged="TreVwLst_SelectedNodeChanged" OnTreeNodeCheckChanged="TreVwLst_TreeNodeCheckChanged"  AutoPostBack="true" ></asp:TreeView>
 
                                 </div>
 
@@ -38,7 +38,7 @@
                             <td class="odd" rowspan="11"></td>
                             <td class="odd" rowspan="11">
                                 <asp:CheckBox ID="ChkSelectAllFields" runat="server" AutoPostBack="True" OnCheckedChanged="ChkSelectAllFields_CheckedChanged" Text="Select All" />
-                                <div class="result-list" style="overflow: scroll; height: 470px; width: 250px; align-content: ">
+                                <div class="result-list" style="overflow: scroll; height: 470px; width: 250px; ">
                                     <asp:CheckBoxList ID="ChkSelectColumns" runat="server" AutoPostBack="True" SkinID="ChkSelectColumns">
                                     </asp:CheckBoxList>
                                 </div>

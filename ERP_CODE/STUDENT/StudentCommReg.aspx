@@ -3,12 +3,14 @@
 <%@ Register src="../CtrlCommand.ascx" tagname="CtrlCommand" tagprefix="uc1" %>
 <%@ Register src="../CtrlGridList.ascx" tagname="CtrlGridList" tagprefix="uc2" %>
 <%@ Register src="../CtrlDate.ascx" tagname="CtrlDate" tagprefix="uc3" %>
+<%@ Register Src="~/CtrlGridSmallList.ascx" TagPrefix="uc4" TagName="CtrlGridSmallList" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
      <script language="javascript" src="Script/Community.js" type="text/javascript"></script>
 
 
     <div style="height:367px; width:569px">
-      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="380px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
+      <ajaxToolkit:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="380px" Width="560px" BorderColor="White" BorderStyle="Solid"  BorderWidth="0px" style="border:1px solid #fff !important;">
           <ajaxToolkit:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
               <HeaderTemplate> Community
               </HeaderTemplate>
@@ -28,7 +30,7 @@
                               <asp:Label ID="Label2" runat="server" Text="Code" Width="125px"></asp:Label>
                           </td>
                           <td class="even">
-                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="false"></asp:TextBox>
+                              <asp:TextBox ID="TxtCode" runat="server" placeholder="Code" SkinID="TxtCodeDisable" Enabled="False"></asp:TextBox>
                           </td>
                           </tr>
                        <tr>
@@ -65,7 +67,7 @@
                                                 </tr>
 
                         <tr>
-                          <td align="center" class="FooterCommand" colspan="4" valign="middle">
+                          <td align="center" class="FooterCommand" colspan="3" valign="middle">
                               <uc1:CtrlCommand ID="CtrlCommand1" runat="server" IsVisibleClear="True" IsVisibleDelete="True" IsVisibleFind="True" IsVisiblePrint="false" />
                           </td>
                       </tr>      
@@ -93,15 +95,23 @@
                           <td style="height: 39px">
                               <asp:TextBox ID="TxtCode_Srch" runat="server" placeholder="Code" SkinID="TxtCode"></asp:TextBox>
                           </td>
+                         
+                      </tr>
+
+                       <tr class="result-head">  
+                           <td style="height: 39px">
+                          <td style="height: 39px">
+                              <uc2:CtrlGridList ID="CtrlGrdReligion_Srch" runat="server" PlaceHoldr="Religion" GridHeight="200" AccountType="ReligionList" />
+                          </td>
                           <td style="height: 39px">
                               <asp:Button ID="BtnFind" runat="server" OnClick="ManiPulateDataEvent_Clicked" Text="Find" Width="69px" CommandName="FIND" SkinID="BtnCommandFindNew" />
                           </td>
+                               </td>
                       </tr>
-
 
                       <tr>
                           <td colspan="5">
-                              <div class="result-list" style="overflow: scroll; height: 300px; width: 529px;">
+                              <div class="result-list" style="overflow: scroll; height: 260px; width: 529px;">
                                   <asp:GridView ID="GrdVwRecords" runat="server" OnPageIndexChanging="GrdVwRecords_PageIndexChanging" OnSelectedIndexChanging="GrdVwRecords_SelectedIndexChanging" SkinID="GrdVwMaster">
                                       <Columns>
                                           <asp:TemplateField HeaderText="Name">

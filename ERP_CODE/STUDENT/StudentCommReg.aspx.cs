@@ -8,6 +8,7 @@ using System.Data;
 public partial class STUDENT_StudentCommReg : ClsPageEvents,IPageInterFace
 {
     ClsStudentCategory ObjCls = new ClsStudentCategory();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
     protected override void Page_Load(object sender, EventArgs e)
     {
         try
@@ -18,6 +19,7 @@ public partial class STUDENT_StudentCommReg : ClsPageEvents,IPageInterFace
             {
                 FnInitializeForm();
                 //ObjCls = new ClsCommunity(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
+                //ObjLst.FnGetFinancilaYearList(DdlReligion_Srch, "");
             }
         }
         catch (Exception ex)
@@ -69,8 +71,10 @@ public partial class STUDENT_StudentCommReg : ClsPageEvents,IPageInterFace
     public void FnFindRecord()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.Name = TxtName.Text.Trim();
+        ObjCls.Name = TxtName_Srch.Text.Trim();
         ObjCls.Code = TxtCode_Srch.Text.Trim();
+        //ObjCls.ParentId = ObjCls.FnIsNumeric(DdlReligion_Srch.SelectedValue.ToString()); 
+        ObjCls.ParentId = ObjCls.FnIsNumeric(CtrlGrdReligion_Srch.SelectedValue.ToString());
         FnFindRecord(ObjCls);
         FnGridViewBinding("");
         TabContainer1.ActiveTabIndex = 1;

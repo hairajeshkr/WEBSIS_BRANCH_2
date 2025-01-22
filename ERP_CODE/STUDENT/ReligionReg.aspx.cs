@@ -17,7 +17,6 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
             if (!IsPostBack)
             {
                 FnInitializeForm();
-                //ObjCls = new ClsCommunity(objUserRights.COMPANYID, objUserRights.BRANCHID, objUserRights.FAYEARID);
             }
         }
         catch (Exception ex)
@@ -69,7 +68,7 @@ public partial class STUDENT_ReligionReg : ClsPageEvents,IPageInterFace
     public void FnFindRecord()
     {
         base.FnAssignProperty(ObjCls);
-        ObjCls.Name = TxtName.Text.Trim();
+        ObjCls.Name = TxtName_Srch.Text.Trim();
         ObjCls.Code = TxtCode_Srch.Text.Trim();
         FnFindRecord(ObjCls);
         FnGridViewBinding("");

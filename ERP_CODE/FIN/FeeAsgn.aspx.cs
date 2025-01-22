@@ -1,187 +1,178 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
-using System.Web.Services;
-
-//using System.Windows.Forms;
-
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
 {
-    ClsFeeInstallmentMaster ObjCls = new ClsFeeInstallmentMaster();
-    ClsDropdownRecordList objLst = new ClsDropdownRecordList();
+    ClsFeeAssign ObjCls = new ClsFeeAssign();
+    ClsDropdownRecordList ObjLst = new ClsDropdownRecordList();
 
-    public String GRDS,FFF;
-    static int icount = 0;
-    Label LblID = null, LblFeeName = null, LblIID=null, LblName=null;
-    TextBox txtAmount = null;
-    CtrlDate CtrlFromDate = null, CtrlDueDate = null;
+    TextBox TxtAmount = null, TxtRemarks = null, TxtInstalAmt = null, TxtFeeTotAmt = null;
+    HiddenField HdnStudentId = null, HdnId = null, HdnRwIndex = null, HdnIndex = null, HdnFeeId = null;
+    CtrlDate CtrlFrmDate = null, CtrlToDate = null;
+    GridView GrdVwChld = null;
     protected override void Page_Load(object sender, EventArgs e)
     {
-
         try
         {
             base.Page_Load(sender, e);
             CtrlCommand1.FooterCommands += new CtrlCommand.ClickEventHandler(ManiPulateDataEvent_Clicked);
-
-            
             if (!IsPostBack)
             {
-                lblGrpId.Text = "0";
-                lblClsId.Text = "0";
-                lblDivId.Text = "0";
+                ViewState["DT_INST"] = ObjLst.FnGetInstallmentList();
+                ViewState["DT_FEE"] = ObjLst.FnGetFeeMasterList(FnGetRights().COMPANYID, FnGetRights().BRANCHID, FnGetRights().ACYEARID, FnGetRights().FAYEARID);
+
+                ObjLst.CompanyId = FnGetRights().COMPANYID;
+                ObjLst.BranchId = FnGetRights().BRANCHID;
+                ViewState["DT_TRE"] = ObjLst.FnGetClassDetailedList();
+                _dwMainRecord = new DataView(ViewState["DT_TRE"] as DataTable);
+                _dwMainRecord.RowFilter = " ParentId=0";
+                _dwMainRecord.Sort = "OrderIndex ASC";
+                this.FnPopulateTreeView(_dwMainRecord.ToTable(), 0, null);
+
                 FnInitializeForm();
-                
-                DataTable ClsTD = (ObjCls.FnGetDataSet("select TCD.nId ID,TCD.cName Name FROM TblClassDetails  TCD where TCD.cttype='INGRP'") as DataSet).Tables[0];
-                this.PopulateTreeView(ClsTD, icount, null);
-              FnfillInstallment();
-
-                
-
             }
-            CtrlGrdClass.ParentControl = CtrlGrdInstitute.IdControl;
-            CtrlGrdDiv.ParentControl = CtrlGrdClass.IdControl;
-            CtrlGrdStudent.ParentControl = CtrlGrdDiv.IdControl;
-            CtrlCommand1.IsVisibleDelete = false;
 
+            
 
+            CtrlGridClass.ParentControl = CtrlGrdGroup.IdControl;
+            CtrlGridDivision.ParentControl = CtrlGridClass.IdControl;
+            CtrlGridStudent.ParentControl = CtrlGridDivision.IdControl;
         }
         catch (Exception ex)
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
-
     }
-
-
-
-    public void PopulateTreeView(DataTable dtParent, int ParentId, TreeNode treeNode)
+    private void FnPopulateTreeView(DataTable dtParent, int PrmParentId, TreeNode treeNode)
     {
-        int VS;
         foreach (DataRow row in dtParent.Rows)
         {
-            TreeNode tnode = new TreeNode
+            TreeNode child = new TreeNode
             {
                 Text = row["Name"].ToString(),
-                Value = row["ID"].ToString()
+                Value = row["Id"].ToString()
             };
-
-            if (ParentId == 0)
+            if (PrmParentId == 0)
             {
-                TreVwLst.Nodes.Add(tnode);
-                DataTable dtChild = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nClassId  where TCD.cttype='CLS' and TCD.nParentId= " + tnode.Value) as DataSet).Tables[0];
-                VS = 1;
-                this.PopulateTreeView(dtChild, VS, tnode);
+                TreVwLst.Nodes.Add(child);
+                _dwMainRecord = new DataView(ViewState["DT_TRE"] as DataTable);
+                _dwMainRecord.RowFilter = " ParentId=" + ObjCls.FnIsNumeric(child.Value);
+                _dwMainRecord.Sort = "OrderIndex ASC";
+                FnPopulateTreeView(_dwMainRecord.ToTable(), 1, child);
             }
-            else if (ParentId == 1)
+            else if (PrmParentId == 1)
             {
-                treeNode.ChildNodes.Add(tnode);
-                DataTable dtChild1 = (ObjCls.FnGetDataSet("select Distinct TCD.nId ID,TCD.cName Name FROM TblStudentAdmissionDetails SAD inner join TblClassDetails  TCD on TCD.nId=SAD.nDivisionId  where TCD.cttype='DIVN'and SAD.nClassId= " + tnode.Value) as DataSet).Tables[0];
-                VS = 2;
-                PopulateTreeView(dtChild1, VS, tnode);
+                treeNode.ChildNodes.Add(child);
+                _dwMainRecord = new DataView(ViewState["DT_TRE"] as DataTable);
+                _dwMainRecord.RowFilter = " ParentId=" + ObjCls.FnIsNumeric(child.Value);
+                _dwMainRecord.Sort = "OrderIndex ASC";
+                FnPopulateTreeView(_dwMainRecord.ToTable(), 2, child);
             }
-            
             else
             {
-                treeNode.ChildNodes.Add(tnode);
+                treeNode.ChildNodes.Add(child);
             }
         }
     }
-
-   
-
-    [WebMethod]
-    public static string InsertData(string nFEEId, string nINSSTALId, string nINSTIId, string nCLSId, string nDIVId, string nSTUDId, string nAmount, string iCmpId, string iBrId, string iFaId, string iAcId,string nAccLedgerId,string nOrderIndex)
-    {
-        string msg = string.Empty;
-        
-        SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
-        
-           SqlCommand cmd = new SqlCommand("Insert into TblFeeAssignTemp(nFeeMasterId, nInstalmentId, nInstituteGrpId, nClassId, nDivisionId, nStudentId, nAmount,nCompanyId, nBranchId, nFaId,nAcId,nAccLedgerId,nOrderIndex) VALUES(" + nFEEId + ","+ nINSSTALId + ","+ nINSTIId + ","+ nCLSId + ","+ nDIVId + ","+ nSTUDId + ","+ nAmount + "," + iCmpId + "," + iBrId + "," + iFaId + "," + iAcId + "," + nAccLedgerId + "," + nOrderIndex + ")", con);
-                con.Open();
-                int i = cmd.ExecuteNonQuery();
-                con.Close();
-        if (i == 1)
-        {
-            msg = "true";
-        }
-        else
-        {
-            msg = "false";
-        }
-        return msg;
-    }
-
     public override void FnInitializeForm()
     {
-        TabContainer1.ActiveTabIndex = 0;
+        int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
+        ObjCls = new ClsFeeAssign(ref iCmpId, ref iBrId, ref iFaId, ref iAcId);
+        CtrlCommand1.IsVisibleSave = false;
+        ViewState["TOKENNO"] = ObjCls.FnGetTokenId().ToString();
+        ViewState["INDX"] = "0";
         ViewState["DT"] = FnGetGeneralTable(ObjCls);
+
         FnGridViewBinding("");
-        // FnfillInstallment();
+
+        TabContainer1.ActiveTabIndex = 0;
     }
-
-
     public void FnAssignProperty()
     {
-
         base.FnAssignProperty(ObjCls);
-    }
 
+        ObjCls.TokenNo = ObjCls.FnIsDouble(ViewState["TOKENNO"].ToString());
+        ObjCls.TrDate = ObjCls.FnDateTime(DateTime.Now.ToString("dd/MMM/yyyy"));
+
+        ObjCls.AccCmpId = FnGetRights().BRANCHID;
+        ObjCls.InstituteGrpId = ObjCls.FnIsNumeric(CtrlGrdGroup.SelectedValue);
+        ObjCls.ClassId = ObjCls.FnIsNumeric(CtrlGridClass.SelectedValue);
+        ObjCls.DivisionId = ObjCls.FnIsNumeric(CtrlGridDivision.SelectedValue);
+        ObjCls.StudentId = ObjCls.FnIsNumeric(CtrlGridStudent.SelectedValue);
+    }
     public void FnClose()
     {
         throw new NotImplementedException();
     }
-
     public override void FnCancel()
     {
         base.FnCancel();
 
+        CtrlGrdGroup.SelectedValue = "0";
+        CtrlGrdGroup.SelectedText = "";
+
+        CtrlGridClass.SelectedValue = "0";
+        CtrlGridClass.SelectedText = "";
+
+        CtrlGridDivision.SelectedValue = "0";
+        CtrlGridDivision.SelectedText = "";
+
+        CtrlGridStudent.SelectedValue = "0";
+        CtrlGridStudent.SelectedText = "";
+
+        TxtTotalAmount.Text = "";
+        FnFocus(CtrlGrdGroup.ControlTextBox);
+        //treev.CollapseAll();
         
-        CtrlGrdInstitute.SelectedValue = "0";
-        CtrlGrdInstitute.SelectedText = "";
 
-        CtrlGrdClass.SelectedValue = "0";
-        CtrlGrdClass.SelectedText = "";
-
-        CtrlGrdDiv.SelectedValue = "0";
-        CtrlGrdDiv.SelectedText = "";
-
-        CtrlGrdStudent.SelectedValue = "0";
-        CtrlGrdStudent.SelectedText = "";
-
-        FnFocus(CtrlGrdInstitute.ControlTextBox);
     }
     public void FnFindRecord()
     {
-        base.FnAssignProperty(ObjCls);
+        ViewState["INDX"] = "1";
+        FnAssignProperty();
         FnFindRecord(ObjCls);
-        FnGridViewBinding("");
-        TabContainer1.ActiveTabIndex = 1;
-    }
+        if ((ViewState["DT"] as DataTable).Rows.Count > 0)
+        {
+            _dwMainRecord = new DataView(ViewState["DT"] as DataTable);
+            _dwMainRecord.RowFilter = " Id>0";
+            DT_RECORD = _dwMainRecord.ToTable();
+            if (DT_RECORD.Rows.Count > 0)
+            {
+                TxtTotalAmount.Text = FnGetDoubleString((ViewState["DT"] as DataTable).Compute("SUM(TotalAmt)", "").ToString());
+                ViewState["TOKENNO"] = (ViewState["DT"] as DataTable).Rows[0]["TokenNo"].ToString();
+            }
+        }
+        else
+        {
+            TxtTotalAmount.Text = "";
+        }
 
+        FnGridViewBinding("");
+        CtrlCommand1.IsVisibleSave = true;
+    }
     public object FnGetGridRowCount(string PrmFlag)
     {
         throw new NotImplementedException();
     }
-
     public void FnGridViewBinding(string PrmFlag)
     {
-        //GrdVwRecords.DataSource = ViewState["DT"] as DataTable;
-        //GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
-        //GrdVwRecords.DataBind();
-        //GrdVwRecords.SelectedIndex = -1;
-    }
+        GrdVwRecords.DataSource = ViewState["DT_INST"] as DataTable;
+        GrdVwRecords.DataKeyNames = new String[] { ObjCls.KeyName };
+        GrdVwRecords.DataBind();
+        GrdVwRecords.SelectedIndex = -1;
 
+        GrdVwSummary.DataSource = ViewState["DT_FEE"] as DataTable;
+        GrdVwSummary.DataKeyNames = new String[] { ObjCls.KeyName };
+        GrdVwSummary.DataBind();
+        GrdVwSummary.SelectedIndex = -1;
+    }
     public void FnPrintRecord()
     {
         throw new NotImplementedException();
     }
-
     public void ManiPulateDataEvent_Clicked(object sender, EventArgs e)
     {
         try
@@ -192,30 +183,42 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
                     switch (((Button)sender).CommandArgument.ToString().ToUpper())
                     {
                         case "NEW":
-                            
-                            using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+                           if (ObjCls.FnIsNumeric(CtrlGrdGroup.SelectedValue.ToString()) <= 0)
                             {
-                                using (SqlCommand cmd = new SqlCommand("ProInsertMainGrd", con))
-                                {
-                                    con.Open();
-                                    cmd.CommandType = CommandType.StoredProcedure;
-
-                                    int i = cmd.ExecuteNonQuery();
-                                    con.Close();
-
-                                }
-
+                                FnPopUpAlert(ObjCls.FnAlertMessage("Please select valid Institute group "));
+                                FnFocus(CtrlGrdGroup.ControlTextBox);
+                                return;
                             }
-                            FnfillInstallment();
+                            FnAssignProperty();
+                            base.ManiPulateDataEvent_Clicked(((Button)sender).CommandArgument.ToString().ToUpper(), ObjCls, false);
+
+                            FnCancel();
+                                                       
+                           TreVwLst.CollapseAll();
+                            CtrlGrdGroup.Focus();
+                            TreVwLst.SelectedNode.Selected = false;
+                           
                             break;
-                       
                     }
                     break;
                 case "FIND":
+                    if (ObjCls.FnIsNumeric(CtrlGrdGroup.SelectedValue.ToString()) <= 0)
+                    {
+                        FnPopUpAlert(ObjCls.FnAlertMessage("Please select valid Institute group "));
+                        FnFocus(CtrlGrdGroup.ControlTextBox);
+                        return;
+                    }
                     FnFindRecord();
                     break;
-                case "DELETE":
-                    DeleteData();
+                case "CLEAR":
+                    FnCancel();
+                    TreVwLst.CollapseAll();
+                    CtrlGrdGroup.Focus();
+                    TreVwLst.SelectedNode.Selected = false;
+                    break;
+                case "PRINT":
+                    FnAssignProperty();
+                    base.ManiPulateDataEvent_Clicked(((Button)sender).CommandName.ToString().ToUpper(), ObjCls, false);
                     break;
             }
         }
@@ -224,271 +227,182 @@ public partial class FIN_FeeAsgn : ClsPageEvents, IPageInterFace
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
-
-    protected void BtnFind_Click(object sender, EventArgs e)
-    {
-        //FnFindRecord();
-        // GrdVwRecords.Focus()
-        //FnfillInstallment();
-    }
-
-    public void FnfillInstallment()
-    {
-
-        DataTable ClsTGFI = (ObjCls.FnGetDataSet("SELECT nId ID,cName, dStartDate FromDate, dEndDate DueDate  FROM TblFeeInstallmentMaster") as DataSet).Tables[0];
-        GrdVwIns.DataSource = ClsTGFI;
-        GrdVwIns.DataBind();
-        DataTable ClsTGFM = (ObjCls.FnGetDataSet("SELECT nId ID,cName FeeName,0 Amount  FROM TblFeeMaster") as DataSet).Tables[0];
-        
-    }
-
-    
-        
-   
-
-       
-    
-    protected void GrdVwFee_RowUpdated(object sender, GridViewUpdatedEventArgs e)
-    {
-        if(e.AffectedRows<1)
-        {
-            e.KeepInEditMode = true;
-        }
-
-    }
-
-
-    
-
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        var Column1TextBoxes = Request.Form.AllKeys.Where(k => k.Contains("txtDynamic")).ToList();
-        for (int i = 0; i < Column1TextBoxes.Count; i++)
-        {
-            string value = Request.Form[Column1TextBoxes[i]]; // Textbox values
-        }
-    }
-
-    protected void GrdVwFee_RowUpdating1(object sender, GridViewUpdateEventArgs e)
-    {
-        var Column1TextBoxes = Request.Form.AllKeys.Where(k => k.Contains("txtDynamic")).ToList();
-        for (int i = 0; i < Column1TextBoxes.Count; i++)
-        {
-            string value = Request.Form[Column1TextBoxes[i]]; // Textbox values
-        }
-    }
-
-    protected void GrdVwFee_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        var Column1TextBoxes = Request.Form.AllKeys.Where(k => k.Contains("txtDynamic")).ToList();
-        for (int i = 0; i < Column1TextBoxes.Count; i++)
-        {
-            string value = Request.Form[Column1TextBoxes[i]]; // Textbox values
-        }
-
-    }
-
     protected void TreVwLst_SelectedNodeChanged(object sender, EventArgs e)
     {
-        var CLN = TreVwLst.SelectedNode.Value;
-        int IH = TreVwLst.SelectedNode.Depth;
         try
         {
             FnCancel();
             if (TreVwLst.SelectedNode.Depth == 0)
             {
-                //group
-
-                CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Value;
-                CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Text;
-
+                CtrlGrdGroup.SelectedValue = TreVwLst.SelectedNode.Value;
+                CtrlGrdGroup.SelectedText = TreVwLst.SelectedNode.Text;
             }
             else if (TreVwLst.SelectedNode.Depth == 1)
             {
-                //Class
+                CtrlGrdGroup.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
+                CtrlGrdGroup.SelectedText = TreVwLst.SelectedNode.Parent.Text;
 
-                CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
-                CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Parent.Text;
-                CtrlGrdClass.SelectedValue = TreVwLst.SelectedNode.Value;
-                CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Text;
-
+                CtrlGridClass.SelectedValue = TreVwLst.SelectedNode.Value;
+                CtrlGridClass.SelectedText = TreVwLst.SelectedNode.Text;
             }
             else if (TreVwLst.SelectedNode.Depth == 2)
             {
-                //Division
+                CtrlGrdGroup.SelectedValue = TreVwLst.SelectedNode.Parent.Parent.Value;
+                CtrlGrdGroup.SelectedText = TreVwLst.SelectedNode.Parent.Parent.Text;
 
+                CtrlGridClass.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
+                CtrlGridClass.SelectedText = TreVwLst.SelectedNode.Parent.Text;
 
-                CtrlGrdInstitute.SelectedValue = TreVwLst.SelectedNode.Parent.Parent.Value;
-                CtrlGrdInstitute.SelectedText = TreVwLst.SelectedNode.Parent.Parent.Text;
-
-                CtrlGrdClass.SelectedValue = TreVwLst.SelectedNode.Parent.Value;
-                CtrlGrdClass.SelectedText = TreVwLst.SelectedNode.Parent.Text;
-
-                CtrlGrdDiv.SelectedValue = TreVwLst.SelectedNode.Value;
-                CtrlGrdDiv.SelectedText = TreVwLst.SelectedNode.Text;
-
+                CtrlGridDivision.SelectedValue = TreVwLst.SelectedNode.Value;
+                CtrlGridDivision.SelectedText = TreVwLst.SelectedNode.Text;
             }
-           // FnfillInstallment();
-            DataTable DDD = ViewState["DT1"] as DataTable;
         }
         catch (Exception ex)
         {
             FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
         }
     }
-
-    public void FillGrd( string nINSTIId, string nCLSId, string nDIVId)
+    protected void GrdVwRecords_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        string msg = string.Empty;
-        //string VV = TId;
-        DataTable DDT = new DataTable();
-        var StudIID = CtrlGrdStudent.SelectedValue;
-        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+        try
         {
-            using (SqlCommand cmd = new SqlCommand("SPTestT3", con))
+            if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                con.Open();
-                cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.Parameters.AddWithValue("@EmptableT", DDD);
-                cmd.Parameters.AddWithValue("@nINSTIId", nINSTIId);
-                cmd.Parameters.AddWithValue("@nCLSId", nCLSId);
-                cmd.Parameters.AddWithValue("@nDIVId", nDIVId);
-                cmd.Parameters.AddWithValue("@nStudIID", StudIID);
-                int i = cmd.ExecuteNonQuery();
-                con.Close();
-                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0 && ObjCls.FnIsNumeric(ViewState["INDX"].ToString()) > 0)
                 {
-                    da.Fill(DDT);
+                    CtrlFrmDate = (CtrlDate)e.Row.FindControl("CtrlFrmDate");
+                    CtrlToDate  = (CtrlDate)e.Row.FindControl("CtrlToDate");
+                    TxtInstalAmt = (TextBox)e.Row.FindControl("TxtInstalAmt");
+
+                    GrdVwChld = (GridView)e.Row.FindControl("GrdVwChild");
+
+                    GrdVwChld.DataSource = ViewState["DT_FEE"] as DataTable;
+                    GrdVwChld.DataKeyNames = new String[] { ObjCls.KeyName };
+                    GrdVwChld.DataBind();
+
+                    for (int iRw = 0; iRw <= GrdVwChld.Rows.Count - 1; iRw++)
+                    {
+                        TxtAmount = (TextBox)GrdVwChld.Rows[iRw].FindControl("TxtAmount");
+                        HdnFeeId = (HiddenField)GrdVwChld.Rows[iRw].FindControl("HdnFeeId");
+                        HdnIndex = (HiddenField)GrdVwChld.Rows[iRw].FindControl("HdnRwIndex");
+                        HdnIndex.Value = e.Row.RowIndex.ToString();
+
+                        FnSetFeeMasterValue(ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")), ObjCls.FnIsNumeric(HdnFeeId.Value), TxtAmount);
+                    }
+                    FnSetInstametValue(ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")), CtrlFrmDate, CtrlToDate, TxtInstalAmt);
                 }
             }
-
-
-            ViewState["DT2"] = DDT;
         }
-
-
-    }
-
-
-
-    protected void cmdFill_Click(object sender, EventArgs e)
-    {
-        CtrlCommand1.IsVisibleDelete = true;
-        FnfillInstallment();
-       
-       // FillGrd( lblGrpId.Text, lblClsId.Text, lblDivId.Text);
-    }
-
-    protected void GrdVwIns_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-
-        if (e.Row.RowType == DataControlRowType.DataRow)
+        catch (Exception ex)
         {
-            GridView GrdVwFees = (GridView)e.Row.FindControl("GrdVwRecordsF");
-            if (GrdVwFees != null)
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    protected void GrdVwChild_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                
-                DataTable dtFees = (ObjCls.FnGetDataSet("SELECT nId ID,cName FeeName,0 Amount  FROM TblFeeMaster  ") as DataSet).Tables[0];
-                GrdVwFees.DataSource = dtFees;
-                GrdVwFees.DataBind();
-
+                if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
+                {
+                    TxtAmount = (TextBox)e.Row.FindControl("TxtAmount");
+                    FnAutocompleteOff(TxtAmount);
+                    HdnRwIndex = (HiddenField)e.Row.FindControl("HdnRwIndex");
+                    _strDestControl = GrdVwSummary.ClientID + "," + TxtTotalAmount.ClientID;
+                    TxtAmount.Attributes.Add("onkeyup", "return FnUpdateFeeAssign('" + ViewState["TOKENNO"].ToString() + "','" + ViewState["ID"].ToString() + "','" + FnGetRights().COMPANYID + "','" + FnGetRights().BRANCHID + "','" + FnGetRights().ACYEARID + "','" + FnGetRights().FAYEARID + "','" + FnGetRights().TTYPE + "','" + FnGetRights().USERID + "','" + DataBinder.Eval(e.Row.DataItem, "ID").ToString() + "','" + CtrlGrdGroup.IdControl + "','" + CtrlGridClass.IdControl + "','" + CtrlGridDivision.IdControl + "','" + CtrlGridStudent.IdControl + "','" + TxtAmount.ClientID + "','" + HdnRwIndex.ClientID + "', '" + _strDestControl + "');");
+                }
             }
-
         }
-
-    }
-
-    protected void GrdVwRecordsF_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;");
-
-        if (e.Row.RowType == DataControlRowType.DataRow)
+        catch (Exception ex)
         {
-           
-            int iCmpId = FnGetRights().COMPANYID, iBrId = FnGetRights().BRANCHID, iFaId = FnGetRights().FAYEARID, iAcId = FnGetRights().ACYEARID;
-
-            var GrpId = CtrlGrdInstitute.IdControl;
-            var ClsId = CtrlGrdClass.IdControl;
-            var DivId = CtrlGrdDiv.IdControl;
-            var StudId = CtrlGrdStudent.IdControl;
-
-            var GrpIdF = CtrlGrdInstitute.SelectedValue;
-            var ClsIdF = CtrlGrdClass.SelectedValue;
-            var DivIdF = CtrlGrdDiv.SelectedValue;
-            var StudIdF = CtrlGrdStudent.SelectedValue;
-
-            string INSID = ((Label)e.Row.Parent.Parent.Parent.FindControl("LblIID")).Text;
-            string INSNAM = ((Label)e.Row.Parent.Parent.Parent.FindControl("LblName")).Text;
-            string FEEID = ((Label)e.Row.FindControl("LblID")).Text;
-            string FEENAME = ((Label)e.Row.FindControl("FeeName")).Text;
-            TextBox FEEAMT = ((TextBox)e.Row.FindControl("txtAmount"));
-
-            CtrlDate FromDC = (CtrlDate)e.Row.Parent.Parent.Parent.FindControl("CtrlFromDate");
-            CtrlDate DueDC = (CtrlDate)e.Row.Parent.Parent.Parent.FindControl("CtrlDueDate");
-
-            string strsqlAc = "SELECT nAccLedgerId FROM TblFeeMaster WHERE nId=" + FEEID;
-            var nAccLedgerId = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(strsqlAc).ToString());
-
-            string strsqlOi = "SELECT nOrderIndex FROM TblFeeMaster WHERE nId=" + FEEID;
-            var nOrderIndex = ObjCls.FnIsNumeric(ObjCls.FnExecuteScalar(strsqlOi).ToString());
-
-
-
-            SqlCommand cmd = new SqlCommand("select  isnull(nAmount,0) from TblFeeAssign where nInstituteGrpId=" + GrpIdF + " and nClassId=" + ClsIdF + " and nDivisionId=" + DivIdF + " and nStudentId=" + StudIdF + " and nInstalmentId =" + INSID + " and nFeeMasterId = " + FEEID + "", con);
-            con.Open();
-            var VV = cmd.ExecuteScalar();
-            con.Close();
-            if (VV == null)
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    protected void GrdVwSummary_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                FEEAMT.Text = "0";
-
+                if (ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")) > 0)
+                {
+                    TxtFeeTotAmt = (TextBox)e.Row.FindControl("TxtFeeTotAmt");
+                    FnSetFeeMasterValue(ObjCls.FnIsNumeric(DataBinder.Eval(e.Row.DataItem, "ID")), TxtFeeTotAmt);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            FnPopUpAlert(ObjCls.FnAlertMessage(ex.Message));
+        }
+    }
+    public void FnSetInstametValue(int PrmId, CtrlDate PrmCtrlFrmDate, CtrlDate PrmCtrlToDate, TextBox PrmTxtInstalAmt)
+    {
+        if ((ViewState["DT"] as DataTable).Rows.Count > 0)
+        {
+            _dwMainRecord = new DataView(ViewState["DT"] as DataTable);
+            _dwMainRecord.RowFilter = " InstalmentId=" + PrmId;
+            DT_RECORD = _dwMainRecord.ToTable();
+            if (DT_RECORD.Rows.Count > 0)
+            {
+                PrmCtrlFrmDate.DateText = FnGetDateString(DT_RECORD.Rows[0]["StartDate"].ToString());
+                PrmCtrlToDate.DateText = FnGetDateString(DT_RECORD.Rows[0]["EndDate"].ToString());
+                PrmTxtInstalAmt.Text = FnGetDoubleString(DT_RECORD.Compute("SUM(TotalAmt)", " InstalmentId=" + PrmId.ToString()));
             }
             else
             {
-                FEEAMT.Text = VV.ToString();
+
+                _dwMainRecord = new DataView(ViewState["DT_INST"] as DataTable);
+                _dwMainRecord.RowFilter = " ID=" + PrmId;
+                DT_RECORD = _dwMainRecord.ToTable();
+
+                PrmCtrlFrmDate.DateText = FnGetDateString(DT_RECORD.Rows[0]["StartDate"].ToString()); 
+                PrmCtrlToDate.DateText = FnGetDateString(DT_RECORD.Rows[0]["EndDate"].ToString());
+                PrmTxtInstalAmt.Text = "";
             }
-
-            //FEEAMT.Attributes.Add("onchange", "Myfunction('" + FEEAMT.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + FEEID + "','" + INSID + "','" + iCmpId + "','" + iBrId + "','" + iFaId + "','" + iAcId + "','" + nAccLedgerId + "','" + nOrderIndex + "')");
-            FEEAMT.Attributes.Add("onchange", "Myfunction('" + FEEAMT.ClientID + "','" + GrpId + "','" + ClsId + "','" + DivId + "','" + StudId + "','" + FEEID + "','" + INSID + "','" + iCmpId + "','" + iBrId + "','" + iFaId + "','" + iAcId + "','" + nAccLedgerId + "','" + nOrderIndex + "','" + FromDC.ClientID + "','" + DueDC.ClientID + "')");
-            
         }
-
     }
-
-
-
-
-    public void DeleteData()
+    public void FnSetFeeMasterValue(int PrmInstalmentId, int PrmFeeMasterId, TextBox PrmTxtAmount)
     {
-        string msg = string.Empty;
-        //string VV = TId;
-        DataTable DDT = new DataTable();
-        var StudIIDD = CtrlGrdStudent.SelectedValue;
-        var nINSTIIdD = CtrlGrdInstitute.SelectedValue;
-        var nCLSIdD = CtrlGrdClass.SelectedValue;
-        var nDIVIdD = CtrlGrdDiv.SelectedValue;
-
-        using (SqlConnection con = new SqlConnection("Data Source=LAPTOP-1MMBQG05\\SQLEXPRESS;Initial Catalog=WEBSIS;Integrated Security=True;"))
+        if ((ViewState["DT"] as DataTable).Rows.Count > 0)
         {
-            using (SqlCommand cmd = new SqlCommand("SPDeleteData", con))
+            _dwMainRecord = new DataView(ViewState["DT"] as DataTable);
+            _dwMainRecord.RowFilter = " InstalmentId=" + PrmInstalmentId + " AND  FeeMasterId=" + PrmFeeMasterId.ToString();
+            DT_RECORD = _dwMainRecord.ToTable();
+            if (DT_RECORD.Rows.Count > 0)
             {
-                con.Open();
-                cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.Parameters.AddWithValue("@EmptableT", DDD);
-                cmd.Parameters.AddWithValue("@nINSTIId", nINSTIIdD);
-                cmd.Parameters.AddWithValue("@nCLSId", nCLSIdD);
-                cmd.Parameters.AddWithValue("@nDIVId", nDIVIdD);
-                cmd.Parameters.AddWithValue("@nStudIID", StudIIDD);
-                int i = cmd.ExecuteNonQuery();
-                con.Close();
-               
+                PrmTxtAmount.Text = FnGetDoubleString(DT_RECORD.Rows[0]["TotalAmt"].ToString());
             }
-
+            else
+            {
+                PrmTxtAmount.Text = "";
+            }
         }
-
-
     }
+    public void FnSetFeeMasterValue(int PrmFeeMasterId, TextBox PrmTxtAmount)
+    {
+        if ((ViewState["DT"] as DataTable).Rows.Count > 0)
+        {
+            _dwMainRecord = new DataView(ViewState["DT"] as DataTable);
+            _dwMainRecord.RowFilter = " FeeMasterId=" + PrmFeeMasterId.ToString();
+            DT_RECORD = _dwMainRecord.ToTable();
+            if (DT_RECORD.Rows.Count > 0)
+            {
+                TxtTotalAmount.Text = FnGetDoubleString((ViewState["DT"] as DataTable).Compute("SUM(TotalAmt)", "").ToString());
+                ViewState["TOKENNO"] = (ViewState["DT"] as DataTable).Rows[0]["TokenNo"].ToString();
 
-
+                PrmTxtAmount.Text = FnGetDoubleString(DT_RECORD.Compute("SUM(TotalAmt)", " FeeMasterId=" + PrmFeeMasterId.ToString()));
+            }
+            else
+            {
+                PrmTxtAmount.Text = "";
+            }
+        }
+        else
+        {
+            PrmTxtAmount.Text = "";
+        }
+    }
+   
 }

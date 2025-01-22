@@ -60,7 +60,9 @@
                          <td class="odd">
                              <asp:TextBox ID="TxtRemarks" runat="server" SkinID="TxtMultiLine" TextMode="MultiLine"></asp:TextBox>
                          </td>
-                         <td class="odd"></td>
+                         <td class="odd">
+                             <asp:CheckBox ID="ChkSameAddress" runat="server" SkinID="ChkBox" Text="Same Address as Sibling" Width="210px" />
+                         </td>
                      </tr>
                      <tr>
 

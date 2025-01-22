@@ -68,8 +68,11 @@
                           <td class="odd"></td>
                           <td class="odd">
                               <asp:CheckBox ID="ChkActive" runat="server" Checked="True" SkinID="IsActive" Font-Bold="False" Text="Active" />
-                                                       </td>
-                          <td class="odd"></td>
+                               <asp:CheckBox ID="ChkIsDefault" runat="server" Checked="True"  Font-Bold="False" Text="IsDefault" />
+                          </td>
+                          <td class="odd">
+                             
+                          </td>
                           <td class="odd"></td>
                       </tr>
                       <tr>
